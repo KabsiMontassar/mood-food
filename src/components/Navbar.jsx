@@ -127,8 +127,8 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn}) 
             display={{ base: 'none', md: 'inline-flex' }}
             fontSize={'sm'}
             fontWeight={800}
-            color={'white'}
-            bg="black"
+            color={useColorModeValue('white', 'black')}
+            bg={useColorModeValue('black', 'white')}
             onClick={() => handleFixerRendezVous()}
             _hover={{
               opacity: '0.8',
