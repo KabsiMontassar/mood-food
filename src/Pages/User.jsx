@@ -12,12 +12,19 @@ const User = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [page, setPage] = useState(1);
   const [drawerMode, setDrawerMode] = useState('add');
-  const itemsPerPage = 5; // Number of items per page
+  const itemsPerPage = 5; 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { isOpen: isDrawerOpen, onOpen: onDrawerOpen, onClose: onDrawerClose } = useDisclosure();
 
-  // Static users data
+
+
+
+
+
+
+
+  
   const users = [
     { id: 1, firstName: 'John', lastName: 'Doe', phoneNumber: '123-456-7890', email: 'john.doe@example.com', address: '123 Main St', status: 'Active' },
     { id: 2, firstName: 'Jane', lastName: 'Smith', phoneNumber: '987-654-3210', email: 'jane.smith@example.com', address: '456 Elm St', status: 'Inactive' },
@@ -38,6 +45,15 @@ const User = () => {
    
   ];
 
+
+
+
+
+
+
+
+
+  
   const fetchUsers = () => {
     let filtered = users;
 
@@ -55,12 +71,12 @@ const User = () => {
   };
 
   useEffect(() => {
-    setPage(1); // Reset to the first page
-    fetchUsers(); // Fetch the initial page of users
+    setPage(1); 
+    fetchUsers(); 
   }, [searchTerm]);
 
   useEffect(() => {
-    fetchUsers(); // Refetch users when the page changes
+    fetchUsers(); 
   }, [page ]);
 
   const handlePreviousPage = () => {
