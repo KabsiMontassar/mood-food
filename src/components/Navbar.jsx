@@ -272,4 +272,20 @@ const NAV_ITEMS = [
     label: 'Contact',
     href: '/contact',
   },
+  {
+    label: 'Repas',
+    href: '/Repas',
+  },
+  {
+    label: 'Equipement',
+    href: '/Equipement',
+  },
+  {
+    label: 'Commande',
+    href: '/Commande',
+  },
+  {
+    label: 'User',
+    href: '/User',
+  }
 ];
