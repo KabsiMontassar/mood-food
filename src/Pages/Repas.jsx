@@ -3,25 +3,27 @@ import {
   Box, Button, Input, Table, Thead, Tbody, Tr, Th, Td, IconButton,
   Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerOverlay,
   DrawerContent, DrawerCloseButton, useDisclosure, VStack, List,
-  ListItem, Badge, HStack, Tooltip, Divider
+  ListItem, Badge, HStack, Tooltip, Divider, NumberInput,
+  NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Text
 } from '@chakra-ui/react';
-import { AddIcon, EditIcon, DeleteIcon } from '@chakra-ui/icons';
+import { AddIcon, EditIcon, DeleteIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons';
 
 const GestionRepas = () => {
   const [repas, setRepas] = useState([]);
-  const [recherche, setRecherche] = useState('');
+  const [rechercheNom, setRechercheNom] = useState('');
+  const [rechercheCalMin, setRechercheCalMin] = useState('');
+  const [rechercheCalMax, setRechercheCalMax] = useState('');
   const [nouveauRepas, setNouveauRepas] = useState({ nom: '', ingredients: [], calories: 0 });
   const [ingredientInput, setIngredientInput] = useState('');
-  const [editingIndex, setEditingIndex] = useState(null);
   const [editingIngredientIndex, setEditingIngredientIndex] = useState(null);
-  const [editedIngredient, setEditedIngredient] = useState('');
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef();
 
   const openDrawerForEdit = (index) => {
     setNouveauRepas(repas[index]);
     setEditingIndex(index);
-    setEditingIngredientIndex(null);
     onOpen();
   };
 
@@ -48,10 +50,21 @@ const GestionRepas = () => {
 
   const handleAddIngredient = () => {
     if (ingredientInput.trim() !== '') {
-      setNouveauRepas((prev) => ({
-        ...prev,
-        ingredients: [...prev.ingredients, ingredientInput.trim()],
-      }));
+      if (editingIngredientIndex !== null) {
+        // Editing an existing ingredient
+        setNouveauRepas((prev) => {
+          const updatedIngredients = [...prev.ingredients];
+          updatedIngredients[editingIngredientIndex] = ingredientInput.trim();
+          return { ...prev, ingredients: updatedIngredients };
+        });
+        setEditingIngredientIndex(null);
+      } else {
+        // Adding a new ingredient
+        setNouveauRepas((prev) => ({
+          ...prev,
+          ingredients: [...prev.ingredients, ingredientInput.trim()],
+        }));
+      }
       setIngredientInput('');
     }
   };
@@ -66,49 +79,86 @@ const GestionRepas = () => {
     }
   };
 
+  const handleEditIngredient = (index) => {
+    setIngredientInput(nouveauRepas.ingredients[index]);
+    setEditingIngredientIndex(index);
+  };
+
   const handleRemoveIngredient = (index) => {
     setNouveauRepas((prev) => ({
       ...prev,
       ingredients: prev.ingredients.filter((_, i) => i !== index),
     }));
-    if (editingIngredientIndex !== null && editingIngredientIndex >= index) {
+    if (editingIngredientIndex === index) {
+      setIngredientInput('');
       setEditingIngredientIndex(null);
     }
   };
 
-  const handleEditIngredient = (index) => {
-    setEditedIngredient(nouveauRepas.ingredients[index]);
-    setEditingIngredientIndex(index);
-  };
+  const repasFiltres = repas.filter((repas) => {
+    const nomMatch = repas.nom.toLowerCase().includes(rechercheNom.toLowerCase());
+    const calMinMatch = !rechercheCalMin || repas.calories >= rechercheCalMin;
+    const calMaxMatch = !rechercheCalMax || repas.calories <= rechercheCalMax;
+    return nomMatch && calMinMatch && calMaxMatch;
+  });
 
-  const handleSaveEditedIngredient = () => {
-    if (editedIngredient.trim() !== '' && editingIngredientIndex !== null) {
-      setNouveauRepas((prev) => ({
-        ...prev,
-        ingredients: prev.ingredients.map((ing, i) =>
-          i === editingIngredientIndex ? editedIngredient.trim() : ing
-        ),
-      }));
-      setEditedIngredient('');
-      setEditingIngredientIndex(null);
-    }
-  };
-
-  const repasFiltres = repas.filter((repas) =>
-    repas.nom.toLowerCase().includes(recherche.toLowerCase())
-  );
+  // Pagination logic
+  const totalPages = Math.ceil(repasFiltres.length / itemsPerPage);
+  const currentRepas = repasFiltres.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <Box p={5} maxW="container.lg" mx="auto">
-      <Input
-        placeholder="Rechercher un repas"
-        value={recherche}
-        onChange={(e) => setRecherche(e.target.value)}
-        mb={4}
-        variant="filled"
-        borderRadius="lg"
-        shadow="sm"
-      />
+      <VStack spacing={4} mb={4} align="stretch">
+        <Box border="1px" borderColor="gray.200" borderRadius="md" p={4} shadow="sm">
+          <HStack spacing={6} align="start" justify="space-between">
+            <Box flex="1">
+              <Text fontWeight="bold" mb={2}>Rechercher par nom</Text>
+              <Input
+                placeholder="Nom du repas"
+                value={rechercheNom}
+                onChange={(e) => setRechercheNom(e.target.value)}
+                variant="filled"
+                borderRadius="md"
+                shadow="sm"
+              />
+            </Box>
+            <Box flex="1">
+              <Text fontWeight="bold" mb={2}>Calories min</Text>
+              <NumberInput
+                value={rechercheCalMin}
+                onChange={(value) => setRechercheCalMin(value)}
+                min={0}
+                variant="filled"
+                borderRadius="md"
+                shadow="sm"
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </Box>
+            <Box flex="1">
+              <Text fontWeight="bold" mb={2}>Calories max</Text>
+              <NumberInput
+                value={rechercheCalMax}
+                onChange={(value) => setRechercheCalMax(value)}
+                min={0}
+                variant="filled"
+                borderRadius="md"
+                shadow="sm"
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </Box>
+          </HStack>
+        </Box>
+      </VStack>
 
       <Table variant="striped" colorScheme="teal" size="lg" shadow="md" borderRadius="lg" overflow="hidden">
         <Thead bg="teal.400">
@@ -120,7 +170,7 @@ const GestionRepas = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {repasFiltres.map((repas, index) => (
+          {currentRepas.map((repas, index) => (
             <Tr key={index} _hover={{ bg: "teal.50" }}>
               <Td textAlign="center" fontWeight="bold">{repas.nom}</Td>
               <Td textAlign="center">
@@ -162,8 +212,32 @@ const GestionRepas = () => {
         </Tbody>
       </Table>
 
+      {/* Pagination Controls */}
+      <HStack spacing={4} justify="center" mt={4}>
+        <IconButton
+          icon={<ArrowLeftIcon />}
+          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+          isDisabled={currentPage === 1}
+          aria-label="Page précédente"
+        />
+        {[...Array(totalPages)].map((_, i) => (
+          <Button
+            key={i + 1}
+            onClick={() => setCurrentPage(i + 1)}
+            colorScheme={currentPage === i + 1 ? "teal" : "gray"}
+          >
+            {i + 1}
+          </Button>
+        ))}
+        <IconButton
+          icon={<ArrowRightIcon />}
+          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+          isDisabled={currentPage === totalPages}
+          aria-label="Page suivante"
+        />
+      </HStack>
+
       <Button
-        ref={btnRef}
         leftIcon={<AddIcon />}
         colorScheme="teal"
         onClick={() => {
@@ -183,102 +257,76 @@ const GestionRepas = () => {
         isOpen={isOpen}
         placement="right"
         onClose={onClose}
-        finalFocusRef={btnRef}
       >
         <DrawerOverlay />
-        <DrawerContent borderRadius="lg" maxW="md">
+        <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader borderBottomWidth="1px">
-            {editingIndex !== null ? 'Modifier le Repas' : 'Ajouter un Nouveau Repas'}
-          </DrawerHeader>
+          <DrawerHeader>{editingIndex !== null ? 'Modifier le Repas' : 'Ajouter un Repas'}</DrawerHeader>
 
           <DrawerBody>
-            <VStack spacing={4} align="stretch">
+            <VStack spacing={4}>
               <Input
-                placeholder="Nom du Repas"
+                placeholder="Nom du repas"
                 value={nouveauRepas.nom}
                 onChange={(e) => setNouveauRepas({ ...nouveauRepas, nom: e.target.value })}
-                variant="filled"
-                borderRadius="lg"
               />
-              <HStack spacing={3} align="center">
+              <HStack>
                 <Input
                   placeholder="Ajouter un ingrédient"
                   value={ingredientInput}
                   onChange={handleIngredientInputChange}
                   onKeyDown={handleIngredientInputKeyDown}
-                  variant="filled"
-                  borderRadius="lg"
-                  flex="1"
                 />
-                <Button
-                  colorScheme="teal"
-                  onClick={handleAddIngredient}
-                  borderRadius="full"
-                >
-                  Ajouter
+                <Button onClick={handleAddIngredient}>
+                  {editingIngredientIndex !== null ? 'Enregistrer' : 'Ajouter'}
                 </Button>
               </HStack>
-              <Divider />
-              <List spacing={2}>
+              <List spacing={1}>
                 {nouveauRepas.ingredients.map((ingredient, index) => (
-                  <HStack key={index} spacing={3} align="center">
-                    <ListItem flex="1">{ingredient}</ListItem>
-                    <Tooltip label="Éditer" aria-label="Edit">
-                      <IconButton
-                        icon={<EditIcon />}
-                        onClick={() => handleEditIngredient(index)}
-                        size="sm"
-                        colorScheme="blue"
-                      />
-                    </Tooltip>
-                    <Tooltip label="Supprimer" aria-label="Delete">
-                      <IconButton
-                        icon={<DeleteIcon />}
-                        onClick={() => handleRemoveIngredient(index)}
-                        size="sm"
-                        colorScheme="red"
-                      />
-                    </Tooltip>
-                  </HStack>
+                  <ListItem key={index}>
+                    <HStack justify="space-between">
+                      <Tooltip label={ingredient}>
+                        <span>{ingredient}</span>
+                      </Tooltip>
+                      <HStack>
+                        <IconButton
+                          icon={<EditIcon />}
+                          size="xs"
+                          colorScheme="blue"
+                          onClick={() => handleEditIngredient(index)}
+                        />
+                        <IconButton
+                          icon={<DeleteIcon />}
+                          size="xs"
+                          colorScheme="red"
+                          onClick={() => handleRemoveIngredient(index)}
+                        />
+                      </HStack>
+                    </HStack>
+                  </ListItem>
                 ))}
               </List>
-              {editingIngredientIndex !== null && (
-                <HStack spacing={3} align="center">
-                  <Input
-                    placeholder="Modifier l'ingrédient"
-                    value={editedIngredient}
-                    onChange={(e) => setEditedIngredient(e.target.value)}
-                    variant="filled"
-                    borderRadius="lg"
-                    flex="1"
-                  />
-                  <Button
-                    colorScheme="teal"
-                    onClick={handleSaveEditedIngredient}
-                    borderRadius="full"
-                  >
-                    Enregistrer
-                  </Button>
-                </HStack>
-              )}
-              <Input
+              <NumberInput
                 placeholder="Calories"
-                type="number"
                 value={nouveauRepas.calories}
-                onChange={(e) => setNouveauRepas({ ...nouveauRepas, calories: Number(e.target.value) })}
-                variant="filled"
-                borderRadius="lg"
-              />
+                onChange={(value) => setNouveauRepas({ ...nouveauRepas, calories: parseInt(value) })}
+                min={0}
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
             </VStack>
           </DrawerBody>
 
-          <DrawerFooter borderTopWidth="1px">
-            <Button variant="outline" mr={3} onClick={onClose} borderRadius="full">
+          <DrawerFooter>
+            <Button variant="outline" mr={3} onClick={onClose}>
               Annuler
             </Button>
-            <Button colorScheme="teal" onClick={ajouterRepas} borderRadius="full">
-              {editingIndex !== null ? 'Enregistrer les Modifications' : 'Enregistrer'}
+            <Button colorScheme="teal" onClick={ajouterRepas}>
+              {editingIndex !== null ? 'Enregistrer les modifications' : 'Ajouter'}
             </Button>
           </DrawerFooter>
         </DrawerContent>
