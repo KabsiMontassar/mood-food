@@ -11,12 +11,12 @@ const GestionEquipement = () => {
   const initialEquipements = [
     { nom: 'Short de Course', quantite: 20, categorie: 'Vêtement', prix: 30, sousCategorie: 'Homme' },
     { nom: 'Tapis de Yoga', quantite: 15, categorie: 'Matériel', prix: 50, sousCategorie: '' },
-    { nom: 'Basket de Basketball', quantite: 25, categorie: 'Vêtement', prix: 70, sousCategorie: 'Femme' },
+    { nom: 'Bandes de Resistance Latex', quantite: 25, categorie: 'Matériel', prix: 30, sousCategorie: '' },
     { nom: 'Haltères', quantite: 10, categorie: 'Matériel', prix: 100, sousCategorie: '' },
     { nom: 'T-shirt de Sport', quantite: 50, categorie: 'Vêtement', prix: 20, sousCategorie: 'Homme' },
     { nom: 'Rameur', quantite: 5, categorie: 'Matériel', prix: 300, sousCategorie: '' },
     { nom: 'Legging de Yoga', quantite: 35, categorie: 'Vêtement', prix: 40, sousCategorie: 'Femme' },
-    { nom: 'Ballon de Football', quantite: 20, categorie: 'Matériel', prix: 25, sousCategorie: '' },
+    { nom: 'Ceinture de sudation', quantite: 20, categorie: 'Matériel', prix: 25, sousCategorie: '' },
     { nom: 'Chaussures de Running', quantite: 18, categorie: 'Vêtement', prix: 60, sousCategorie: 'Homme' },
     { nom: 'Kettlebell', quantite: 8, categorie: 'Matériel', prix: 80, sousCategorie: '' }
   ];
@@ -30,7 +30,6 @@ const GestionEquipement = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
 
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
 
@@ -78,7 +77,6 @@ const GestionEquipement = () => {
     equipement.nom.toLowerCase().includes(recherche.toLowerCase())
   );
 
-  // Paginated equipment
   const paginatedEquipements = equipementsFiltres.slice(
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
@@ -96,8 +94,15 @@ const GestionEquipement = () => {
     }
   };
 
+  const handleNextEquipement = () => {
+    const nextIndex = editingIndex + 1;
+    if (nextIndex < equipements.length) {
+      openDrawerForEdit(nextIndex);
+    }
+  };
+
   return (
-    <Box p={5} maxW="container.lg" mx="auto" position="relative">
+    <Box p={5} maxW="container.lg" mx="auto">
       <Input
         placeholder="Rechercher un équipement"
         value={recherche}
@@ -133,42 +138,41 @@ const GestionEquipement = () => {
                 </Badge>
               </Td>
               <Td textAlign="center">
-              <HStack position="absolute" bottom={16} right={8} spacing={4}>
-  <IconButton
-    onClick={handlePreviousPage}
-    icon={<ArrowBackIcon />}
-    colorScheme="teal"
-    variant="outline"
-    aria-label="Page précédente"
-    size="sm"  // Smaller size
-    isDisabled={currentPage === 0}
-  />
-  <IconButton
-    onClick={handleNextPage}
-    icon={<ArrowForwardIcon />}
-    colorScheme="teal"
-    variant="outline"
-    aria-label="Page suivante"
-    size="sm"  // Smaller size
-    isDisabled={(currentPage + 1) * itemsPerPage >= equipementsFiltres.length}
-  />
-</HStack>
-
+                <HStack spacing={2} justifyContent="center">
+                  <Button
+                    leftIcon={<EditIcon />}
+                    onClick={() => mettreAJourEquipement(index)}
+                    colorScheme="blue"
+                    variant="outline"
+                    size="sm" 
+                  >
+                    Mettre à jour
+                  </Button>
+                  <Button
+                    leftIcon={<DeleteIcon />}
+                    onClick={() => supprimerEquipement(index)}
+                    colorScheme="red"
+                    variant="outline"
+                    size="sm"
+                  >
+                    Supprimer
+                  </Button>
+                </HStack>
               </Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
 
-      {/* Pagination Arrows */}
-      <HStack position="absolute" bottom={8} right={8} spacing={4}>
+      
+      <HStack justifyContent="center" mt={4} spacing={4}>
         <IconButton
           onClick={handlePreviousPage}
           icon={<ArrowBackIcon />}
           colorScheme="teal"
           variant="outline"
           aria-label="Page précédente"
-          size="sm"  // Smaller size
+          size="sm"
           isDisabled={currentPage === 0}
         />
         <IconButton
@@ -177,7 +181,7 @@ const GestionEquipement = () => {
           colorScheme="teal"
           variant="outline"
           aria-label="Page suivante"
-          size="sm"  // Smaller size
+          size="sm"
           isDisabled={(currentPage + 1) * itemsPerPage >= equipementsFiltres.length}
         />
       </HStack>
@@ -248,13 +252,20 @@ const GestionEquipement = () => {
             </VStack>
           </DrawerBody>
 
-          <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Annuler
-            </Button>
-            <Button colorScheme="teal" onClick={ajouterEquipement}>
-              {editingIndex !== null ? 'Enregistrer' : 'Ajouter'}
-            </Button>
+          <DrawerFooter justifyContent="space-between">
+            <HStack>
+              <Button variant="outline" mr={3} onClick={onClose}>
+                Annuler
+              </Button>
+              <Button colorScheme="teal" onClick={ajouterEquipement}>
+                {editingIndex !== null ? 'Enregistrer' : 'Ajouter'}
+              </Button>
+            </HStack>
+            {editingIndex !== null && editingIndex < equipements.length - 1 && (
+              <Button colorScheme="teal" onClick={handleNextEquipement}>
+                Équipement suivant
+              </Button>
+            )}
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
