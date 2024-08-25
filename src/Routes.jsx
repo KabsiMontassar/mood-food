@@ -12,7 +12,7 @@ import Contact from './Pages/Contact';
 import Repas from './Pages/Repas';
 import Equipement from './Pages/Equipement';
 import Commande from './Pages/Commande';
-import User from './Pages/User';
+import User from './Pages/User/User';
 import Experts from './Pages/Experts';
 import Rendezvous from './Pages/Rendezvous';
 import Profile from './Pages/Profile';
