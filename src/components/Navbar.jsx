@@ -37,7 +37,22 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn}) 
 
  
 
+
+  useEffect(() => {
+    const isUserSignedIn = localStorage.getItem('isUserSignedIn');
+    if(isUserSignedIn === 'true'){
+      setIsUserSignedIn(true);
+    }else{
+      setIsUserSignedIn(false);
+    }
+  }, [])
+
+
+
+
   const SignOut = () => {
+
+    localStorage.setItem('isUserSignedIn', false);
     setIsUserSignedIn(false);
     navigate('/');
     toast({
@@ -52,6 +67,11 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn}) 
   
 
   const handleSignIn = () => {
+
+  
+    localStorage.setItem('isUserSignedIn', true);
+
+
     setIsUserSignedIn(true);
     toast({
       title: "Signed In",
