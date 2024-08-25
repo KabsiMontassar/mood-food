@@ -7,7 +7,7 @@ const foodEmojis = ["🍎", "🍇", "🥦", "🥕", "🍌", "🍓", "🍊"];
 const RecetteComponent = () => {
     return (
         <Flex
-            height={"100vh"}
+            height="100vh"
             width="100%"
             alignItems="center"
             justifyContent="center"

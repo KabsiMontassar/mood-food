@@ -70,7 +70,7 @@ const SliderCarousel = () => {
     }, [activeSlideIndex, isTransitioning]);
 
     return (
-        <Flex position="relative" width="100vw" height="100vh" overflow="hidden"
+        <Flex position="relative" height="100vh" overflow="hidden"
           userSelect="none"
          >
 

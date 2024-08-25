@@ -395,21 +395,26 @@ const NAV_ITEMS = [
 
 
 
+ 
   {
-    label: 'Repas',
-    href: '/Repas',
-  },
-  {
-    label: 'Equipement',
-    href: '/Equipement',
-  },
-  {
-    label: 'Commande',
-    href: '/Commande',
-  },
-  {
-    label: 'User',
-    href: '/User',
-  },
-  
+    "label": "backoffice",
+    "children": [
+      {
+        label: 'User',
+        href: '/User',
+      },
+      {
+        label: 'Commande',
+        href: '/Commande',
+      },
+      {
+        label: 'Equipement',
+        href: '/Equipement',
+      },
+      {
+        label: 'Repas',
+        href: '/Repas',
+      }
+    ],
+  }  
 ];
