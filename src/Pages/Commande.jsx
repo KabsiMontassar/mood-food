@@ -18,6 +18,7 @@ const Commande = () => {
   const commandes = [
     {
       id: 1,
+      user  : 1,
       creationDate: '2024-08-01',
       products: [
         { id: 1, name: 'Product A', price: 10, quantity: 2 }, 
@@ -27,6 +28,7 @@ const Commande = () => {
     },
     {
       id: 2,
+      user: 2,
       creationDate: '2024-08-02',
       products: [
         { id: 4, name: 'Product D', price: 15, quantity: 3 },
@@ -36,6 +38,7 @@ const Commande = () => {
     },
     {
       id: 3,
+      user : 3,
       creationDate: '2024-08-03',
       products: [
         { id: 6, name: 'Product F', price: 8, quantity: 4 },
@@ -51,8 +54,7 @@ const Commande = () => {
 
     if (searchTerm) {
       filtered = filtered.filter(commande =>
-        commande.creationDate.includes(searchTerm) ||
-        commande.status.toLowerCase().includes(searchTerm.toLowerCase())
+        commande.user.toString().includes(searchTerm) 
       );
     }
 
@@ -123,7 +125,7 @@ const Commande = () => {
           <InputLeftElement pointerEvents="none" children={<SearchIcon color="green.300" />} />
           <Input
             type="text"
-            placeholder="Search commandes by date or status..."
+            placeholder="Search commandes by nom prenom..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             _focus={{ borderColor: 'green.300' }}
@@ -144,7 +146,7 @@ const Commande = () => {
       <Table variant='striped' colorScheme='green'>
         <Thead>
           <Tr>
-            <Th>Commande ID</Th>
+            <Th>User</Th>
             <Th>Creation Date</Th>
             <Th>Total Sum ($)</Th>
             <Th>Status</Th>
@@ -155,7 +157,7 @@ const Commande = () => {
         <Tbody>
           {filteredCommandes.map((commande, index) => (
             <Tr key={index}>
-              <Td>{commande.id}</Td>
+              <Td>{commande.user}</Td>
               <Td>{commande.creationDate}</Td>
               <Td>{calculateTotalSum(commande.products)}</Td>
               <Td>{getStatusBadge(commande.status)}</Td>
@@ -206,7 +208,7 @@ const Commande = () => {
             <ModalHeader>Commande Details</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <Text><strong>Commande ID:</strong> {selectedCommande.id}</Text>
+              <Text><strong>User:</strong> {selectedCommande.user}</Text>
               <Text><strong>Creation Date:</strong> {selectedCommande.creationDate}</Text>
               <Text><strong>Total Sum:</strong> ${calculateTotalSum(selectedCommande.products)}</Text>
               <Text><strong>Status:</strong> {getStatusBadge(selectedCommande.status)}</Text>
