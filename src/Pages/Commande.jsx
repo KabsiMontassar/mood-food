@@ -14,7 +14,6 @@ const Commande = () => {
   const itemsPerPage = 5;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // Updated placeholder data for commandes
   const commandes = [
     {
       id: 1,
@@ -46,7 +45,16 @@ const Commande = () => {
       ],
       status: 'Pending'
     },
-    // Other commandes...
+    {
+      id: 4,
+      user : 5,
+      creationDate: '2024-08-03',
+      products: [
+        { id: 6, name: 'Product F', price: 8, quantity: 4 },
+        { id: 7, name: 'Product G', price: 12, quantity: 2 }
+      ],
+      status: 'Declined'
+    }
   ];
 
   const fetchCommandes = () => {
