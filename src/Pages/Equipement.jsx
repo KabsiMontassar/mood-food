@@ -3,29 +3,42 @@ import {
   Box, Input, Table, Thead, Tbody, Tr, Th, Td, IconButton,
   Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerOverlay,
   DrawerContent, DrawerCloseButton, useDisclosure, VStack, Badge, HStack,
-  Select, Button
+  Select, Button, Image
 } from '@chakra-ui/react';
 import { AddIcon, EditIcon, DeleteIcon, ArrowForwardIcon, ArrowBackIcon } from '@chakra-ui/icons';
 
-const GestionEquipement = () => {
-  const initialEquipements = [
-    { nom: 'Short de Course', quantite: 20, categorie: 'Vêtement', prix: 30, sousCategorie: 'Homme' },
-    { nom: 'Tapis de Yoga', quantite: 15, categorie: 'Matériel', prix: 50, sousCategorie: '' },
-    { nom: 'Bandes de Resistance Latex', quantite: 25, categorie: 'Matériel', prix: 30, sousCategorie: '' },
-    { nom: 'Haltères', quantite: 10, categorie: 'Matériel', prix: 100, sousCategorie: '' },
-    { nom: 'T-shirt de Sport', quantite: 50, categorie: 'Vêtement', prix: 20, sousCategorie: 'Homme' },
-    { nom: 'Rameur', quantite: 5, categorie: 'Matériel', prix: 300, sousCategorie: '' },
-    { nom: 'Legging de Yoga', quantite: 35, categorie: 'Vêtement', prix: 40, sousCategorie: 'Femme' },
-    { nom: 'Ceinture de sudation', quantite: 20, categorie: 'Matériel', prix: 25, sousCategorie: '' },
-    { nom: 'Chaussures de Running', quantite: 18, categorie: 'Vêtement', prix: 60, sousCategorie: 'Homme' },
-    { nom: 'Kettlebell', quantite: 8, categorie: 'Matériel', prix: 80, sousCategorie: '' }
-  ];
+const GestionProduit = () => {
+  const initialProduits = [
+    { nom: 'Short de Course', quantite: 20, categorie: 'Équipement Sportif', prix: 30, sousCategorie: 'Homme', populaire: true },
+    { nom: 'Tapis de Yoga', quantite: 15, categorie: 'Équipement Sportif', prix: 50, sousCategorie: '', populaire: false },
+    { nom: 'Bandes de Résistance Latex', quantite: 25, categorie: 'Équipement Sportif', prix: 30, sousCategorie: '', populaire: true },
+    { nom: 'Haltères', quantite: 10, categorie: 'Équipement Sportif', prix: 100, sousCategorie: '', populaire: false },
+    { nom: 'T-shirt de Sport', quantite: 50, categorie: 'Équipement Sportif', prix: 20, sousCategorie: 'Homme', populaire: false },
+    { nom: 'Rameur', quantite: 5, categorie: 'Équipement Sportif', prix: 300, sousCategorie: '', populaire: true },
+    { nom: 'Legging de Yoga', quantite: 35, categorie: 'Équipement Sportif', prix: 40, sousCategorie: 'Femme', populaire: true },
+    { nom: 'Ceinture de sudation', quantite: 20, categorie: 'Équipement Sportif', prix: 25, sousCategorie: '', populaire: false },
+    { nom: 'Chaussures de Running', quantite: 18, categorie: 'Équipement Sportif', prix: 60, sousCategorie: 'Homme', populaire: true },
+    { nom: 'Kettlebell', quantite: 8, categorie: 'Équipement Sportif', prix: 80, sousCategorie: '', populaire: false },
+    { nom: 'Whey Protein', quantite: 30, categorie: 'Compléments', prix: 60, sousCategorie: '', populaire: true },
+    { nom: 'BCAA', quantite: 20, categorie: 'Compléments', prix: 40, sousCategorie: '', populaire: false },
+    { nom: 'Omega 3', quantite: 25, categorie: 'Compléments', prix: 35, sousCategorie: '', populaire: true },
+    { nom: 'Vitamines C', quantite: 40, categorie: 'Compléments', prix: 15, sousCategorie: '', populaire: false },
+    { nom: 'Gainer', quantite: 15, categorie: 'Compléments', prix: 80, sousCategorie: '', populaire: true },
+    { nom: 'Barres protéinées', quantite: 50, categorie: 'Produits Diététique', prix: 5, sousCategorie: '', populaire: true },
+    { nom: 'Boisson Énergétique', quantite: 60, categorie: 'Produits Diététique', prix: 3, sousCategorie: '', populaire: false },
+    { nom: 'Shaker', quantite: 35, categorie: 'Produits Diététique', prix: 10, sousCategorie: '', populaire: false },
+    { nom: 'Lait d\'Amandes', quantite: 25, categorie: 'Produits Diététique', prix: 8, sousCategorie: '', populaire: false },
+    { nom: 'Flocons d\'Avoine', quantite: 45, categorie: 'Produits Diététique', prix: 12, sousCategorie: '', populaire: true },]
 
-  const [equipements, setEquipements] = useState(initialEquipements);
+  const [produits, setProduits] = useState(initialProduits);
   const [recherche, setRecherche] = useState('');
-  const [nouvelEquipement, setNouvelEquipement] = useState({ nom: '', quantite: 0, categorie: '', prix: 0, sousCategorie: '' });
-  const [categories] = useState(['Vêtement', 'Matériel']);
-  const [sousCategories] = useState({ Vêtement: ['Homme', 'Femme'] });
+  const [nouveauProduit, setNouveauProduit] = useState({ nom: '', quantite: 0, categorie: '', sousCategorie: '', prix: 0, populaire: false, photo: null });
+  const [categories] = useState({
+    'Équipement Sportif': ['Vêtements', 'Matériel'],
+    'Compléments': ['Protéines', 'Vitamines'],
+    'Produits Diététique': ['Snacks', 'Boissons']
+  });
+  const [categorieFiltre, setCategorieFiltre] = useState('Tous');
   const [editingIndex, setEditingIndex] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
@@ -33,57 +46,52 @@ const GestionEquipement = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
 
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setNouveauProduit({ ...nouveauProduit, photo: reader.result });
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
   const openDrawerForEdit = (index) => {
-    setNouvelEquipement(equipements[index]);
+    setNouveauProduit(produits[index]);
     setEditingIndex(index);
     onOpen();
   };
 
-  const ajouterEquipement = () => {
+  const ajouterProduit = () => {
     if (editingIndex !== null) {
-      const equipementsMisAJour = equipements.map((e, i) => (i === editingIndex ? nouvelEquipement : e));
-      setEquipements(equipementsMisAJour);
+      const produitsMisAJour = produits.map((p, i) => (i === editingIndex ? nouveauProduit : p));
+      setProduits(produitsMisAJour);
       setEditingIndex(null);
     } else {
-      setEquipements([...equipements, nouvelEquipement]);
+      setProduits([...produits, nouveauProduit]);
     }
-    setNouvelEquipement({ nom: '', quantite: 0, categorie: '', prix: 0, sousCategorie: '' });
+    setNouveauProduit({ nom: '', quantite: 0, categorie: '', sousCategorie: '', prix: 0, populaire: false, photo: null });
     onClose();
   };
 
-  const mettreAJourEquipement = (index) => {
-    openDrawerForEdit(index);
+  const supprimerProduit = (index) => {
+    const produitsMisAJour = produits.filter((_, i) => i !== index);
+    setProduits(produitsMisAJour);
   };
 
-  const supprimerEquipement = (index) => {
-    const equipementsMisAJour = equipements.filter((_, i) => i !== index);
-    setEquipements(equipementsMisAJour);
-  };
-
-  const handleCategoryChange = (e) => {
-    const categorie = e.target.value;
-    setNouvelEquipement(prev => ({
-      ...prev,
-      categorie,
-      sousCategorie: categorie === 'Vêtement' ? prev.sousCategorie : ''
-    }));
-  };
-
-  const handleSousCategorieChange = (e) => {
-    setNouvelEquipement(prev => ({ ...prev, sousCategorie: e.target.value }));
-  };
-
-  const equipementsFiltres = equipements.filter((equipement) =>
-    equipement.nom.toLowerCase().includes(recherche.toLowerCase())
+  const produitsFiltres = produits.filter((produit) =>
+    (categorieFiltre === 'Tous' || produit.categorie === categorieFiltre) &&
+    produit.nom.toLowerCase().includes(recherche.toLowerCase())
   );
 
-  const paginatedEquipements = equipementsFiltres.slice(
+  const paginatedProduits = produitsFiltres.slice(
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
   );
 
   const handleNextPage = () => {
-    if ((currentPage + 1) * itemsPerPage < equipementsFiltres.length) {
+    if ((currentPage + 1) * itemsPerPage < produitsFiltres.length) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -94,25 +102,35 @@ const GestionEquipement = () => {
     }
   };
 
-  const handleNextEquipement = () => {
-    const nextIndex = editingIndex + 1;
-    if (nextIndex < equipements.length) {
-      openDrawerForEdit(nextIndex);
-    }
-  };
-
   return (
     <Box p={5} maxW="container.lg" mx="auto">
-      <Input
-        placeholder="Rechercher un équipement"
-        value={recherche}
-        onChange={(e) => setRecherche(e.target.value)}
-        mb={4}
-        variant="filled"
-        borderRadius="lg"
-        shadow="sm"
-      />
+      {/* Filter and Search in the same row */}
+      <HStack spacing={4} mb={4}>
+        <Select
+          placeholder="Filtrer par catégorie"
+          value={categorieFiltre}
+          onChange={(e) => setCategorieFiltre(e.target.value)}
+          variant="filled"
+          borderRadius="lg"
+          shadow="sm"
+        >
+          <option value="Tous">Tous</option>
+          {Object.keys(categories).map((categorie) => (
+            <option key={categorie} value={categorie}>{categorie}</option>
+          ))}
+        </Select>
 
+        <Input
+          placeholder="Rechercher un produit"
+          value={recherche}
+          onChange={(e) => setRecherche(e.target.value)}
+          variant="filled"
+          borderRadius="lg"
+          shadow="sm"
+        />
+      </HStack>
+
+      {/* Product table */}
       <Table variant="striped" colorScheme="teal" size="lg" shadow="md" borderRadius="lg" overflow="hidden">
         <Thead bg="teal.400">
           <Tr>
@@ -120,37 +138,38 @@ const GestionEquipement = () => {
             <Th color="white" textAlign="center">Quantité</Th>
             <Th color="white" textAlign="center">Catégorie</Th>
             <Th color="white" textAlign="center">Prix</Th>
+            <Th color="white" textAlign="center">Photo</Th>
             <Th color="white" textAlign="center">Actions</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {paginatedEquipements.map((equipement, index) => (
-            <Tr key={index} _hover={{ bg: "teal.50" }}>
-              <Td textAlign="center" fontWeight="bold">{equipement.nom}</Td>
-              <Td textAlign="center">{equipement.quantite}</Td>
-              <Td textAlign="center">
-                {equipement.categorie}
-                {equipement.sousCategorie && ` - ${equipement.sousCategorie}`}
-              </Td>
+          {paginatedProduits.map((produit, index) => (
+            <Tr key={index} bg={produit.populaire ? 'yellow.100' : 'white'}>
+              <Td textAlign="center" fontWeight="bold">{produit.nom}</Td>
+              <Td textAlign="center">{produit.quantite}</Td>
+              <Td textAlign="center">{`${produit.categorie} ${produit.sousCategorie ? `- ${produit.sousCategorie}` : ''}`}</Td>
               <Td textAlign="center">
                 <Badge colorScheme="green" fontSize="1em">
-                  ${equipement.prix.toFixed(2)}
+                  ${produit.prix.toFixed(2)}
                 </Badge>
+              </Td>
+              <Td textAlign="center">
+                {produit.photo ? <Image src={produit.photo} boxSize="50px" objectFit="cover" borderRadius="md" /> : 'N/A'}
               </Td>
               <Td textAlign="center">
                 <HStack spacing={2} justifyContent="center">
                   <Button
                     leftIcon={<EditIcon />}
-                    onClick={() => mettreAJourEquipement(index)}
+                    onClick={() => openDrawerForEdit(index)}
                     colorScheme="blue"
                     variant="outline"
-                    size="sm" 
+                    size="sm"
                   >
                     Mettre à jour
                   </Button>
                   <Button
                     leftIcon={<DeleteIcon />}
-                    onClick={() => supprimerEquipement(index)}
+                    onClick={() => supprimerProduit(index)}
                     colorScheme="red"
                     variant="outline"
                     size="sm"
@@ -164,7 +183,7 @@ const GestionEquipement = () => {
         </Tbody>
       </Table>
 
-      
+      {/* Pagination */}
       <HStack justifyContent="center" mt={4} spacing={4}>
         <IconButton
           onClick={handlePreviousPage}
@@ -182,16 +201,17 @@ const GestionEquipement = () => {
           variant="outline"
           aria-label="Page suivante"
           size="sm"
-          isDisabled={(currentPage + 1) * itemsPerPage >= equipementsFiltres.length}
+          isDisabled={(currentPage + 1) * itemsPerPage >= produitsFiltres.length}
         />
       </HStack>
 
+      {/* Add product button */}
       <IconButton
         ref={btnRef}
         icon={<AddIcon />}
         colorScheme="teal"
         onClick={() => {
-          setNouvelEquipement({ nom: '', quantite: 0, categorie: '', prix: 0, sousCategorie: '' });
+          setNouveauProduit({ nom: '', quantite: 0, categorie: '', sousCategorie: '', prix: 0, populaire: false, photo: null });
           setEditingIndex(null);
           onOpen();
         }}
@@ -202,9 +222,10 @@ const GestionEquipement = () => {
         position="fixed"
         bottom={10}
         right={10}
-        aria-label="Ajouter un équipement"
+        aria-label="Ajouter un produit"
       />
 
+      {/* Drawer for add/edit product */}
       <Drawer
         isOpen={isOpen}
         placement="right"
@@ -215,57 +236,73 @@ const GestionEquipement = () => {
         <DrawerContent borderRadius="lg" maxW="md">
           <DrawerCloseButton />
           <DrawerHeader borderBottomWidth="1px">
-            {editingIndex !== null ? 'Modifier l\'Équipement' : 'Ajouter un Équipement'}
+            {editingIndex !== null ? 'Modifier ' : 'Ajouter '}
           </DrawerHeader>
 
           <DrawerBody>
             <VStack spacing={4} align="stretch">
               <Input
-                placeholder="Nom de l'Équipement"
-                value={nouvelEquipement.nom}
-                onChange={(e) => setNouvelEquipement({ ...nouvelEquipement, nom: e.target.value })}
+                placeholder="Nom du Produit"
+                value={nouveauProduit.nom}
+                onChange={(e) => setNouveauProduit({ ...nouveauProduit, nom: e.target.value })}
               />
               <Input
                 placeholder="Quantité"
                 type="number"
-                value={nouvelEquipement.quantite}
-                onChange={(e) => setNouvelEquipement({ ...nouvelEquipement, quantite: parseInt(e.target.value, 10) })}
+                value={nouveauProduit.quantite}
+                onChange={(e) => setNouveauProduit({ ...nouveauProduit, quantite: parseInt(e.target.value, 10) })}
               />
-              <Select placeholder="Catégorie" value={nouvelEquipement.categorie} onChange={handleCategoryChange}>
-                {categories.map((categorie) => (
-                  <option key={categorie} value={categorie}>{categorie}</option>
+              <Select
+                placeholder="Sélectionner une catégorie"
+                value={nouveauProduit.categorie}
+                onChange={(e) => {
+                  const selectedCategorie = e.target.value;
+                  setNouveauProduit({
+                    ...nouveauProduit,
+                    categorie: selectedCategorie,
+                    sousCategorie: categories[selectedCategorie][0] || '',
+                  });
+                }}
+              >
+                {Object.keys(categories).map((categorie) => (
+                  <option key={categorie} value={categorie}>
+                    {categorie}
+                  </option>
                 ))}
               </Select>
-              {nouvelEquipement.categorie === 'Vêtement' && (
-                <Select placeholder="Sous-catégorie" value={nouvelEquipement.sousCategorie} onChange={handleSousCategorieChange}>
-                  {sousCategories[nouvelEquipement.categorie].map((sousCategorie) => (
-                    <option key={sousCategorie} value={sousCategorie}>{sousCategorie}</option>
+
+              <Select
+                placeholder="Sélectionner une sous-catégorie"
+                value={nouveauProduit.sousCategorie}
+                onChange={(e) => setNouveauProduit({ ...nouveauProduit, sousCategorie: e.target.value })}
+                isDisabled={!nouveauProduit.categorie}
+              >
+                {nouveauProduit.categorie &&
+                  categories[nouveauProduit.categorie].map((sousCategorie) => (
+                    <option key={sousCategorie} value={sousCategorie}>
+                      {sousCategorie}
+                    </option>
                   ))}
-                </Select>
-              )}
+              </Select>
+
               <Input
                 placeholder="Prix"
                 type="number"
-                value={nouvelEquipement.prix}
-                onChange={(e) => setNouvelEquipement({ ...nouvelEquipement, prix: parseFloat(e.target.value) })}
+                value={nouveauProduit.prix}
+                onChange={(e) => setNouveauProduit({ ...nouveauProduit, prix: parseFloat(e.target.value) })}
+              />
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
               />
             </VStack>
           </DrawerBody>
 
-          <DrawerFooter justifyContent="space-between">
-            <HStack>
-              <Button variant="outline" mr={3} onClick={onClose}>
-                Annuler
-              </Button>
-              <Button colorScheme="teal" onClick={ajouterEquipement}>
-                {editingIndex !== null ? 'Enregistrer' : 'Ajouter'}
-              </Button>
-            </HStack>
-            {editingIndex !== null && editingIndex < equipements.length - 1 && (
-              <Button colorScheme="teal" onClick={handleNextEquipement}>
-                Équipement suivant
-              </Button>
-            )}
+          <DrawerFooter>
+            <Button colorScheme="blue" onClick={ajouterProduit}>
+              {editingIndex !== null ? 'Mettre à jour' : 'Ajouter'}
+            </Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
@@ -273,4 +310,4 @@ const GestionEquipement = () => {
   );
 };
 
-export default GestionEquipement;
+export default GestionProduit;
