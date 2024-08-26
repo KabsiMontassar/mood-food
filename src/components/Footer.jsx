@@ -39,13 +39,13 @@ const Footer = () => {
             wrap="wrap"
             gap={4}
           >
-            <Link href="#" fontWeight="semibold" _hover={{ textDecoration: 'underline' }}>
+            <Link href="/Propos" fontWeight="semibold" _hover={{ textDecoration: 'underline' }}>
               À propos
             </Link>
-            <Link href="#" fontWeight="semibold" _hover={{ textDecoration: 'underline' }}>
+            <Link href="/FAQ" fontWeight="semibold" _hover={{ textDecoration: 'underline' }}>
               FAQ
             </Link>
-            <Link href="#" fontWeight="semibold" _hover={{ textDecoration: 'underline' }}>
+            <Link href="/Contact" fontWeight="semibold" _hover={{ textDecoration: 'underline' }}>
               Contactez-nous
             </Link>
           </Flex>

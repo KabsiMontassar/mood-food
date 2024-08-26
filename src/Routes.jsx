@@ -15,6 +15,7 @@ import Commande from './Pages/Admin/Commande';
 import User from './Pages/Admin/User';
 import Rendezvous from './Pages/Rendezvous';
 import Profile from './Pages/Profile';
+import FAQ from './Pages/FAQ';
 
 
 
@@ -25,6 +26,7 @@ const routes = [
   { path: "/Propos", element: <Propos /> },
   { path: "/Contact", element: <Contact /> },
   { path: "/Rendezvous", element: <Rendezvous /> },
+  { path: "/FAQ", element: <FAQ /> },
 
   { path: "profile", element: <Profile /> },
 
