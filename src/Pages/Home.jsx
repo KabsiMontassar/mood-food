@@ -15,13 +15,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
   useEffect(() => {
-    // Initialize Lenis for smooth scrolling
+   
     const lenis = new Lenis({
       lerp: 0.2,
       smoothWheel: true,
     });
 
-    // Update ScrollTrigger on scroll
     lenis.on("scroll", () => ScrollTrigger.update());
 
     const scrollFn = (time) => {
@@ -30,7 +29,7 @@ const Home = () => {
     };
     requestAnimationFrame(scrollFn);
 
-    // Scroll-triggered brightness adjustments
+   
     const sections = document.querySelectorAll(".container .section");
     sections.forEach((section , position) => {
 
@@ -52,7 +51,6 @@ const Home = () => {
       
     });
 
-    // Cleanup event listener on component unmount
     return () => window.removeEventListener("scroll", lenis.destroy);
   }, []);
 
@@ -66,7 +64,7 @@ const Home = () => {
         alignItems="center"
       >
         <Box w="50%">
-          <Heading as="h1" size="2xl" color="green.500" textAlign="center" letterSpacing={3}>
+          <Heading as="h1" size="2xl" color="green.800" textAlign="center" letterSpacing={3}>
             Transformez votre humeur à chaque repas.
           </Heading>
           <br />
