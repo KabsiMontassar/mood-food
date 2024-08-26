@@ -9,13 +9,13 @@ import Bienetre from './Pages/Bienetre';
 import Cuisine from './Pages/Cuisine';
 import Propos from './Pages/Propos';
 import Contact from './Pages/Contact';
-import Repas from './Pages/Repas';
-import Equipement from './Pages/Equipement';
-import Commande from './Pages/Commande';
-import User from './Pages/User/User';
-import Experts from './Pages/Experts';
+import Repas from './Pages/Admin/Repas';
+import Equipement from './Pages/Admin/Equipement';
+import Commande from './Pages/Admin/Commande';
+import User from './Pages/Admin/User';
 import Rendezvous from './Pages/Rendezvous';
 import Profile from './Pages/Profile';
+import FAQ from './Pages/FAQ';
 
 
 
@@ -26,6 +26,7 @@ const routes = [
   { path: "/Propos", element: <Propos /> },
   { path: "/Contact", element: <Contact /> },
   { path: "/Rendezvous", element: <Rendezvous /> },
+  { path: "/FAQ", element: <FAQ /> },
 
   { path: "profile", element: <Profile /> },
 
@@ -33,7 +34,7 @@ const routes = [
   { path: "/Repas", element: <Repas /> },
   { path: "/Equipement", element: <Equipement /> },
   { path: "/Commande", element: <Commande /> },
-  { path: "/Experts", element: <Experts /> },
+  
   { path: "/User", element: <User /> },
   { path: "*", element: <h1>error</h1> },
 ];

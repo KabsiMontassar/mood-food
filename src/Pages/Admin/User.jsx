@@ -4,7 +4,8 @@ import {
   ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, Drawer, DrawerBody, DrawerFooter,
   DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, FormControl, FormLabel, Input as ChakraInput, Badge, Select
 } from '@chakra-ui/react';
-import UserDetailsModal from './UserDetailsModal';
+import UserDetailsModal from '../../components/UserDetailsModal';
+import db from '../../Firebase';
 
 import { SearchIcon } from '@chakra-ui/icons';
 

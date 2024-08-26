@@ -14,9 +14,12 @@ import {
   useColorModeValue,
   useDisclosure,
   useToast,
-  useColorMode
+  useColorMode,
+  Image ,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import logo from "../assets/logo.png";
+
 import {
   HamburgerIcon,
   CloseIcon,
@@ -104,12 +107,13 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn}) 
   return (
     <Box  zIndex={3} w="100%" >
       <Flex
-        bg={useColorModeValue('white', 'gray.800')}
-        color={useColorModeValue('gray.600', 'white')}
+        bg= {useColorModeValue('#FFFCF6', 'gray.800')}
+
+       color={useColorModeValue('gray.600', 'white')}
         minH="60px"
         py={{ base: 2 }}
         px={{ base: 4 }}
-        borderBottom={1}
+        // borderBottom={1}
         borderStyle={'solid'}
         borderColor={useColorModeValue('gray.200', 'gray.900')}
         align={'center'}>
@@ -129,7 +133,9 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn}) 
 
            <Flex > 
             
-            logo
+           
+              <Image   width="50px"src={logo} alt="logo"  />
+            
           </Flex>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}  alignItems="center">
@@ -389,24 +395,26 @@ const NAV_ITEMS = [
 
 
 
+ 
   {
-    label: 'Repas',
-    href: '/Repas',
-  },
-  {
-    label: 'Equipement',
-    href: '/Equipement',
-  },
-  {
-    label: 'Commande',
-    href: '/Commande',
-  },
-  {
-    label: 'User',
-    href: '/User',
-  },
-  {
-    label: 'Experts',
-    href: '/Experts',
-  }
+    "label": "backoffice",
+    "children": [
+      {
+        label: 'User',
+        href: '/User',
+      },
+      {
+        label: 'Commande',
+        href: '/Commande',
+      },
+      {
+        label: 'Equipement',
+        href: '/Equipement',
+      },
+      {
+        label: 'Repas',
+        href: '/Repas',
+      }
+    ],
+  }  
 ];
