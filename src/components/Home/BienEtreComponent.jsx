@@ -1,9 +1,9 @@
 import { Button, Heading, Text, Flex, VStack, Box, Image, useBreakpointValue } from "@chakra-ui/react";
 import React from "react";
-import produit1 from "../assets/produit1.jpg";
-import produit2 from "../assets/produit2.jpg";
-import produit3 from "../assets/produit3.jpg";
-import produit4 from "../assets/produit4.jpg";
+import produit1 from "../../assets/produit1.jpg";
+import produit2 from "../../assets/produit2.jpg";
+import produit3 from "../../assets/produit3.jpg";
+import produit4 from "../../assets/produit4.jpg";
 
 const BienEtreComponent = () => {
   const imageSize = useBreakpointValue({ base: "100%", sm: "90%", md: "80%", lg: "70%" });

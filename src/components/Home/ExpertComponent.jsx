@@ -1,6 +1,6 @@
 import { Button, Heading, Text, Image, Flex, VStack, useBreakpointValue, Box } from "@chakra-ui/react";
 import React from "react";
-import experts from "../assets/experts.jpg";
+import experts from "../../assets/experts.jpg";
 
 const ExpertsComponent = () => {
   const imageSize = useBreakpointValue({ base: "80%", sm: "70%", md: "60%" });

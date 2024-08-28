@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Box, Flex, Text, IconButton } from "@chakra-ui/react";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
-import img1 from "../assets/img1.png";
-import img2 from "../assets/img2.jpg";
-import img3 from "../assets/img3.jpg";
-import img4 from "../assets/img4.png";
+import img1 from "../../assets/img1.png";
+import img2 from "../../assets/img2.jpg";
+import img3 from "../../assets/img3.jpg";
+import img4 from "../../assets/img4.png";
 
 
 

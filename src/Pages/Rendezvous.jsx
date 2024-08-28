@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Text,useColorModeValue } from '@chakra-ui/react';
 import { Transition } from 'react-transition-group';
 import Rendezvousprompt from '../components/RendezVousPrompt';
 import ExpertsList from '../components/ExpertsList';
@@ -12,7 +12,7 @@ const Rendezvous = () => {
   const nodeRef = useRef(null);
 
   return (
-    <Box>
+    <Box bg={useColorModeValue('gray.100', '#1A202C')} p={4}  overflow="hidden" >
       <Transition
         in={visible && !showlist}
         timeout={500}
@@ -39,21 +39,8 @@ const Rendezvous = () => {
           </div>
         )}
       </Transition>
-
       {showlist && (
-        <>
-          <Text textAlign="center" fontSize="xl" fontWeight="bold" p={4}>
-            Available 
-            {
-              type === 'Psychology' ? ' Psychologists' : type === 'Nutrition' ? ' Nutritionists' : ''
-            }
-            {' '}
-            for
-            {' '}
-            {issue}
-          </Text>
-          <ExpertsList />
-        </>
+          <ExpertsList  issue={issue} type={type}/>
       )}
     </Box>
   );

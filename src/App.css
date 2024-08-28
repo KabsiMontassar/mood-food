@@ -104,8 +104,8 @@
     color: #0000;
   
     background: 
-      linear-gradient(90deg,#FAF089 50%,#000 0) calc(100% - var(--_p,0%))/200% 100%,
-      linear-gradient(#FAF089 0 0) 0% 100%/var(--_p,0%) 0.1em no-repeat;
+      linear-gradient(90deg,#38A169 50%,gray 0) calc(100% - var(--_p,0%))/200% 100%,
+      linear-gradient(#38A169 0 0) 0% 100%/var(--_p,0%) 0.1em no-repeat;
     -webkit-background-clip: text,padding-box;
             background-clip: text,padding-box;
     transition: 0.5s;

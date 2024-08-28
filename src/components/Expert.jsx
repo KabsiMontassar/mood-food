@@ -1,23 +1,31 @@
 import React from 'react';
-import { Box, Flex, Heading, Text, Avatar, Grid, Button } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text, Avatar, Grid, Button, useColorModeValue } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
 
 const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
     return (
-        <Box key={expert.id} borderWidth="1px" borderRadius="lg" overflow="hidden" p={4} mb={6}>
+        <Box bg={useColorModeValue('white', '#2D3748')} key={expert.id}
+            boxShadow={'lg'}
+            overflow="hidden" p={4} mb={6}>
             <Flex justify="space-between" align="flex-start">
-                {/* Expert Information */}
+
                 <Flex direction="column" flex="1" mr={4}>
                     <Flex align="center" mb={4}>
                         <Avatar name={expert.name} src={`https://i.pravatar.cc/150?img=${expert.id}`} mr={4} />
                         <Box>
                             <Heading size="md">{expert.name}</Heading>
-                            <Text fontSize="sm" color="gray.500">{expert.expertise}</Text>
-                            <Text fontSize="sm" color="gray.500">{expert.address}</Text>
+                            <Text color={useColorModeValue('gray.600', 'gray.400')}>{expert.expertise}</Text>
+                            <Text color={useColorModeValue('gray.600', 'gray.400')}>{expert.address}</Text>
                             <Flex align="center" mt={2}>
-                                <StarIcon color="yellow.400" mr={1} />
-                                <Text fontWeight="bold" mr={2}>{expert.rating}</Text>
-                                <Text fontSize="sm" color="gray.500">({expert.reviews} reviews)</Text>
+                                {Array(5)
+                                    .fill('')
+                                    .map((_, i) => (
+                                        <StarIcon
+                                            key={i}
+                                            color={i < expert.rating ? useColorModeValue('green.500', 'green.400') : useColorModeValue('gray.300', 'gray.600')}
+                                        />
+                                    ))}
+                                <Text ml={2} fontSize="sm" color={useColorModeValue('gray.600', 'gray.400')}>({expert.reviews} reviews)</Text>
                             </Flex>
                         </Box>
                     </Flex>
@@ -25,37 +33,44 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
                         mt="8px"
                         color="black"
                         bg="none"
-
                         _hover={{ bg: 'none' }}
-
-                        onClick={() => openModal(expert)}
+                        fontWeight={"bold"}
+                        colorScheme="teal"
                     >
-                        <span className="buttonunderline">Check Availability</span>
-
+                        <span className="buttonunderline">Check Profile</span>
                     </Button>
                 </Flex>
 
 
                 <Box flex="2">
-                    <Grid templateColumns="repeat(auto-fill, minmax(150px, 1fr))" gap={2} mt={4}>
-                        {expert.availability.map((slot, i) => (
-                            <Box
-                                key={i}
-                                bg={slot === 'No appts' ? 'gray.200' : 'yellow.200'}
-                                textAlign="center"
-                                p={2}
-                                borderRadius="md"
-                                cursor={slot === 'No appts' ? 'not-allowed' : 'pointer'}
-                                onClick={() => slot !== 'No appts' && openModal(expert)}
-                                _hover={slot !== 'No appts' ? { bg: 'yellow.300' } : {}}
+
+                    <Grid templateColumns="repeat(5, 1fr)" gap={2} mt={4}>
+                        {daysOfWeekWithDates.map((date, index) => (
+                            <Button
+                                key={index}
+                                onClick={() => openModal(expert)}
+                                bg={expert.availability[index] === 'No appts' ? useColorModeValue('gray.100', 'gray.700') : useColorModeValue('green.500', 'green.400')}
+                                _hover={{ bg: useColorModeValue('green.400', 'green.500') }}
+                                isDisabled={expert.availability[index] === 'No appts'}
                             >
-                                <Text fontSize="sm">
-                                    {daysOfWeekWithDates[i]} <br />
-                                    {slot}
-                                </Text>
-                            </Box>
+                                {date}
+                            </Button>
                         ))}
+
                     </Grid>
+                    <Flex justifyContent={"center"} mt={2}>
+                        <Button
+                            mt="8px"
+                            color="black"
+                            bg="none"
+                            _hover={{ bg: 'none' }}
+                            fontWeight={"bold"}
+                            colorScheme="teal"
+                            onClick={() => openModal(expert)}
+                        >
+                            <span className="buttonunderline">Check Availability</span>
+                        </Button>
+                    </Flex>
                 </Box>
             </Flex>
         </Box>
