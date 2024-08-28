@@ -12,7 +12,7 @@ const Rendezvous = () => {
   const nodeRef = useRef(null);
 
   return (
-    <Box bg={useColorModeValue('gray.100', '#1A202C')} p={4}  overflow="hidden" >
+    <Box bg={useColorModeValue('#FFFCF6', '#1A202C')} p={4}  overflow="hidden" >
       <Transition
         in={visible && !showlist}
         timeout={500}

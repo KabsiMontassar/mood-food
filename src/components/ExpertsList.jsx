@@ -76,7 +76,7 @@ const ExpertsList = ({ issue, type }) => {
  
 
   return (
-    <Box padding="4" maxW="70%" mx="auto">
+    <Box  padding="4" maxW="70%" mx="auto">
       <Input
         border={0}
         boxShadow={'lg'}
