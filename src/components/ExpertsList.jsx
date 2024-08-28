@@ -137,6 +137,8 @@ const ExpertsList = ({ issue, type }) => {
           closeConfirmationModal={closeConfirmationModal}
           selectedSlot={selectedSlot}
           selectedExpert={selectedExpert}
+          issue={issue}
+           type={type}
         />
       )}
     </Box>
