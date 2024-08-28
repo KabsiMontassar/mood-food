@@ -37,7 +37,7 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
 
 
                 <Box flex="2">
-                    <Grid templateColumns="repeat(auto-fill, minmax(120px, 1fr))" gap={2} mt={4}>
+                    <Grid templateColumns="repeat(auto-fill, minmax(150px, 1fr))" gap={2} mt={4}>
                         {expert.availability.map((slot, i) => (
                             <Box
                                 key={i}
