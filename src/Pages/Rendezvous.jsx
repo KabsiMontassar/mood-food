@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Box, Text } from '@chakra-ui/react';
 import { Transition } from 'react-transition-group';
 import Rendezvousprompt from '../components/RendezVousPrompt';
+import ExpertsList from '../components/ExpertsList';
 
 const Rendezvous = () => {
   const [showlist, setShowlist] = useState(false);
@@ -41,8 +42,17 @@ const Rendezvous = () => {
 
       {showlist && (
         <>
-          <Text>{issue}</Text>
-          <Text>{type}</Text>
+          <Text textAlign="center" fontSize="xl" fontWeight="bold" p={4}>
+            Available 
+            {
+              type === 'Psychology' ? ' Psychologists' : type === 'Nutrition' ? ' Nutritionists' : ''
+            }
+            {' '}
+            for
+            {' '}
+            {issue}
+          </Text>
+          <ExpertsList />
         </>
       )}
     </Box>

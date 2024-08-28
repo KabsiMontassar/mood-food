@@ -57,6 +57,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
             backgroundColor="#FFFCF6"
             justifyContent="center"
             alignItems="center"
+          
         >
             <Flex direction="column" maxW="container.md" width="100%" height="100%">
                 <Flex justifyContent="space-between" width="100%" p={4}>
@@ -77,7 +78,11 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                     </Button>
                     <Button
                         colorScheme="gray"
-                        onClick={() => setShowlist(true)}
+                        onClick={() => {
+                            setIssue('')
+                             setType('')
+                            setShowlist(true)
+                            }}
                         position="absolute"
                         top="4"
                         right="4"
@@ -104,7 +109,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                         transition="width 0.3s ease-in-out"
                     />
                 </Box>
-
+              
                 <SwitchTransition mode="out-in">
                     <CSSTransition
                         key={activeStep}
@@ -126,7 +131,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                                         borderRadius="md"
                                         p={4}
                                         mb={4}
-                                        onClick={() => handleIssueSelection('Psychology')}
+                                        onClick={() => handleIssueSelection('Annual physical / checkup')}
                                     >
                                         <Text>Annual physical / checkup</Text>
                                         <Text color="gray.500">
@@ -139,7 +144,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                                         border="1px solid  #758694"
                                         borderRadius="md"
                                         p={4}
-                                        onClick={() => handleIssueSelection('Nutrition')}
+                                        onClick={() => handleIssueSelection('Issue / Condition / Problem')}
                                     >
                                         <Text>I need care for an issue, condition or problem</Text>
                                         <Text color="gray.500">

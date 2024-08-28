@@ -373,7 +373,7 @@ const NAV_ITEMS = [
     href: '/',
   },
   {
-    label: 'À propos',
+    label: 'Qui sommes-nous',
     href: '/propos',
    
   },

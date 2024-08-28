@@ -40,7 +40,7 @@ const Propos = () => {
     >
       <VStack spacing={8} maxW="container.md" textAlign="center">
         <Heading as="h1" size="2xl" color={"#FFFCF6"}>
-          À Propos de Nous
+          Qui sommes-nous
         </Heading>
 
         <Stack spacing={6}>
