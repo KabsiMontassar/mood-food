@@ -152,18 +152,18 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn}) 
         as={'a'}
             display={{ base: 'none', md: 'inline-flex' }}
             fontSize={'sm'}
+             userSelect="none"
             fontWeight={800}
+            cursor="pointer"
             color={useColorModeValue('white', 'black')}
             bg={useColorModeValue('black', 'white')}
             onClick={() => handleFixerRendezVous()}
             _hover={{
               opacity: '0.8',
             }} >
-
-
             Fixer un rendez-vous
           </Button>
-{  isUserSignedIn ? 
+        {  isUserSignedIn ? 
         <>
       
         <Button  fontSize={'sm'} color="#64A87A" fontWeight={600} variant={'link'} onClick={SignOut} _hover={{
