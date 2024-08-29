@@ -16,6 +16,7 @@ import User from './Pages/Admin/User';
 import Rendezvous from './Pages/Rendezvous';
 import Profile from './Pages/Profile';
 import FAQ from './Pages/FAQ';
+import Recipes from './Pages/Recipes'; // Import the Recipes component
 
 
 
@@ -40,7 +41,7 @@ const routes = [
   
 
 
-
+  { path: "/recipes", element: <Recipes /> }, // Added route for Recipes
   { path: "*", element: <h1>error</h1> },
 ];
 
