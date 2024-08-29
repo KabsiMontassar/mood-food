@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Box, Input, Flex, Button, Text, useColorModeValue
+  Box, Input, Flex, Button, Text, Select, useColorModeValue
 } from '@chakra-ui/react';
 import expertsData from '../Data/expertsData.jsx';
 import SelectedExpertModal from './RendezvousModals/selectedExpertModal.jsx';
@@ -9,7 +9,9 @@ import Expert from './Expert';
 
 const ExpertsList = ({ issue, type }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchName, setSearchName] = useState('');
+  const [searchAddress, setSearchAddress] = useState('');
+  const [selectedType, setSelectedType] = useState('All');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedExpert, setSelectedExpert] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
@@ -19,8 +21,9 @@ const ExpertsList = ({ issue, type }) => {
 
   const filteredExperts = expertsData.filter(
     expert =>
-      expert.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      expert.address.toLowerCase().includes(searchQuery.toLowerCase())
+      (searchName === '' || expert.name.toLowerCase().includes(searchName.toLowerCase())) &&
+      (searchAddress === '' || expert.address.toLowerCase().includes(searchAddress.toLowerCase())) &&
+      (selectedType === 'All' || expert.type === selectedType)
   );
 
   const totalPages = Math.ceil(filteredExperts.length / expertsPerPage);
@@ -73,29 +76,64 @@ const ExpertsList = ({ issue, type }) => {
 
   const daysOfWeekWithDates = getWeekDates();
 
- 
-
   return (
-    <Box  padding="4" maxW="70%" mx="auto">
+    <Box padding="4" maxW="70%" mx="auto">
+    <Flex flexDirection={"row"}>
       <Input
         border={0}
         boxShadow={'lg'}
         borderRadius={'none'}
         bg={useColorModeValue('white', '#2D3748')}
-        placeholder="Search by name or address"
-        value={searchQuery}
-        onChange={e => setSearchQuery(e.target.value)}
+        placeholder="Search by name"
+        value={searchName}
+        onChange={e => setSearchName(e.target.value)}
         mb={4}
         focusBorderColor='green.500'
         _focus={{
           border: 'none',
         }}
       />
-
+      <Input
+        border={0}
+        boxShadow={'lg'}
+       
+        borderRadius={'none'}
+        bg={useColorModeValue('white', '#2D3748')}
+        placeholder="Search by address"
+        value={searchAddress}
+        onChange={e => setSearchAddress(e.target.value)}
+        mb={4}
+        focusBorderColor='green.500'
+        _focus={{
+          border: 'none',
+        }}
+      />
+      <Select
+        border={0}
+        boxShadow={'lg'}
+        borderRadius={'none'}
+        bg={useColorModeValue('white', '#2D3748')}
+        placeholder="Select expert type"
+        value={selectedType}
+        onChange={e => setSelectedType(e.target.value)}
+        mb={4}
+        focusBorderColor='green.500'
+        _focus={{
+          border: 'none',
+        }}
+      >
+        <option value="All">All</option>
+        <option value="Nutritionist">Nutritionist</option>
+        <option value="Psychologist">Psychologist</option>
+      </Select>
+      </Flex>
       {currentExperts.map((expert, index) => (
         <Expert key={index} expert={expert}
           openModal={openModal} daysOfWeekWithDates={daysOfWeekWithDates} />
       ))}
+      
+
+    
 
       <Flex justify="space-between" mt={4}>
         <Button
@@ -138,7 +176,7 @@ const ExpertsList = ({ issue, type }) => {
           selectedSlot={selectedSlot}
           selectedExpert={selectedExpert}
           issue={issue}
-           type={type}
+          type={type}
         />
       )}
     </Box>
