@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Box, Button, Flex, Text, Progress, Heading, Container, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Flex, Text, Progress, Heading, Container, useColorModeValue, Spinner ,Center} from '@chakra-ui/react';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 const steps = [
@@ -60,7 +60,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
             <Flex direction="column" maxW="container.md" width="100%" height="100%">
                 <Flex justifyContent="space-between" width="100%" p={4}>
                     <Button
-                         colorScheme="gray"
+                        colorScheme="gray"
                         as="a"
                         href="/"
                         position="absolute"
@@ -90,7 +90,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                             color: useColorModeValue('gray.600', 'whiteAlpha.600')
                         }}
                     >
-                        Skip to search
+                        Passer à la recherche
                     </Button>
                 </Flex>
 
@@ -107,7 +107,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                         transition="width 0.3s ease-in-out"
                     />
                 </Box>
-              
+
                 <SwitchTransition mode="out-in">
                     <CSSTransition
                         key={activeStep}
@@ -120,10 +120,10 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                             {activeStep === 0 && (
                                 <Container maxW="container.sm" >
                                     <Heading textAlign="center" as="h1" size="xl" mb={4}>
-                                        What type of care are you looking for?
+                                        Quel type de soins recherchez-vous ?
                                     </Heading>
                                     <Box
-                                       bg={useColorModeValue('white', 'gray.800')}
+                                        bg={useColorModeValue('white', 'gray.800')}
                                         cursor="pointer"
                                         _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
                                         border={`1px solid ${useColorModeValue('#758694', '#A0AEC0')}`}
@@ -132,13 +132,13 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                                         mb={4}
                                         onClick={() => handleIssueSelection('Annual physical / checkup')}
                                     >
-                                        <Text>Annual physical / checkup</Text>
+                                        <Text>Examen médical annuel / bilan de santé</Text>
                                         <Text color={useColorModeValue('gray.500', 'gray.400')}>
-                                            Comprehensive physical examination
+                                            Examen complet
                                         </Text>
                                     </Box>
                                     <Box
-                                     bg={useColorModeValue('white', 'gray.800')}
+                                        bg={useColorModeValue('white', 'gray.800')}
                                         cursor="pointer"
                                         _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
                                         border={`1px solid ${useColorModeValue('#758694', '#A0AEC0')}`}
@@ -146,9 +146,9 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                                         p={4}
                                         onClick={() => handleIssueSelection('Issue / Condition / Problem')}
                                     >
-                                        <Text>I need care for an issue, condition, or problem</Text>
+                                        <Text>J'ai besoin de soins pour un problème, une condition ou une difficulté.</Text>
                                         <Text color={useColorModeValue('gray.500', 'gray.400')}>
-                                            Find treatment for a specific issue or ongoing problem
+                                            Trouvez un traitement pour un problème spécifique ou un problème persistant.
                                         </Text>
                                     </Box>
                                 </Container>
@@ -156,10 +156,10 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                             {activeStep === 1 && (
                                 <Container maxW="container.sm">
                                     <Heading textAlign="center" as="h1" size="xl" mb={4}>
-                                        What is the main issue you want to address?
+                                        Quel est le principal problème que vous souhaitez aborder ?
                                     </Heading>
                                     <Box
-                                       bg={useColorModeValue('white', 'gray.800')}
+                                        bg={useColorModeValue('white', 'gray.800')}
                                         cursor="pointer"
                                         _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
                                         border={`1px solid ${useColorModeValue('#758694', '#A0AEC0')}`}
@@ -168,13 +168,13 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                                         mb={4}
                                         onClick={() => handleTypeSelection('Psychology')}
                                     >
-                                        <Text>Psychology Issue</Text>
+                                        <Text>Problème de psychologie</Text>
                                         <Text color={useColorModeValue('gray.500', 'gray.400')}>
-                                            Problems with mental health and well-being
+                                            Problèmes de santé mentale et de bien-être
                                         </Text>
                                     </Box>
                                     <Box
-                                       bg={useColorModeValue('white', 'gray.800')}
+                                        bg={useColorModeValue('white', 'gray.800')}
                                         cursor="pointer"
                                         _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
                                         border={`1px solid ${useColorModeValue('#758694', '#A0AEC0')}`}
@@ -182,9 +182,9 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                                         p={4}
                                         onClick={() => handleTypeSelection('Nutrition')}
                                     >
-                                        <Text>Nutrition Issue</Text>
+                                        <Text>Problème de nutrition</Text>
                                         <Text color={useColorModeValue('gray.500', 'gray.400')}>
-                                            Problems with diet and nutrition
+                                            Problèmes liés à l'alimentation et à la nutrition
                                         </Text>
                                     </Box>
                                     <Button
@@ -198,15 +198,27 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                                             color: 'gray.400'
                                         }}
                                     >
-                                        Back
+                                        Retour
                                     </Button>
                                 </Container>
                             )}
                             {activeStep === 2 && (
                                 <Container maxW="container.sm">
-                                    <Heading textAlign="center" as="h1" size="xl" mb={4}>
-                                        Thank you for your selection! We will now show you the list of available doctors.
-                                    </Heading>
+                                    <Heading textAlign="center" as="h1" size="xl" mb={4} 
+                                    letterSpacing={3} color="green.800">
+                                   
+                                        Merci pour votre sélection ! Nous allons maintenant vous montrer la liste des médecins disponibles.</Heading>
+                                   <Center>
+                                   <Spinner
+                                        thickness='4px'
+                                        speed='0.65s'
+                                        emptyColor='gray.200'
+                                        color='green.500'
+                                        size='xl'
+                                        alignContent={"center"} justifyContent={"center"}
+                                    />
+                                   </Center>
+                                  
                                 </Container>
                             )}
                         </Box>
