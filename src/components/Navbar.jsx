@@ -13,40 +13,107 @@ import {
   PopoverContent,
   useColorModeValue,
   useDisclosure,
-  useToast
+  useToast,
+  useColorMode,
+  Image ,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import logo from "../assets/logo.png";
+
 import {
   HamburgerIcon,
   CloseIcon,
   ChevronDownIcon,
-  ChevronRightIcon,
+  ChevronRightIcon,MoonIcon, SunIcon
 } from '@chakra-ui/icons';
 import { FaUser } from "react-icons/fa";
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { useColorMode } from '@chakra-ui/react';
 
 
-export default function WithSubnavigation() {
+
+export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn}) {
 
   const { isOpen, onToggle } = useDisclosure();
   const navigate = useNavigate();
+  const toast = useToast();
 
   const { colorMode, toggleColorMode } = useColorMode();
 
  
 
 
+  useEffect(() => {
+    const isUserSignedIn = localStorage.getItem('isUserSignedIn');
+    if(isUserSignedIn === 'true'){
+      setIsUserSignedIn(true);
+    }else{
+      setIsUserSignedIn(false);
+    }
+  }, [])
+
+
+
+
+  const SignOut = () => {
+
+    localStorage.setItem('isUserSignedIn', false);
+    setIsUserSignedIn(false);
+    navigate('/');
+    toast({
+      title: "Signed Out",
+      description: "You have successfully signed out",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    })
+  }
+
+  
+
+  const handleSignIn = () => {
+
+  
+    localStorage.setItem('isUserSignedIn', true);
+
+
+    setIsUserSignedIn(true);
+    toast({
+      title: "Signed In",
+      description: "You have successfully signed in",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    })
+  }
+  
+
+
+  const handleFixerRendezVous = () => {
+     if(isUserSignedIn){
+      navigate('/Rendezvous');
+     }else{
+      toast({
+        title: "Sign In",
+        description: "You have to sign in first",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      })
+
+    }
+  }
+
+
 
   return (
     <Box  zIndex={3} w="100%" >
       <Flex
-        bg={useColorModeValue('white', 'gray.800')}
-        color={useColorModeValue('gray.600', 'white')}
+        bg= {useColorModeValue('#FFFCF6', 'gray.800')}
+
+       color={useColorModeValue('gray.600', 'white')}
         minH="60px"
         py={{ base: 2 }}
         px={{ base: 4 }}
-        borderBottom={1}
+        // borderBottom={1}
         borderStyle={'solid'}
         borderColor={useColorModeValue('gray.200', 'gray.900')}
         align={'center'}>
@@ -66,7 +133,9 @@ export default function WithSubnavigation() {
 
            <Flex > 
             
-            logo
+           
+              <Image   width="50px"src={logo} alt="logo"  />
+            
           </Flex>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}  alignItems="center">
@@ -79,8 +148,61 @@ export default function WithSubnavigation() {
           justify={'flex-end'}
           direction={'row'}
           spacing={6}>
+  <Button 
+        as={'a'}
+            display={{ base: 'none', md: 'inline-flex' }}
+            fontSize={'sm'}
+            fontWeight={800}
+            color={useColorModeValue('white', 'black')}
+            bg={useColorModeValue('black', 'white')}
+            onClick={() => handleFixerRendezVous()}
+            _hover={{
+              opacity: '0.8',
+            }} >
 
-     
+
+            Fixer un rendez-vous
+          </Button>
+{  isUserSignedIn ? 
+        <>
+      
+        <Button  fontSize={'sm'} color="#64A87A" fontWeight={600} variant={'link'} onClick={SignOut} _hover={{
+              color: '#96C970',
+            }} >
+            Sign Out
+          </Button>
+          <Button
+            as={'a'}
+            display={{ base: 'none', md: 'inline-flex' }}
+            fontSize={'sm'}
+            fontWeight={600}
+            color={'white'}
+            bg="#64A87A"
+            href={'/profile'}
+            _hover={{
+              bg: '#96C970',
+            }}>
+             <FaUser />
+          </Button>
+          </>
+          :
+        
+          <Button  as={'a'}
+            display={{ base: 'none', md: 'inline-flex' }}
+            fontSize={'sm'}
+            fontWeight={600}
+            color={'white'}
+            bg="#64A87A"
+            onClick={() => handleSignIn()}
+            _hover={{
+              bg: '#96C970',
+             
+            }}
+            //  href={'/SignIn'}
+            >
+            Sign In
+          </Button>
+      } 
        
           <IconButton
             size={'md'}
@@ -247,45 +369,52 @@ const MobileNavItem = ({ label, children, href, navigate }) => {
 
 const NAV_ITEMS = [
   {
-    label: 'accueil',
+    label: 'Accueil',
     href: '/',
   },
   {
-    label: 'second',
-    children: [
-      { label: 'second1', href: '/second' },
-  
-    ],
-  },
-  {
-    label: 'third',
-    children: [
-      { label: 'third1', href: '/third' },
- 
-    ],
-  },
-  {
-    label: 'a propos',
+    label: 'À propos',
     href: '/propos',
+   
   },
   {
-    label: 'Contact',
+    label: 'Bien-être',
+    href: '/Bien',
+   
+  }, 
+  {
+    label: 'Cuisine & Bienfaits',
+    href: '/Cuisine',
+   
+  },
+ 
+  {
+    label: 'Contactez-nous',
     href: '/contact',
   },
+
+
+
+ 
   {
-    label: 'Repas',
-    href: '/Repas',
-  },
-  {
-    label: 'Equipement',
-    href: '/Equipement',
-  },
-  {
-    label: 'Commande',
-    href: '/Commande',
-  },
-  {
-    label: 'User',
-    href: '/User',
-  }
+    "label": "backoffice",
+    "children": [
+      {
+        label: 'User',
+        href: '/User',
+      },
+      {
+        label: 'Commande',
+        href: '/Commande',
+      },
+      {
+        label: 'Equipement',
+        href: '/Equipement',
+      },
+      {
+        label: 'Repas',
+        href: '/Repas',
+      }
+    ],
+  }  
 ];
