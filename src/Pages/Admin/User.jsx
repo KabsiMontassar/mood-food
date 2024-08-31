@@ -6,6 +6,8 @@ import {
 } from '@chakra-ui/react';
 import UserDetailsModal from '../../components/UserDetailsModal';
 
+import { Auth , db} from '../../Firebase';
+
 import { SearchIcon } from '@chakra-ui/icons';
 
 const User = () => {
@@ -95,10 +97,6 @@ const User = () => {
     }
   };
 
-  const handleShowDetails = (user) => {
-    setSelectedUser(user);
-    onOpen();
-  };
 
   const handleEdit = (user) => {
     setSelectedUser(user);
