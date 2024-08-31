@@ -1,15 +1,16 @@
 import React from 'react';
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Box, Flex, Heading, Text, Avatar, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, useColorModeValue } from '@chakra-ui/react';
+import { Modal, ModalOverlay,Grid, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Box, Flex, Heading, Text, Avatar, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, useColorModeValue, GridItem } from '@chakra-ui/react';
 const generateTimeSlots = (appts) => {
     let slots = [];
     const startHour = 9;
     const endHour = 17;
     for (let hour = startHour; hour < endHour; hour++) {
-      for (let minute = 0; minute < 60; minute += 30) {
+      for (let minute = 0; minute < 60; minute += 60) {
         if (appts > 0) {
-          const start = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+          const start = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} - ${(hour + 1).toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
           slots.push(start);
           appts--;
+      
         }
       }
     }
@@ -49,9 +50,9 @@ const SelectedExpertModal = ({ isModalOpen, closeModal, selectedExpert, daysOfWe
                 </h2>
                 <AccordionPanel pb={4}>
                   {appts !== 'No appts' ? (
-                    <Flex wrap="wrap">
+                    <Grid  templateColumns="repeat(4, 1fr)" gap={2}>
                       {generateTimeSlots(parseInt(appts)).map((slot, i) => (
-                        <Box
+                        <GridItem
                           key={i}
                           bg={useColorModeValue('green.500', 'green.400')}
                           textAlign="center"
@@ -63,9 +64,9 @@ const SelectedExpertModal = ({ isModalOpen, closeModal, selectedExpert, daysOfWe
                           onClick={() => openConfirmationModal(slot)}
                         >
                           <Text fontSize="sm">{slot}</Text>
-                        </Box>
+                        </GridItem>
                       ))}
-                    </Flex>
+                    </Grid>
                   ) : (
                     <Text>No appointments available</Text>
                   )}

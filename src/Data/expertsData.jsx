@@ -18,7 +18,7 @@ const expertsData = [
       address: '456 Care Blvd, Healing Town',
       availability: [
         '2 appts', 'No appts', 'No appts', 'No appts', 'No appts',
-        '7 appts', '6 appts', 'No appts', '1 appt', '9 appts'
+        '7 appts', '6 appts', 'No appts', '1 appt', '8 appts'
       ],
     },
     {
