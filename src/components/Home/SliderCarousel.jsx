@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Box, Flex, Text, IconButton } from "@chakra-ui/react";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
-import img1 from "../assets/img1.png";
-import img2 from "../assets/img2.jpg";
-import img3 from "../assets/img3.jpg";
-import img4 from "../assets/img4.png";
+import img1 from "../../assets/img1.png";
+import img2 from "../../assets/img2.jpg";
+import img3 from "../../assets/img3.jpg";
+import img4 from "../../assets/img4.png";
 
 
 
@@ -65,14 +65,14 @@ const SliderCarousel = () => {
             changeSlide("up");
         }, 5000);
 
-       
+
         return () => clearInterval(interval);
     }, [activeSlideIndex, isTransitioning]);
 
     return (
         <Flex position="relative" height="100vh" overflow="hidden"
-          userSelect="none"
-         >
+            userSelect="none"
+        >
 
             <Flex
                 flexDirection="column"
@@ -101,15 +101,15 @@ const SliderCarousel = () => {
                             mb="10px"
                             mt="-30px"
                             position="relative"
-                           textAlign={"center"}
-                           color="black"
-                           fontWeight={700}
+                            textAlign={"center"}
+                            color="black"
+                            fontWeight={700}
                         >
-                           {slide.title}
+                            {slide.title}
                         </Text>
                         <Text fontSize="20px" textAlign="center"
-                        color="black"
-                       
+                            color="black"
+
                         >{slide.description}</Text>
                     </Flex>
                 ))}
@@ -151,12 +151,13 @@ const SliderCarousel = () => {
                     onClick={() => changeSlide("down")}
                     mb="4px"
                     borderRadius="0"
-                   colorScheme="transparent"
-                   
-                    _hover={{   
-                       
-                        opacity: 0.5 }}
-                  
+                    colorScheme="transparent"
+
+                    _hover={{
+
+                        opacity: 0.5
+                    }}
+
                 />
                 <IconButton
                     aria-label="Next Slide"
@@ -165,12 +166,12 @@ const SliderCarousel = () => {
                     borderRadius="0"
                     right="100%"
                     colorScheme="transparent"
-                    
-                    _hover={{ 
-                       
+
+                    _hover={{
+
                         opacity: 0.5
-                         }}
-                  
+                    }}
+
                 />
             </Flex>
         </Flex>

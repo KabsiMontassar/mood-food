@@ -40,7 +40,7 @@ const Footer = () => {
             gap={4}
           >
             <Link href="/Propos" fontWeight="semibold" _hover={{ textDecoration: 'underline' }}>
-              À propos
+              Qui sommes-nous
             </Link>
             <Link href="/FAQ" fontWeight="semibold" _hover={{ textDecoration: 'underline' }}>
               FAQ
