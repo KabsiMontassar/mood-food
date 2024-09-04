@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Stack, useColorModeValue, InputGroup, InputLeftElement, Input, Table, Thead, Tbody, Tr, Th, Td, Avatar, Button, HStack, Text, Modal,
-  ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, Drawer, DrawerBody, DrawerFooter,
-  DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, FormControl, FormLabel, Input as ChakraInput, Badge, Select
+  Stack, useColorModeValue, InputGroup, InputLeftElement, Input, Table, Thead, Tbody, Tr, Th, Td, Avatar, Button, HStack, Text,
+  useDisclosure, Drawer, DrawerBody, DrawerFooter,
+  DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, FormControl, FormLabel, Input as ChakraInput, Select
 } from '@chakra-ui/react';
+
+import { collection, getDocs } from 'firebase/firestore';
+
 import UserDetailsModal from '../../components/UserDetailsModal';
+
+import { db } from '../../Firebase';
 
 import { SearchIcon } from '@chakra-ui/icons';
 
@@ -18,7 +23,7 @@ const User = () => {
   const [drawerMode, setDrawerMode] = useState('add');
   const [roleFilter, setRoleFilter] = useState('');
   const itemsPerPage = 5;
-  
+
   const [isOpen, setIsOpen] = useState(false);
   const { isOpen: isDrawerOpen, onOpen: onDrawerOpen, onClose: onDrawerClose } = useDisclosure();
   const openModal = (user) => {
@@ -53,6 +58,12 @@ const User = () => {
     setUsers(dummyUsers);
     setFilteredUsers(dummyUsers.slice(0, itemsPerPage));
   }, []);
+
+ 
+
+
+
+
 
   const fetchUsers = () => {
     let filtered = users;
@@ -95,10 +106,6 @@ const User = () => {
     }
   };
 
-  const handleShowDetails = (user) => {
-    setSelectedUser(user);
-    onOpen();
-  };
 
   const handleEdit = (user) => {
     setSelectedUser(user);
@@ -169,7 +176,7 @@ const User = () => {
               <Td>{user.role}</Td>
               <Td>
                 <HStack spacing={2}>
-                  <Button colorScheme="teal" size="sm" onClick={() =>  openModal(user)}>
+                  <Button colorScheme="teal" size="sm" onClick={() => openModal(user)}>
                     Show Details
                   </Button>
                   <Button colorScheme="blue" size="sm" onClick={() => handleEdit(user)}>

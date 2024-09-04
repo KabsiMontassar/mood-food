@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import SliderCarousel from "../components/SliderCarousel";
-import TherapyCards from "../components/Cards";
-import ExpertsComponent from "../components/ExpertComponent";
-import RecetteComponent from "../components/RecetteComponent";
-import BienEtreComponent from "../components/BienEtreComponent";
-import PlanComparison from "../components/PlanComparison";
+import SliderCarousel from "../components/Home/SliderCarousel";
+import TherapyCards from "../components/Home/Cards";
+import ExpertsComponent from "../components/Home/ExpertComponent";
+import RecetteComponent from "../components/Home/RecetteComponent";
+import BienEtreComponent from "../components/Home/BienEtreComponent";
+import PlanComparison from "../components/Home/PlanComparison";
 import { Flex, Box, Img, Heading } from "@chakra-ui/react";
 import logo from "../assets/logo.png";
 import { gsap } from "gsap";
