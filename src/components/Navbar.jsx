@@ -100,15 +100,8 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
     }
   }
 
-  const openSignInModal = () => {
-    setModalType('signin');
-    onModalOpen();
-  };
 
-  const openSignUpModal = () => {
-    setModalType('signup');
-    onModalOpen();
-  };
+ 
 
   return (
     <Box zIndex={3} w="100%">
@@ -169,7 +162,7 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
                 color="#64A87A"
                 fontWeight={600}
                 variant={'link'}
-                onClick={SignOut}
+                // onClick={SignOut}
                 _hover={{
                   color: '#96C970',
                 }}
@@ -200,7 +193,7 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
                 fontWeight={600}
                 color={'white'}
                 bg="#64A87A"
-                onClick={openSignInModal}
+                onClick={ () => navigate('/SignIn') }
                 _hover={{
                   bg: '#96C970',
                 }}
@@ -214,7 +207,7 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
                 fontWeight={600}
                 color={'white'}
                 bg="#64A87A"
-                onClick={openSignUpModal}
+                onClick={ () => navigate('/SignUp') } 
                 _hover={{
                   bg: '#96C970',
                 }}
