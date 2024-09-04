@@ -1,13 +1,18 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './Pages/Home';
+import Bienetre from './Pages/Bienetre';
+import PageTransition from './components/PageTransition';
 
-const PageTransitions = ({ children }) => (
-  <motion.div 
-  initial={{ opacity: 0 }} 
-  animate={{ opacity: 1 }} 
-  transition={{ duration: 0.5 }}>
-    {children}
-  </motion.div>
-);
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+        <Route path="/Bien" element={<PageTransition><Bienetre /></PageTransition>} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
-export default PageTransitions;
+export default App;

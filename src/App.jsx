@@ -1,23 +1,21 @@
-
-import React, {useState} from 'react';
-
+import React, { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import RoutesWithTransitions from './Routes';
+import Routes from './Routes';  // Updated to use the correct Routes component
 import Footer from './components/Footer';
-function App() {
 
+function App() {
   const [isUserSignedIn, setIsUserSignedIn] = useState(false);
 
   return (
     <>
       <Router>
-        <Navbar  isUserSignedIn={isUserSignedIn} setIsUserSignedIn={setIsUserSignedIn} />
-          <RoutesWithTransitions  /> 
+        <Navbar isUserSignedIn={isUserSignedIn} setIsUserSignedIn={setIsUserSignedIn} />
+        <Routes />
         <Footer />
       </Router>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
