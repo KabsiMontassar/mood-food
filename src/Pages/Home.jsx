@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import SliderCarousel from "../components/SliderCarousel";
-import TherapyCards from "../components/Cards";
-import ExpertsComponent from "../components/ExpertComponent";
-import RecetteComponent from "../components/RecetteComponent";
-import BienEtreComponent from "../components/BienEtreComponent";
-import PlanComparison from "../components/PlanComparison";
+import SliderCarousel from "../components/Home/SliderCarousel";
+import TherapyCards from "../components/Home/Cards";
+import ExpertsComponent from "../components/Home/ExpertComponent";
+import RecetteComponent from "../components/Home/RecetteComponent";
+import BienEtreComponent from "../components/Home/BienEtreComponent";
+import PlanComparison from "../components/Home/PlanComparison";
 import SignUpPage from "../components/SignUpPage";
 import SignInPage from "../components/SignInPage";
 import {
