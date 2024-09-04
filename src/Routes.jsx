@@ -4,11 +4,14 @@ import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import PageTransition from './components/PageTransition';
+
 import Home from './Pages/Home';
 import Bienetre from './Pages/Bienetre';
 import Cuisine from './Pages/Cuisine';
 import Propos from './Pages/Propos';
+
 import Contact from './Pages/Contact';
+import Product from './Pages/Product';
 import Repas from './Pages/Admin/Repas';
 import Equipement from './Pages/Admin/Equipement';
 import Commande from './Pages/Admin/Commande';
@@ -20,11 +23,13 @@ import Recipes from './Pages/Recipes'; // Import the Recipes component
 
 
 
+
 const routes = [
   { path: "/", element: <Home /> },
   { path: "/Bien", element: <Bienetre /> },
   { path: "/Cuisine", element: <Cuisine /> },
   { path: "/Propos", element: <Propos /> },
+  { path: "/Product", element: <Product /> },
   { path: "/Contact", element: <Contact /> },
   { path: "/Rendezvous", element: <Rendezvous /> },
   { path: "/FAQ", element: <FAQ /> },

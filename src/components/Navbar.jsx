@@ -393,6 +393,10 @@ const NAV_ITEMS = [
     label: 'Contactez-nous',
     href: '/contact',
   },
+  {
+    label: 'Produit',
+    href: '/Product',
+  },
 
 
 
