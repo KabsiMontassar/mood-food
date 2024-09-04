@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Box, Text,useColorModeValue } from '@chakra-ui/react';
-import { Transition } from 'react-transition-group';
+// import { Transition } from 'react-transition-group';
 import Rendezvousprompt from '../components/RendezVousPrompt';
 import ExpertsList from '../components/ExpertsList';
 
@@ -13,21 +13,9 @@ const Rendezvous = () => {
 
   return (
     <Box bg={useColorModeValue('#FFFCF6', '#1A202C')} p={4}  overflow="hidden" >
-      <Transition
-        in={visible && !showlist}
-        timeout={500}
-        nodeRef={nodeRef}
-        onExited={() => setVisible(false)}
-        unmountOnExit
-      >
-        {(state) => (
-          <div
-            ref={nodeRef}
-            style={{
-              ...defaultStyle,
-              ...transitionStyles[state],
-            }}
-          >
+     
+    
+         
             <Rendezvousprompt
               setShowlist={(value) => {
                 setVisible(false);
@@ -36,9 +24,9 @@ const Rendezvous = () => {
               setIssue={setIssue}
               setType={setType}
             />
-          </div>
-        )}
-      </Transition>
+        
+    
+    
       {showlist && (
           <ExpertsList  issue={issue} type={type}/>
       )}
