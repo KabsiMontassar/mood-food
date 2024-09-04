@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Routes from './Routes';  // Updated to use the correct Routes component
+import RoutesWithTransitions from './Routes';
 import Footer from './components/Footer';
 
 function App() {
@@ -11,7 +11,6 @@ function App() {
     <>
       <Router>
         <Navbar isUserSignedIn={isUserSignedIn} setIsUserSignedIn={setIsUserSignedIn} />
-        <Routes />
         <RoutesWithTransitions />
         <Footer />
       </Router>

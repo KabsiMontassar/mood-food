@@ -28,33 +28,6 @@ const RoutesComponent = () => {
 
 
 
-const routes = [
-  { path: "/", element: <Home /> },
-  { path: "/Bien", element: <Bienetre /> },
-  { path: "/Cuisine", element: <Cuisine /> },
-  { path: "/Propos", element: <Propos /> },
-  { path: "/Product", element: <Product /> },
-  { path: "/Contact", element: <Contact /> },
-  { path: "/Rendezvous", element: <Rendezvous /> },
-  { path: "/FAQ", element: <FAQ /> },
-
-  { path: "profile", element: <Profile /> },
-
-
-  { path: "/Repas", element: <Repas /> },
-  { path: "/Equipement", element: <Equipement /> },
-  { path: "/Commande", element: <Commande /> },
-  
-  { path: "/User", element: <User /> },
-
-  
-
-
-  { path: "/recipes", element: <Recipes /> }, // Added route for Recipes
-  { path: "*", element: <h1>error</h1> },
-];
-
-
 
 
 
