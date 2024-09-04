@@ -421,6 +421,7 @@ const NAV_ITEMS = [
     label: 'Recipes',
     href: '/recipes',
   },
+  
   {
     label: 'Cuisine & Bienfaits',
     href: '/Cuisine',
@@ -429,6 +430,14 @@ const NAV_ITEMS = [
     label: 'Contactez-nous',
     href: '/contact',
   },
+  {
+    label: 'Produit',
+    href: '/Product',
+  },
+
+
+
+ 
   {
     label: 'backoffice',
     children: [

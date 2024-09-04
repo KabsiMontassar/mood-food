@@ -12,6 +12,7 @@ function App() {
       <Router>
         <Navbar isUserSignedIn={isUserSignedIn} setIsUserSignedIn={setIsUserSignedIn} />
         <Routes />
+        <RoutesWithTransitions />
         <Footer />
       </Router>
     </>
