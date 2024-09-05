@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Box, Button, Flex, Text, Progress, Heading, Container, useColorModeValue, Spinner ,Center} from '@chakra-ui/react';
-// import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 const steps = [
     { title: 'Choose Issue', description: 'Psychology or Nutrition' },
@@ -108,7 +108,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                     />
                 </Box>
 
-                {/* <SwitchTransition mode="out-in">
+                {<SwitchTransition mode="out-in">
                     <CSSTransition
                         key={activeStep}
                         nodeRef={nodeRef}
@@ -223,7 +223,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                             )}
                         </Box>
                     </CSSTransition>
-                </SwitchTransition> */}
+                </SwitchTransition> }
             </Flex>
         </Flex>
     );

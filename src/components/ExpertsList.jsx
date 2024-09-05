@@ -181,7 +181,7 @@ const ExpertsList = ({ issue, type }) => {
         >
           Previous
         </Button>
-        <Text color={useColorModeValue('gray.600', 'gray.400')}>
+        <Text color='gray.600'>
           Page {currentPage} of {totalPages}
         </Text>
         <Button
