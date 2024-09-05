@@ -5,11 +5,9 @@ import {
   DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, FormControl, FormLabel, Input as ChakraInput, Select
 } from '@chakra-ui/react';
 
-import { collection, getDocs } from 'firebase/firestore';
 
 import UserDetailsModal from '../../components/UserDetailsModal';
 
-import { db } from '../../Firebase';
 
 import { SearchIcon } from '@chakra-ui/icons';
 
