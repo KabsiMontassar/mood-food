@@ -187,7 +187,6 @@ const ExpertsList = ({ issue, type }) => {
         <Button
           boxShadow={'lg'}
           borderRadius={5}
-      
           _hover={{ bg: 'green.500' }}
           bg="transparent"
           onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}

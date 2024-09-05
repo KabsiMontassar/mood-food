@@ -19,8 +19,7 @@ import User from './Pages/Admin/User';
 import Rendezvous from './Pages/Rendezvous';
 import Profile from './Pages/Profile';
 import FAQ from './Pages/FAQ';
-import Recipes from './Pages/Recipes'; // Import the Recipes component
-
+import Recipes from './Pages/Recipes';
 
 
 
@@ -33,20 +32,12 @@ const routes = [
   { path: "/Contact", element: <Contact /> },
   { path: "/Rendezvous", element: <Rendezvous /> },
   { path: "/FAQ", element: <FAQ /> },
-
   { path: "profile", element: <Profile /> },
-
-
   { path: "/Repas", element: <Repas /> },
   { path: "/Equipement", element: <Equipement /> },
   { path: "/Commande", element: <Commande /> },
-  
   { path: "/User", element: <User /> },
-
-  
-
-
-  { path: "/recipes", element: <Recipes /> }, // Added route for Recipes
+  { path: "/recipes", element: <Recipes /> }, 
   { path: "*", element: <h1>error</h1> },
 ];
 
