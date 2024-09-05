@@ -5,8 +5,8 @@ import ExpertsComponent from "../components/Home/ExpertComponent";
 import RecetteComponent from "../components/Home/RecetteComponent";
 import BienEtreComponent from "../components/Home/BienEtreComponent";
 import PlanComparison from "../components/Home/PlanComparison";
-import SignUpPage from "../components/SignUpPage";
-import SignInPage from "../components/SignInPage";
+import SignUpPage from "./auth/SignUpPage";
+import SignInPage from "./auth/SignInPage";
 import {
   Flex,
   Box,

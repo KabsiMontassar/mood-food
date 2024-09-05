@@ -5,21 +5,22 @@ import {
   Container,
   FormControl,
   FormLabel,
-  Heading,
   Input,
   Stack,
+  Heading,
   Text,
-  Link,
   useToast,
   Divider,
   useColorModeValue,
+  Flex,
   Image,
-  Flex
-  
 } from '@chakra-ui/react';
-import logo from '../assets/logo.png';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom'; // Import NavLink
 import { FaGoogle, FaApple } from 'react-icons/fa';
+import logo from '../../assets/logo.png';
+import imsignin from '../../assets/imsignin.png';
+
+
 
 const SignInPage = ({ setIsUserSignedIn }) => {
   const [email, setEmail] = useState('');
@@ -50,14 +51,15 @@ const SignInPage = ({ setIsUserSignedIn }) => {
       backgroundColor={useColorModeValue('#FFFCF6', '#1A202C')}
       justifyContent="center"
       alignItems="center"
+      overflow="hidden" // Ensures no scrollbars are visible
     >
-   
       <Flex
         direction={{ base: 'column', md: 'row' }}
         width="100%"
         height="100%"
+        position="relative" // Allows absolute positioning of logo
       >
-         
+        {/* Left Section */}
         <Flex
           direction="column"
           justifyContent="center"
@@ -65,29 +67,43 @@ const SignInPage = ({ setIsUserSignedIn }) => {
           width={{ base: '100%', md: '50%' }}
           bg={useColorModeValue('gray.100', 'gray.700')}
           padding={8}
+          position="relative"
         >
-       
-        <Image src={logo} alt="logo" width={100}  top="0"
-      left="0" 
-         onClick={() => navigate('/')}  
-        cursor={"pointer"}
-        />
-   
+          {/* Background Image */}
+          <Box
+            position="absolute"
+            top="0"
+            left="0"
+            right="0"
+            bottom="0"
+            backgroundImage={`url(${imsignin})`}
+            backgroundSize="cover"
+            backgroundPosition="center"
+            opacity={0.5} // Adjust this value for transparency
+            zIndex={-1.1} // Make sure the image is behind the content
+          />
+          {/* Logo */}
+          <Box position="absolute" top="8" left="8">
+            <Image
+              src={logo}
+              alt="logo"
+              width={50}
+              cursor="pointer"
+              onClick={() => navigate('/')}
+            />
+          </Box>
           <Heading mb={4} textAlign="center">
             Welcome Back!
           </Heading>
           <Text mb={6} textAlign="center">
             Don't have an account? Sign up now to get started.
           </Text>
-          <Button
-            colorScheme="yellow"
-            onClick={() => navigate('/SignUp')}
-          >
+          <Button colorScheme="yellow" onClick={() => navigate('/SignUp')}>
             Sign Up
           </Button>
         </Flex>
 
-        {/* Right Column */}
+        {/* Right Section */}
         <Flex
           direction="column"
           justifyContent="center"
@@ -98,7 +114,7 @@ const SignInPage = ({ setIsUserSignedIn }) => {
           <Container maxW="sm">
             <Stack spacing={4}>
               <Heading textAlign="center">Sign In</Heading>
-              
+
               <FormControl isRequired>
                 <FormLabel>Email</FormLabel>
                 <Input
@@ -119,35 +135,23 @@ const SignInPage = ({ setIsUserSignedIn }) => {
                 />
               </FormControl>
 
-              <Link color="blue.500" alignSelf="flex-end" to="/forgot-password">
-                Forgot password?
-              </Link>
+              <Box alignSelf="flex-end">
+                <NavLink to="/forgot-password" style={{ color: 'blue', textDecoration: 'none' }}>
+                  Forgot password?
+                </NavLink>
+              </Box>
 
-              <Button
-                colorScheme="yellow"
-                width="full"
-                onClick={handleSignIn}
-              >
+              <Button colorScheme="yellow" width="full" onClick={handleSignIn}>
                 Sign In
               </Button>
 
               <Divider />
 
-              <Button
-                leftIcon={<FaGoogle />}
-                colorScheme="gray"
-                variant="outline"
-                width="full"
-              >
+              <Button leftIcon={<FaGoogle />} colorScheme="gray" variant="outline" width="full">
                 Continue with Google
               </Button>
 
-              <Button
-                leftIcon={<FaApple />}
-                colorScheme="gray"
-                variant="outline"
-                width="full"
-              >
+              <Button leftIcon={<FaApple />} colorScheme="gray" variant="outline" width="full">
                 Continue with Apple
               </Button>
             </Stack>

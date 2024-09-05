@@ -22,16 +22,12 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
-  Input,
-  FormControl,
-  FormLabel,
   useDisclosure as useDisclosureModal,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import logo from "../assets/logo.png";
-import SignUpPage from "./SignUpPage";
-import SignInPage from "./SignInPage";
-
+import SignUpPage from "../Pages/auth/SignUpPage";
+import SignInPage from "../Pages/auth/SignInPage";
 import {
   HamburgerIcon,
   CloseIcon,
@@ -47,7 +43,7 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
   const navigate = useNavigate();
   const toast = useToast();
   const { colorMode, toggleColorMode } = useColorMode();
-  
+
   const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosureModal();
   const [modalType, setModalType] = useState(''); // 'signin' or 'signup'
   
@@ -71,20 +67,8 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
       duration: 5000,
       isClosable: true,
     });
-  }
-
-  const handleSignIn = () => {
-    localStorage.setItem('isUserSignedIn', true);
-    setIsUserSignedIn(true);
-    toast({
-      title: "Signed In",
-      description: "You have successfully signed in",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
-    onModalClose();
-  }
+  };
+  
 
   const handleFixerRendezVous = () => {
     if (isUserSignedIn) {
@@ -98,10 +82,7 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
         isClosable: true,
       });
     }
-  }
-
-
- 
+  };
 
   return (
     <Box zIndex={3} w="100%">
@@ -155,14 +136,14 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
           >
             Fixer un rendez-vous
           </Button>
-          {isUserSignedIn ?
+          {isUserSignedIn ? (
             <>
               <Button
                 fontSize={'sm'}
                 color="#64A87A"
                 fontWeight={600}
                 variant={'link'}
-                // onClick={SignOut}
+                onClick={SignOut}
                 _hover={{
                   color: '#96C970',
                 }}
@@ -184,7 +165,7 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
                 <FaUser />
               </Button>
             </>
-            :
+          ) : (
             <>
               <Button
                 as={'a'}
@@ -193,7 +174,7 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
                 fontWeight={600}
                 color={'white'}
                 bg="#64A87A"
-                onClick={ () => navigate('/SignIn') }
+                onClick={() => navigate('/SignIn')}
                 _hover={{
                   bg: '#96C970',
                 }}
@@ -207,7 +188,7 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
                 fontWeight={600}
                 color={'white'}
                 bg="#64A87A"
-                onClick={ () => navigate('/SignUp') } 
+                onClick={() => navigate('/SignUp')}
                 _hover={{
                   bg: '#96C970',
                 }}
@@ -215,7 +196,7 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
                 Sign Up
               </Button>
             </>
-          }
+          )}
           <IconButton
             size={'md'}
             variant={'ghost'}
@@ -228,7 +209,7 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
       <Collapse in={isOpen} animateOpacity>
         <MobileNav navigate={navigate} />
       </Collapse>
-      
+
       {/* Sign In Modal */}
       <Modal isOpen={isModalOpen && modalType === 'signin'} onClose={onModalClose}>
         <ModalOverlay />
@@ -236,11 +217,11 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
           <ModalHeader>Sign In</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-           <SignInPage setIsUserSignedIn={setIsUserSignedIn}/>
+            <SignInPage setIsUserSignedIn={setIsUserSignedIn} />
           </ModalBody>
         </ModalContent>
       </Modal>
-      
+
       {/* Sign Up Modal */}
       <Modal isOpen={isModalOpen && modalType === 'signup'} onClose={onModalClose}>
         <ModalOverlay />
@@ -248,7 +229,7 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
           <ModalHeader>Sign Up</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-          <SignUpPage/>
+            <SignUpPage />
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -320,7 +301,7 @@ const DesktopSubNav = ({ label, href, subLabel, navigate }) => {
         <Box>
           <Text
             transition={'all .3s ease'}
-            _groupHover={{ color: '#2BFA70' }}
+            _groupHover={{ color: 'green.400' }}
             fontWeight={500}
           >
             {label}
@@ -336,7 +317,7 @@ const DesktopSubNav = ({ label, href, subLabel, navigate }) => {
           align={'center'}
           flex={1}
         >
-          <Icon color={'#2BFA70'} w={5} h={5} as={ChevronRightIcon} />
+          <Icon color={'green.400'} w={5} h={5} as={ChevronRightIcon} />
         </Flex>
       </Stack>
     </Box>
@@ -360,14 +341,13 @@ const MobileNavItem = ({ label, children, href, navigate }) => {
     <Stack spacing={4} onClick={children && onToggle}>
       <Flex
         py={2}
-        as="a"
-        href={href ?? '#'}
+        as={Button}
         justify={'space-between'}
         align={'center'}
         _hover={{
           textDecoration: 'none',
         }}
-        onClick={() => navigate(href)}
+        onClick={() => !children && navigate(href)}
       >
         <Text fontWeight={600} color={useColorModeValue('gray.600', 'gray.200')}>
           {label}
@@ -394,9 +374,9 @@ const MobileNavItem = ({ label, children, href, navigate }) => {
         >
           {children &&
             children.map((child) => (
-              <Box key={child.label} py={2} onClick={() => navigate(child.href)}>
+              <Button key={child.label} py={2} onClick={() => navigate(child.href)}>
                 {child.label}
-              </Box>
+              </Button>
             ))}
         </Stack>
       </Collapse>
