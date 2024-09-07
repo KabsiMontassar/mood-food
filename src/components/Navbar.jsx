@@ -107,7 +107,7 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn}) 
   return (
     <Box  zIndex={3} w="100%" >
       <Flex
-        bg= {useColorModeValue('#FFFCF6', 'gray.800')}
+      
 
        color={useColorModeValue('gray.600', 'white')}
         minH="60px"

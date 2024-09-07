@@ -1,80 +1,108 @@
 import React from 'react';
-import { Box, Flex, Heading, Text, Avatar, Grid, Button, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text, Avatar, Grid, Icon, Button, useColorModeValue } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
+import { FaMapMarkerAlt } from 'react-icons/fa';
 
 const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
     return (
-        <Box bg={useColorModeValue('white', '#2D3748')} key={expert.id}
-            boxShadow={'lg'}
-            overflow="hidden" p={4} mb={6}>
-            <Flex justify="space-between" align="flex-start">
-
-                <Flex direction="column" flex="1" mr={4}>
+        <Box
+            bg={useColorModeValue('white', '#2D3748')}
+            key={expert.id}
+            overflow="hidden"
+            p={4}
+            mb={6}
+            borderRadius="md"
+           
+        >
+            <Flex 
+                direction={{ base: 'column', md: 'row' }}
+                align={{ base: 'center', md: 'center' }} // Center vertically
+                justify="space-between"
+                h="100%" // Make sure Flex container takes full height
+            >
+                <Flex 
+                    direction="column"
+                    align={{ base: 'center', md: 'flex-start' }} 
+                    flex="1" 
+                    mr={{ base: 0, md: 4 }} 
+                    mb={{ base: 4, md: 0 }}
+                    justify="center" // Center content vertically
+                >
                     <Flex align="center" mb={4}>
                         <Avatar name={expert.name} src={`https://i.pravatar.cc/150?img=${expert.id}`} mr={4} />
                         <Box>
                             <Heading size="md">{expert.name}</Heading>
                             <Text color={useColorModeValue('gray.600', 'gray.400')}>{expert.expertise}</Text>
-                            <Text color={useColorModeValue('gray.600', 'gray.400')}>{expert.address}</Text>
+                            <Text color={useColorModeValue('gray.600', 'gray.400')}>
+                                <Icon color="green" as={FaMapMarkerAlt} />{expert.address}
+                            </Text>
                             <Flex align="center" mt={2}>
                                 {Array(5)
                                     .fill('')
                                     .map((_, i) => (
                                         <StarIcon
                                             key={i}
-                                            color={i < expert.rating ? useColorModeValue('green.500', 'green.400') : useColorModeValue('gray.300', 'gray.600')}
+                                            color={i < expert.rating ? useColorModeValue('yellow.500', 'yellow.400') : useColorModeValue('gray.300', 'gray.600')}
                                         />
                                     ))}
-                                <Text ml={2} fontSize="sm" color={useColorModeValue('gray.600', 'gray.400')}>({expert.reviews} reviews)</Text>
+                                <Text ml={2} fontSize="sm" color={useColorModeValue('gray.600', 'gray.400')}>
+                                    ({expert.reviews} reviews)
+                                </Text>
                             </Flex>
+                            <Text
+                                mt="8px"
+                                    
+                                    color="teal.500"
+                                    textDecoration={'underline'}
+                                    cursor={'pointer'}
+                                onClick={() => openModal(expert)}
+                            >
+                                Visitez le profil
+                            </Text>
                         </Box>
                     </Flex>
-                    <Button
-                        mt="8px"
-                        color="black"
-                        bg="none"
-                        _hover={{ bg: 'none' }}
-                        fontWeight={"bold"}
-                        colorScheme="teal"
-                    >
-                        <span className="buttonunderline">Check Profile</span>
-                    </Button>
                 </Flex>
-
-
-                <Box flex="2">
-
-                    <Grid templateColumns="repeat(5, 1fr)" gap={2} mt={4}>
+                
+                <Box flex="2" mt={{ base: 4, md: 0 }} justify="center">
+                    <Grid templateColumns="repeat(7, 75px)" gap={2} mt={4}>
                         {daysOfWeekWithDates.map((date, index) => (
                             <Button
                                 key={index}
                                 onClick={() => openModal(expert)}
-                                bg={expert.availability[index] === 'No appts' ? useColorModeValue('gray.100', 'gray.700') : useColorModeValue('green.500', 'green.400')}
-                                _hover={{ bg: useColorModeValue('green.400', 'green.500') }}
+                                bg={expert.availability[index] === 'No appts' ? 'gray.100' : "#5EDABC"}
+                                _hover={{ 
+                                    bg: "#5EDABC", 
+                                    opacity: 0.8
+                                }}
                                 isDisabled={expert.availability[index] === 'No appts'}
+                                h="110px"
+                                w="75px"
+                                flexWrap={{ base: 'wrap', md: 'nowrap' }}
+                                whiteSpace="normal"     
+                                textAlign="left"    
+                                overflow="hidden"       
+                                textOverflow="ellipsis"
+                                fontSize={{ base: 'xs', md: 'sm' }}
                             >
-                                {date}
+                                {date} <br />
+                                {expert.availability[index]}
                             </Button>
                         ))}
-
                     </Grid>
-                    <Flex justifyContent={"center"} mt={2}>
+                    <Flex justifyContent="center" mt={4}>
                         <Button
                             mt="8px"
-                            color="black"
-                            bg="none"
-                            _hover={{ bg: 'none' }}
-                            fontWeight={"bold"}
                             colorScheme="teal"
+                            variant="outline"
                             onClick={() => openModal(expert)}
                         >
-                            <span className="buttonunderline">Check Availability</span>
+                            Check Availability
                         </Button>
                     </Flex>
                 </Box>
             </Flex>
         </Box>
     );
-}
+};
 
 export default Expert;

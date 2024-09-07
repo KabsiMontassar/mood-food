@@ -53,7 +53,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
             width="100vw"
             height="100vh"
             zIndex="9999"
-            backgroundColor={useColorModeValue('#FFFCF6', '#1A202C')}
+            backgroundColor={useColorModeValue('white', 'white')}
             justifyContent="center"
             alignItems="center"
         >

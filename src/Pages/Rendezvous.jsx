@@ -10,7 +10,7 @@ const Rendezvous = () => {
   const [visible, setVisible] = useState(true);
 
   return (
-    <Box bg={useColorModeValue('#FFFCF6', '#1A202C')} p={4}  overflow="hidden" >
+    <Box  p={4}  overflow="hidden" >
      
     
          {
