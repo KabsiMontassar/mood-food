@@ -134,8 +134,8 @@ const GestionProduit = () => {
       <Table variant="striped" colorScheme="teal" size="lg" shadow="md" borderRadius="lg" overflow="hidden">
         <Thead bg="teal.400">
           <Tr>
-            <Th color="white" textAlign="center">Nom</Th>
-            <Th color="white" textAlign="center">Quantité</Th>
+            <Th color="white" textAlign="ccenter">Nom</Th>
+            <Th color="white" textAlign="enter">Quantité</Th>
             <Th color="white" textAlign="center">Catégorie</Th>
             <Th color="white" textAlign="center">Prix</Th>
             <Th color="white" textAlign="center">Photo</Th>
