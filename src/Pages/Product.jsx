@@ -17,6 +17,11 @@ import {
   extendTheme,
   Divider,
   Flex,
+  Collapse,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
 } from '@chakra-ui/react';
 
 // Custom Chakra UI theme
@@ -33,71 +38,71 @@ const customTheme = extendTheme({
 });
 
 // Initial Products
-const initialProducts = [
-  {
-    productId: 1,
-    name: 'Gainer',
-    description: 'A high-quality gainer to boost your muscle mass and help you achieve your fitness goals faster.',
-    category: 'Produit Diététique',
-    section: 'Supplements',
-    price: 50,
-    image: '/src/assets/images/gainer.jpeg',
-  },
-  {
-    productId: 2,
-    name: 'Rameur',
-    description: 'A rowing machine for an effective full-body workout, ideal for building strength and endurance.',
-    category: 'Equipement sportif',
-    section: 'Equipment',
-    price: 80,
-    image: '/src/assets/images/remo.jpg',
-  },
-  {
-    productId: 3,
-    name: 'Protein Shake',
-    description: 'A delicious protein shake for muscle recovery and enhancing your post-workout nutrition.',
-    category: 'Produit Diététique',
-    section: 'Supplements',
-    price: 30,
-    image: '/src/assets/images/protein shake.jpeg',
-  },
-  {
-    productId: 4,
-    name: 'Yoga Mat',
-    description: 'Comfortable yoga mat for your workouts, providing excellent cushioning and grip during exercises.',
-    category: 'Equipement sportif',
-    section: 'Accessories',
-    price: 40,
-    image: '/src/assets/images/yoga mat.jpeg',
-  },
-  {
-    productId: 5,
-    name: 'Running Shoes',
-    description: 'Lightweight running shoes designed for a smooth run and optimal comfort on any surface.',
-    category: 'Equipement sportif',
-    section: 'Apparel',
-    price: 60,
-    image: '/src/assets/images/Shoes.avif',
-  },
-  {
-    productId: 6,
-    name: 'Dumbbells Set',
-    description: 'A set of versatile dumbbells for strength training, perfect for home workouts and gym sessions.',
-    category: 'Equipement sportif',
-    section: 'Equipment',
-    price: 70,
-    image: '/src/assets/images/dumble set.jpeg',
-  },
-  {
-    productId: 7,
-    name: 'AKTIV Zinc + Histidine + Vitamine C 30 Comprimes',
-    description: 'Comprimés au zinc, biodisponibilité augmentée grâce à la L-Histidine, plus de la vitamine C pour soutenir les défenses naturelles de l’organisme.',
-    category: 'Complement alimentaire',
-    section: '',
-    price: 40,
-    image: '/src/assets/images/Zink.webp',
-  },
-];
+  const initialProducts = [
+    {
+      productId: 1,
+      name: 'Gainer',
+      description: 'A high-quality gainer to boost your muscle mass and help you achieve your fitness goals faster.',
+      category: 'Produit Diététique',
+      section: 'Supplements',
+      price: 50,
+      image: '/src/assets/images/gainer.jpeg',
+    },
+    {
+      productId: 2,
+      name: 'Rameur',
+      description: 'A rowing machine for an effective full-body workout, ideal for building strength and endurance.',
+      category: 'Equipement sportif',
+      section: 'Equipment',
+      price: 80,
+      image: '/src/assets/images/remo.jpg',
+    },
+    {
+      productId: 3,
+      name: 'Protein Shake',
+      description: 'A delicious protein shake for muscle recovery and enhancing your post-workout nutrition.',
+      category: 'Produit Diététique',
+      section: 'Supplements',
+      price: 30,
+      image: '/src/assets/images/protein shake.jpeg',
+    },
+    {
+      productId: 4,
+      name: 'Yoga Mat',
+      description: 'Comfortable yoga mat for your workouts, providing excellent cushioning and grip during exercises.',
+      category: 'Equipement sportif',
+      section: 'Accessories',
+      price: 40,
+      image: '/src/assets/images/yoga mat.jpeg',
+    },
+    {
+      productId: 5,
+      name: 'Running Shoes',
+      description: 'Lightweight running shoes designed for a smooth run and optimal comfort on any surface.',
+      category: 'Equipement sportif',
+      section: 'Apparel',
+      price: 60,
+      image: '/src/assets/images/Shoes.avif',
+    },
+    {
+      productId: 6,
+      name: 'Dumbbells Set',
+      description: 'A set of versatile dumbbells for strength training, perfect for home workouts and gym sessions.',
+      category: 'Equipement sportif',
+      section: 'Equipment',
+      price: 70,
+      image: '/src/assets/images/dumble set.jpeg',
+    },
+    {
+      productId: 7,
+      name: 'AKTIV Zinc + Histidine + Vitamine C 30 Comprimes',
+      description: 'Comprimés au zinc, biodisponibilité augmentée grâce à la L-Histidine, plus de la vitamine C pour soutenir les défenses naturelles de l’organisme.',
+      category: 'Complement alimentaire',
+      section: '',
+      price: 40,
+      image: '/src/assets/images/Zink.webp',
+    },
+  ];
 
 // HeaderSection Component
 const HeaderSection = ({ onCategorySelect, selectedCategory }) => {
@@ -218,8 +223,10 @@ const ProductGrid = () => {
   const [categoryFilter, setCategoryFilter] = useState('');
   const [priceSortOrder, setPriceSortOrder] = useState('ascending');
   const [selectedKeywords, setSelectedKeywords] = useState([]);
+  const [priceRange, setPriceRange] = useState([0, 200]);
   const [showDetails, setShowDetails] = useState(null);
   const [hoveredProduct, setHoveredProduct] = useState(null);
+  const [showFilters, setShowFilters] = useState(false);
   const toast = useToast();
 
   const handleSearchChange = (event) => setSearchTerm(event.target.value);
@@ -248,14 +255,19 @@ const ProductGrid = () => {
     setCategoryFilter(category);
   };
 
+  const handlePriceRangeChange = (value) => {
+    setPriceRange(value);
+  };
+
   const filteredProducts = initialProducts.filter((product) => {
     const matchesSearch =
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = categoryFilter ? product.category === categoryFilter : true;
     const matchesKeywords = selectedKeywords.length === 0 || selectedKeywords.includes(product.category);
+    const matchesPriceRange = product.price >= priceRange[0] && product.price <= priceRange[1];
 
-    return matchesSearch && matchesCategory && matchesKeywords;
+    return matchesSearch && matchesCategory && matchesKeywords && matchesPriceRange;
   });
 
   const sortedProducts = filteredProducts.sort((a, b) => {
@@ -285,21 +297,44 @@ const ProductGrid = () => {
                 {keyword}
               </Checkbox>
             ))}
+            <Box mt={4}>
+              <Heading size="sm" mb={2}>Price Range</Heading>
+              <Slider
+                aria-label="price-range"
+                defaultValue={[0, 200]}
+                min={0}
+                max={200}
+                step={10}
+                onChangeEnd={handlePriceRangeChange}
+              >
+                <SliderTrack>
+                  <SliderFilledTrack />
+                </SliderTrack>
+                <SliderThumb index={0} />
+                <SliderThumb index={1} />
+              </Slider>
+              <Text>{`Between ${priceRange[0]} DT and ${priceRange[1]} DT`}</Text>
+            </Box>
           </Stack>
         </Box>
 
         {/* Main Content */}
         <Box flex="1">
-          {/* Search Bar */}
-          <VStack mb={4}>
+          {/* Search Bar, Category Filter and Sort */}
+          <HStack mb={4} spacing={4}>
             <Input
               value={searchTerm}
               onChange={handleSearchChange}
               placeholder="Search products"
               size="lg"
+              flex="1"
             />
+            <Button onClick={() => setShowFilters(!showFilters)} colorScheme="green">
+              Filters
+            </Button>
+          </HStack>
 
-            {/* Category Filter and Sort */}
+          <Collapse in={showFilters} animateOpacity>
             <HStack spacing={4}>
               <Select placeholder="Select Category" onChange={handleCategoryChange}>
                 <option value="Produit Diététique">Produit Diététique</option>
@@ -312,12 +347,12 @@ const ProductGrid = () => {
                 <option value="descending">Sort by Price: High to Low</option>
               </Select>
             </HStack>
-          </VStack>
+          </Collapse>
 
-          <Divider />
+          <Divider my={4} />
 
           {/* Product Grid */}
-          <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+          <Grid templateColumns="repeat(4, 1fr)" gap={6}>
             {sortedProducts.map((product) => (
               <Box
                 key={product.productId}
@@ -357,6 +392,7 @@ const ProductGrid = () => {
     </Box>
   );
 };
+
 
 // Main App Component
 function App() {
