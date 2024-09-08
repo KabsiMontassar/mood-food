@@ -1,233 +1,293 @@
-import React from 'react';
+import React, { useState } from 'react';
+import HeaderCarousel from '../components/HeaderCarousel'; // Adjust the path according to your file structure
 import {
-  ChakraProvider,
-  Grid,
   Box,
-  Image,
-  Button,
-  useToast,
   Heading,
-  Text,
+  Stack,
+  HStack,
   VStack,
-  extendTheme,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
+  Image,
+  Badge,
+  Text,
+  Select,
+  Input,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+  FormLabel,
 } from '@chakra-ui/react';
+import { FaClock } from 'react-icons/fa';
+import recipes from '../data/recipes'; // Adjust the path if necessary
 
-// Import images from your assets
-import spaghettiImage from '../assets/spaghetti-bolognese.jpg';
-import chickenCurryImage from '../assets/chicken-curry.jpg';
-import veganSaladImage from '../assets/vegan-salad.jpg';
-import grilledSalmonImage from '../assets/grilled-salmon.jpg';
-import pancakesImage from '../assets/pancakes.jpg';
-import chocolateCakeImage from '../assets/chocolate-cake.jpg';
+const Recipes = () => {
+  // State for filtering
+  const [filters, setFilters] = useState({
+    name: '',
+    calories: 0,
+    protein: 0,
+    carbohydrates: 0,
+    fats: 0,
+    cookingTime: 0,
+    mealType: '',
+  });
 
-// Custom theme
-const customTheme = extendTheme({
-  colors: {
-    brand: {
-      50: '#fff7e6',
-      100: '#ffe6b3',
-      200: '#ffd480',
-      300: '#ffc34d',
-      400: '#ffb31a',
-      500: '#e69900',
-      600: '#b37700',
-      700: '#805500',
-      800: '#4d3300',
-      900: '#1a1100',
-    },
-  },
-});
-
-// Recipe data
-const recipes = [
-  {
-    id: 1,
-    name: 'Spaghetti Bolognese',
-    image: spaghettiImage,
-    description: 'Classic Italian pasta with a rich meat sauce.',
-    ingredients: ['Spaghetti', 'Ground Beef', 'Tomato Sauce', 'Garlic', 'Onion', 'Italian Herbs'],
-    calories: 650,
-    protein: '30g',
-    fiber: '5g',
-    carbohydrates: '75g',
-    fats: '20g',
-    cookingInstructions: 'Cook spaghetti according to package directions. In a separate pan, cook ground beef until browned. Add tomato sauce, garlic, onion, and herbs. Simmer for 30 minutes and serve over spaghetti.',
-  },
-  {
-    id: 2,
-    name: 'Chicken Curry',
-    image: chickenCurryImage,
-    description: 'Spicy and creamy chicken curry with a blend of Indian spices.',
-    ingredients: ['Chicken', 'Coconut Milk', 'Curry Powder', 'Onion', 'Garlic', 'Ginger'],
-    calories: 700,
-    protein: '40g',
-    fiber: '6g',
-    carbohydrates: '30g',
-    fats: '35g',
-    cookingInstructions: 'Sauté onion, garlic, and ginger until soft. Add chicken and curry powder, cook until chicken is browned. Stir in coconut milk and simmer for 20 minutes.',
-  },
-  {
-    id: 3,
-    name: 'Vegan Salad',
-    image: veganSaladImage,
-    description: 'Fresh and colorful salad with a variety of vegetables.',
-    ingredients: ['Lettuce', 'Tomatoes', 'Cucumbers', 'Carrots', 'Bell Peppers', 'Olive Oil'],
-    calories: 250,
-    protein: '5g',
-    fiber: '8g',
-    carbohydrates: '30g',
-    fats: '10g',
-    cookingInstructions: 'Chop vegetables and mix in a large bowl. Drizzle with olive oil and toss to combine.',
-  },
-  {
-    id: 4,
-    name: 'Grilled Salmon',
-    image: grilledSalmonImage,
-    description: 'Tender and juicy salmon fillet with a smoky flavor.',
-    ingredients: ['Salmon Fillet', 'Lemon', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
-    calories: 400,
-    protein: '35g',
-    fiber: '0g',
-    carbohydrates: '0g',
-    fats: '25g',
-    cookingInstructions: 'Season salmon with lemon, garlic, salt, and pepper. Grill over medium heat for 5-7 minutes on each side, or until cooked through.',
-  },
-  {
-    id: 5,
-    name: 'Pancakes',
-    image: pancakesImage,
-    description: 'Fluffy pancakes served with maple syrup.',
-    ingredients: ['Flour', 'Eggs', 'Milk', 'Baking Powder', 'Butter', 'Maple Syrup'],
-    calories: 500,
-    protein: '10g',
-    fiber: '2g',
-    carbohydrates: '65g',
-    fats: '20g',
-    cookingInstructions: 'Mix flour, baking powder, milk, eggs, and melted butter. Pour batter onto a hot griddle and cook until bubbles form. Flip and cook until golden brown. Serve with maple syrup.',
-  },
-  {
-    id: 6,
-    name: 'Chocolate Cake',
-    image: chocolateCakeImage,
-    description: 'Rich and moist chocolate cake with a smooth frosting.',
-    ingredients: ['Flour', 'Cocoa Powder', 'Sugar', 'Eggs', 'Butter', 'Milk', 'Vanilla Extract'],
-    calories: 800,
-    protein: '8g',
-    fiber: '4g',
-    carbohydrates: '90g',
-    fats: '45g',
-    cookingInstructions: 'Mix dry ingredients and wet ingredients separately. Combine and pour into a greased cake pan. Bake at 350°F (175°C) for 30-35 minutes. Cool and frost with chocolate frosting.',
-  },
-];
-
-const RecipeGrid = () => {
-  const toast = useToast();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedRecipe, setSelectedRecipe] = React.useState(null);
-
-  const handleInfoClick = (recipe) => {
-    setSelectedRecipe(recipe);
-    onOpen();
+  // Handle change in filter inputs
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAddToFavoritesClick = (recipe) => {
-    toast({
-      title: `${recipe.name} added to favorites`,
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-      position: 'bottom-left',
-      variant: 'solid',
-    });
+  // Handle Slider change for different nutrients and cooking time
+  const handleSliderChange = (name) => (value) => {
+    setFilters((prev) => ({ ...prev, [name]: value }));
   };
+
+  // Convert nutrition values to numbers if they are strings
+  const parseValue = (value) => {
+    return value === '' || isNaN(value) ? 0 : parseFloat(value);
+  };
+
+  // Filtered recipes based on input criteria
+  const filteredRecipes = recipes.filter((recipe) => {
+    const recipeCalories = parseValue(recipe.calories);
+    const recipeProtein = parseValue(recipe.protein);
+    const recipeCarbs = parseValue(recipe.carbohydrates);
+    const recipeFats = parseValue(recipe.fats);
+    const recipeCookingTime = parseValue(recipe.cookingTime);
+
+    return (
+      recipe.name.toLowerCase().includes(filters.name.toLowerCase()) &&
+      (filters.calories === 0 || recipeCalories <= filters.calories) &&
+      (filters.protein === 0 || recipeProtein >= filters.protein) &&
+      (filters.carbohydrates === 0 || recipeCarbs <= filters.carbohydrates) &&
+      (filters.fats === 0 || recipeFats <= filters.fats) &&
+      (filters.cookingTime === 0 || recipeCookingTime <= filters.cookingTime) &&
+      (filters.mealType === '' || recipe.mealType.toLowerCase() === filters.mealType.toLowerCase())
+    );
+  });
 
   return (
-    <>
-      <Grid templateColumns="repeat(auto-fill, minmax(250px, 1fr))" gap={6} p={6}>
-        {recipes.map((recipe) => (
-          <Box
-            key={recipe.id}
-            borderWidth="1px"
-            borderRadius="lg"
-            overflow="hidden"
-            boxShadow="md"
-            bg="brand.50"
-            _hover={{ transform: 'scale(1.05)', transition: '0.3s' }}
-          >
-            <VStack p={4}>
-              <Image src={recipe.image} alt={recipe.name} boxSize="150px" objectFit="cover" />
-              <Heading size="md" color="brand.700" mt={2} mb={2}>
-                {recipe.name}
-              </Heading>
-              <Text fontSize="sm" color="gray.600" noOfLines={2}>
-                {recipe.description}
-              </Text>
-              <Button
-                colorScheme="brand"
-                size="sm"
-                mt={2}
-                onClick={() => handleInfoClick(recipe)}
-              >
-                Info
-              </Button>
-              <Button
-                colorScheme="green"
-                variant="outline"
-                size="sm"
-                mt={2}
-                onClick={() => handleAddToFavoritesClick(recipe)}
-              >
-                Add to Favorites
-              </Button>
-            </VStack>
-          </Box>
-        ))}
-      </Grid>
+    <Box p={8} maxW="1600px" mx="auto">
+      {/* Header Carousel */}
+      <HeaderCarousel />
 
-      {/* Modal for Recipe Details */}
-      {selectedRecipe && (
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>{selectedRecipe.name}</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Image src={selectedRecipe.image} alt={selectedRecipe.name} boxSize="full" objectFit="cover" mb={4} />
-              <Text mb={2}><strong>Description:</strong> {selectedRecipe.description}</Text>
-              <Text mb={2}><strong>Ingredients:</strong> {selectedRecipe.ingredients.join(', ')}</Text>
-              <Text mb={2}><strong>Calories:</strong> {selectedRecipe.calories} kcal</Text>
-              <Text mb={2}><strong>Protein:</strong> {selectedRecipe.protein}</Text>
-              <Text mb={2}><strong>Fiber:</strong> {selectedRecipe.fiber}</Text>
-              <Text mb={2}><strong>Carbohydrates:</strong> {selectedRecipe.carbohydrates}</Text>
-              <Text mb={2}><strong>Fats:</strong> {selectedRecipe.fats}</Text>
-              <Text mb={2}><strong>Instructions:</strong> {selectedRecipe.cookingInstructions}</Text>
-            </ModalBody>
-            <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={onClose}>
-                Close
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      )}
-    </>
+      {/* Main Heading */}
+      <Heading as="h1" mb={8} textAlign="center" fontSize="4xl">
+        Recipes
+      </Heading>
+
+      {/* Filters Section */}
+      <Box mb={8} borderWidth="1px" borderRadius="lg" p={6} boxShadow="md">
+        <Heading size="md" mb={6}>Filter Recipes</Heading>
+
+        {/* Filters Container */}
+        <Stack spacing={6}>
+          {/* Name and Meal Type Filters Side by Side */}
+          <HStack spacing={6}>
+            {/* Search by Name */}
+            <Box flex="1">
+              <FormLabel htmlFor="name" fontSize="sm">Name</FormLabel>
+              <Input
+                id="name"
+                placeholder="Search by name"
+                name="name"
+                value={filters.name}
+                onChange={handleChange}
+                size="md"
+              />
+            </Box>
+
+            {/* Search by Category (Meal Type) */}
+            <Box flex="1">
+              <FormLabel htmlFor="mealType" fontSize="sm">Meal Type</FormLabel>
+              <Select
+                id="mealType"
+                placeholder="Select Meal Type"
+                name="mealType"
+                value={filters.mealType}
+                onChange={handleChange}
+                size="md"
+              >
+                <option value="">All</option>
+                <option value="breakfast">Breakfast</option>
+                <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
+                <option value="dessert">Dessert</option>
+              </Select>
+            </Box>
+          </HStack>
+
+          {/* Nutritional Filters and Cooking Time Side by Side */}
+          <HStack spacing={6} wrap="wrap">
+            {/* Calories Filter with Slider */}
+            <Box flex="1">
+              <FormLabel htmlFor="calories" fontSize="sm">Calories: {filters.calories} kcal</FormLabel>
+              <Slider
+                id="calories"
+                min={0}
+                max={2000}
+                step={10}
+                value={filters.calories}
+                onChange={handleSliderChange('calories')}
+                size="md"
+              >
+                <SliderTrack>
+                  <SliderFilledTrack />
+                </SliderTrack>
+                <SliderThumb />
+              </Slider>
+            </Box>
+
+            {/* Protein Filter with Slider */}
+            <Box flex="1">
+              <FormLabel htmlFor="protein" fontSize="sm">Protein: {filters.protein} g</FormLabel>
+              <Slider
+                id="protein"
+                min={0}
+                max={200}
+                step={1}
+                value={filters.protein}
+                onChange={handleSliderChange('protein')}
+                size="md"
+              >
+                <SliderTrack>
+                  <SliderFilledTrack />
+                </SliderTrack>
+                <SliderThumb />
+              </Slider>
+            </Box>
+
+            {/* Carbs Filter with Slider */}
+            <Box flex="1">
+              <FormLabel htmlFor="carbohydrates" fontSize="sm">Carbs: {filters.carbohydrates} g</FormLabel>
+              <Slider
+                id="carbohydrates"
+                min={0}
+                max={200}
+                step={1}
+                value={filters.carbohydrates}
+                onChange={handleSliderChange('carbohydrates')}
+                size="md"
+              >
+                <SliderTrack>
+                  <SliderFilledTrack />
+                </SliderTrack>
+                <SliderThumb />
+              </Slider>
+            </Box>
+
+            {/* Fats Filter with Slider */}
+            <Box flex="1">
+              <FormLabel htmlFor="fats" fontSize="sm">Fats: {filters.fats} g</FormLabel>
+              <Slider
+                id="fats"
+                min={0}
+                max={200}
+                step={1}
+                value={filters.fats}
+                onChange={handleSliderChange('fats')}
+                size="md"
+              >
+                <SliderTrack>
+                  <SliderFilledTrack />
+                </SliderTrack>
+                <SliderThumb />
+              </Slider>
+            </Box>
+
+            {/* Cooking Time Filter with Slider */}
+            <Box flex="1">
+              <FormLabel htmlFor="cookingTime" fontSize="sm">Cooking Time: {filters.cookingTime} mins</FormLabel>
+              <Slider
+                id="cookingTime"
+                min={0}
+                max={180}
+                step={1}
+                value={filters.cookingTime}
+                onChange={handleSliderChange('cookingTime')}
+                size="md"
+              >
+                <SliderTrack>
+                  <SliderFilledTrack />
+                </SliderTrack>
+                <SliderThumb />
+              </Slider>
+            </Box>
+          </HStack>
+        </Stack>
+      </Box>
+
+      {/* Recipes Section */}
+      <Box>
+        <Stack direction="row" wrap="wrap" spacing={8} justify="center">
+          {filteredRecipes.length > 0 ? (
+            filteredRecipes.map((recipe) => (
+              <Box
+                key={recipe.id}
+                p={10} // Further increased padding for larger cards
+                w="full"
+                maxW="2xl" // Further increased maxWidth for larger cards
+                borderWidth="1px"
+                borderRadius="lg"
+                overflow="hidden"
+                boxShadow="lg"
+                _hover={{ boxShadow: '2xl' }}
+                transition="0.3s"
+              >
+                {/* Center and Full Width Image */}
+                <Image
+                  src={recipe.image}
+                  alt={recipe.name}
+                  boxSize="100%"
+                  h="400px"
+                  objectFit="cover"
+                  borderRadius="lg"
+                />
+
+                {/* Recipe Title and Details */}
+                <VStack align="flex-start" spacing={4} mt={4}>
+                  <Heading size="lg">{recipe.name}</Heading>
+
+                  {/* Meal Type and Cooking Time */}
+                  <HStack justify="space-between" w="100%">
+                    <Badge colorScheme="teal">{recipe.mealType}</Badge>
+                    <HStack>
+                      <FaClock />
+                      <Text>{recipe.cookingTime} mins</Text>
+                    </HStack>
+                  </HStack>
+
+                  {/* Description */}
+                  <Text fontSize="md" color="gray.600" noOfLines={3}>
+                    {recipe.description}
+                  </Text>
+
+                  {/* Calories and Nutrition Badges */}
+                  <HStack spacing={3}>
+                    <Badge colorScheme="green" fontSize="md">
+                      {recipe.calories} kcal
+                    </Badge>
+                    <Badge colorScheme="purple" fontSize="md">
+                      Protein: {recipe.protein} g
+                    </Badge>
+                    <Badge colorScheme="orange" fontSize="md">
+                      Carbs: {recipe.carbohydrates} g
+                    </Badge>
+                    <Badge colorScheme="red" fontSize="md">
+                      Fats: {recipe.fats} g
+                    </Badge>
+                  </HStack>
+                </VStack>
+              </Box>
+            ))
+          ) : (
+            <Text>No recipes found matching the filters.</Text>
+          )}
+        </Stack>
+      </Box>
+    </Box>
   );
 };
 
-const RecipesPage = () => {
-  return (
-    <ChakraProvider theme={customTheme}>
-      <RecipeGrid />
-    </ChakraProvider>
-  );
-};
-
-export default RecipesPage;
+export default Recipes;
