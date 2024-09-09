@@ -2,8 +2,10 @@ import React from 'react';
 import { Box, Flex, Heading, Text, Avatar, Grid, Icon, Button, useColorModeValue } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
 import { FaMapMarkerAlt } from 'react-icons/fa';
+import {useNavigate} from 'react-router-dom';
 
 const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
+    const navigate = useNavigate();
     return (
         <Box
             bg={useColorModeValue('white', '#2D3748')}
@@ -12,19 +14,19 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
             p={4}
             mb={6}
             borderRadius="md"
-           
+
         >
-            <Flex 
+            <Flex
                 direction={{ base: 'column', md: 'row' }}
                 align={{ base: 'center', md: 'center' }} // Center vertically
                 justify="space-between"
                 h="100%" // Make sure Flex container takes full height
             >
-                <Flex 
+                <Flex
                     direction="column"
-                    align={{ base: 'center', md: 'flex-start' }} 
-                    flex="1" 
-                    mr={{ base: 0, md: 4 }} 
+                    align={{ base: 'center', md: 'flex-start' }}
+                    flex="1"
+                    mr={{ base: 0, md: 4 }}
                     mb={{ base: 4, md: 0 }}
                     justify="center" // Center content vertically
                 >
@@ -51,18 +53,18 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
                             </Flex>
                             <Text
                                 mt="8px"
-                                    
-                                    color="teal.500"
-                                    textDecoration={'underline'}
-                                    cursor={'pointer'}
-                                onClick={() => openModal(expert)}
+                                color="teal.500"
+                                textDecoration={'underline'}
+                                cursor={'pointer'}
+                                onClick={ () => navigate(`/expert/${expert.id}`)
+                                }
                             >
                                 Visitez le profil
                             </Text>
                         </Box>
                     </Flex>
                 </Flex>
-                
+
                 <Box flex="2" mt={{ base: 4, md: 0 }} justify="center">
                     <Grid templateColumns="repeat(7, 75px)" gap={2} mt={4}>
                         {daysOfWeekWithDates.map((date, index) => (
@@ -70,17 +72,17 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
                                 key={index}
                                 onClick={() => openModal(expert)}
                                 bg={expert.availability[index] === 'No appts' ? 'gray.100' : "#5EDABC"}
-                                _hover={{ 
-                                    bg: "#5EDABC", 
+                                _hover={{
+                                    bg: "#5EDABC",
                                     opacity: 0.8
                                 }}
                                 isDisabled={expert.availability[index] === 'No appts'}
                                 h="110px"
                                 w="75px"
                                 flexWrap={{ base: 'wrap', md: 'nowrap' }}
-                                whiteSpace="normal"     
-                                textAlign="left"    
-                                overflow="hidden"       
+                                whiteSpace="normal"
+                                textAlign="left"
+                                overflow="hidden"
                                 textOverflow="ellipsis"
                                 fontSize={{ base: 'xs', md: 'sm' }}
                             >
@@ -89,16 +91,7 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
                             </Button>
                         ))}
                     </Grid>
-                    <Flex justifyContent="center" mt={4}>
-                        <Button
-                            mt="8px"
-                            colorScheme="teal"
-                            variant="outline"
-                            onClick={() => openModal(expert)}
-                        >
-                            Check Availability
-                        </Button>
-                    </Flex>
+
                 </Box>
             </Flex>
         </Box>

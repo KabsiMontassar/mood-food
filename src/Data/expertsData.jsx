@@ -1,5 +1,6 @@
 const expertsData = [
   {
+    id: 1,
     name: 'Ana Raquel Degrazia, NP',
     expertise: 'Nurse Practitioner',
     rating: 4.91,
@@ -9,10 +10,11 @@ const expertsData = [
     lng: -74.0060 + Math.random() * 0.02 - 0.01, 
     availability: [
       'No appts', 'No appts', 'No appts', 'No appts', 'No appts',
-      'No appts', 'No appts', 'No appts', 'No appts', '3 appts','No appts', '3 appts'
+      'No appts', 'No appts', 'No appts', 'No appts', '3 appts','No appts', '3 appts','No appts', '3 appts'
     ],
   },
     {
+      id: 2,
       name: 'Tanya Dwyer, NP - C',
       expertise: 'Family Nurse Practitioner',
       rating: 4.91,
@@ -22,10 +24,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         '2 appts', 'No appts', 'No appts', 'No appts', 'No appts',
-        '7 appts', '6 appts', 'No appts', '1 appt', '8 appts','No appts', '3 appts'
+        '7 appts', '6 appts', 'No appts', '1 appt', '8 appts','No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 3,
       name: 'Michael Hopkins, MD',
       expertise: 'General Practitioner',
       rating: 4.75,
@@ -35,10 +38,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         '1 appt', 'No appts', 'No appts', '3 appts', 'No appts',
-        '5 appts', 'No appts', '2 appts', 'No appts', '7 appts','No appts', '3 appts'
+        '5 appts', 'No appts', '2 appts', 'No appts', '7 appts','No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 4,
       name: 'Sandra Lee, DO',
       expertise: 'Pediatrician',
       rating: 4.82,
@@ -48,10 +52,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         'No appts', '2 appts', 'No appts', 'No appts', '4 appts',
-        'No appts', 'No appts', '1 appt', 'No appts', '6 appts','No appts', '3 appts'
+        'No appts', 'No appts', '1 appt', 'No appts', '6 appts','No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 5,
       name: 'David Nguyen, NP',
       expertise: 'Nurse Practitioner',
       rating: 4.90,
@@ -61,10 +66,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         '3 appts', 'No appts', 'No appts', 'No appts', 'No appts',
-        '4 appts', 'No appts', 'No appts', '2 appts', 'No appts','No appts', '3 appts'
+        '4 appts', 'No appts', 'No appts', '2 appts', 'No appts','No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 6,
       name: 'Maria Martinez, PA-C',
       expertise: 'Physician Assistant',
       rating: 4.85,
@@ -74,10 +80,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         'No appts', 'No appts', '1 appt', 'No appts', 'No appts',
-        'No appts', 'No appts', '3 appts', 'No appts', '5 appts','No appts', '3 appts'
+        'No appts', 'No appts', '3 appts', 'No appts', '5 appts','No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 7,
       name: 'James Carter, MD',
       expertise: 'Cardiologist',
       rating: 4.92,
@@ -87,10 +94,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         '4 appts', 'No appts', 'No appts', 'No appts', 'No appts',
-        '5 appts', '1 appt', 'No appts', 'No appts', '6 appts','No appts', '3 appts'
+        '5 appts', '1 appt', 'No appts', 'No appts', '6 appts','No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 8,
       name: 'Lisa Wu, NP',
       expertise: 'Nurse Practitioner',
       rating: 4.88,
@@ -100,10 +108,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         'No appts', '3 appts', 'No appts', 'No appts', 'No appts',
-        '4 appts', 'No appts', '2 appts', 'No appts', '7 appts' ,'No appts', '3 appts'
+        '4 appts', 'No appts', '2 appts', 'No appts', '7 appts' ,'No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 9,
       name: 'Robert Allen, DO',
       expertise: 'Family Medicine',
       rating: 4.87,
@@ -113,10 +122,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         '2 appts', 'No appts', 'No appts', 'No appts', '5 appts',
-        'No appts', 'No appts', 'No appts', '1 appt', '4 appts' ,'No appts', '3 appts'
+        'No appts', 'No appts', 'No appts', '1 appt', '4 appts' ,'No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 10,
       name: 'Emily Johnson, NP',
       expertise: 'Nurse Practitioner',
       rating: 4.89,
@@ -126,10 +136,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         'No appts', '2 appts', 'No appts', 'No appts', '3 appts',
-        'No appts', 'No appts', 'No appts', '4 appts', 'No appts' ,'No appts', '3 appts'
+        'No appts', 'No appts', 'No appts', '4 appts', 'No appts' ,'No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 11,
       name: 'Richard Brown, MD',
       expertise: 'Dermatologist',
       rating: 4.93,
@@ -139,10 +150,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         '1 appt', 'No appts', 'No appts', '5 appts', 'No appts',
-        'No appts', '3 appts', 'No appts', 'No appts', '8 appts' ,'No appts', '3 appts'
+        'No appts', '3 appts', 'No appts', 'No appts', '8 appts' ,'No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 12,
       name: 'Katherine Taylor, PA-C',
       expertise: 'Physician Assistant',
       rating: 4.80,
@@ -152,10 +164,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         'No appts', 'No appts', '2 appts', 'No appts', 'No appts',
-        '3 appts', 'No appts', 'No appts', 'No appts', '4 appts','No appts', '3 appts'
+        '3 appts', 'No appts', 'No appts', 'No appts', '4 appts','No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 13,
       name: 'Steven Harris, MD',
       expertise: 'Orthopedic Surgeon',
       rating: 4.95,
@@ -164,11 +177,12 @@ const expertsData = [
       lat: 40.7128 + Math.random() * 0.02 - 0.01, 
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
-        '3 appts', 'No appts', 'No appts', 'No appts', 'No appts',
+        '3 appts', 'No appts', 'No appts', 'No appts', 'No appts','No appts', '3 appts',
         '5 appts', 'No appts', '2 appts', 'No appts', 'No appts' ,'No appts', '3 appts'
       ],
     },
     {
+      id: 14,
       name: 'Karen Rodriguez, NP',
       expertise: 'Nurse Practitioner',
       rating: 4.86,
@@ -178,10 +192,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         'No appts', '4 appts', 'No appts', 'No appts', 'No appts',
-        '6 appts', 'No appts', 'No appts', 'No appts', '3 appts','No appts', '3 appts'
+        '6 appts', 'No appts', 'No appts', 'No appts', '3 appts','No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 15,
       name: 'Jason Clark, MD',
       expertise: 'General Practitioner',
       rating: 4.84,
@@ -191,10 +206,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         'No appts', 'No appts', 'No appts', '4 appts', 'No appts',
-        'No appts', '3 appts', 'No appts', 'No appts', '5 appts','No appts', '3 appts'
+        'No appts', '3 appts', 'No appts', 'No appts', '5 appts','No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 16,
       name: 'Laura Lewis, DO',
       expertise: 'Pediatrician',
       rating: 4.82,
@@ -204,10 +220,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         '1 appt', 'No appts', 'No appts', '2 appts', 'No appts',
-        'No appts', '4 appts', 'No appts', 'No appts', 'No appts','No appts', '3 appts'
+        'No appts', '4 appts', 'No appts', 'No appts', 'No appts','No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 17,
       name: 'John White, MD',
       expertise: 'Cardiologist',
       rating: 4.90,
@@ -217,10 +234,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         'No appts', '3 appts', 'No appts', 'No appts', 'No appts',
-        '4 appts', 'No appts', 'No appts', '1 appt', '6 appts','No appts', '3 appts'
+        '4 appts', 'No appts', 'No appts', '1 appt', '6 appts','No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 18,
       name: 'Samantha Young, NP',
       expertise: 'Nurse Practitioner',
       rating: 4.88,
@@ -230,10 +248,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         'No appts', 'No appts', 'No appts', 'No appts', '3 appts',
-        'No appts', 'No appts', '5 appts', 'No appts', 'No appts','No appts', '3 appts'
+        'No appts', 'No appts', '5 appts', 'No appts', 'No appts','No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 19,
       name: 'Matthew King, DO',
       expertise: 'Family Medicine',
       rating: 4.87,
@@ -243,10 +262,11 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         '4 appts', 'No appts', 'No appts', 'No appts', '2 appts',
-        'No appts', 'No appts', '1 appt', 'No appts', 'No appts','No appts', '3 appts'
+        'No appts', 'No appts', '1 appt', 'No appts', 'No appts','No appts', '3 appts','No appts', '3 appts'
       ],
     },
     {
+      id: 20,
       name: 'Olivia Scott, NP',
       expertise: 'Nurse Practitioner',
       rating: 4.89,
@@ -256,7 +276,7 @@ const expertsData = [
       lng: -74.0060 + Math.random() * 0.02 - 0.01, 
       availability: [
         'No appts', '2 appts', 'No appts', 'No appts', 'No appts',
-        '3 appts', 'No appts', 'No appts', 'No appts', '4 appts','No appts', '3 appts'
+        '3 appts', 'No appts', 'No appts', 'No appts', '4 appts','No appts', '3 appts','No appts', '3 appts'
       ],
     }
   ];

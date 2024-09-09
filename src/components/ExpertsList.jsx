@@ -26,25 +26,25 @@ const ExpertsList = ({ issue, type }) => {
     const dates = [];
     const startDate = new Date(baseDate);
     startDate.setDate(startDate.getDate() + offset);
-    
+
     for (let i = 0; i < 14; i++) {
       const date = new Date(startDate);
       date.setDate(date.getDate() + i);
       const formattedDate = date.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
       dates.push(formattedDate);
     }
-    
+
     return dates;
   };
-  
+
   const generateTime = () => calculateDates(new Date(), 0);
-  
+
   const jumptwoweektocurrenttime = () => {
     if (CountedClick === 3) return;
     setCountedClick(CountedClick + 1);
     setTime(calculateDates(time[0], 14));
   };
-  
+
   const jumpbacktwoweeks = () => {
     if (CountedClick === 0) return;
     setCountedClick(CountedClick - 1);
@@ -113,15 +113,20 @@ const ExpertsList = ({ issue, type }) => {
         p={4}
         bg={useColorModeValue('gray.50', 'gray.800')}
       >
-       {/*  part1 */}
+
         <Flex
-        
+
           flexDirection={{ base: 'column', md: 'row' }}
           justifyContent="center"
           alignItems="center"
           gap={4}
           mb={6}
-          
+
+          top="0"
+          zIndex="10"
+          bg={useColorModeValue('gray.50', 'gray.800')}
+          p={4}
+
         >
           <Input
             border={0}
@@ -173,7 +178,7 @@ const ExpertsList = ({ issue, type }) => {
             </Select>
           )}
         </Flex>
-  {/*  part2 */}
+        {/*  part2 */}
         <Flex w="full" alignItems="center" justifyContent="space-between" mb={4}>
           <Flex flexGrow={1} justifyContent="center">
             <Text color="gray.600">
@@ -203,78 +208,72 @@ const ExpertsList = ({ issue, type }) => {
           </Flex>
         </Flex>
         <HStack spacing={4} align="flex-start" flex="1">
-        <Flex direction="column" mb={{ base: 6, md: 0 }} flex="0 0 65%">
-          {currentExperts.map((expert, index) => (
-            <Expert
-              key={index}
-              expert={expert}
-              openModal={openModal}
-              daysOfWeekWithDates={time}
-            />
-          ))}
+          <Flex direction="column" mb={{ base: 6, md: 0 }} flex="0 0 65%">
+            {currentExperts.map((expert, index) => (
+              <Expert
+                key={index}
+                expert={expert}
+                openModal={openModal}
+                daysOfWeekWithDates={time}
+              />
+            ))}
 
-          <Flex justify="space-between" mt={4} w="full">
-            <Button
-              borderRadius={5}
-              _hover={{ bg: 'green.500' }}
-              bg="transparent"
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </Button>
-            <Text color="gray.600">
-              Page {currentPage} of {totalPages}
+            <Flex justify="space-between" mt={4} w="full">
+              <Button
+                borderRadius={5}
+                _hover={{ bg: 'green.500' }}
+                bg="transparent"
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </Button>
+              <Text color="gray.600">
+                Page {currentPage} of {totalPages}
+              </Text>
+              <Button
+                borderRadius={5}
+                _hover={{ bg: 'green.500' }}
+                bg="transparent"
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </Button>
+            </Flex>
+          </Flex>
+          <Box
+            height={{ base: 'auto', md: '100%' }}
+            top="0"
+            bg="gray.100"
+            w="35%"
+            borderRadius={5}
+            right={0}
+            overflowY="auto"
+            p={8}
+            zIndex="10"
+          >
+
+
+            <Text fontSize="xl" fontWeight="bold" mb={4}>
+              Your Appointment Details
+            </Text>
+          
+            <Text fontSize="lg" fontWeight="bold" mb={4}>
+              Date: {selectedSlot || "None"}
             </Text>
             <Button
               borderRadius={5}
               _hover={{ bg: 'green.500' }}
               bg="transparent"
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
+              onClick={closeConfirmationModal}
             >
-              Next
+              Change Appointment
             </Button>
-          </Flex>
-        </Flex>
-   
-        <Box
-         
-          height={{ base: 'auto', md: '100%' }}
-          position="fixed" 
-          bg="gray.100" 
-          w="35%"
-          borderRadius={5}
-          right={0}
-          overflowY="auto"
-          p={8}
-        >
-        
-        
-          <Text fontSize="xl" fontWeight="bold" mb={4}>
-            Your Appointment Details
-          </Text>
-          <Text fontSize="lg" fontWeight="bold" mb={4}>
-            Issue: {issue}
-          </Text>
-          <Text fontSize="lg" fontWeight="bold" mb={4}>
-            Type: {type}
-          </Text>
-          <Text fontSize="lg" fontWeight="bold" mb={4}>
-            Date: {selectedSlot || "None"}
-          </Text>
-          <Button
-            borderRadius={5}
-            _hover={{ bg: 'green.500' }}
-            bg="transparent"
-            onClick={closeConfirmationModal}
-          >
-            Change Appointment
-          </Button>
-        </Box>
+          </Box>
 
-      </HStack>
-</VStack>
+        </HStack>
+      </VStack>
 
       {selectedExpert && (
         <SelectedExpertModal
@@ -292,8 +291,7 @@ const ExpertsList = ({ issue, type }) => {
           closeConfirmationModal={closeConfirmationModal}
           selectedSlot={selectedSlot}
           selectedExpert={selectedExpert}
-          issue={issue}
-          type={type}
+          
         />
       )}
     </Flex>

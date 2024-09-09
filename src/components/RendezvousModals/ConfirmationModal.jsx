@@ -4,7 +4,7 @@ import {
   Button, Box, Text, Textarea
 } from '@chakra-ui/react';
 
-const ConfirmationModal = ({ isConfirmationModalOpen, closeConfirmationModal, selectedSlot, selectedExpert, issue, type }) => {
+const ConfirmationModal = ({ isConfirmationModalOpen, closeConfirmationModal, selectedSlot, selectedExpert }) => {
   const [soucis, setSoucis] = useState('');
 
   const handleConfirm = () => {
@@ -35,8 +35,7 @@ const ConfirmationModal = ({ isConfirmationModalOpen, closeConfirmationModal, se
               <Text fontSize="md" fontWeight="bold">Expertise:</Text>
               <Text>{selectedExpert.expertise}</Text>
 
-              {issue && <Text>{issue}</Text>}
-              {type && <Text>{type}</Text>}
+             
             </Box>
           )}
           <Box mb={4}>
