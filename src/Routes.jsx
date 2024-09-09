@@ -19,9 +19,8 @@ import User from './Pages/Admin/User';
 import Rendezvous from './Pages/Rendezvous';
 import Profile from './Pages/Profile';
 import FAQ from './Pages/FAQ';
-import Recipes from './Pages/Recipes';
-
-
+import Recipes from './Pages/Recipes'; // Import the Recipes component
+import RecipeDetail from './Pages/RecipeDetail'; // Import RecipeDetail component
 
 const routes = [
   { path: "/", element: <Home /> },
@@ -37,8 +36,10 @@ const routes = [
   { path: "/Equipement", element: <Equipement /> },
   { path: "/Commande", element: <Commande /> },
   { path: "/User", element: <User /> },
-  { path: "/recipes", element: <Recipes /> }, 
+  { path: "/recipes", element: <Recipes /> }, // Added route for Recipes
+  { path: "/recipes/:id", element: <RecipeDetail /> }, // Added route for RecipeDetail
   { path: "*", element: <h1>error</h1> },
+
 ];
 
 const RRoutes = () => {
