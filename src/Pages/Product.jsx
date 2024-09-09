@@ -9,19 +9,12 @@ import {
   Heading,
   Text,
   HStack,
-  VStack,
   Input,
   Select,
   Stack,
   Checkbox,
   extendTheme,
-  Divider,
   Flex,
-  Collapse,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
 } from '@chakra-ui/react';
 
 // Custom Chakra UI theme
@@ -38,71 +31,71 @@ const customTheme = extendTheme({
 });
 
 // Initial Products
-  const initialProducts = [
-    {
-      productId: 1,
-      name: 'Gainer',
-      description: 'A high-quality gainer to boost your muscle mass and help you achieve your fitness goals faster.',
-      category: 'Produit Diététique',
-      section: 'Supplements',
-      price: 50,
-      image: '/src/assets/images/gainer.jpeg',
-    },
-    {
-      productId: 2,
-      name: 'Rameur',
-      description: 'A rowing machine for an effective full-body workout, ideal for building strength and endurance.',
-      category: 'Equipement sportif',
-      section: 'Equipment',
-      price: 80,
-      image: '/src/assets/images/remo.jpg',
-    },
-    {
-      productId: 3,
-      name: 'Protein Shake',
-      description: 'A delicious protein shake for muscle recovery and enhancing your post-workout nutrition.',
-      category: 'Produit Diététique',
-      section: 'Supplements',
-      price: 30,
-      image: '/src/assets/images/protein shake.jpeg',
-    },
-    {
-      productId: 4,
-      name: 'Yoga Mat',
-      description: 'Comfortable yoga mat for your workouts, providing excellent cushioning and grip during exercises.',
-      category: 'Equipement sportif',
-      section: 'Accessories',
-      price: 40,
-      image: '/src/assets/images/yoga mat.jpeg',
-    },
-    {
-      productId: 5,
-      name: 'Running Shoes',
-      description: 'Lightweight running shoes designed for a smooth run and optimal comfort on any surface.',
-      category: 'Equipement sportif',
-      section: 'Apparel',
-      price: 60,
-      image: '/src/assets/images/Shoes.avif',
-    },
-    {
-      productId: 6,
-      name: 'Dumbbells Set',
-      description: 'A set of versatile dumbbells for strength training, perfect for home workouts and gym sessions.',
-      category: 'Equipement sportif',
-      section: 'Equipment',
-      price: 70,
-      image: '/src/assets/images/dumble set.jpeg',
-    },
-    {
-      productId: 7,
-      name: 'AKTIV Zinc + Histidine + Vitamine C 30 Comprimes',
-      description: 'Comprimés au zinc, biodisponibilité augmentée grâce à la L-Histidine, plus de la vitamine C pour soutenir les défenses naturelles de l’organisme.',
-      category: 'Complement alimentaire',
-      section: '',
-      price: 40,
-      image: '/src/assets/images/Zink.webp',
-    },
-  ];
+const initialProducts = [
+  {
+    productId: 1,
+    name: 'Gainer',
+    description: 'A high-quality gainer to boost your muscle mass and help you achieve your fitness goals faster.',
+    category: 'Produit Diététique',
+    section: 'Supplements',
+    price: 50,
+    image: '/src/assets/images/gainer.jpeg',
+  },
+  {
+    productId: 2,
+    name: 'Rameur',
+    description: 'A rowing machine for an effective full-body workout, ideal for building strength and endurance.',
+    category: 'Equipement sportif',
+    section: 'Equipment',
+    price: 80,
+    image: '/src/assets/images/remo.jpg',
+  },
+  {
+    productId: 3,
+    name: 'Protein Shake',
+    description: 'A delicious protein shake for muscle recovery and enhancing your post-workout nutrition.',
+    category: 'Produit Diététique',
+    section: 'Supplements',
+    price: 30,
+    image: '/src/assets/images/protein shake.jpeg',
+  },
+  {
+    productId: 4,
+    name: 'Yoga Mat',
+    description: 'Comfortable yoga mat for your workouts, providing excellent cushioning and grip during exercises.',
+    category: 'Equipement sportif',
+    section: 'Accessories',
+    price: 40,
+    image: '/src/assets/images/yoga mat.jpeg',
+  },
+  {
+    productId: 5,
+    name: 'Running Shoes',
+    description: 'Lightweight running shoes designed for a smooth run and optimal comfort on any surface.',
+    category: 'Equipement sportif',
+    section: 'Apparel',
+    price: 60,
+    image: '/src/assets/images/Shoes.avif',
+  },
+  {
+    productId: 6,
+    name: 'Dumbbells Set',
+    description: 'A set of versatile dumbbells for strength training, perfect for home workouts and gym sessions.',
+    category: 'Equipement sportif',
+    section: 'Equipment',
+    price: 70,
+    image: '/src/assets/images/dumble set.jpeg',
+  },
+  {
+    productId: 7,
+    name: 'AKTIV Zinc + Histidine + Vitamine C 30 Comprimes',
+    description: 'Comprimés au zinc, biodisponibilité augmentée grâce à la L-Histidine, plus de la vitamine C pour soutenir les défenses naturelles de l’organisme.',
+    category: 'Complement alimentaire',
+    section: '',
+    price: 40,
+    image: '/src/assets/images/Zink.webp',
+  },
+];
 
 // HeaderSection Component
 const HeaderSection = ({ onCategorySelect, selectedCategory }) => {
@@ -127,17 +120,11 @@ const HeaderSection = ({ onCategorySelect, selectedCategory }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % categories.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [categories.length]);
-
-  useEffect(() => {
     const index = categories.findIndex((cat) => cat.title === selectedCategory);
     if (index !== -1) {
       setCurrentIndex(index);
+    } else {
+      setCurrentIndex(0);
     }
   }, [selectedCategory]);
 
@@ -194,7 +181,6 @@ const HeaderSection = ({ onCategorySelect, selectedCategory }) => {
   );
 };
 
-
 // ProductDetails Component
 const ProductDetails = ({ product, onBackClick, onAddToCart }) => (
   <Box p={6}>
@@ -218,19 +204,19 @@ const ProductDetails = ({ product, onBackClick, onAddToCart }) => (
 );
 
 // ProductGrid Component
-const ProductGrid = () => {
+const ProductGrid = ({ selectedCategory }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('');
   const [priceSortOrder, setPriceSortOrder] = useState('ascending');
   const [selectedKeywords, setSelectedKeywords] = useState([]);
-  const [priceRange, setPriceRange] = useState([0, 200]);
   const [showDetails, setShowDetails] = useState(null);
   const [hoveredProduct, setHoveredProduct] = useState(null);
-  const [showFilters, setShowFilters] = useState(false);
   const toast = useToast();
 
+  useEffect(() => {
+    setSelectedKeywords([]);
+  }, [selectedCategory]);
+
   const handleSearchChange = (event) => setSearchTerm(event.target.value);
-  const handleCategoryChange = (event) => setCategoryFilter(event.target.value);
   const handlePriceSortOrderChange = (event) => setPriceSortOrder(event.target.value);
   const handleKeywordChange = (keyword) => {
     setSelectedKeywords((prev) =>
@@ -251,23 +237,14 @@ const ProductGrid = () => {
     });
   };
 
-  const handleCategorySelect = (category) => {
-    setCategoryFilter(category);
-  };
-
-  const handlePriceRangeChange = (value) => {
-    setPriceRange(value);
-  };
-
   const filteredProducts = initialProducts.filter((product) => {
     const matchesSearch =
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = categoryFilter ? product.category === categoryFilter : true;
+    const matchesCategory = selectedCategory ? product.category === selectedCategory : true;
     const matchesKeywords = selectedKeywords.length === 0 || selectedKeywords.includes(product.category);
-    const matchesPriceRange = product.price >= priceRange[0] && product.price <= priceRange[1];
 
-    return matchesSearch && matchesCategory && matchesKeywords && matchesPriceRange;
+    return matchesSearch && matchesCategory && matchesKeywords;
   });
 
   const sortedProducts = filteredProducts.sort((a, b) => {
@@ -282,13 +259,12 @@ const ProductGrid = () => {
     />
   ) : (
     <Box border="1px solid #ccc" borderRadius="md" p={4}>
-      {/* Search, Filters, and Sidebar */}
-      <Flex>
-        {/* Keyword Filter Sidebar */}
+      {/* Filters and Sort */}
+      <Flex mb={4}>
         <Box p={4} width="250px" borderRight="1px solid #ccc" mr={4}>
           <Heading size="md" mb={2}>Keywords</Heading>
           <Stack spacing={2}>
-            {['Produit Diététique', 'Complement alimentaire', 'Equipement sportif'].map((keyword) => (
+            {['Produit Diététique', 'Complement alimentaire', 'Equipement sportif', 'Supplements', 'Accessories', 'Apparel'].map((keyword) => (
               <Checkbox
                 key={keyword}
                 isChecked={selectedKeywords.includes(keyword)}
@@ -297,68 +273,33 @@ const ProductGrid = () => {
                 {keyword}
               </Checkbox>
             ))}
-            <Box mt={4}>
-              <Heading size="sm" mb={2}>Price Range</Heading>
-              <Slider
-                aria-label="price-range"
-                defaultValue={[0, 200]}
-                min={0}
-                max={200}
-                step={10}
-                onChangeEnd={handlePriceRangeChange}
-              >
-                <SliderTrack>
-                  <SliderFilledTrack />
-                </SliderTrack>
-                <SliderThumb index={0} />
-                <SliderThumb index={1} />
-              </Slider>
-              <Text>{`Between ${priceRange[0]} DT and ${priceRange[1]} DT`}</Text>
-            </Box>
           </Stack>
         </Box>
 
-        {/* Main Content */}
         <Box flex="1">
-          {/* Search Bar, Category Filter and Sort */}
-          <HStack mb={4} spacing={4}>
+          <HStack mb={4} spacing={4} justify="flex-end">
             <Input
               value={searchTerm}
               onChange={handleSearchChange}
-              placeholder="Search products"
-              size="lg"
-              flex="1"
+              placeholder="Search for a product"
+              width="300px"
+              mr={2}
             />
-            <Button onClick={() => setShowFilters(!showFilters)} colorScheme="green">
-              Filters
-            </Button>
+            <Select value={priceSortOrder} onChange={handlePriceSortOrderChange} width="200px">
+              <option value="ascending">Price: Low to High</option>
+              <option value="descending">Price: High to Low</option>
+            </Select>
           </HStack>
 
-          <Collapse in={showFilters} animateOpacity>
-            <HStack spacing={4}>
-              <Select placeholder="Select Category" onChange={handleCategoryChange}>
-                <option value="Produit Diététique">Produit Diététique</option>
-                <option value="Complement alimentaire">Complement alimentaire</option>
-                <option value="Equipement sportif">Equipement sportif</option>
-              </Select>
-
-              <Select value={priceSortOrder} onChange={handlePriceSortOrderChange}>
-                <option value="ascending">Sort by Price: Low to High</option>
-                <option value="descending">Sort by Price: High to Low</option>
-              </Select>
-            </HStack>
-          </Collapse>
-
-          <Divider my={4} />
-
           {/* Product Grid */}
-          <Grid templateColumns="repeat(4, 1fr)" gap={6}>
+          <Grid templateColumns="repeat(auto-fit, minmax(200px, 1fr))" gap={6}>
             {sortedProducts.map((product) => (
               <Box
                 key={product.productId}
-                borderWidth="1px"
+                border="1px solid #ccc"
                 borderRadius="md"
                 overflow="hidden"
+                position="relative"
                 onMouseEnter={() => setHoveredProduct(product.productId)}
                 onMouseLeave={() => setHoveredProduct(null)}
               >
@@ -370,20 +311,24 @@ const ProductGrid = () => {
                 />
                 <Box p={4}>
                   <Heading size="md">{product.name}</Heading>
-                  <Text fontSize="lg" color="green.500">
-                    {product.price} DT
-                  </Text>
-                  <Button
-                    colorScheme="green"
-                    mt={2}
+                  <Text fontSize="lg">{product.price} DT</Text>
+                </Box>
+                {hoveredProduct === product.productId && (
+                  <Box
+                    position="absolute"
+                    bottom="0"
+                    left="0"
+                    right="0"
+                    p={2}
+                    textAlign="center"
+                    bg="rgba(0, 0, 0, 0.6)"
+                    color="white"
+                    cursor="pointer"
                     onClick={() => handleInfoClick(product)}
-                    style={{
-                      display: hoveredProduct === product.productId ? 'block' : 'none',
-                    }}
                   >
                     Plus Details
-                  </Button>
-                </Box>
+                  </Box>
+                )}
               </Box>
             ))}
           </Grid>
@@ -393,25 +338,30 @@ const ProductGrid = () => {
   );
 };
 
-
-// Main App Component
-function App() {
+// App Component
+const App = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+  };
 
   return (
     <ChakraProvider theme={customTheme}>
-      <Box p={4}>
-        {/* Header Section */}
+      <Box
+        bg="blackWhite.background"
+        color="blackWhite.text"
+        minHeight="100vh"
+        p={6}
+      >
         <HeaderSection
-          onCategorySelect={setSelectedCategory}
+          onCategorySelect={handleCategorySelect}
           selectedCategory={selectedCategory}
         />
-
-        {/* Product Grid */}
-        <ProductGrid />
+        <ProductGrid selectedCategory={selectedCategory} />
       </Box>
     </ChakraProvider>
   );
-}
+};
 
 export default App;
