@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import HeaderCarousel from '../components/HeaderCarousel'; // Adjust the path according to your file structure
 import {
   Box,
@@ -44,9 +45,7 @@ const Recipes = () => {
   };
 
   // Convert nutrition values to numbers if they are strings
-  const parseValue = (value) => {
-    return value === '' || isNaN(value) ? 0 : parseFloat(value);
-  };
+  const parseValue = (value) => (value === '' || isNaN(value) ? 0 : parseFloat(value));
 
   // Filtered recipes based on input criteria
   const filteredRecipes = recipes.filter((recipe) => {
@@ -223,66 +222,69 @@ const Recipes = () => {
         <Stack direction="row" wrap="wrap" spacing={8} justify="center">
           {filteredRecipes.length > 0 ? (
             filteredRecipes.map((recipe) => (
-              <Box
-                key={recipe.id}
-                p={10} // Further increased padding for larger cards
-                w="full"
-                maxW="2xl" // Further increased maxWidth for larger cards
-                borderWidth="1px"
-                borderRadius="lg"
-                overflow="hidden"
-                boxShadow="lg"
-                _hover={{ boxShadow: '2xl' }}
-                transition="0.3s"
-              >
-                {/* Center and Full Width Image */}
-                <Image
-                  src={recipe.image}
-                  alt={recipe.name}
-                  boxSize="100%"
-                  h="400px"
-                  objectFit="cover"
+              <Link to={`/recipes/${recipe.id}`} key={recipe.id} style={{ textDecoration: 'none' }}>
+                <Box
+                  p={10}
+                  w="full"
+                  maxW="2xl"
+                  borderWidth="1px"
                   borderRadius="lg"
-                />
+                  overflow="hidden"
+                  boxShadow="lg"
+                  _hover={{ boxShadow: '2xl' }}
+                  transition="0.3s"
+                >
+                  {/* Center and Full Width Image */}
+                  <Image
+                    src={recipe.image}
+                    alt={recipe.name}
+                    boxSize="100%"
+                    h="400px"
+                    objectFit="cover"
+                    borderRadius="lg"
+                  />
 
-                {/* Recipe Title and Details */}
-                <VStack align="flex-start" spacing={4} mt={4}>
-                  <Heading size="lg">{recipe.name}</Heading>
+                  {/* Recipe Title and Details */}
+                  <VStack align="flex-start" spacing={4} mt={4}>
+                    <Heading size="lg">{recipe.name}</Heading>
 
-                  {/* Meal Type and Cooking Time */}
-                  <HStack justify="space-between" w="100%">
-                    <Badge colorScheme="teal">{recipe.mealType}</Badge>
-                    <HStack>
-                      <FaClock />
-                      <Text>{recipe.cookingTime} mins</Text>
+                    {/* Meal Type and Cooking Time */}
+                    <HStack justify="space-between" w="100%">
+                      <Badge colorScheme="teal">{recipe.mealType}</Badge>
+                      <HStack>
+                        <FaClock />
+                        <Text>{recipe.cookingTime} mins</Text>
+                      </HStack>
                     </HStack>
-                  </HStack>
 
-                  {/* Description */}
-                  <Text fontSize="md" color="gray.600" noOfLines={3}>
-                    {recipe.description}
-                  </Text>
+                    {/* Description */}
+                    <Text fontSize="md" color="gray.600" noOfLines={3}>
+                      {recipe.description}
+                    </Text>
 
-                  {/* Calories and Nutrition Badges */}
-                  <HStack spacing={3}>
-                    <Badge colorScheme="green" fontSize="md">
-                      {recipe.calories} kcal
-                    </Badge>
-                    <Badge colorScheme="purple" fontSize="md">
-                      Protein: {recipe.protein} g
-                    </Badge>
-                    <Badge colorScheme="orange" fontSize="md">
-                      Carbs: {recipe.carbohydrates} g
-                    </Badge>
-                    <Badge colorScheme="red" fontSize="md">
-                      Fats: {recipe.fats} g
-                    </Badge>
-                  </HStack>
-                </VStack>
-              </Box>
+                    {/* Calories and Nutrition Badges */}
+                    <HStack spacing={3}>
+                      <Badge colorScheme="green" fontSize="md">
+                        {recipe.calories} kcal
+                      </Badge>
+                      <Badge colorScheme="purple" fontSize="md">
+                        Protein: {recipe.protein} g
+                      </Badge>
+                      <Badge colorScheme="orange" fontSize="md">
+                        Carbs: {recipe.carbohydrates} g
+                      </Badge>
+                      <Badge colorScheme="red" fontSize="md">
+                        Fats: {recipe.fats} g
+                      </Badge>
+                    </HStack>
+                  </VStack>
+                </Box>
+              </Link>
             ))
           ) : (
-            <Text>No recipes found matching the filters.</Text>
+            <Text textAlign="center" fontSize="lg" color="gray.500">
+              No recipes found based on your filters.
+            </Text>
           )}
         </Stack>
       </Box>
