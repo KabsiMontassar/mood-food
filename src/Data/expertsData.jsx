@@ -9,8 +9,8 @@ const expertsData = [
     lat: 40.7128 + Math.random() * 0.02 - 0.01, 
     lng: -74.0060 + Math.random() * 0.02 - 0.01, 
     availability: [
-      'No appts', 'No appts', 'No appts', 'No appts', 'No appts',
-      'No appts', 'No appts', 'No appts', 'No appts', '3 appts','No appts', '3 appts','No appts', '3 appts'
+      '7 appts', 'No appts', '4 appts', '4 appts', 'No appts',
+      '6 appts', '5 appts', '1 appts', 'No appts', '3 appts','7 appts', '3 appts','5 appts', '3 appts'
     ],
   },
     {

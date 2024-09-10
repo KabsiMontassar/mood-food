@@ -3,8 +3,8 @@ import {
   Box, Input, Flex, Button, Text, Select, useColorModeValue, IconButton, VStack, HStack
 } from '@chakra-ui/react';
 import expertsData from '../Data/expertsData.jsx';
-import SelectedExpertModal from './RendezvousModals/selectedExpertModal.jsx';
-import ConfirmationModal from './RendezvousModals/ConfirmationModal.jsx';
+import SelectedExpertModal from '../Components/RendezvousModals/selectedExpertModal.jsx';
+import ConfirmationModal from '../Components/RendezvousModals/ConfirmationModal.jsx';
 import Expert from './Expert';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';

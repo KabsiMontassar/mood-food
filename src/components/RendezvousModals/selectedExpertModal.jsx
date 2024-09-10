@@ -1,79 +1,87 @@
 import React from 'react';
-import { Modal, ModalOverlay,Grid, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Box, Flex, Heading, Text, Avatar, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, useColorModeValue, GridItem } from '@chakra-ui/react';
+import { Modal, ModalOverlay, Grid, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Box, Flex, Heading, Text, Avatar, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, useColorModeValue, GridItem } from '@chakra-ui/react';
 const generateTimeSlots = (appts) => {
-    let slots = [];
-    const startHour = 9;
-    const endHour = 17;
-    for (let hour = startHour; hour < endHour; hour++) {
-      for (let minute = 0; minute < 60; minute += 60) {
-        if (appts > 0) {
-          const start = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} - ${(hour + 1).toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-          slots.push(start);
-          appts--;
-      
-        }
+  let slots = [];
+  const startHour = 9;
+  const endHour = 17;
+  for (let hour = startHour; hour < endHour; hour++) {
+    for (let minute = 0; minute < 60; minute += 60) {
+      if (appts > 0) {
+        const start = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} - ${(hour + 1).toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        slots.push(start);
+        appts--;
+
       }
     }
-    return slots;
-  };
+  }
+  return slots;
+};
 const SelectedExpertModal = ({ isModalOpen, closeModal, selectedExpert, daysOfWeekWithDates, openConfirmationModal }) => {
   return (
-    <Modal isOpen={isModalOpen} onClose={closeModal} size="md">
+    <Modal isOpen={isModalOpen} onClose={closeModal} size="xl">
       <ModalOverlay />
-      <ModalContent maxW="50vw" maxH="90vh" p={6}>
-        <ModalHeader fontSize="2xl" textAlign="center">{selectedExpert.name}'s Availability</ModalHeader>
+      <ModalContent  pb={5} maxW={"50rem"} >
+        <ModalHeader color={"green"} 
+        fontSize="md"
+         textAlign="center"
+         fontWeight={"bold"}
+         textShadow={"2px 2px 4px #5EDABC"}
+         >{selectedExpert.name}'s Availability</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Flex align="center" mb={6} borderBottomWidth="1px" borderBottomColor={useColorModeValue('gray.200', 'gray.600')} pb={4}>
-            <Avatar name={selectedExpert.name} src={`https://i.pravatar.cc/150?img=${selectedExpert.id}`} size="xl" mr={6} />
-            <Box>
-              <Heading size="lg" mb={2}>{selectedExpert.name}</Heading>
-              <Text fontSize="md" color={useColorModeValue('gray.600', 'gray.400')}>{selectedExpert.expertise}</Text>
-              <Text fontSize="md" color={useColorModeValue('gray.600', 'gray.400')}>{selectedExpert.address}</Text>
-            </Box>
-          </Flex>
+            <Heading size="xs" color={"gray.400"} fontWeight={"none"} mb={2}>Cliquez sur un horaire pour réserver. </Heading>
 
-          <Accordion allowToggle>
+          <Grid templateColumns="repeat(1, 1fr)" gap={3}>
             {selectedExpert.availability.map((appts, index) => (
-              <AccordionItem key={index}>
-                <h2>
-                  <AccordionButton>
-                    <Box
-                      flex="1"
-                      color={appts === 'No appts' ? useColorModeValue('gray.400', 'gray.600') : useColorModeValue('black', 'white')}
-                      textAlign="left"
-                    >
-                      {daysOfWeekWithDates[index]}
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
-                  {appts !== 'No appts' ? (
-                    <Grid  templateColumns="repeat(4, 1fr)" gap={2}>
-                      {generateTimeSlots(parseInt(appts)).map((slot, i) => (
-                        <GridItem
-                          key={i}
-                          bg={useColorModeValue('green.500', 'green.400')}
-                          textAlign="center"
-                          p={3}
-                          borderRadius="md"
-                          m={1}
-                          cursor="pointer"
-                          _hover={{ bg: useColorModeValue('green.400', 'green.500') }}
-                          onClick={() => openConfirmationModal(slot)}
-                        >
-                          <Text fontSize="sm">{slot}</Text>
-                        </GridItem>
-                      ))}
-                    </Grid>
-                  ) : (
-                    <Text>No appointments available</Text>
-                  )}
-                </AccordionPanel>
-              </AccordionItem>
-            ))}
-          </Accordion>
+              appts !== "No appts" ? (
+                <GridItem key={index}>
+
+
+
+                  <Box flex="1" textAlign="left">
+                    <Text fontSize="xs" fontWeight="bold">{daysOfWeekWithDates[index]}</Text>
+                  </Box>
+
+
+                  <Flex wrap="wrap" gap={2} justify="left">
+                    {generateTimeSlots(parseInt(appts)).map((slot, i) => (
+                      <GridItem
+                        key={i}
+                        bg={"#5EDABC"}
+                        textAlign="center"
+                        borderRadius="none"
+                        p={2}
+                      
+                        m={1}
+                        cursor="pointer"
+                        _hover={{
+                          bg: "#5EDABC",
+                          opacity: 0.8
+                        }}
+                        onClick={() => openConfirmationModal( `${daysOfWeekWithDates[index]} ${slot}`)}
+                      >
+                        <Text fontSize="sm">{slot}</Text>
+                      </GridItem>
+                    ))}
+
+                  </Flex>
+
+
+
+                </GridItem>
+
+
+
+
+
+
+              ) : null))}
+          </Grid>
+
+
+
+
+
         </ModalBody>
       </ModalContent>
     </Modal>

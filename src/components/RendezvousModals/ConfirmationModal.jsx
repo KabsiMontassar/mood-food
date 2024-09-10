@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import {
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter,
-  Button, Box, Text, Textarea
+  Button, Box, Text, Textarea, Flex, Avatar, Icon, Select
 } from '@chakra-ui/react';
+import { FaMapMarkerAlt } from 'react-icons/fa';
 
 const ConfirmationModal = ({ isConfirmationModalOpen, closeConfirmationModal, selectedSlot, selectedExpert }) => {
   const [soucis, setSoucis] = useState('');
 
   const handleConfirm = () => {
-   
+
     closeConfirmationModal();
   };
 
@@ -17,47 +18,67 @@ const ConfirmationModal = ({ isConfirmationModalOpen, closeConfirmationModal, se
   };
 
   return (
-    <Modal isOpen={isConfirmationModalOpen} onClose={closeConfirmationModal} size="md">
+    <Modal isOpen={isConfirmationModalOpen} onClose={closeConfirmationModal} size="xl" >
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader fontSize="xl">Confirm Appointment</ModalHeader>
+      <ModalContent pb={5} maxW={"50rem"}>
+        <ModalHeader color={"green"} 
+        fontSize="md"
+         textAlign="center"
+         fontWeight={"bold"}
+         textShadow={"2px 2px 4px #5EDABC"}>Réviser et réserver</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
-          <Text fontSize="lg" mb={4}>Are you sure you want to book the following slot?</Text>
-          <Box mb={4}>
-            <Text fontSize="md" fontWeight="bold">Time Slot:</Text>
-            <Text>{selectedSlot}</Text>
-          </Box>
-          {selectedExpert && (
-            <Box mb={4}>
-              <Text fontSize="md" fontWeight="bold">Expert:</Text>
-              <Text>{selectedExpert.name}</Text>
-              <Text fontSize="md" fontWeight="bold">Expertise:</Text>
-              <Text>{selectedExpert.expertise}</Text>
-
-             
+        <ModalBody >
+          <Text fontSize="lg" fontWeight={"bold"} mb={4}>Informations sur le médecin</Text>
+          <Flex border={"1px solid #cccccc"} p={4} mb={4} borderRadius={5} align={"center"}>
+            <Avatar size="xl" name={selectedExpert.name} src={`https://i.pravatar.cc/150?img=${selectedExpert.id}`} mr={4} />
+            <Box pl={5}>
+              <Text fontSize="lg" fontWeight="bold">{selectedExpert.name}</Text>
+              <Text fontSize="md">{selectedExpert.expertise}</Text>
+              <Text fontSize="md" >
+                <Icon color="green" mr={2} as={FaMapMarkerAlt} />
+                {selectedExpert.address}
+              </Text>
             </Box>
-          )}
-          <Box mb={4}>
-            <Text fontSize="md" fontWeight="bold">Soucis:</Text>
+
+          </Flex>
+          <Text fontSize="lg" fontWeight={"bold"} mb={4}>Planification</Text>
+          <Text fontSize="lg" color="#888888" mb={4} ml={4}> {selectedSlot}</Text>
+
+          <Text fontSize="lg" fontWeight={"bold"} mb={4}>Informations sur le patient</Text>
+          <Text fontSize="lg" color="#666666" mb={4} ml={4}> Current User name (moi)</Text>
+          <Box ml={5} mb={5}>
+            <Select 
+              size="lg"
+             variant='flushed'
+              color="teal"
+              _selected={{ color: 'red' }}
+            >
+              <option value='Examen médical annuel.'>Examen médical annuel. </option>
+              <option value='Problème, une condition ou une difficulté.'>Problème, une condition ou une difficulté.</option>
+            </Select>
+          </Box>
+
+          <Text fontSize="lg" fontWeight={"bold"} mb={4}>Soucis</Text>
+          <Box>
             <Textarea
-              placeholder="Enter your concerns here"
+              placeholder="Entrez votre soucis ici"
+              size="lg"
               value={soucis}
               onChange={handleSoucisChange}
             />
           </Box>
+
         </ModalBody>
         <ModalFooter>
           <Button
-            colorScheme="green"
+            colorScheme="teal"
+            variant={"outline"}
             onClick={handleConfirm}
-            isDisabled={!soucis.trim()} // Disable the button if soucis is empty or only whitespace
+            isDisabled={!soucis.trim()}
           >
-            Confirm
+            Réserver
           </Button>
-          <Button variant="outline" ml={3} onClick={closeConfirmationModal}>
-            Cancel
-          </Button>
+
         </ModalFooter>
       </ModalContent>
     </Modal>

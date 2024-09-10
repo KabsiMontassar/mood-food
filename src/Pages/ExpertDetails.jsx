@@ -75,23 +75,23 @@ const ExpertDetails = () => {
         if (CountedClick === 3) return;
         setCountedClick(CountedClick + 1);
         setTime(calculateDates(time[0], 14));
+        setDaysOfWeekWithDates(calculateDates(time[0], 14));
     };
 
     const jumpbacktwoweeks = () => {
         if (CountedClick === 0) return;
         setCountedClick(CountedClick - 1);
         setTime(calculateDates(time[0], -14));
+        setDaysOfWeekWithDates(calculateDates(time[0], -14));
     };
 
-    const expertsPerPage = 5;
-
-
+   
+    
     useEffect(() => {
-        const dates = calculateDates(new Date(), 0);
-        setDaysOfWeekWithDates(dates);
         setTime(generateTime());
-    }, []);
-
+        setDaysOfWeekWithDates(calculateDates(new Date(), 0));
+      }, []);
+    
 
 
     const expert = expertsData.find((expert) => expert.id === parseInt(id));
