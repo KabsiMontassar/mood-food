@@ -114,3 +114,8 @@
     --_p: 100%
   }
 
+
+
+  .menu-button > span > svg , .menu-button > span {
+    color: teal;
+  }

@@ -2,11 +2,20 @@ import { useParams } from 'react-router-dom'; // Use to access route parameters
 import expertsData from '../Data/expertsData.jsx';
 import React, { useEffect, useState } from 'react';
 import { StarIcon } from '@chakra-ui/icons';
-import { Tabs, TabList, TabPanels, Image, Tab, TabPanel, Badge, Grid } from '@chakra-ui/react'
+import {
+    Tabs, TabList, TabPanels, AspectRatio, Tab, TabPanel, Badge, Grid, Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuItemOption,
+    MenuGroup,
+    MenuOptionGroup,
+    MenuDivider
+} from '@chakra-ui/react'
 import { SimpleGrid } from '@chakra-ui/react'
 import SelectedExpertModal from '../Components/RendezvousModals/selectedExpertModal.jsx';
 import ConfirmationModal from '../Components/RendezvousModals/ConfirmationModal.jsx';
-import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon } from '@chakra-ui/icons';
 
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import {
@@ -101,15 +110,8 @@ const ExpertDetails = () => {
     return (
 
         <>
-            <VStack
-
-                align="stretch"
-
-
-                p={5}
-
-            >
-                <HStack justifyContent={"center"}  borderBottom="1px solid #cccfcd" p={5} w="100%">
+            
+                <HStack justifyContent={"center"} borderBottom="1px solid #cccfcd" p={5} w="100%">
                     <Box w="60%" p={8}>
                         <Flex alignItems={"center"} justifyContent={"center"}>
 
@@ -298,14 +300,16 @@ const ExpertDetails = () => {
 
                         </Box>
 
-                        <Box borderTop="1px solid #cccfcd" p={4}  align="center">
+                        <Box borderTop="1px solid #cccfcd" p={4} align="center">
                             <Flex flexGrow={1} mb={5} justifyContent="center">
                                 <Text fontWeight="bold">
                                     Emplacement
                                 </Text>
                             </Flex>
                             <Box>
-                                <Image src="https://via.placeholder.com/150" alt="Segun Adebayo" />
+                                <AspectRatio ratio={16 / 9}>
+                                    <iframe src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.952912260219!2d3.375295414770757!3d6.5276316452784755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2ae68280c1%3A0xdc9e87a367c3d9cb!2sLagos!5e0!3m2!1sen!2sng!4v1567723392506!5m2!1sen!2sng' />
+                                </AspectRatio>
                             </Box>
                         </Box>
 
@@ -315,25 +319,199 @@ const ExpertDetails = () => {
 
                 </HStack>
 
-                <Flex
-                    justifyContent={"center"}
-                    borderRadius={5}
-                    p={4}
-                >
-                    <Box height={{ base: 'auto', md: '100%' }}
-                        top="0"
-                        w="100%"
-                        borderRadius={5}
-                        right={0}
-                        overflowY="auto"
-                        p={8}
-                        zIndex="10"
-                        bg="yellow.300">
-                        Reviews
+                <Box align="center">
+                    <Flex height={{ base: 'auto', md: '100%' }}
+                        w="70%"
+                        borderBottom={"1px solid #cccfcd"}
+                        justifyContent={"space-between"}
+                        p={3}
+                    >
+                        <Text fontSize="xl" fontWeight="bold" textDecoration={"underline"}>
+                            {expert.reviews} Avis
+                        </Text>
+                        <Menu >
+                            <MenuButton
+                                className='menu-button'
+                                as={Button}
+                                rightIcon={<ChevronDownIcon />}
+                                _hover={{ bg: 'none' }}
+                                _expanded={{ bg: 'none' }}
+                                _focus={{ bg: 'none' }}
+                                background={"transparent"}
+                            >
+                                trier
+                            </MenuButton>
+                            <MenuList minWidth='240px'>
+                                <MenuOptionGroup defaultValue='asc' title='Date de publication' type='radio'>
+                                    <MenuItemOption value='asc'>Croissant</MenuItemOption>
+                                    <MenuItemOption value='desc'>Décroissant</MenuItemOption>
+                                </MenuOptionGroup>
+                                <MenuDivider />
+                                <MenuOptionGroup title='évaluation' type='checkbox'>
+                                    <MenuItemOption value='asc'>Croissant</MenuItemOption>
+                                    <MenuItemOption value='desc'>Décroissant</MenuItemOption>
+                                </MenuOptionGroup>
+                            </MenuList>
+                        </Menu>
+                    </Flex>
 
+                    <Box w="70%" align="left" >
+                        <Box p={5} borderBottom="1px solid #cccfcd">
+                            {Array(5)
+                                .fill('')
+                                .map((_, i) => (
+                                    <StarIcon
+                                        mr={2}
+                                        key={i}
+                                        color={i < expert.rating ? useColorModeValue('yellow.500', 'yellow.400') : useColorModeValue('gray.300', 'gray.600')}
+                                    />
+                                ))}
+
+                            <Text fontSize="xl" color="gray.600">
+                                Ils étaient géniaux ! J'ai eu une conversation très positive et calme sur mes dents, les points à améliorer et l'hygiène buccale en général.
+                            </Text>
+                            <Text  fontSize="md" pl={5} color="gray.400">
+                                Janvier 30, 2024 . Foulen Fouleni
+                            </Text>
+                        </Box>
+                        <Box p={5} borderBottom="1px solid #cccfcd">
+                            {Array(3)
+                                .fill('')
+                                .map((_, i) => (
+                                    <StarIcon
+                                        mr={2}
+                                        key={i}
+                                        color={i < expert.rating ? useColorModeValue('yellow.500', 'yellow.400') : useColorModeValue('gray.300', 'gray.600')}
+                                    />
+                                ))}
+                                {Array(2)
+                                .fill('')
+                                .map((_, i) => (
+                                    <StarIcon
+                                        mr={2}
+                                        key={i}
+                                        color={i < expert.rating ? useColorModeValue('gray.300', 'gray.300') : useColorModeValue('gray.300', 'gray.600')}
+                                    />
+                                ))}
+
+                            <Text fontSize="xl" color="gray.600">
+                                Ils étaient géniaux ! J'ai eu une conversation très positive et calme sur mes dents, les points à améliorer et l'hygiène buccale en général.
+                            </Text>
+                            <Text  fontSize="md" pl={5} color="gray.400">
+                                Janvier 30, 2024 . Foulen Fouleni
+                            </Text>
+                        </Box>
+                        <Box p={5} borderBottom="1px solid #cccfcd">
+                            {Array(0)
+                                .fill('')
+                                .map((_, i) => (
+                                    <StarIcon
+                                        mr={2}
+                                        key={i}
+                                        color={i < expert.rating ? useColorModeValue('yellow.500', 'yellow.400') : useColorModeValue('gray.300', 'gray.600')}
+                                    />
+                                ))}
+                                {Array(5)
+                                .fill('')
+                                .map((_, i) => (
+                                    <StarIcon
+                                        mr={2}
+                                        key={i}
+                                        color={i < expert.rating ? useColorModeValue('gray.300', 'gray.300') : useColorModeValue('gray.300', 'gray.600')}
+                                    />
+                                ))}
+
+                            <Text fontSize="xl" color="gray.600">
+                                Ils étaient géniaux ! J'ai eu une conversation très positive et calme sur mes dents, les points à améliorer et l'hygiène buccale en général.
+                            </Text>
+                            <Text fontSize="md" pl={5} color="gray.400">
+                                Janvier 30, 2024 . Foulen Fouleni
+                            </Text>
+                        </Box>
+                        <Box p={5} borderBottom="1px solid #cccfcd">
+                            {Array(2)
+                                .fill('')
+                                .map((_, i) => (
+                                    <StarIcon
+                                        mr={2}
+                                        key={i}
+                                        color={i < expert.rating ? useColorModeValue('yellow.500', 'yellow.400') : useColorModeValue('gray.300', 'gray.600')}
+                                    />
+                                ))}
+                                {Array(3)
+                                .fill('')
+                                .map((_, i) => (
+                                    <StarIcon
+                                        mr={2}
+                                        key={i}
+                                        color={i < expert.rating ? useColorModeValue('gray.300', 'gray.300') : useColorModeValue('gray.300', 'gray.600')}
+                                    />
+                                ))}
+
+                            <Text fontSize="xl" color="gray.600">
+                                Ils étaient géniaux ! J'ai eu une conversation très positive et calme sur mes dents, les points à améliorer et l'hygiène buccale en général.
+                            </Text>
+                            <Text  fontSize="md" pl={5} color="gray.400">
+                                Janvier 30, 2024 . Foulen Fouleni
+                            </Text>
+                        </Box>
+                        <Box p={5} borderBottom="1px solid #cccfcd">
+                            {Array(4)
+                                .fill('')
+                                .map((_, i) => (
+                                    <StarIcon
+                                        mr={2}
+                                        key={i}
+                                        color={i < expert.rating ? useColorModeValue('yellow.500', 'yellow.400') : useColorModeValue('gray.300', 'gray.600')}
+                                    />
+                                ))}
+                                {Array(1)
+                                .fill('')
+                                .map((_, i) => (
+                                    <StarIcon
+                                        mr={2}
+                                        key={i}
+                                        color={i < expert.rating ? useColorModeValue('gray.300', 'gray.300') : useColorModeValue('gray.300', 'gray.600')}
+                                    />
+                                ))}
+
+                            <Text fontSize="xl" color="gray.600">
+                                Ils étaient géniaux ! J'ai eu une conversation très positive et calme sur mes dents, les points à améliorer et l'hygiène buccale en général.
+                            </Text>
+                            <Text   fontSize="md" pl={5} color="gray.400">
+                                Janvier 30, 2024 . Foulen Fouleni
+                            </Text>
+                        </Box>
+                        <Box p={5} borderBottom="1px solid #cccfcd">
+                            {Array(3)
+                                .fill('')
+                                .map((_, i) => (
+                                    <StarIcon
+                                        mr={2}
+                                        key={i}
+                                        color={i < expert.rating ? useColorModeValue('yellow.500', 'yellow.400') : useColorModeValue('gray.300', 'gray.600')}
+                                    />
+                                ))}
+                                {Array(2)
+                                .fill('')
+                                .map((_, i) => (
+                                    <StarIcon
+                                        mr={2}
+                                        key={i}
+                                        color={i < expert.rating ? useColorModeValue('gray.300', 'gray.300') : useColorModeValue('gray.300', 'gray.600')}
+                                    />
+                                ))}
+
+                            <Text fontSize="xl" color="gray.600">
+                                Ils étaient géniaux ! J'ai eu une conversation très positive et calme sur mes dents, les points à améliorer et l'hygiène buccale en général.
+                            </Text>
+                            <Text fontSize="md" pl={5} color="gray.400">
+                                Janvier 30, 2024 . Foulen Fouleni
+                            </Text>
+                        </Box>
                     </Box>
 
-                </Flex>
+                </Box>
                 {selectedExpert && (
                     <SelectedExpertModal
                         isModalOpen={isModalOpen}
@@ -353,7 +531,7 @@ const ExpertDetails = () => {
 
                     />
                 )}
-            </VStack>
+          
         </>
 
     );
