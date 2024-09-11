@@ -66,22 +66,10 @@ const SelectedExpertModal = ({ isModalOpen, closeModal, selectedExpert, daysOfWe
 
                   </Flex>
 
-
-
                 </GridItem>
-
-
-
-
-
 
               ) : null))}
           </Grid>
-
-
-
-
-
         </ModalBody>
       </ModalContent>
     </Modal>
