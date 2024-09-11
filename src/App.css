@@ -174,3 +174,8 @@
 .food-drop:nth-child(7) {
     --i: 7;
 }
+
+
+.map{
+  position: sticky  ;
+}

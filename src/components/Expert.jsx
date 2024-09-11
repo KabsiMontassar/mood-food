@@ -73,7 +73,7 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
                                 onClick={() => openModal(expert)}
                                 bg={expert.availability[index] === 'No appts' ? 'gray.100' : "#5EDABC"}
                                 _hover={{
-                                    bg: "#5EDABC",
+                                    bg: expert.availability[index] === 'No appts' ? 'red.100' : "#5EDABC",
                                     opacity: 0.8
                                 }}
                                 isDisabled={expert.availability[index] === 'No appts'}

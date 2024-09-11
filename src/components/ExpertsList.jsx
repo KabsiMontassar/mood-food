@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box, Input, Flex, Button, Text, Select, useColorModeValue, IconButton, VStack, HStack
+  Box, Input, Flex, Button, Text, Select, useColorModeValue, IconButton, VStack, HStack, AspectRatio
 } from '@chakra-ui/react';
 import expertsData from '../Data/expertsData.jsx';
 import SelectedExpertModal from '../Components/RendezvousModals/selectedExpertModal.jsx';
@@ -109,18 +109,19 @@ const ExpertsList = ({ issue, type }) => {
         spacing={4}
         align="stretch"
         flex="1"
+
         overflowY="auto"
         p={4}
         bg={useColorModeValue('gray.50', 'gray.800')}
       >
 
         <Flex
-
+          borderBottomWidth={1}
           flexDirection={{ base: 'column', md: 'row' }}
           justifyContent="center"
           alignItems="center"
           gap={4}
-          mb={6}
+         
 
           top="0"
           zIndex="10"
@@ -178,8 +179,8 @@ const ExpertsList = ({ issue, type }) => {
             </Select>
           )}
         </Flex>
-        {/*  part2 */}
-        <Flex w="full" alignItems="center" justifyContent="space-between" mb={4}>
+        
+        <Flex borderBottomWidth={1} p={4} w="full" alignItems="center" justifyContent="space-between" mb={4}>
           <Flex flexGrow={1} justifyContent="center">
             <Text color="gray.600">
               {time[0]} - {time[13]}
@@ -207,8 +208,8 @@ const ExpertsList = ({ issue, type }) => {
             />
           </Flex>
         </Flex>
-        <HStack spacing={4} align="flex-start" flex="1">
-          <Flex direction="column" mb={{ base: 6, md: 0 }} flex="0 0 65%">
+        <Flex>
+          <Box w="60%" bg="gray.50"  borderRadius={5}   p={8}>
             {currentExperts.map((expert, index) => (
               <Expert
                 key={index}
@@ -217,11 +218,10 @@ const ExpertsList = ({ issue, type }) => {
                 daysOfWeekWithDates={time}
               />
             ))}
-
             <Flex justify="space-between" mt={4} w="full">
               <Button
                 borderRadius={5}
-                _hover={{ bg: 'green.500' }}
+                _hover={{ bg: '#5EDABC' }}
                 bg="transparent"
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
@@ -233,7 +233,7 @@ const ExpertsList = ({ issue, type }) => {
               </Text>
               <Button
                 borderRadius={5}
-                _hover={{ bg: 'green.500' }}
+                _hover={{ bg: '#5EDABC' }}
                 bg="transparent"
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
@@ -241,38 +241,23 @@ const ExpertsList = ({ issue, type }) => {
                 Next
               </Button>
             </Flex>
-          </Flex>
-          <Box
-            height={{ base: 'auto', md: '100%' }}
-            top="0"
-            bg="gray.100"
-            w="35%"
-            borderRadius={5}
-            right={0}
-            overflowY="auto"
-            p={8}
-            zIndex="10"
-          >
-
-
-            <Text fontSize="xl" fontWeight="bold" mb={4}>
-              Your Appointment Details
-            </Text>
-          
-            <Text fontSize="lg" fontWeight="bold" mb={4}>
-              Date: {selectedSlot || "None"}
-            </Text>
-            <Button
-              borderRadius={5}
-              _hover={{ bg: 'green.500' }}
-              bg="transparent"
-              onClick={closeConfirmationModal}
-            >
-              Change Appointment
-            </Button>
           </Box>
 
-        </HStack>
+          <Box
+            bg="white"
+            w="40%"
+            borderRadius={5}
+             
+            
+            p={8} >
+        <iframe width="100%" height="100%" src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.952912260219!2d3.375295414770757!3d6.5276316452784755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2ae68280c1%3A0xdc9e87a367c3d9cb!2sLagos!5e0!3m2!1sen!2sng!4v1567723392506!5m2!1sen!2sng' />
+
+          </Box>
+
+
+
+        </Flex>
+      
       </VStack>
 
       {selectedExpert && (
@@ -291,7 +276,7 @@ const ExpertsList = ({ issue, type }) => {
           closeConfirmationModal={closeConfirmationModal}
           selectedSlot={selectedSlot}
           selectedExpert={selectedExpert}
-          
+
         />
       )}
     </Flex>

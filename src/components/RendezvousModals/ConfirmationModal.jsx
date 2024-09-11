@@ -53,8 +53,8 @@ const ConfirmationModal = ({ isConfirmationModalOpen, closeConfirmationModal, se
               color="teal"
               _selected={{ color: 'red' }}
             >
-              <option value='Examen médical annuel.'>Examen médical annuel. </option>
               <option value='Problème, une condition ou une difficulté.'>Problème, une condition ou une difficulté.</option>
+              <option value='Examen médical annuel.'>Examen médical annuel. </option>
             </Select>
           </Box>
 
