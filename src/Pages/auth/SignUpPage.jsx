@@ -140,7 +140,7 @@ const SignUpPage = ({ setIsUserSignedIn }) => {
           </Box>
           <Heading mb={4} textAlign="center">Join Us!</Heading>
           <Text mb={6} textAlign="center">Already have an account? Sign in to continue.</Text>
-          <Button colorScheme="yellow" onClick={() => navigate('/SignIn')}>
+          <Button colorScheme="green" onClick={() => navigate('/SignIn')}>
             Sign In
           </Button>
         </Flex>
@@ -402,7 +402,7 @@ const SignUpPage = ({ setIsUserSignedIn }) => {
                       ? handleSignUp
                       : handleNext
                   }
-                  colorScheme="yellow"
+                  colorScheme="green"
                 >
                   {activeStep === steps.length - 1 ? 'Sign Up' : 'Next'}
                 </Button>

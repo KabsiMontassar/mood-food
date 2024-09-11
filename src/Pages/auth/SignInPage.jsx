@@ -14,17 +14,24 @@ import {
   useColorModeValue,
   Flex,
   Image,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { NavLink, useNavigate } from 'react-router-dom'; // Import NavLink
 import { FaGoogle, FaApple } from 'react-icons/fa';
 import logo from '../../assets/logo.png';
 import imsignin from '../../assets/imsignin.png';
 
-
-
 const SignInPage = ({ setIsUserSignedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { isOpen, onOpen, onClose } = useDisclosure(); // Modal control
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -47,7 +54,7 @@ const SignInPage = ({ setIsUserSignedIn }) => {
       left="0"
       width="100vw"
       height="100vh"
-      zIndex="9999"
+      zIndex="1"
       backgroundColor={useColorModeValue('#FFFCF6', '#1A202C')}
       justifyContent="center"
       alignItems="center"
@@ -98,7 +105,7 @@ const SignInPage = ({ setIsUserSignedIn }) => {
           <Text mb={6} textAlign="center">
             Don't have an account? Sign up now to get started.
           </Text>
-          <Button colorScheme="yellow" onClick={() => navigate('/SignUp')}>
+          <Button colorScheme="green" onClick={() => navigate('/SignUp')}>
             Sign Up
           </Button>
         </Flex>
@@ -136,28 +143,66 @@ const SignInPage = ({ setIsUserSignedIn }) => {
               </FormControl>
 
               <Box alignSelf="flex-end">
-                <NavLink to="/forgot-password" style={{ color: 'blue', textDecoration: 'none' }}>
+                <Text
+                  color="blue.500"
+                  cursor="pointer"
+                  onClick={onOpen} // Trigger modal on clicking "Forgot password?"
+                >
                   Forgot password?
-                </NavLink>
+                </Text>
               </Box>
 
-              <Button colorScheme="yellow" width="full" onClick={handleSignIn}>
+              <Button colorScheme="green" width="full" onClick={handleSignIn}>
                 Sign In
               </Button>
 
               <Divider />
 
-              <Button leftIcon={<FaGoogle />} colorScheme="gray" variant="outline" width="full">
+              <Button
+                leftIcon={<FaGoogle />}
+                colorScheme="gray"
+                variant="outline"
+                width="full"
+              >
                 Continue with Google
               </Button>
 
-              <Button leftIcon={<FaApple />} colorScheme="gray" variant="outline" width="full">
+              <Button
+                leftIcon={<FaApple />}
+                colorScheme="gray"
+                variant="outline"
+                width="full"
+              >
                 Continue with Apple
               </Button>
             </Stack>
           </Container>
         </Flex>
       </Flex>
+
+      {/* Modal for Forgot Password */}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Reset Password</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {/* Body content, e.g., form to input email */}
+            <Text>Enter your email to receive the reset link.</Text>
+            <FormControl mt={4}>
+              <FormLabel>Email</FormLabel>
+              <Input type="email" placeholder="Enter your email" />
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="green" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="ghost">Send Reset Link</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Flex>
   );
 };
