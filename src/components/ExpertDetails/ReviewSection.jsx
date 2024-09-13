@@ -1,11 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Flex, Text, Menu, MenuButton, useColorModeValue, Button, MenuList, MenuDivider, MenuOptionGroup, MenuItemOption } from '@chakra-ui/react';
 import { ChevronDownIcon, StarIcon } from '@chakra-ui/icons';
 
+
 const ReviewSection = ({ expert, reviews }) => {
+  const [sortDate, setSortDate] = useState('asc'); 
+  const [sortRating, setSortRating] = useState('asc'); 
+
+  const getSortedReviews = () => {
+    let sortedReviews = [...reviews];
+
+    
+    sortedReviews.sort((a, b) => {
+      if (sortRating === 'asc') {
+        return a.rating - b.rating;
+      } else {
+        return b.rating - a.rating;
+      }
+    });
+
+    sortedReviews.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+
+      if (sortDate === 'asc') {
+        return dateA - dateB;
+      } else {
+        return dateB - dateA;
+      }
+    });
+
+    return sortedReviews;
+  };
+
   return (
     <Box align="center" w="full">
-      {/* Header Section */}
       <Flex
         height={{ base: 'auto', md: '100%' }}
         w={{ base: '90%', md: '70%' }}
@@ -19,7 +48,7 @@ const ReviewSection = ({ expert, reviews }) => {
           {expert.reviews} Avis
         </Text>
 
-        {/* Sorting Menu */}
+       
         <Menu>
           <MenuButton
             className="menu-button"
@@ -29,19 +58,31 @@ const ReviewSection = ({ expert, reviews }) => {
             _expanded={{ bg: 'none' }}
             _focus={{ bg: 'none' }}
             background="transparent"
-            mt={{ base: 4, md: 0 }}  // Add margin on top for mobile
+            mt={{ base: 4, md: 0 }}
           >
             Trier
           </MenuButton>
           <MenuList minWidth="240px">
             <MenuOptionGroup defaultValue="asc" title="Date de publication" type="radio">
-              <MenuItemOption value="asc">Croissant</MenuItemOption>
-              <MenuItemOption value="desc">Décroissant</MenuItemOption>
+              <MenuItemOption value="asc" onClick={() => setSortDate('asc')}>
+            
+              Croissant
+              </MenuItemOption>
+              <MenuItemOption value="desc" onClick={() => setSortDate('desc')}>
+            
+              Décroissant
+              </MenuItemOption>
             </MenuOptionGroup>
             <MenuDivider />
-            <MenuOptionGroup title="Évaluation" type="checkbox">
-              <MenuItemOption value="asc">Croissant</MenuItemOption>
-              <MenuItemOption value="desc">Décroissant</MenuItemOption>
+            <MenuOptionGroup defaultValue="asc" title="Évaluation" type="radio">
+              <MenuItemOption   align="center" value="asc" onClick={() => setSortRating('asc')}>
+             
+              Croissant
+              </MenuItemOption>
+              <MenuItemOption  value="desc" onClick={() => setSortRating('desc')}>
+             
+              Décroissant
+              </MenuItemOption>
             </MenuOptionGroup>
           </MenuList>
         </Menu>
@@ -49,9 +90,9 @@ const ReviewSection = ({ expert, reviews }) => {
 
       {/* Review List Section */}
       <Box w={{ base: '90%', md: '70%' }} align="left" mt={5}>
-        {reviews.map((review) => (
+        {getSortedReviews().map((review) => (
           <Box key={review.id} p={5} borderBottom="1px solid #cccfcd">
-            {/* Star Rating */}
+         
             {Array(5)
               .fill('')
               .map((_, i) => (
