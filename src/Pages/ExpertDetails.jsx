@@ -14,8 +14,6 @@ const ExpertDetails = () => {
     const [time, setTime] = useState([]);
     const [selectedExpert, setSelectedExpert] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedSlot, setSelectedSlot] = useState(null);
-    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [countedClick, setCountedClick] = useState(0);
     const [daysOfWeekWithDates, setDaysOfWeekWithDates] = useState([]);
 
@@ -46,14 +44,25 @@ const ExpertDetails = () => {
  
 
   
-
     const handleJumpWeeks = (weeks) => {
         const offset = 14 * weeks;
-        const newDates = calculateDates(time[0], offset);
+        const currentDate = new Date();
+        const newStartDate = new Date(time[0]);
+        newStartDate.setDate(newStartDate.getDate() + offset);
+        if (newStartDate < currentDate) {
+            newStartDate.setTime(currentDate.getTime());
+        }
+        const maxDate = new Date(currentDate);
+        maxDate.setDate(maxDate.getDate() + 56); 
+        if (newStartDate > maxDate) {
+            newStartDate.setTime(maxDate.getTime());
+        }
+        const newDates = calculateDates(newStartDate, 0);
         setTime(newDates);
         setDaysOfWeekWithDates(newDates);
         setCountedClick(countedClick + weeks);
     };
+    
 
     useEffect(() => {
         const initialDates = calculateDates(new Date(), 0);

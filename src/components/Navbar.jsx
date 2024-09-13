@@ -395,7 +395,7 @@ const NAV_ITEMS = [
     href: '/Bien',
 
   },
-  { label: 'Recipes', href: '/recipes' },  // Added Recipes route
+  { label: 'Recipes', href: '/recipes' },  
   {
     label: 'Cuisine & Bienfaits',
     href: '/Cuisine',
