@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Box, Button, Flex, Text, Progress, Heading, Container, useColorModeValue, Spinner ,Center} from '@chakra-ui/react';
+import { Box, Button, Flex, Text, Progress, Heading, Container, Spinner ,Center} from '@chakra-ui/react';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 const steps = [
@@ -53,7 +53,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
             width="100vw"
             height="100vh"
             zIndex="9999"
-            backgroundColor={useColorModeValue('white', 'white')}
+            backgroundColor='white'
             justifyContent="center"
             alignItems="center"
         >
@@ -69,7 +69,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                         background="none"
                         _hover={{
                             bg: 'none',
-                            color: useColorModeValue('gray.600', 'gray.400')
+                            color:'gray.600'
                         }}
                     >
                         X
@@ -87,7 +87,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                         background="none"
                         _hover={{
                             bg: 'none',
-                            color: useColorModeValue('gray.600', 'whiteAlpha.600')
+                            color:'gray.600'
                         }}
                     >
                         Passer à la recherche
@@ -100,7 +100,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                         height="10px"
                         width="100%"
                         borderRadius="md"
-                        bg={useColorModeValue('gray.200', 'gray.600')}
+                        bg='gray.200'
                         colorScheme="green"
                         hasStripe
                         isAnimated
@@ -123,31 +123,31 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                                         Quel type de soins recherchez-vous ?
                                     </Heading>
                                     <Box
-                                        bg={useColorModeValue('white', 'gray.800')}
+                                        bg='white'
                                         cursor="pointer"
-                                        _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
-                                        border={`1px solid ${useColorModeValue('#758694', '#A0AEC0')}`}
+                                        _hover={{ bg:'gray.100' }}
+                                        border={`1px solid #758694`}
                                         borderRadius="md"
                                         p={4}
                                         mb={4}
                                         onClick={() => handleIssueSelection('Annual physical / checkup')}
                                     >
                                         <Text>Examen médical annuel / bilan de santé</Text>
-                                        <Text color={useColorModeValue('gray.500', 'gray.400')}>
+                                        <Text color='gray.500'>
                                             Examen complet
                                         </Text>
                                     </Box>
                                     <Box
-                                        bg={useColorModeValue('white', 'gray.800')}
+                                        bg='white'
                                         cursor="pointer"
-                                        _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
-                                        border={`1px solid ${useColorModeValue('#758694', '#A0AEC0')}`}
+                                        _hover={{ bg: 'gray.100' }}
+                                        border={`1px solid #758694`}
                                         borderRadius="md"
                                         p={4}
                                         onClick={() => handleIssueSelection('Issue / Condition / Problem')}
                                     >
                                         <Text>J'ai besoin de soins pour un problème, une condition ou une difficulté.</Text>
-                                        <Text color={useColorModeValue('gray.500', 'gray.400')}>
+                                        <Text color='gray.500'>
                                             Trouvez un traitement pour un problème spécifique ou un problème persistant.
                                         </Text>
                                     </Box>
@@ -159,31 +159,31 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                                         Quel est le principal problème que vous souhaitez aborder ?
                                     </Heading>
                                     <Box
-                                        bg={useColorModeValue('white', 'gray.800')}
+                                        bg='white'
                                         cursor="pointer"
-                                        _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
-                                        border={`1px solid ${useColorModeValue('#758694', '#A0AEC0')}`}
+                                        _hover={{ bg: 'gray.100' }}
+                                        border={`1px solid #758694`}
                                         borderRadius="md"
                                         p={4}
                                         mb={4}
                                         onClick={() => handleTypeSelection('Psychology')}
                                     >
                                         <Text>Problème de psychologie</Text>
-                                        <Text color={useColorModeValue('gray.500', 'gray.400')}>
+                                        <Text color='gray.500'>
                                             Problèmes de santé mentale et de bien-être
                                         </Text>
                                     </Box>
                                     <Box
-                                        bg={useColorModeValue('white', 'gray.800')}
+                                        bg='white'
                                         cursor="pointer"
-                                        _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
-                                        border={`1px solid ${useColorModeValue('#758694', '#A0AEC0')}`}
+                                        _hover={{ bg: 'gray.100' }}
+                                        border={`1px solid #758694`}
                                         borderRadius="md"
                                         p={4}
                                         onClick={() => handleTypeSelection('Nutrition')}
                                     >
                                         <Text>Problème de nutrition</Text>
-                                        <Text color={useColorModeValue('gray.500', 'gray.400')}>
+                                        <Text color='gray.500'>
                                             Problèmes liés à l'alimentation et à la nutrition
                                         </Text>
                                     </Box>

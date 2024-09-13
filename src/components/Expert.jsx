@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, Heading, Text, Avatar, Grid, Icon, Button, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text, Avatar, Grid, Icon, Button } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import {useNavigate} from 'react-router-dom';
@@ -8,7 +8,7 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
     const navigate = useNavigate();
     return (
         <Box
-            bg={useColorModeValue('white', '#2D3748')}
+            bg='white'
             key={expert.id}
             overflow="hidden"
             p={4}
@@ -34,8 +34,8 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
                         <Avatar name={expert.name} src={`https://i.pravatar.cc/150?img=${expert.id}`} mr={4} />
                         <Box>
                             <Heading size="md">{expert.name}</Heading>
-                            <Text color={useColorModeValue('gray.600', 'gray.400')}>{expert.expertise}</Text>
-                            <Text color={useColorModeValue('gray.600', 'gray.400')}>
+                            <Text color='gray.600'>{expert.expertise}</Text>
+                            <Text color='gray.600'>
                                 <Icon color="green" as={FaMapMarkerAlt} />{expert.address}
                             </Text>
                             <Flex align="center" mt={2}>
@@ -44,10 +44,10 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
                                     .map((_, i) => (
                                         <StarIcon
                                             key={i}
-                                            color={i < expert.rating ? useColorModeValue('yellow.500', 'yellow.400') : useColorModeValue('gray.300', 'gray.600')}
+                                            color={i < expert.rating ? 'yellow.500' :'gray.300'}
                                         />
                                     ))}
-                                <Text ml={2} fontSize="sm" color={useColorModeValue('gray.600', 'gray.400')}>
+                                <Text ml={2} fontSize="sm" color='gray.600'>
                                     ({expert.reviews} reviews)
                                 </Text>
                             </Flex>

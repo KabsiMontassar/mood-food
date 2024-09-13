@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box, Input, Flex, Button, Text, Select, useColorModeValue, IconButton, VStack, HStack, AspectRatio
+  Box, Input, Flex, Button, Text, Select, IconButton, VStack, HStack, AspectRatio
 } from '@chakra-ui/react';
 import expertsData from '../Data/expertsData.jsx';
-import SelectedExpertModal from '../Components/RendezvousModals/selectedExpertModal.jsx';
-import ConfirmationModal from '../Components/RendezvousModals/ConfirmationModal.jsx';
+import SelectedExpertModal from '../components/RendezvousModals/selectedExpertModal.jsx';
 import Expert from './Expert';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
@@ -17,8 +16,6 @@ const ExpertsList = ({ issue, type }) => {
   const [selectedSubType, setSelectedSubType] = useState('All');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedExpert, setSelectedExpert] = useState(null);
-  const [selectedSlot, setSelectedSlot] = useState(null);
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [time, setTime] = useState([]);
   const [CountedClick, setCountedClick] = useState(0);
 
@@ -88,15 +85,7 @@ const ExpertsList = ({ issue, type }) => {
     setSelectedExpert(null);
   };
 
-  const openConfirmationModal = (slot) => {
-    setSelectedSlot(slot);
-    setIsConfirmationModalOpen(true);
-  };
-
-  const closeConfirmationModal = () => {
-    setIsConfirmationModalOpen(false);
-    setSelectedSlot(null);
-  };
+ 
 
   useEffect(() => {
     setTime(generateTime());
@@ -112,7 +101,7 @@ const ExpertsList = ({ issue, type }) => {
 
         overflowY="auto"
         p={4}
-        bg={useColorModeValue('gray.50', 'gray.800')}
+        bg='gray.50'
       >
 
         <Flex
@@ -125,14 +114,14 @@ const ExpertsList = ({ issue, type }) => {
 
           top="0"
           zIndex="10"
-          bg={useColorModeValue('gray.50', 'gray.800')}
+          bg='gray.50'
           p={4}
 
         >
           <Input
             border={0}
             borderRadius="md"
-            bg={useColorModeValue('white', '#2D3748')}
+            bg='white'
             placeholder="Search by name"
             value={searchName}
             onChange={e => setSearchName(e.target.value)}
@@ -141,7 +130,7 @@ const ExpertsList = ({ issue, type }) => {
           <Input
             border={0}
             borderRadius="md"
-            bg={useColorModeValue('white', '#2D3748')}
+            bg='white'
             placeholder="Search by address"
             value={searchAddress}
             onChange={e => setSearchAddress(e.target.value)}
@@ -150,7 +139,7 @@ const ExpertsList = ({ issue, type }) => {
           <Select
             border={0}
             borderRadius="md"
-            bg={useColorModeValue('white', '#2D3748')}
+            bg='white'
             value={selectedType}
             onChange={e => {
               setSelectedType(e.target.value);
@@ -167,7 +156,7 @@ const ExpertsList = ({ issue, type }) => {
             <Select
               border={0}
               borderRadius="md"
-              bg={useColorModeValue('white', '#2D3748')}
+              bg='white'
               value={selectedSubType}
               onChange={e => setSelectedSubType(e.target.value)}
               focusBorderColor="green.500"
@@ -262,23 +251,14 @@ const ExpertsList = ({ issue, type }) => {
 
       {selectedExpert && (
         <SelectedExpertModal
-          isModalOpen={isModalOpen}
-          closeModal={closeModal}
-          selectedExpert={selectedExpert}
-          daysOfWeekWithDates={time}
-          openConfirmationModal={openConfirmationModal}
+                    isOpen={isModalOpen}
+                    onClose={closeModal}
+                    selectedExpert={selectedExpert}
+                    daysOfWeekWithDates={time}
         />
       )}
 
-      {selectedSlot && (
-        <ConfirmationModal
-          isConfirmationModalOpen={isConfirmationModalOpen}
-          closeConfirmationModal={closeConfirmationModal}
-          selectedSlot={selectedSlot}
-          selectedExpert={selectedExpert}
-
-        />
-      )}
+   
     </Flex>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Text,useColorModeValue } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import Rendezvousprompt from '../components/RendezVousPrompt';
 import ExpertsList from '../components/ExpertsList';
 
