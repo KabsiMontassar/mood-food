@@ -20,34 +20,32 @@ const TherapyCards = () => {
     },
   ];
 
-  
   const cardWidth = useBreakpointValue({ base: "90%", sm: "80%", md: "340px" });
   const cardHeight = useBreakpointValue({ base: "auto", sm: "auto", md: "350px" });
-  const gap = useBreakpointValue({ base: "4vw", sm: "6vw", md: "8vw" });
-  const buttonWidth = useBreakpointValue({ base: "full", sm: "full", md: "10vw" });
+  const gap = useBreakpointValue({ base: "20px", sm: "24px", md: "32px" }); // Adjusted gap for mobile
+  const buttonWidth = useBreakpointValue({ base: "full", sm: "full", md: "150px" });
 
   return (
     <Box
-    
       py={{ base: "20px", md: "50px" }}
       px={{ base: "10px", md: "20px" }}
       bg="#335D2D"
+      minH="100vh" 
       
       textAlign="center"
-   
     >
       <Text
         color="white"
         fontSize={{ base: "24px", md: "32px" }}
         fontWeight="bold"
-        mb="10px"
+        mb={{ base: "10px", md: "20px" }}
       >
         Nos Services
       </Text>
       <Text
         color="white"
         fontSize={{ base: "14px", md: "18px" }}
-        mb="40px"
+        mb={{ base: "20px", md: "40px" }}
       >
         Découvrez nos services pour une vie plus saine et équilibrée.
       </Text>
@@ -57,10 +55,11 @@ const TherapyCards = () => {
         align="center"
         gap={gap}
         wrap="wrap"
-       
+        mx="auto" 
       >
         {cardData.map((card, index) => (
           <Box
+          
             key={index}
             bg={card.bgColor}
             width={cardWidth}
@@ -90,8 +89,9 @@ const TherapyCards = () => {
                 width={buttonWidth}
                 p="10px"
                 fontSize={{ base: "14px", md: "16px" }}
+                _hover={{ bg: "#f0f0f0" }}
               >
-                Voire Plus
+                Voir Plus
               </Button>
             </Flex>
           </Box>

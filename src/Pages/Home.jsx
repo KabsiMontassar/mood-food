@@ -15,65 +15,76 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
   useEffect(() => {
-   
-    const lenis = new Lenis({
-      lerp: 0.2,
-      smoothWheel: true,
-    });
+    // Check if the viewport is mobile
+    const isMobile = window.innerWidth <= 768;
 
-    lenis.on("scroll", () => ScrollTrigger.update());
+    if (!isMobile) {
+      // Initialize Lenis and GSAP ScrollTrigger only for non-mobile devices
+      const lenis = new Lenis({
+        lerp: 0.2,
+        smoothWheel: true,
+      });
 
-    const scrollFn = (time) => {
-      lenis.raf(time);
+      lenis.on("scroll", () => ScrollTrigger.update());
+
+      const scrollFn = (time) => {
+        lenis.raf(time);
+        requestAnimationFrame(scrollFn);
+      };
       requestAnimationFrame(scrollFn);
-    };
-    requestAnimationFrame(scrollFn);
 
-   
-    const sections = document.querySelectorAll(".container .section");
-    sections.forEach((section , position) => {
-
-        const isLast =  position === sections.length - 1;
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: '+=100%',
-          scrub: true
-        },
-      })
-        .to(section, {
-          ease: 'none',
-            startAt: {filter: 'brightness(100%) contrast(100%)'},
+      const sections = document.querySelectorAll(".container .section");
+      sections.forEach((section, position) => {
+        const isLast = position === sections.length - 1;
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: '+=100%',
+            scrub: true
+          },
+        })
+          .to(section, {
+            ease: 'none',
+            startAt: { filter: 'brightness(100%) contrast(100%)' },
             filter: isLast ? 'none' : 'brightness(60%) contrast(135%)',
             yPercent: isLast ? 0 : -15
-        })
-      
-    });
+          });
+      });
 
-    return () => window.removeEventListener("scroll", lenis.destroy);
+      return () => window.removeEventListener("scroll", lenis.destroy);
+    }
   }, []);
 
   return (
     <Box className="container">
       <Flex
         width="100%"
-        height="100vh"
-        p="100px"
+        height={{ base: "auto", md: "100vh" }}
+        p={{ base: "20px", md: "50px", lg: "100px" }}
+        flexDirection={{ base: "column", md: "row" }}
         justifyContent="center"
         alignItems="center"
       >
-        <Box w="50%">
-          <Heading as="h1" size="2xl" color="green.800" textAlign="center" letterSpacing={3}>
+        <Box
+          w={{ base: "100%", md: "50%" }}
+          textAlign="center"
+          mb={{ base: "20px", md: "0" }}
+        >
+          <Heading as="h1" size={{ base: "xl", md: "2xl" }} color="green.800" letterSpacing={3}>
             Transformez votre humeur à chaque repas.
           </Heading>
           <br />
-          <Heading as="h2" size="md" color="gray.500" textAlign="center">
+          <Heading as="h2" size={{ base: "md", md: "lg" }} color="gray.500">
             Découvrez l'harmonie parfaite entre la nutrition et le bien-être chez Mood and Food.
           </Heading>
         </Box>
-        <Box w="25%" display="flex" justifyContent="flex-end">
-          <Img width={300} src={logo} alt="logo" />
+        <Box
+          w={{ base: "80%", md: "25%" }}
+          display="flex"
+          justifyContent="center"
+        >
+          <Img width={{ base: "200px", md: "300px" }} src={logo} alt="logo" />
         </Box>
       </Flex>
       <Box>
