@@ -1,12 +1,196 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box, Input, Flex, Button, Text, Select, IconButton, VStack, HStack, AspectRatio
+  Box, Input, Flex, Button, Text, Select, IconButton, VStack
 } from '@chakra-ui/react';
 import expertsData from '../Data/expertsData.jsx';
 import SelectedExpertModal from '../components/RendezvousModals/selectedExpertModal.jsx';
 import Expert from './Expert';
-
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+
+
+
+
+const NavSearch = ({ searchName, setSearchName, searchAddress, setSearchAddress, selectedType, setSelectedType, selectedSubType, setSelectedSubType, psychologistTypes }) => {
+  return (
+   
+    <Flex
+      borderBottomWidth={1}
+      flexDirection={{ base: 'column', md: 'row' }}
+      justifyContent="center"
+      alignItems="center"
+      gap={4}
+      top="0"
+      zIndex="10"
+      bg='gray.50'
+      p={4}
+    >
+      <Input
+        border={0}
+        borderRadius="md"
+        bg='white'
+        placeholder="Search by name"
+        value={searchName}
+        onChange={e => setSearchName(e.target.value)}
+        focusBorderColor="green.500"
+      />
+      <Input
+        border={0}
+        borderRadius="md"
+        bg='white'
+        placeholder="Search by address"
+        value={searchAddress}
+        onChange={e => setSearchAddress(e.target.value)}
+        focusBorderColor="green.500"
+      />
+      <Select
+        border={0}
+        borderRadius="md"
+        bg='white'
+        value={selectedType}
+        onChange={e => {
+          setSelectedType(e.target.value);
+          setSelectedSubType('All');
+        }}
+        focusBorderColor="green.500"
+      >
+        <option value="All">All</option>
+        <option value="Nutritionist">Nutritionist</option>
+        <option value="Psychologist">Psychologist</option>
+      </Select>
+
+      {selectedType === 'Psychologist' && (
+        <Select
+          border={0}
+          borderRadius="md"
+          bg='white'
+          value={selectedSubType}
+          onChange={e => setSelectedSubType(e.target.value)}
+          focusBorderColor="green.500"
+        >
+          <option value="All">All</option>
+          {psychologistTypes.map((subType, index) => (
+            <option key={index} value={subType}>{subType}</option>
+          ))}
+        </Select>
+      )}
+    </Flex>
+  );
+};
+
+const TimeChanger = ({ time, CountedClick, jumptwoweektocurrenttime, jumpbacktwoweeks }) => {
+  return (
+    <Flex borderBottomWidth={1} p={4}  w="full" alignItems="center" justifyContent="space-between" mb={4}>
+      <Flex flexGrow={1} justifyContent="center">
+        <Text color="gray.600">
+          {time[0]} - {time[13]}
+        </Text>
+      </Flex>
+
+      <Flex>
+        <IconButton
+          boxSize={7}
+          color="gray.500"
+          bg="transparent"
+          _hover={{ color: 'black', bg: 'transparent' }}
+          as={ChevronLeftIcon}
+          isDisabled={CountedClick === 0}
+          onClick={jumpbacktwoweeks}
+        />
+        <IconButton
+          boxSize={7}
+          color="gray.500"
+          bg="transparent"
+          _hover={{ color: 'black', bg: 'transparent' }}
+          as={ChevronRightIcon}
+          isDisabled={CountedClick === 3}
+          onClick={jumptwoweektocurrenttime}
+        />
+      </Flex>
+    </Flex>
+  );
+};
+
+
+
+const Experts = ({ currentExperts, openModal, time, setCurrentPage, totalPages, currentPage }) => {
+
+
+
+
+  return (
+    <Flex
+      direction={{ base: 'column', md: 'row' }} 
+      w="full"
+      h="full"
+      
+      p={4}
+      gap={4}
+    >
+      <Box
+      bg="white"
+        flex="1"
+        borderRadius={5}
+        p={8}
+        overflowY="auto"
+        
+      >
+        {currentExperts.map((expert, index) => (
+          <Expert
+            key={index}
+            expert={expert}
+            openModal={openModal}
+            daysOfWeekWithDates={time}
+          />
+        ))}
+        <Flex justify="space-between" mt={4} w="full">
+          <Button
+            borderRadius={5}
+            _hover={{ bg: '#5EDABC' }}
+            bg="transparent"
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Précédent
+          </Button>
+          
+          <Button
+            borderRadius={5}
+            _hover={{ bg: '#5EDABC' }}
+            bg="transparent"
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Suivant
+          </Button>
+        </Flex>
+      </Box>
+
+    
+      <Box
+        display={{ base: 'none', md: 'block' }} 
+        bg="white"
+        w={{ base: 'full', md: '40%' }} 
+        h="full" 
+        borderRadius={5}
+        p={8}
+        height="100vh"
+        overflow="hidden"
+      >
+        <iframe
+          width="100%"
+          height="100%"
+          src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.952912260219!2d3.375295414770757!3d6.5276316452784755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2ae68280c1%3A0xdc9e87a367c3d9cb!2sLagos!5e0!3m2!1sen!2sng!4v1567723392506!5m2!1sen!2sng'
+          style={{ border: 0 }}
+          allowFullScreen
+          loading="lazy"
+        />
+      </Box>
+    </Flex>
+  
+  );
+};
+
+
 
 const ExpertsList = ({ issue, type }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,7 +244,6 @@ const ExpertsList = ({ issue, type }) => {
     "Cognitive Psychologist",
     "Psychotherapist"
   ];
-
   const filteredExperts = expertsData.filter(
     expert =>
       (searchName === '' || expert.name.toLowerCase().includes(searchName.toLowerCase())) &&
@@ -85,180 +268,54 @@ const ExpertsList = ({ issue, type }) => {
     setSelectedExpert(null);
   };
 
- 
-
   useEffect(() => {
     setTime(generateTime());
   }, []);
 
   return (
-    <Flex spacing={4} align="flex-start">
-
+    <Flex direction={{ base: 'column', md: 'row' }} spacing={4}>
       <VStack
         spacing={4}
         align="stretch"
         flex="1"
-
         overflowY="auto"
         p={4}
         bg='gray.50'
       >
-
-        <Flex
-          borderBottomWidth={1}
-          flexDirection={{ base: 'column', md: 'row' }}
-          justifyContent="center"
-          alignItems="center"
-          gap={4}
-         
-
-          top="0"
-          zIndex="10"
-          bg='gray.50'
-          p={4}
-
-        >
-          <Input
-            border={0}
-            borderRadius="md"
-            bg='white'
-            placeholder="Search by name"
-            value={searchName}
-            onChange={e => setSearchName(e.target.value)}
-            focusBorderColor="green.500"
-          />
-          <Input
-            border={0}
-            borderRadius="md"
-            bg='white'
-            placeholder="Search by address"
-            value={searchAddress}
-            onChange={e => setSearchAddress(e.target.value)}
-            focusBorderColor="green.500"
-          />
-          <Select
-            border={0}
-            borderRadius="md"
-            bg='white'
-            value={selectedType}
-            onChange={e => {
-              setSelectedType(e.target.value);
-              setSelectedSubType('All');
-            }}
-            focusBorderColor="green.500"
-          >
-            <option value="All">All</option>
-            <option value="Nutritionist">Nutritionist</option>
-            <option value="Psychologist">Psychologist</option>
-          </Select>
-
-          {selectedType === 'Psychologist' && (
-            <Select
-              border={0}
-              borderRadius="md"
-              bg='white'
-              value={selectedSubType}
-              onChange={e => setSelectedSubType(e.target.value)}
-              focusBorderColor="green.500"
-            >
-              <option value="All">All</option>
-              {psychologistTypes.map((subType, index) => (
-                <option key={index} value={subType}>{subType}</option>
-              ))}
-            </Select>
-          )}
-        </Flex>
-        
-        <Flex borderBottomWidth={1} p={4} w="full" alignItems="center" justifyContent="space-between" mb={4}>
-          <Flex flexGrow={1} justifyContent="center">
-            <Text color="gray.600">
-              {time[0]} - {time[13]}
-            </Text>
-          </Flex>
-
-          <Flex>
-            <IconButton
-              boxSize={7}
-              color="gray.500"
-              bg="transparent"
-              _hover={{ color: 'black', bg: 'transparent' }}
-              as={ChevronLeftIcon}
-              isDisabled={CountedClick === 0}
-              onClick={jumpbacktwoweeks}
-            />
-            <IconButton
-              boxSize={7}
-              color="gray.500"
-              bg="transparent"
-              _hover={{ color: 'black', bg: 'transparent' }}
-              as={ChevronRightIcon}
-              isDisabled={CountedClick === 3}
-              onClick={jumptwoweektocurrenttime}
-            />
-          </Flex>
-        </Flex>
-        <Flex>
-          <Box w="60%" bg="gray.50"  borderRadius={5}   p={8}>
-            {currentExperts.map((expert, index) => (
-              <Expert
-                key={index}
-                expert={expert}
-                openModal={openModal}
-                daysOfWeekWithDates={time}
-              />
-            ))}
-            <Flex justify="space-between" mt={4} w="full">
-              <Button
-                borderRadius={5}
-                _hover={{ bg: '#5EDABC' }}
-                bg="transparent"
-                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-              >
-                Previous
-              </Button>
-              <Text color="gray.600">
-                Page {currentPage} of {totalPages}
-              </Text>
-              <Button
-                borderRadius={5}
-                _hover={{ bg: '#5EDABC' }}
-                bg="transparent"
-                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                disabled={currentPage === totalPages}
-              >
-                Next
-              </Button>
-            </Flex>
-          </Box>
-
-          <Box
-            bg="white"
-            w="40%"
-            borderRadius={5}
-             
-            
-            p={8} >
-        <iframe width="100%" height="100%" src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.952912260219!2d3.375295414770757!3d6.5276316452784755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2ae68280c1%3A0xdc9e87a367c3d9cb!2sLagos!5e0!3m2!1sen!2sng!4v1567723392506!5m2!1sen!2sng' />
-
-          </Box>
-
-
-
-        </Flex>
-      
+        <NavSearch
+          searchName={searchName}
+          setSearchName={setSearchName}
+          searchAddress={searchAddress}
+          setSearchAddress={setSearchAddress}
+          selectedType={selectedType}
+          setSelectedType={setSelectedType}
+          selectedSubType={selectedSubType}
+          setSelectedSubType={setSelectedSubType}
+          psychologistTypes={psychologistTypes}
+        />
+        <TimeChanger
+          time={time}
+          CountedClick={CountedClick}
+          jumptwoweektocurrenttime={jumptwoweektocurrenttime}
+          jumpbacktwoweeks={jumpbacktwoweeks}
+        />
+        <Experts
+          currentExperts={currentExperts}
+          openModal={openModal}
+          time={time}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+          currentPage={currentPage}
+        />
       </VStack>
-
       {selectedExpert && (
         <SelectedExpertModal
-                    isOpen={isModalOpen}
-                    onClose={closeModal}
-                    selectedExpert={selectedExpert}
-                    daysOfWeekWithDates={time}
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          selectedExpert={selectedExpert}
+          daysOfWeekWithDates={time}
         />
       )}
-
-   
     </Flex>
   );
 };
