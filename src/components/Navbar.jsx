@@ -163,21 +163,23 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
           {isUserSignedIn ?
             <>
 
-              <Button 
-              fontSize={'sm'} 
-              color="#64A87A" 
-              fontWeight={600} 
-              variant={'link'} 
-              onClick={SignOut} 
-              _hover={{
-                color: '#96C970',
-              }} >
+              <Button
+                fontSize={'sm'}
+                color="#64A87A"
+                fontWeight={600}
+             
+                display={{ base: 'none', md: 'inline-flex' }}
+                variant={'link'}
+                onClick={SignOut}
+                _hover={{
+                  color: '#96C970',
+                }} >
                 Sign Out
               </Button>
 
               <Button
                 as={'a'}
-             
+                display={{ base: 'none', md: 'inline-flex' }}
                 fontSize={'sm'}
                 fontWeight={600}
                 color={'white'}
@@ -214,7 +216,7 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav navigate={navigate} handleFixerRendezVous={handleFixerRendezVous} />
+        <MobileNav navigate={navigate} handleFixerRendezVous={handleFixerRendezVous} isUserSignedIn={isUserSignedIn} SignOut={SignOut}   handleSignIn={handleSignIn} />
       </Collapse>
     </Box>
   );
@@ -303,7 +305,7 @@ const DesktopSubNav = ({ label, href, subLabel, navigate }) => {
   );
 };
 
-const MobileNav = ({ navigate ,handleFixerRendezVous }) => {
+const MobileNav = ({ navigate, handleFixerRendezVous, isUserSignedIn, SignOut  , handleSignIn}) => {
   return (
     <Stack bg='white' p={4} display={{ md: 'none' }}>
       {NAV_ITEMS.map((navItem) => (
@@ -318,13 +320,71 @@ const MobileNav = ({ navigate ,handleFixerRendezVous }) => {
         cursor="pointer"
         bg="none"
         left={0}
-
-        onClick={ () => handleFixerRendezVous()}
         _hover={{
           opacity: '0.8',
-        }} >
+        }}
+        onClick={() => handleFixerRendezVous()}
+      >
         Fixer un rendez-vous
       </Button>
+      <br />
+      {isUserSignedIn ?
+        <>
+         
+          <Button
+            as={'a'}
+
+            fontSize={'sm'}
+            userSelect="none"
+            fontWeight={800}
+            cursor="pointer"
+            bg="none"
+            onClick={SignOut}
+            left={0}
+            _hover={{
+              opacity: '0.8',
+            }} >
+            Sign Out
+          </Button>
+          <br />
+          <Button
+            as={'a'}
+
+            fontSize={'sm'}
+            userSelect="none"
+            fontWeight={800}
+            cursor="pointer"
+            bg="none"
+            left={0}
+            _hover={{
+              opacity: '0.8',
+            }}
+            href={'/profile'}
+          >
+            Profile
+          </Button>
+        </>
+        :
+
+        <Button 
+
+          as={'a'}
+
+          fontSize={'sm'}
+          userSelect="none"
+          fontWeight={800}
+          cursor="pointer"
+          bg="none"
+          left={0}
+          _hover={{
+            opacity: '0.8',
+          }}
+          onClick={() => handleSignIn()}
+
+        >
+          Sign In
+        </Button>
+      }
 
     </Stack>
   );
@@ -395,7 +455,7 @@ const NAV_ITEMS = [
     href: '/Bien',
 
   },
-  { label: 'Recipes', href: '/recipes' },  
+  { label: 'Recipes', href: '/recipes' },
   {
     label: 'Cuisine & Bienfaits',
     href: '/Cuisine',

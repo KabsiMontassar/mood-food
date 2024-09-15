@@ -1,15 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
 
-* {
+* , *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto Slab', serif;
 }
 
-/* #root {
-    background: #FFFCF6;
-} */
 
 .container {
     position: relative;
@@ -18,29 +15,11 @@
 
 .container .section {
     position: sticky;
+    height: 100vh;
     top: 0;
    
 }
 
-.container .section:nth-child(1) {
-    background: #FFFCF6;
-}
-
-.container .section:nth-child(2) {
-    background: #F7F0E6;
-}
-
-.container .section:nth-child(3) {
-    background: #FFFCF6;
-}
-
-.container .section:nth-child(4) {
-    background: #F7F0E6;
-}
-
-.container .section:nth-child(5) {
-    background: #FFFCF6;
-}
 
 
 
@@ -99,21 +78,6 @@
   }
   
 
-  /* span {
-    
-    color: #0000;
-  
-    background: 
-      linear-gradient(90deg,#38A169 50%,gray 0) calc(100% - var(--_p,0%))/200% 100%,
-      linear-gradient(#38A169 0 0) 0% 100%/var(--_p,0%) 0.1em no-repeat;
-    -webkit-background-clip: text,padding-box;
-            background-clip: text,padding-box;
-    transition: 0.5s;
-  }
-  span:hover {
-    --_p: 100%
-  } */
-
 
 
   .menu-button > span > svg , .menu-button > span {
@@ -122,57 +86,5 @@
 
 
 
-  @keyframes drop {
-    0% {
-        top: -100px;
-        opacity: 0;
-    }
-
-    10% {
-        opacity: 1;
-    }
-
-    100% {
-        top: 100vh;
-        opacity: 0;
-    }
-}
-
-.food-drop {
-    user-select: none;
-    position: absolute;
-    font-size: 10rem;
-    animation: drop 5s infinite;
-    left: calc(var(--i) * 15%);
-    animation-delay: calc(var(--i) * -2s);
-}
-
-.food-drop:nth-child(1) {
-    --i: 1;
-}
-
-.food-drop:nth-child(2) {
-    --i: 2;
-}
-
-.food-drop:nth-child(3) {
-    --i: 3;
-}
-
-.food-drop:nth-child(4) {
-    --i: 4;
-}
-
-.food-drop:nth-child(5) {
-    --i: 5;
-}
-
-.food-drop:nth-child(6) {
-    --i: 6;
-}
-
-.food-drop:nth-child(7) {
-    --i: 7;
-}
 
 
