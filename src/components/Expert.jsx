@@ -69,14 +69,14 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
                     </Box>
                 </Flex>
 
-                {/* Availability Grid for Larger Screens */}
+               
                 <Box
                     flex="2"
                     mt={{ base: 4, md: 0 }}
-                    display={{ base: 'none', md: 'block' }} // Hide on mobile, show on larger screens
+                    display={{ base: 'none', md: 'block' }} 
                 >
                     <Grid
-                        templateColumns="repeat(7, 75px)"
+                        templateColumns="repeat(7, 1fr)"
                         gap={2}
                         mt={4}
                     >
@@ -90,8 +90,9 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
                                     opacity: 0.8
                                 }}
                                 isDisabled={expert.availability[index] === 'No appts'}
-                                h="110px"
-                                w="75px"
+                                h="auto"
+                                p={3}
+                                w="auto"
                                 flexWrap='wrap'
                                 whiteSpace="normal"
                                 textAlign="left"
@@ -135,7 +136,7 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
                                 textOverflow="ellipsis"
                                 fontSize={{ base: 'xs', md: 'sm' }}
                             >
-                                {date}
+                                {date} 
                             </Button>
                         ))}
                     </Grid>

@@ -130,7 +130,7 @@ const Experts = ({ currentExperts, openModal, time, setCurrentPage, totalPages, 
       bg="white"
         flex="1"
         borderRadius={5}
-        p={8}
+        p={4}
         overflowY="auto"
         
       >
@@ -169,7 +169,7 @@ const Experts = ({ currentExperts, openModal, time, setCurrentPage, totalPages, 
       <Box
         display={{ base: 'none', md: 'block' }} 
         bg="white"
-        w={{ base: 'full', md: '40%' }} 
+        w={{ base: 'full', md: '30%' }} 
         h="full" 
         borderRadius={5}
         p={8}

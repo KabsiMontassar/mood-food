@@ -57,7 +57,11 @@ const selectedExpertModal = ({ isOpen, onClose, selectedExpert, daysOfWeekWithDa
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="xl">
+    <Modal isOpen={isOpen} onClose={onClose} size="xl"
+      scrollBehavior="inside" 
+      
+      overflowY="auto"
+    >
       <ModalOverlay />
       <ModalContent pb={5} maxW="50rem">
         <ModalHeader
