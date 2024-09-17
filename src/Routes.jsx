@@ -16,11 +16,42 @@ import User from './Pages/Admin/User';
 import Rendezvous from './Pages/Rendezvous';
 import Profile from './Pages/Profile';
 import FAQ from './Pages/FAQ';
-import SignIn from './Pages/auth/SignInPage';  
-import SignUpPage from './Pages/auth/SignUpPage';
-import Recipes from './Pages/Recipes';
+import Recipes from './Pages/Recipes'; // Import the Recipes component
 
-const RoutesComponent = () => {
+
+
+
+const routes = [
+  { path: "/", element: <Home /> },
+  { path: "/Bien", element: <Bienetre /> },
+  { path: "/Cuisine", element: <Cuisine /> },
+  { path: "/Propos", element: <Propos /> },
+  { path: "/Product", element: <Product /> },
+  { path: "/Contact", element: <Contact /> },
+  { path: "/Rendezvous", element: <Rendezvous /> },
+  { path: "/FAQ", element: <FAQ /> },
+
+  { path: "profile", element: <Profile /> },
+
+
+  { path: "/Repas", element: <Repas /> },
+  { path: "/Equipement", element: <Equipement /> },
+  { path: "/Commande", element: <Commande /> },
+  
+  { path: "/User", element: <User /> },
+
+  
+
+
+  { path: "/recipes", element: <Recipes /> }, // Added route for Recipes
+  { path: "*", element: <h1>error</h1> },
+];
+
+const RRoutes = () => {
+
+
+
+
   const location = useLocation();
 
   return (

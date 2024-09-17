@@ -3,18 +3,18 @@ import React from "react";
 import experts from "../../assets/experts.jpg";
 
 const ExpertsComponent = () => {
-  const imageSize = useBreakpointValue({ base: "80%", sm: "70%", md: "60%" });
+  const imageSize = useBreakpointValue({ base: "100%", sm: "80%", md: "70%" });
   const flexDirection = useBreakpointValue({ base: "column", md: "row" });
   const buttonSize = useBreakpointValue({ base: "md", md: "lg" });
   const spacing = useBreakpointValue({ base: 4, md: 6 });
 
   return (
     <Flex
-     
       direction={flexDirection}
       align="center"
       justify="center"
       bg="#f7f1ea"
+      
       p={{ base: 4, md: 8 }}
       borderRadius="lg"
       wrap="wrap"
@@ -51,15 +51,12 @@ const ExpertsComponent = () => {
         wrap="wrap"
         maxWidth={{ base: "90%", md: "50%" }}
         gap={4}
-        position="relative"
       >
-        {/* Container for the images */}
         <Box
           display="grid"
-          gridTemplateColumns="repeat(2, 1fr)"
-          gridTemplateRows="repeat(2, 1fr)"
+          gridTemplateColumns="repeat(2, minmax(150px, 1fr))"
+          gridTemplateRows="repeat(2, minmax(150px, 1fr))"
           gap={4}
-          position="relative"
           width="100%"
           maxWidth={imageSize}
         >
@@ -67,35 +64,25 @@ const ExpertsComponent = () => {
             src={experts}
             alt="experts"
             borderRadius="lg"
-            gridRow="1 / 2"
-            gridColumn="1 / 2"
-            transform="translateY(-20%)"
-              boxShadow="lg"
+            boxShadow="lg"
           />
           <Image
             src={experts}
             alt="experts"
             borderRadius="lg"
-            gridRow="1 / 2"
-            gridColumn="2 / 3"
-              boxShadow="lg"
+            boxShadow="lg"
           />
           <Image
             src={experts}
             alt="experts"
             borderRadius="lg"
-            gridRow="2 / 3"
-            gridColumn="1 / 2"
-             transform="translateY(-20%)"
-               boxShadow="lg"
+            boxShadow="lg"
           />
           <Image
             src={experts}
             alt="experts"
             borderRadius="lg"
-            gridRow="2 / 3"
-              boxShadow="lg"
-            gridColumn="2 / 3"
+            boxShadow="lg"
           />
         </Box>
       </Flex>

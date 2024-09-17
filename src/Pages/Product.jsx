@@ -1,43 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ChakraProvider,
-  Grid,
   Box,
+  Grid,
   Image,
   Button,
   useToast,
   Heading,
   Text,
-  VStack,
+  HStack,
   Input,
   Select,
   Stack,
-  IconButton,
-  HStack,
+  Checkbox,
   extendTheme,
+  Flex,
 } from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons';
 
-// Extend the Chakra UI theme with custom colors
+// Custom Chakra UI theme
 const customTheme = extendTheme({
   colors: {
-    brand: {
-      50: '#e6ffee',
-      100: '#b3ffd9',
-      200: '#80ffc3',
-      300: '#4dffad',
-      400: '#1aff98',
-      500: '#00e680',
-      600: '#00b36b',
-      700: '#008056',
-      800: '#004d3a',
-      900: '#001a15',
+    blackWhite: {
+      background: '#f5f5f5',
+      text: '#333333',
+    },
+    green: {
+      500: '#32a852',
     },
   },
 });
 
-// Define the list of products with additional fields
-const products = [
+// Initial Products
+const initialProducts = [
   {
     productId: 1,
     name: 'Gainer',
@@ -45,16 +39,16 @@ const products = [
     category: 'Produit Diététique',
     section: 'Supplements',
     price: 50,
-    image: 'src/assets/images/gainer.jpeg',
+    image: '/src/assets/images/gainer.jpeg',
   },
   {
     productId: 2,
     name: 'Rameur',
     description: 'A rowing machine for an effective full-body workout, ideal for building strength and endurance.',
-    category: 'Matériel',
+    category: 'Equipement sportif',
     section: 'Equipment',
     price: 80,
-    image: 'src/assets/images/Remo.jpg',
+    image: '/src/assets/images/remo.jpg',
   },
   {
     productId: 3,
@@ -63,54 +57,175 @@ const products = [
     category: 'Produit Diététique',
     section: 'Supplements',
     price: 30,
-    image: 'src/assets/images/protein shake.jpeg',
+    image: '/src/assets/images/protein shake.jpeg',
   },
   {
     productId: 4,
     name: 'Yoga Mat',
     description: 'Comfortable yoga mat for your workouts, providing excellent cushioning and grip during exercises.',
-    category: 'Matériel',
+    category: 'Equipement sportif',
     section: 'Accessories',
     price: 40,
-    image: 'src/assets/images/yoga mat.jpeg',
+    image: '/src/assets/images/yoga mat.jpeg',
   },
   {
     productId: 5,
     name: 'Running Shoes',
     description: 'Lightweight running shoes designed for a smooth run and optimal comfort on any surface.',
-    category: 'Vêtement',
+    category: 'Equipement sportif',
     section: 'Apparel',
     price: 60,
-    image: 'src/assets/images/Shoes.avif',
+    image: '/src/assets/images/Shoes.avif',
   },
   {
     productId: 6,
     name: 'Dumbbells Set',
     description: 'A set of versatile dumbbells for strength training, perfect for home workouts and gym sessions.',
-    category: 'Matériel',
+    category: 'Equipement sportif',
     section: 'Equipment',
     price: 70,
-    image: 'src/assets/images/dumble set.jpeg',
+    image: '/src/assets/images/dumble set.jpeg',
+  },
+  {
+    productId: 7,
+    name: 'AKTIV Zinc + Histidine + Vitamine C 30 Comprimes',
+    description: 'Comprimés au zinc, biodisponibilité augmentée grâce à la L-Histidine, plus de la vitamine C pour soutenir les défenses naturelles de l’organisme.',
+    category: 'Complement alimentaire',
+    section: '',
+    price: 40,
+    image: '/src/assets/images/Zink.webp',
   },
 ];
 
-const ProductGrid = () => {
+// HeaderSection Component
+const HeaderSection = ({ onCategorySelect, selectedCategory }) => {
+  const categories = [
+    {
+      title: 'Produit Diététique',
+      description: 'Description for Produit Diététique category.',
+      image: '/src/assets/images/diététiques.jpeg',
+    },
+    {
+      title: 'Complement alimentaire',
+      description: 'Description for Complement alimentaire category.',
+      image: '/src/assets/images/complement.jpg',
+    },
+    {
+      title: 'Equipement sportif',
+      description: 'Equipment sportif for strength and endurance training.',
+      image: '/src/assets/images/sportif.webp',
+    },
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const index = categories.findIndex((cat) => cat.title === selectedCategory);
+    if (index !== -1) {
+      setCurrentIndex(index);
+    } else {
+      setCurrentIndex(0);
+    }
+  }, [selectedCategory]);
+
+  const currentCategoryData = categories[currentIndex];
+
+  return (
+    <Box mb={6} position="relative" width="100%">
+      <Box position="relative" textAlign="center">
+        <Image
+          src={currentCategoryData.image}
+          alt={currentCategoryData.title}
+          width="100%"  // Full width
+          height="400px" // Fixed height
+          objectFit="cover" // Ensures image covers the container
+          borderRadius="md"
+        />
+
+        {/* Overlaying the description on the image */}
+        <Box
+          position="absolute"
+          top="0"
+          left="0"
+          width="100%"
+          height="100%"
+          bg="rgba(0, 0, 0, 0.5)" // Semi-transparent background
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          borderRadius="md"
+          boxShadow="0 4px 6px rgba(0, 0, 0, 0.3)" // Shadow effect
+        >
+          <Box textAlign="center" color="white" p={4}>
+            <Heading size="lg" mb={2}>{currentCategoryData.title}</Heading>
+            <Text>{currentCategoryData.description}</Text>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Category buttons */}
+      <HStack spacing={4} justifyContent="center" mt={4}>
+        {categories.map((cat) => (
+          <Button
+            key={cat.title}
+            colorScheme="green"
+            onClick={() => onCategorySelect(cat.title)}
+            variant={selectedCategory === cat.title ? 'solid' : 'outline'}
+          >
+            {cat.title}
+          </Button>
+        ))}
+      </HStack>
+    </Box>
+  );
+};
+
+// ProductDetails Component
+const ProductDetails = ({ product, onBackClick, onAddToCart }) => (
+  <Box p={6}>
+    <Button onClick={onBackClick} colorScheme="green" mb={4}>Back to Products</Button>
+    <Grid templateColumns="1fr 2fr" gap={6}>
+      <Image
+        src={product.image}
+        alt={product.name}
+        boxSize="300px"
+        objectFit="cover"
+        borderRadius="md"
+      />
+      <Box>
+        <Heading>{product.name}</Heading>
+        <Text fontSize="lg" mb={4}>{product.description}</Text>
+        <Text fontSize="2xl" color="green.500">{product.price} DT</Text>
+        <Button colorScheme="green" mt={4} onClick={() => onAddToCart(product)}>Add to Cart</Button>
+      </Box>
+    </Grid>
+  </Box>
+);
+
+// ProductGrid Component
+const ProductGrid = ({ selectedCategory }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('');
+  const [priceSortOrder, setPriceSortOrder] = useState('ascending');
+  const [selectedKeywords, setSelectedKeywords] = useState([]);
+  const [showDetails, setShowDetails] = useState(null);
+  const [hoveredProduct, setHoveredProduct] = useState(null);
   const toast = useToast();
 
-  // Handle changes in the search input
+  useEffect(() => {
+    setSelectedKeywords([]);
+  }, [selectedCategory]);
+
   const handleSearchChange = (event) => setSearchTerm(event.target.value);
-
-  // Handle changes in the category filter
-  const handleCategoryChange = (event) => setCategoryFilter(event.target.value);
-
-  // Handle clicking the Info button to navigate to a new page with product details
-  const handleInfoClick = (product) => {
-    window.location.href = `/product/${product.productId}`;
+  const handlePriceSortOrderChange = (event) => setPriceSortOrder(event.target.value);
+  const handleKeywordChange = (keyword) => {
+    setSelectedKeywords((prev) =>
+      prev.includes(keyword) ? prev.filter((k) => k !== keyword) : [...prev, keyword]
+    );
   };
 
-  // Handle clicking the Add to Cart button
+  const handleInfoClick = (product) => setShowDetails(product);
+  const handleBackClick = () => setShowDetails(null);
   const handleAddToCartClick = (product) => {
     toast({
       title: `${product.name} added to cart`,
@@ -119,136 +234,134 @@ const ProductGrid = () => {
       duration: 3000,
       isClosable: true,
       position: 'bottom-left',
-      variant: 'solid',
     });
   };
 
-  // Filter products based on search term and selected category
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = initialProducts.filter((product) => {
     const matchesSearch =
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = categoryFilter ? product.category === categoryFilter : true;
-    return matchesSearch && matchesCategory;
+    const matchesCategory = selectedCategory ? product.category === selectedCategory : true;
+    const matchesKeywords = selectedKeywords.length === 0 || selectedKeywords.includes(product.category);
+
+    return matchesSearch && matchesCategory && matchesKeywords;
   });
 
-  return (
-    <>
-      {/* Sidebar and Search Bar */}
-      <Stack direction="row" spacing={4} align="start" p={6}>
-        {/* Sidebar */}
-        <Box w="20%" bg="gray.50" p={4} borderRadius="md" boxShadow="md">
-          <Heading size="sm" mb={4} color="gray.600">Keywords</Heading>
-          <Stack spacing={3}>
-            <Select placeholder="Compléments Alimentaires" onChange={handleCategoryChange}>
-              <option value="Complément Alimentaire">Complément Alimentaire</option>
-              <option value="Produit Diététique">Produit Diététique</option>
-            </Select>
-            <Select placeholder="Équipement Sportif" onChange={handleCategoryChange}>
-              <option value="Matériel">Matériel</option>
-              <option value="Vêtement">Vêtement</option>
-            </Select>
+  const sortedProducts = filteredProducts.sort((a, b) => {
+    return priceSortOrder === 'ascending' ? a.price - b.price : b.price - a.price;
+  });
+
+  return showDetails ? (
+    <ProductDetails
+      product={showDetails}
+      onBackClick={handleBackClick}
+      onAddToCart={handleAddToCartClick}
+    />
+  ) : (
+    <Box border="1px solid #ccc" borderRadius="md" p={4}>
+      {/* Filters and Sort */}
+      <Flex mb={4}>
+        <Box p={4} width="250px" borderRight="1px solid #ccc" mr={4}>
+          <Heading size="md" mb={2}>Keywords</Heading>
+          <Stack spacing={2}>
+            {['Produit Diététique', 'Complement alimentaire', 'Equipement sportif', 'Supplements', 'Accessories', 'Apparel'].map((keyword) => (
+              <Checkbox
+                key={keyword}
+                isChecked={selectedKeywords.includes(keyword)}
+                onChange={() => handleKeywordChange(keyword)}
+              >
+                {keyword}
+              </Checkbox>
+            ))}
           </Stack>
         </Box>
 
-        {/* Main Content */}
-        <Box w="80%">
-          <HStack mb={4}>
+        <Box flex="1">
+          <HStack mb={4} spacing={4} justify="flex-end">
             <Input
-              placeholder="Search products..."
               value={searchTerm}
               onChange={handleSearchChange}
-              size="md"
-              maxW="300px"
+              placeholder="Search for a product"
+              width="300px"
+              mr={2}
             />
-            <IconButton
-              icon={<SearchIcon />}
-              aria-label="Search"
-              onClick={() => {}}
-              colorScheme="green"
-            />
-          </HStack>
-
-          {/* Sort Options */}
-          <HStack spacing={4} mb={4}>
-            <Button colorScheme="green" variant="outline">New</Button>
-            <Select placeholder="Price ascending">
-              <option value="asc">Price ascending</option>
-              <option value="desc">Price descending</option>
-            </Select>
-            <Select placeholder="Rating">
-              <option value="rating">Rating</option>
+            <Select value={priceSortOrder} onChange={handlePriceSortOrderChange} width="200px">
+              <option value="ascending">Price: Low to High</option>
+              <option value="descending">Price: High to Low</option>
             </Select>
           </HStack>
 
           {/* Product Grid */}
-          <Grid templateColumns="repeat(auto-fill, minmax(250px, 1fr))" gap={6}>
-            {filteredProducts.length > 0 ? (
-              filteredProducts.map((product) => (
-                <Box
-                  key={product.productId}
-                  borderWidth="1px"
-                  borderRadius="lg"
-                  overflow="hidden"
-                  boxShadow="md"
-                  bg="white"
-                  p={4}
-                >
-                  <VStack spacing={4}>
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      boxSize="150px"
-                      objectFit="cover"
-                      borderRadius="md"
-                    />
-                    <Heading size="md" color="gray.800" textAlign="center">
-                      {product.name}
-                    </Heading>
-                    <Text fontSize="sm" color="gray.600" noOfLines={2} textAlign="center">
-                      {product.description}
-                    </Text>
-                    <Text fontSize="lg" fontWeight="bold" color="green.500">
-                      ${product.price}
-                    </Text>
-                    <Button
-                      colorScheme="green"
-                      size="sm"
-                      onClick={() => handleInfoClick(product)}
-                      width="100%"
-                    >
-                      Details
-                    </Button>
-                    <Button
-                      colorScheme="green"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleAddToCartClick(product)}
-                      width="100%"
-                    >
-                      Add to Cart
-                    </Button>
-                  </VStack>
+          <Grid templateColumns="repeat(auto-fit, minmax(200px, 1fr))" gap={6}>
+            {sortedProducts.map((product) => (
+              <Box
+                key={product.productId}
+                border="1px solid #ccc"
+                borderRadius="md"
+                overflow="hidden"
+                position="relative"
+                onMouseEnter={() => setHoveredProduct(product.productId)}
+                onMouseLeave={() => setHoveredProduct(null)}
+              >
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  boxSize="300px"
+                  objectFit="cover"
+                />
+                <Box p={4}>
+                  <Heading size="md">{product.name}</Heading>
+                  <Text fontSize="lg">{product.price} DT</Text>
                 </Box>
-              ))
-            ) : (
-              <Box gridColumn="1 / -1" textAlign="center" color="gray.500">
-                <Text>No products found.</Text>
+                {hoveredProduct === product.productId && (
+                  <Box
+                    position="absolute"
+                    bottom="0"
+                    left="0"
+                    right="0"
+                    p={2}
+                    textAlign="center"
+                    bg="rgba(0, 0, 0, 0.6)"
+                    color="white"
+                    cursor="pointer"
+                    onClick={() => handleInfoClick(product)}
+                  >
+                    Plus Details
+                  </Box>
+                )}
               </Box>
-            )}
+            ))}
           </Grid>
         </Box>
-      </Stack>
-    </>
+      </Flex>
+    </Box>
   );
 };
 
-const ProductPage = () => {
+// App Component
+const App = () => {
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+  };
+
   return (
     <ChakraProvider theme={customTheme}>
-      <ProductGrid />
+      <Box
+        bg="blackWhite.background"
+        color="blackWhite.text"
+        minHeight="100vh"
+        p={6}
+      >
+        <HeaderSection
+          onCategorySelect={handleCategorySelect}
+          selectedCategory={selectedCategory}
+        />
+        <ProductGrid selectedCategory={selectedCategory} />
+      </Box>
     </ChakraProvider>
   );
 };
 
-export default ProductPage;
+export default App;

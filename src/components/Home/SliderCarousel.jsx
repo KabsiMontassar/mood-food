@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Box, Flex, Text, IconButton } from "@chakra-ui/react";
+import { Box, Flex, Text, IconButton, useBreakpointValue } from "@chakra-ui/react";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import img1 from "../../assets/img1.png";
 import img2 from "../../assets/img2.jpg";
 import img3 from "../../assets/img3.jpg";
 import img4 from "../../assets/img4.png";
-
-
 
 const SliderCarousel = () => {
     const [activeSlideIndex, setActiveSlideIndex] = useState(0);
@@ -32,16 +30,10 @@ const SliderCarousel = () => {
             title: "Nourrissez votre esprit et votre corps",
             description: "Voyez comment une bonne alimentation booste à la fois votre énergie physique et mentale.",
             backgroundColor: "#E4DFE5"
-        },
+        }
     ];
 
-    const slidesRight = [
-        img1,
-        img2,
-        img3,
-        img4,
-    ];
-
+    const slidesRight = [img1, img2, img3, img4];
     const slidesLength = slidesRight.length;
 
     const changeSlide = (direction) => {
@@ -65,15 +57,20 @@ const SliderCarousel = () => {
             changeSlide("up");
         }, 5000);
 
-
         return () => clearInterval(interval);
     }, [activeSlideIndex, isTransitioning]);
 
-    return (
-        <Flex position="relative" height="100vh" overflow="hidden"
-            userSelect="none"
-        >
+    // Responsive display
+    const display = useBreakpointValue({ base: "none", md: "flex" });
 
+    return (
+        <Flex
+            position="relative"
+            height="100vh"
+            overflow="hidden"
+            userSelect="none"
+            display={display} // Hide on mobile screens
+        >
             <Flex
                 flexDirection="column"
                 position="absolute"
@@ -101,16 +98,15 @@ const SliderCarousel = () => {
                             mb="10px"
                             mt="-30px"
                             position="relative"
-                            textAlign={"center"}
+                            textAlign="center"
                             color="black"
                             fontWeight={700}
                         >
                             {slide.title}
                         </Text>
-                        <Text fontSize="20px" textAlign="center"
-                            color="black"
-
-                        >{slide.description}</Text>
+                        <Text fontSize="20px" textAlign="center" color="black">
+                            {slide.description}
+                        </Text>
                     </Flex>
                 ))}
             </Flex>
@@ -152,26 +148,15 @@ const SliderCarousel = () => {
                     mb="4px"
                     borderRadius="0"
                     colorScheme="transparent"
-
-                    _hover={{
-
-                        opacity: 0.5
-                    }}
-
+                    _hover={{ opacity: 0.5 }}
                 />
                 <IconButton
                     aria-label="Next Slide"
                     icon={<FaArrowDown />}
                     onClick={() => changeSlide("up")}
                     borderRadius="0"
-                    right="100%"
                     colorScheme="transparent"
-
-                    _hover={{
-
-                        opacity: 0.5
-                    }}
-
+                    _hover={{ opacity: 0.5 }}
                 />
             </Flex>
         </Flex>

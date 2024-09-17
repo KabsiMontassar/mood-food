@@ -1,9 +1,8 @@
 import React from 'react';
-import { Box, Container, Flex, Link, Text, Icon, useBreakpointValue, useColorModeValue } from '@chakra-ui/react';
+import { Box, Container, Flex, Link, Text, Icon, useBreakpointValue } from '@chakra-ui/react';
 import { FaFacebookF, FaInstagram, FaTwitter, FaLinkedinIn } from 'react-icons/fa';
 
 const Footer = () => {
-  // Define responsive font sizes based on the viewport width
   const fontSize = useBreakpointValue({
     base: 'sm',
     md: 'md',
@@ -13,8 +12,8 @@ const Footer = () => {
   return (
     <Box
       as="footer"
-      bg={useColorModeValue('#FFFCF6', 'gray.800')}
-      color={useColorModeValue('gray.600', 'white')}
+      bg='#FFFCF6'
+      color='gray.600'
       py={{ base: 4, md: 6 }}
     >
       <Container maxW="container.lg">

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Box, Button, Flex, Text, Progress, Heading, Container, useColorModeValue, Spinner ,Center} from '@chakra-ui/react';
+import { Box, Button, Flex, Text, Progress, Heading, Container, Spinner, Center } from '@chakra-ui/react';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 const steps = [
@@ -53,54 +53,61 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
             width="100vw"
             height="100vh"
             zIndex="9999"
-            backgroundColor={useColorModeValue('#FFFCF6', '#1A202C')}
+            backgroundColor='white'
             justifyContent="center"
             alignItems="center"
-        >
-            <Flex direction="column" maxW="container.md" width="100%" height="100%">
-                <Flex justifyContent="space-between" width="100%" p={4}>
+            direction="column"
+            p={4}
+        > <Flex
+                    justifyContent="space-between"
+                    width="100%"
+                    p={4}
+                    position="absolute"
+                    top="0"
+                    left="0"
+                    right="0"
+                >
                     <Button
                         colorScheme="gray"
                         as="a"
                         href="/"
-                        position="absolute"
-                        top="4"
-                        left="4"
                         background="none"
-                        _hover={{
-                            bg: 'none',
-                            color: useColorModeValue('gray.600', 'gray.400')
-                        }}
+                        _hover={{ bg: 'none', color: 'gray.600' }}
+                       
                     >
                         X
                     </Button>
                     <Button
                         colorScheme="gray"
                         onClick={() => {
-                            setIssue('')
-                            setType('')
-                            setShowlist(true)
+                            setIssue('');
+                            setType('');
+                            setShowlist(true);
                         }}
-                        position="absolute"
-                        top="4"
-                        right="4"
                         background="none"
-                        _hover={{
-                            bg: 'none',
-                            color: useColorModeValue('gray.600', 'whiteAlpha.600')
-                        }}
+                        _hover={{ bg: 'none', color: 'gray.600' }}
+                        display={{ base: 'none', md: 'block' }} // Hide on smaller screens
                     >
                         Passer à la recherche
                     </Button>
                 </Flex>
+            <Flex
+                direction="column"
+                maxW={{ base: 'full', md: 'container.md' }}
+                width="100%"
+                height={{ base: 'auto', md: '100%' }}
+                position="relative"
+                mb={{ base: '60px', md: '0' }} 
+            >
+               
 
-                <Box position="relative" mt={8} mx="auto" width="60%">
+                <Box position="relative" mt={8} mx="auto" width="100%">
                     <Progress
                         value={progressPercent}
                         height="10px"
                         width="100%"
                         borderRadius="md"
-                        bg={useColorModeValue('gray.200', 'gray.600')}
+                        bg='gray.200'
                         colorScheme="green"
                         hasStripe
                         isAnimated
@@ -108,7 +115,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                     />
                 </Box>
 
-                {<SwitchTransition mode="out-in">
+                <SwitchTransition mode="out-in">
                     <CSSTransition
                         key={activeStep}
                         nodeRef={nodeRef}
@@ -118,36 +125,36 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                     >
                         <Box ref={nodeRef} mt={8}>
                             {activeStep === 0 && (
-                                <Container maxW="container.sm" >
+                                <Container maxW="container.sm">
                                     <Heading textAlign="center" as="h1" size="xl" mb={4}>
                                         Quel type de soins recherchez-vous ?
                                     </Heading>
                                     <Box
-                                        bg={useColorModeValue('white', 'gray.800')}
+                                        bg='white'
                                         cursor="pointer"
-                                        _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
-                                        border={`1px solid ${useColorModeValue('#758694', '#A0AEC0')}`}
+                                        _hover={{ bg: 'gray.100' }}
+                                        border={`1px solid #758694`}
                                         borderRadius="md"
                                         p={4}
                                         mb={4}
                                         onClick={() => handleIssueSelection('Annual physical / checkup')}
                                     >
                                         <Text>Examen médical annuel / bilan de santé</Text>
-                                        <Text color={useColorModeValue('gray.500', 'gray.400')}>
+                                        <Text color='gray.500'>
                                             Examen complet
                                         </Text>
                                     </Box>
                                     <Box
-                                        bg={useColorModeValue('white', 'gray.800')}
+                                        bg='white'
                                         cursor="pointer"
-                                        _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
-                                        border={`1px solid ${useColorModeValue('#758694', '#A0AEC0')}`}
+                                        _hover={{ bg: 'gray.100' }}
+                                        border={`1px solid #758694`}
                                         borderRadius="md"
                                         p={4}
                                         onClick={() => handleIssueSelection('Issue / Condition / Problem')}
                                     >
                                         <Text>J'ai besoin de soins pour un problème, une condition ou une difficulté.</Text>
-                                        <Text color={useColorModeValue('gray.500', 'gray.400')}>
+                                        <Text color='gray.500'>
                                             Trouvez un traitement pour un problème spécifique ou un problème persistant.
                                         </Text>
                                     </Box>
@@ -159,31 +166,31 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                                         Quel est le principal problème que vous souhaitez aborder ?
                                     </Heading>
                                     <Box
-                                        bg={useColorModeValue('white', 'gray.800')}
+                                        bg='white'
                                         cursor="pointer"
-                                        _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
-                                        border={`1px solid ${useColorModeValue('#758694', '#A0AEC0')}`}
+                                        _hover={{ bg: 'gray.100' }}
+                                        border={`1px solid #758694`}
                                         borderRadius="md"
                                         p={4}
                                         mb={4}
                                         onClick={() => handleTypeSelection('Psychology')}
                                     >
                                         <Text>Problème de psychologie</Text>
-                                        <Text color={useColorModeValue('gray.500', 'gray.400')}>
+                                        <Text color='gray.500'>
                                             Problèmes de santé mentale et de bien-être
                                         </Text>
                                     </Box>
                                     <Box
-                                        bg={useColorModeValue('white', 'gray.800')}
+                                        bg='white'
                                         cursor="pointer"
-                                        _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
-                                        border={`1px solid ${useColorModeValue('#758694', '#A0AEC0')}`}
+                                        _hover={{ bg: 'gray.100' }}
+                                        border={`1px solid #758694`}
                                         borderRadius="md"
                                         p={4}
                                         onClick={() => handleTypeSelection('Nutrition')}
                                     >
                                         <Text>Problème de nutrition</Text>
-                                        <Text color={useColorModeValue('gray.500', 'gray.400')}>
+                                        <Text color='gray.500'>
                                             Problèmes liés à l'alimentation et à la nutrition
                                         </Text>
                                     </Box>
@@ -193,10 +200,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                                         onClick={handlePrev}
                                         border={`1px solid #758694`}
                                         bg="none"
-                                        _hover={{
-                                            bg: 'none',
-                                            color: 'gray.400'
-                                        }}
+                                        _hover={{ bg: 'none', color: 'gray.400' }}
                                     >
                                         Retour
                                     </Button>
@@ -204,27 +208,41 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                             )}
                             {activeStep === 2 && (
                                 <Container maxW="container.sm">
-                                    <Heading textAlign="center" as="h1" size="xl" mb={4} 
-                                    letterSpacing={3} color="green.800">
-                                   
-                                        Merci pour votre sélection ! Nous allons maintenant vous montrer la liste des médecins disponibles.</Heading>
-                                   <Center>
-                                   <Spinner
-                                        thickness='4px'
-                                        speed='0.65s'
-                                        emptyColor='gray.200'
-                                        color='green.500'
-                                        size='xl'
-                                        alignContent={"center"} justifyContent={"center"}
-                                    />
-                                   </Center>
-                                  
+                                    <Heading textAlign="center" as="h1" size="xl" mb={4} letterSpacing={3} color="green.800">
+                                        Merci pour votre sélection ! Nous allons maintenant vous montrer la liste des médecins disponibles.
+                                    </Heading>
+                                    <Center>
+                                        <Spinner
+                                            thickness='4px'
+                                            speed='0.65s'
+                                            emptyColor='gray.200'
+                                            color='green.500'
+                                            size='xl'
+                                        />
+                                    </Center>
                                 </Container>
                             )}
                         </Box>
                     </CSSTransition>
-                </SwitchTransition> }
+                </SwitchTransition>
             </Flex>
+            <Button
+                colorScheme="gray"
+                onClick={() => {
+                    setIssue('');
+                    setType('');
+                    setShowlist(true);
+                }}
+                position={{ base: 'fixed', md: 'absolute' }}
+                bottom={{ base: '4', md: 'auto' }}
+                left="50%"
+                transform="translateX(-50%)"
+                background="none"
+                _hover={{ bg: 'none', color: 'gray.600' }}
+                display={{ base: 'block', md: 'none' }} // Only show on smaller screens
+            >
+                Passer à la recherche  
+            </Button>
         </Flex>
     );
 };
