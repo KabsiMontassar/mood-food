@@ -17,6 +17,11 @@ import Rendezvous from './Pages/Rendezvous';
 import Profile from './Pages/Profile';
 import FAQ from './Pages/FAQ';
 import Recipes from './Pages/Recipes'; 
+import RecipeDetail from './Pages/RecipeDetail';
+import ExpertDetails from './Pages/ExpertDetails';
+import SignIn from './Pages/auth/SignInPage';
+import SignUpPage from './Pages/auth/SignUpPage';
+
 
 
 
