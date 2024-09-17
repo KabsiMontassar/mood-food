@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Flex, Box, Button, Text, useBreakpointValue } from "@chakra-ui/react";
+import { Flex, Box, Button, Text, useBreakpointValue,Image } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import signinimage from '../../assets/imsignin.png';
 import signupimage from '../../assets/imsignup.png';
 import SignInPage from './SignInPage';
 import SignUpPage from './SignUpPage';
 import bg from '../../assets/bg.png';
+import logo from '../../assets/logo.png';
 
 const MotionBox = motion(Box);
 
@@ -57,6 +58,10 @@ const SplitLayout = () => {
                         transition={{ duration: 0.6 }}
                         width={{ base: '100%', md: 'auto' }}
                     >
+                      
+
+                      
+
                         <Flex height="100%" justifyContent="center" align="center">
                             <Flex direction="column" justifyContent="center" alignItems="center">
                             {contentVisible === 'left' && (
@@ -67,6 +72,16 @@ const SplitLayout = () => {
                                         <SignInPage />
                                     </Flex>
                                 )}
+
+
+                                <Image src={logo} alt="logo" 
+                                  onClick={() => window.location.href = '/'}
+                                cursor="pointer"
+                                display={activeBox === 'right' ? 'block' : 'none' }
+                                width={{ base: '50px', md: '75px' }}
+                                 height={{ base: '50px', md: '75px' }}
+                                  />
+                                 
                                 <Text
                                     display={activeBox === 'left' ? 'none' : 'block'}
                                     fontSize={{ base: 'md', md: 'xl' }}
@@ -115,6 +130,13 @@ const SplitLayout = () => {
                                         <SignUpPage />
                                     </Flex>
                                 )}
+                                <Image src={logo} alt="logo" 
+                                onClick={() => window.location.href = '/'}
+                                cursor="pointer"
+                                display={activeBox === 'left' ? 'block' : 'none' }
+                                width={{ base: '50px', md: '75px' }}
+                                 height={{ base: '50px', md: '75px' }}
+                                  />
                                 <Text
                                     display={activeBox === 'right' ? 'none' : 'block'}
                                     fontSize={{ base: 'md', md: 'xl' }}
