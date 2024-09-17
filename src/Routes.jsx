@@ -85,4 +85,4 @@ const RRoutes = () => {
   );
 };
 
-export default RoutesComponent;
+export default RRoutes;
