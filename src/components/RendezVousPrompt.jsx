@@ -86,7 +86,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                         }}
                         background="none"
                         _hover={{ bg: 'none', color: 'gray.600' }}
-                        display={{ base: 'none', md: 'block' }} // Hide on smaller screens
+                        display={{ base: 'none', md: 'block' }}
                     >
                         Passer à la recherche
                     </Button>
@@ -239,7 +239,7 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
                 transform="translateX(-50%)"
                 background="none"
                 _hover={{ bg: 'none', color: 'gray.600' }}
-                display={{ base: 'block', md: 'none' }} // Only show on smaller screens
+                display={{ base: 'block', md: 'none' }} 
             >
                 Passer à la recherche  
             </Button>

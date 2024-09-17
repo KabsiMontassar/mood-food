@@ -5,7 +5,6 @@ import {
   Input,
   Select,
   RangeSlider,
-  Text,
   RangeSliderTrack,
   RangeSliderFilledTrack,
   RangeSliderThumb,
