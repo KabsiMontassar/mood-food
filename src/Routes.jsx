@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import PageTransition from './components/PageTransition';
 
 import Home from './Pages/Home';
+import SplitLayout from './Pages/auth/SplitLayout';
 import Bienetre from './Pages/Bienetre';
 import Cuisine from './Pages/Cuisine';
 import Propos from './Pages/Propos';
@@ -45,7 +46,7 @@ const routes = [
   { path: "/expert/:id", element: <ExpertDetails /> }, // Added route for RecipeDetail
   { path: "*", element: <h1>error</h1> },
 
-{ path: "/signin", element: <SignIn /> },
+{ path: "/signin", element: <SplitLayout /> },
 { path: "/signup", element: <SignUpPage /> },
 
 ];

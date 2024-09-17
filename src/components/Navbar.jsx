@@ -92,12 +92,12 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
 
 
   return (
-    <Box zIndex={3} w="100%" >
+    <Box  w="100%"   >
       <Flex
 
 
         color='gray.600'
-        minH="60px"
+        minH={{ base: '3.5rem', md: '4rem' }}
         py={{ base: 2 }}
         px={{ base: 4 }}
 
