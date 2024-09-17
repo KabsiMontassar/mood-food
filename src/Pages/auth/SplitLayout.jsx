@@ -16,7 +16,7 @@ const SplitLayout = () => {
     const isDesktop = useBreakpointValue({ base: false, md: true });
 
     const handleReveal = (box) => {
-        if (!isDesktop) return; // Disable transitions on mobile
+        if (!isDesktop) return;  
         setContentVisible(null);
         setActiveBox(box);
 
@@ -97,6 +97,7 @@ const SplitLayout = () => {
                         bgSize="cover"
                         bgPosition="center"
                         height="100%"
+                       
                         bgRepeat="no-repeat"
                         flex={activeBox === 'right' ? '2' : '1'}
                         animate={{ flex: activeBox === 'right' ? 2 : 1 }}
