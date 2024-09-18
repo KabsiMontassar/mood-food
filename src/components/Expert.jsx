@@ -4,6 +4,19 @@ import { StarIcon } from '@chakra-ui/icons';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
     const [isAvailabilityVisible, setIsAvailabilityVisible] = useState(false);
     const navigate = useNavigate();
@@ -19,11 +32,11 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
         >
             <Flex
                 direction={{ base: 'column', md: 'row' }}
-                align={{ base: 'center', md: 'flex-start' }} // Center vertically on mobile
+                align={{ base: 'center', md: 'flex-start' }} 
                 justify="space-between"
                 h="auto"
             >
-                {/* Avatar and Text Section */}
+               
                 <Flex
                     direction="column"
                     align={{ base: 'center', md: 'flex-start' }}
@@ -76,7 +89,7 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
                     display={{ base: 'none', md: 'block' }} 
                 >
                     <Grid
-                        templateColumns="repeat(7, 1fr)"
+                        templateColumns="repeat( auto-fit, minmax(100px, 1fr) )"
                         gap={2}
                         mt={4}
                     >
