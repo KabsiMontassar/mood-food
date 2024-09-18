@@ -10,7 +10,6 @@ import {
   InputLeftElement,
   Stack,
   Textarea,
-  useColorModeValue,
   VStack,
 } from '@chakra-ui/react'
 import { BsPerson } from 'react-icons/bs'
@@ -20,7 +19,7 @@ import { MdOutlineEmail } from 'react-icons/md'
 export default function Contact() {
   return (
     <Flex
-      bg={useColorModeValue('#FFFCF6', 'gray.900')}
+      bg='#FFFCF6'
       align="center"
       justify="center"
       id="contact"
@@ -42,11 +41,11 @@ export default function Contact() {
               direction={{ base: 'column', md: 'row' }}
             >
               <Box
-                bg={useColorModeValue('white', 'gray.700')}
+                bg='white'
                 borderRadius="lg"
                 w="40vw"
                 p={8}
-                color={useColorModeValue('gray.700', 'whiteAlpha.900')}
+                color='gray.700'
                 shadow="base"
               >
                 <VStack spacing={5}>

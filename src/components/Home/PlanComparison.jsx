@@ -14,66 +14,74 @@ const PlanComparison = () => {
 
     return (
         <Flex
-        height="100vh"
-        width="100%"
-        alignItems="center"
-        justifyContent="center"
-        position="relative"
-        overflow="hidden"
-        bg="green.900"
-    >
-        <Box color="white">
-            <Heading as="h2" size="xl" textAlign="center" mb={8}>
-                Free vs. Premium Plans
-            </Heading>
-            <Grid templateColumns="1fr 1fr 1fr" gap={4} alignItems="center">
-                <Box></Box>
-                {plans.map((plan) => (
-                    <Box
-                        key={plan}
-                        bg="green.800"
-                        p={4}
-                        borderRadius="md"
-                        textAlign="center"
-                    >
-                        <Text fontWeight="bold" fontSize="lg">
-                            {plan}
-                        </Text>
-                    </Box>
-                ))}
-                {features.map((feature) => (
-                    <React.Fragment key={feature.name}>
-                        <Box p={4} borderBottom="1px solid rgba(255, 255, 255, 0.1)">
-                            <Text fontSize="md">{feature.name}</Text>
-                        </Box>
+            height="auto"
+            width="100%"
+            alignItems="center"
+            justifyContent="center"
+            position="relative"
+            overflow="hidden"
+            bg="green.900"
+            p={{ base: 4, md: 8 }}
+        >
+            <Box color="white" width="100%" maxWidth="1200px">
+                <Heading as="h2" size={{ base: "lg", md: "xl" }} textAlign="center" mb={8}>
+                    Free vs. Premium Plans
+                </Heading>
+                <Grid
+                    templateColumns={{ base: "1fr", md: "1fr 1fr 1fr" }}
+                    gap={{ base: 2, md: 4 }}
+                    alignItems="center"
+                >
+                    <Box></Box>
+                    {plans.map((plan) => (
                         <Box
+                            key={plan}
+                            bg="green.800"
                             p={4}
+                            borderRadius="md"
                             textAlign="center"
-                            borderBottom="1px solid rgba(255, 255, 255, 0.1)"
                         >
-                            {feature.free ? (
-                                <CheckIcon color="green.400" />
-                            ) : (
-                                <CloseIcon color="red.500" />
-                            )}
+                            <Text fontWeight="bold" fontSize={{ base: "sm", md: "lg" }}>
+                                {plan}
+                            </Text>
                         </Box>
-                        <Box
-                            p={4}
-                            textAlign="center"
-                            borderBottom="1px solid rgba(255, 255, 255, 0.1)"
-                        >
-                            {feature.premium ? (
-                                <CheckIcon color="green.400" />
-                            ) : (
-                                <CloseIcon color="red.500" />
-                            )}
-                        </Box>
-                    </React.Fragment>
-                ))}
-            </Grid>
-        </Box>
-
-    </Flex>
+                    ))}
+                    {features.map((feature) => (
+                        <React.Fragment key={feature.name}>
+                            <Box
+                                p={4}
+                                borderBottom="1px solid rgba(255, 255, 255, 0.1)"
+                                fontSize={{ base: "sm", md: "md" }}
+                            >
+                                <Text>{feature.name}</Text>
+                            </Box>
+                            <Box
+                                p={4}
+                                textAlign="center"
+                                borderBottom="1px solid rgba(255, 255, 255, 0.1)"
+                            >
+                                {feature.free ? (
+                                    <CheckIcon color="green.400" />
+                                ) : (
+                                    <CloseIcon color="red.500" />
+                                )}
+                            </Box>
+                            <Box
+                                p={4}
+                                textAlign="center"
+                                borderBottom="1px solid rgba(255, 255, 255, 0.1)"
+                            >
+                                {feature.premium ? (
+                                    <CheckIcon color="green.400" />
+                                ) : (
+                                    <CloseIcon color="red.500" />
+                                )}
+                            </Box>
+                        </React.Fragment>
+                    ))}
+                </Grid>
+            </Box>
+        </Flex>
     );
 };
 

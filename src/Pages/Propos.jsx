@@ -7,7 +7,6 @@ import {
   VStack,
   Stack,
   Avatar,
-  useColorModeValue,
 } from '@chakra-ui/react'
 import { FaUsers, FaStar, FaHeart } from 'react-icons/fa'
 
@@ -45,7 +44,7 @@ const Propos = () => {
 
         <Stack spacing={6}>
           <Box
-            bg={useColorModeValue('white', 'gray.700')}
+            bg='white'
             borderRadius="lg"
             p={8}
             shadow="base"
@@ -55,7 +54,7 @@ const Propos = () => {
               Notre Mission
             </Heading>
             <Flex align="center" mb={4}>
-              <FaStar size="24px" color={useColorModeValue('green.500', 'green.300')} />
+              <FaStar size="24px" color='green.500' />
               <Text ml={3}>
                 Nous nous engageons à fournir des solutions innovantes et de haute qualité pour
                 améliorer le quotidien de nos clients. Notre objectif est de créer un impact
@@ -67,7 +66,7 @@ const Propos = () => {
               Nos Valeurs
             </Heading>
             <Flex align="center" mb={4}>
-              <FaHeart size="24px" color={useColorModeValue('green.500', 'green.300')} />
+              <FaHeart size="24px" color='green.500' />
               <Text ml={3}>
                 Nous croyons en l'intégrité, la transparence et l'engagement envers l'excellence.
                 Chaque membre de notre équipe partage ces valeurs et travaille ensemble pour
@@ -77,7 +76,7 @@ const Propos = () => {
           </Box>
 
           <Box
-            bg={useColorModeValue('white', 'gray.700')}
+            bg='white'
             borderRadius="lg"
             p={8}
             shadow="base"
@@ -91,7 +90,7 @@ const Propos = () => {
                 <VStack key={member.name} spacing={4} textAlign="center">
                   <Avatar name={member.name} src={member.image} size="xl" />
                   <Text fontWeight="bold">{member.name}</Text>
-                  <Text color={useColorModeValue('gray.600', 'gray.400')}>{member.role}</Text>
+                  <Text color='gray.600'>{member.role}</Text>
                 </VStack>
               ))}
             </Flex>

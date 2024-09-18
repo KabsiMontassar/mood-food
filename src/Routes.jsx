@@ -19,8 +19,9 @@ import User from './Pages/Admin/User';
 import Rendezvous from './Pages/Rendezvous';
 import Profile from './Pages/Profile';
 import FAQ from './Pages/FAQ';
-import Recipes from './Pages/Recipes'; // Import the Recipes component
-import RecipeDetail from './Pages/RecipeDetail'; // Import RecipeDetail component
+import Recipes from './Pages/Recipes'; 
+import RecipeDetail from './Pages/RecipeDetail'; 
+import ExpertDetails from './Pages/ExpertDetails';
 
 const routes = [
   { path: "/", element: <Home /> },
@@ -31,21 +32,14 @@ const routes = [
   { path: "/Contact", element: <Contact /> },
   { path: "/Rendezvous", element: <Rendezvous /> },
   { path: "/FAQ", element: <FAQ /> },
-
   { path: "profile", element: <Profile /> },
-
-
   { path: "/Repas", element: <Repas /> },
   { path: "/Equipement", element: <Equipement /> },
   { path: "/Commande", element: <Commande /> },
-  
   { path: "/User", element: <User /> },
-
-  
-
-
   { path: "/recipes", element: <Recipes /> }, // Added route for Recipes
   { path: "/recipes/:id", element: <RecipeDetail /> }, // Added route for RecipeDetail
+  { path: "/expert/:id", element: <ExpertDetails /> }, // Added route for RecipeDetail
   { path: "*", element: <h1>error</h1> },
 
 ];

@@ -1,15 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
 
-* {
+* , *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto Slab', serif;
 }
 
-#root {
-    background: #FFFCF6;
-}
 
 .container {
     position: relative;
@@ -18,29 +15,11 @@
 
 .container .section {
     position: sticky;
+    height: 100vh;
     top: 0;
    
 }
 
-.container .section:nth-child(1) {
-    background: #FFFCF6;
-}
-
-.container .section:nth-child(2) {
-    background: #F7F0E6;
-}
-
-.container .section:nth-child(3) {
-    background: #FFFCF6;
-}
-
-.container .section:nth-child(4) {
-    background: #F7F0E6;
-}
-
-.container .section:nth-child(5) {
-    background: #FFFCF6;
-}
 
 
 
@@ -99,18 +78,13 @@
   }
   
 
-  span {
-    
-    color: #0000;
-  
-    background: 
-      linear-gradient(90deg,#38A169 50%,gray 0) calc(100% - var(--_p,0%))/200% 100%,
-      linear-gradient(#38A169 0 0) 0% 100%/var(--_p,0%) 0.1em no-repeat;
-    -webkit-background-clip: text,padding-box;
-            background-clip: text,padding-box;
-    transition: 0.5s;
+
+
+  .menu-button > span > svg , .menu-button > span {
+    color: teal;
   }
-  span:hover {
-    --_p: 100%
-  }
+
+
+
+
 

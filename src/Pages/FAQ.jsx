@@ -8,7 +8,6 @@ import {
   AccordionPanel,
   AccordionIcon,
   VStack,
-  useColorModeValue,
 } from '@chakra-ui/react'
 
 const FAQ = () => {
@@ -50,7 +49,7 @@ const FAQ = () => {
 
   return (
     <Box
-      bg={useColorModeValue('gray.100', 'gray.900')}
+      bg='gray.100'
       p={8}
       minH="100vh"
       display="flex"
@@ -58,7 +57,7 @@ const FAQ = () => {
       alignItems="center"
     >
       <VStack width="100%" maxW="container.lg" textAlign="center">
-        <Box width="100%" position="sticky" top={0} bg={useColorModeValue('gray.100', 'gray.900')} zIndex={1} py={4}>
+        <Box width="100%" position="sticky" top={0} bg='gray.100' zIndex={1} py={4}>
           <Heading as="h1" size="2xl">
             Foire aux Questions (FAQ)
           </Heading>
@@ -66,11 +65,11 @@ const FAQ = () => {
         <Box width="100%" overflowY="auto" maxH="calc(100vh - 100px)" p={4}>
           <Accordion allowToggle>
             {faq.map((item, index) => (
-              <AccordionItem key={index} borderBottom="1px" borderColor={useColorModeValue('gray.200', 'gray.600')}>
+              <AccordionItem key={index} borderBottom="1px" borderColor='gray.200'>
                 <h2>
-                  <AccordionButton _expanded={{ bg: useColorModeValue('gray.300', 'gray.700') }}>
-                    <Box flex="1" textAlign="left" fontWeight="semibold" color={useColorModeValue('green.700', 'gray.300')
-                    } fontSize="lg">
+                  <AccordionButton _expanded={{ bg:'gray.300' }}>
+                    <Box flex="1" textAlign="left" fontWeight="semibold" color='green.700'
+                     fontSize="lg">
                       {item.question}
                     </Box>
                     <AccordionIcon />
