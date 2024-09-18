@@ -89,7 +89,7 @@ const Footer = () => {
           <Stack spacing={2}>
             <Flex align="center" color="gray.600">
               <Icon as={MdLocationOn} mr={2} />
-              <Text>Tunis Tunisia, 1002 </Text>
+              <Text>Tunis Tunisia, 1002</Text>
             </Flex>
             <Flex align="center" color="gray.600">
               <Icon as={MdPhone} mr={2} />
