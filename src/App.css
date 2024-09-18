@@ -87,4 +87,249 @@
 
 
 
+  
 
+
+  @keyframes upDown {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+
+  .slider-wrapper {
+    width: 90%;
+    max-width: 1536px;
+    margin-inline: auto;
+    position: relative;
+    height: 400px;
+    margin-top: 5rem;
+    overflow: hidden;
+    mask-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 1) 20%,
+      rgba(0, 0, 0, 1) 80%,
+      rgba(0, 0, 0, 0)
+    );
+  }
+
+
+ 
+
+
+  
+  @keyframes scrollLeft {
+    to {
+      left: -400px;
+    }
+  }
+
+
+
+
+
+  
+  @keyframes scrollRight {
+    to {
+      right: -400px;
+    }
+  }
+  
+  .item {
+    width: 400px;
+    height: 400px;
+    background-color: red;
+    border-radius: 6px;
+    position: absolute;
+  }
+  
+  
+
+
+
+
+  .left .item {
+    left: max(calc(400px * 8), 100%);
+    animation: scrollLeft 20s linear infinite;
+  }
+  
+  .right .item {
+    right: max(calc(400px * 8), 100%);
+    animation: scrollRight 20s linear infinite;
+  }
+  
+  .left .item1,
+  .right .item1 {
+    animation-delay: calc((-20s / 8) * 7);
+  }
+  .left .item2,
+  .right .item2 {
+    animation-delay: calc((-20s / 8) * 6);
+  }
+  .left .item3,
+  .right .item3 {
+    animation-delay: calc((-20s / 8) * 5);
+  }
+  .left .item4,
+  .right .item4 {
+    animation-delay: calc((-20s / 8) * 4);
+  }
+  .left .item5,
+  .right .item5 {
+    animation-delay: calc((-20s / 8) * 3);
+  }
+  .left .item6,
+  .right .item6 {
+    animation-delay: calc((-20s / 8) * 2);
+  }
+  .left .item7,
+  .right .item7 {
+    animation-delay: calc((-20s / 8) * 1);
+  }
+  .left .item8,
+  .right .item8 {
+    animation-delay: calc((-20s / 8) * 0);
+  }
+  
+
+
+
+  @media (max-width: 768px) {
+    .slider-wrapper {
+      height: 300px;
+    }
+
+    .item {
+      width: 300px;
+      height: 300px;
+    }
+
+    .left .item {
+      left: max(calc(300px * 8), 100%);
+    }
+
+    .right .item {
+      right: max(calc(300px * 8), 100%);
+    }
+    
+
+    .mask {
+      mask-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 1) 10%,
+        rgba(0, 0, 0, 1) 90%,
+        rgba(0, 0, 0, 0)
+      );
+    }
+
+    .left .item1,
+    .right .item1 {
+      animation-delay: calc((-20s / 8) * 7);
+    }
+    .left .item2,
+    .right .item2 {
+      animation-delay: calc((-20s / 8) * 6);
+    }
+    .left .item3,
+    .right .item3 {
+      animation-delay: calc((-20s / 8) * 5);
+    }
+    .left .item4,
+    .right .item4 {
+      animation-delay: calc((-20s / 8) * 4);
+    }
+    .left .item5,
+    .right .item5 {
+      animation-delay: calc((-20s / 8) * 3);
+    }
+    .left .item6,
+    .right .item6 {
+      animation-delay: calc((-20s / 8) * 2);
+    }
+    .left .item7,
+    .right .item7 {
+      animation-delay: calc((-20s / 8) * 1);
+    }
+    .left .item8,
+    .right .item8 {
+      animation-delay: calc((-20s / 8) * 0);
+    }
+
+
+
+
+    
+  }
+
+  @media (max-width: 480px) {
+    .slider-wrapper {
+      height: 200px;
+    }
+
+    .item {
+      width: 200px;
+      height: 200px;
+    }
+
+    .left .item {
+      left: max(calc(200px * 8), 100%);
+    }
+
+    .right .item {
+      right: max(calc(200px * 8), 100%);
+    }
+
+    .mask {
+      mask-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 1) 5%,
+        rgba(0, 0, 0, 1) 95%,
+        rgba(0, 0, 0, 0)
+      );
+    }
+
+    .left .item1,
+    .right .item1 {
+      animation-delay: calc((-20s / 8) * 7);
+    }
+    .left .item2,
+    .right .item2 {
+      animation-delay: calc((-20s / 8) * 6);
+    }
+    .left .item3,
+    .right .item3 {
+      animation-delay: calc((-20s / 8) * 5);
+    }
+    .left .item4,
+    .right .item4 {
+      animation-delay: calc((-20s / 8) * 4);
+    }
+    .left .item5,
+    .right .item5 {
+      animation-delay: calc((-20s / 8) * 3);
+    }
+    .left .item6,
+    .right .item6 {
+      animation-delay: calc((-20s / 8) * 2);
+    }
+    .left .item7,
+    .right .item7 {
+      animation-delay: calc((-20s / 8) * 1);
+    }
+
+    .left .item8,
+    .right .item8 {
+      animation-delay: calc((-20s / 8) * 0);
+    }
+
+    
+  }
