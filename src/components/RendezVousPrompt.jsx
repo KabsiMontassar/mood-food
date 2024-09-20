@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Box, Button, Flex, Text, Progress, Heading, Container, Spinner, Center } from '@chakra-ui/react';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
-
+import bg from '../assets/bg.png';
 const steps = [
     { title: 'Choose Issue', description: 'Psychology or Nutrition' },
     { title: 'Select Type', description: 'Annual Checkup or Issues' },
@@ -47,6 +47,10 @@ const Rendezvousprompt = ({ setIssue, setType, setShowlist }) => {
 
     return (
         <Flex
+            bgImage={`url(${bg})`}
+            bgSize="cover"
+            bgRepeat="no-repeat"
+            bgPos="center"
             position="fixed"
             top="0"
             left="0"

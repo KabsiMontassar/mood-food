@@ -51,6 +51,8 @@ const vitamins = [
 ];
 
 
+import bgrecherche from "../assets/HomeBackgrounds/min.png";
+
 import recipes1 from "../assets/recipes/1.jpeg";
 import recipes2 from "../assets/recipes/2.jpg";
 import recipes3 from "../assets/recipes/3.jpg";
@@ -182,12 +184,12 @@ const NavSearch = ({ searchAddress, setSearchAddress, selectedType, setSelectedT
     >
 
       <FormControl variant="floating" id="Address">
-        <FormLabel color="white">gouvernorat:</FormLabel>
+        <FormLabel color="white">Gouvernorat:</FormLabel>
         <Select
           border={0}
           borderRadius="md"
           bg='white'
-          placeholder="Governorate"
+        
 
           value={searchAddress}
           onChange={e => {
@@ -195,7 +197,7 @@ const NavSearch = ({ searchAddress, setSearchAddress, selectedType, setSelectedT
           }}
           focusBorderColor="green.500"
         >
-          <option value="">All</option>
+          <option value="">Tous</option>
           {TunisGovernorates.map((governorate, index) => (
             <option key={index} value={governorate}>{governorate}</option>
           ))}
@@ -208,7 +210,7 @@ const NavSearch = ({ searchAddress, setSearchAddress, selectedType, setSelectedT
           border={0}
           borderRadius="md"
           bg='white'
-          placeholder="Type"
+         
           value={selectedType}
           onChange={e => {
             setSelectedType(e.target.value);
@@ -216,7 +218,7 @@ const NavSearch = ({ searchAddress, setSearchAddress, selectedType, setSelectedT
           }}
           focusBorderColor="green.500"
         >
-          <option value="All">All</option>
+          <option value="All">Tous</option>
           <option value="Nutritionist">Nutritionist</option>
           <option value="Psychologist">Psychologist</option>
         </Select>
@@ -326,27 +328,60 @@ const Home = () => {
 
   return (
     <Box className="container">
+
       <Box
-        bg="linear-gradient(180deg, rgba(10,115,66,1) 50%, rgba(94,218,188,1) 100%)"
-        p={4}
+        bgImage={`url(${bgrecherche})`}
+        bgSize="cover"
+        bgPosition="center"
+        bgRepeat="no-repeat"
+        bgAttachment="fixed"
+        display="flex"
+        flexDirection="column"
         alignItems="center"
         justifyContent="center"
-       
+        p={4}
+        position="relative"
+        align="center"
         gap={9}
-        display="flex"
-        flexDirection="column">
-        <Heading as="h1" size="2xl" textAlign="center" color="gray.100" mt={4} mb={4}>
-          Trouvez les meilleurs experts en Tunisie
-        </Heading>
-        <Text textAlign="center" color="gray.200" fontSize="lg" mb={4}>
-          Trouvez les meilleurs experts en Tunisie, des nutritionnistes aux psychologues, et prenez rendez-vous avec eux.
-        </Text>
-        <NavSearch searchAddress={searchAddress} setSearchAddress={setSearchAddress} selectedType={selectedType} setSelectedType={setSelectedType} selectedSubType={selectedSubType} setSelectedSubType={setSelectedSubType} psychologistTypes={psychologistTypes} />
+      >
+
+        <Box
+          bg="rgba(10, 115, 66, 0.7)"
+          position="absolute"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+          zIndex="1"
+        />
+
+
+        <Box zIndex="2" w="100%" align="center">
+          <Heading as="h1" size="2xl" color="gray.100" mt={4} mb={4}>
+            Trouvez les meilleurs experts en Tunisie
+          </Heading>
+          <Text color="gray.200" fontSize="lg" mb={4}>
+            Trouvez les meilleurs experts en Tunisie, des nutritionnistes aux psychologues, et prenez rendez-vous avec eux.
+          </Text>
+          <NavSearch
+            searchAddress={searchAddress}
+            setSearchAddress={setSearchAddress}
+            selectedType={selectedType}
+            setSelectedType={setSelectedType}
+            selectedSubType={selectedSubType}
+            setSelectedSubType={setSelectedSubType}
+            psychologistTypes={psychologistTypes}
+          />
+        </Box>
+
+        {/* Image Cards */}
         <Flex
           flexDirection={{ base: 'column', md: 'row' }}
           align="center"
           gap={10}
-          p={4}>
+          p={4}
+          zIndex="2" // Content should be on top of the background
+        >
           {ImageCards.map((img, index) => (
             <CardCustom key={index} img={img} />
           ))}
@@ -365,11 +400,11 @@ const Home = () => {
       >
         <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" p={4} mt={4}>
           <Heading as="h1" size="2xl" textAlign="center" color="green.400" mt={4} mb={4}>
-            Our Services
+            Nous service
 
           </Heading>
           <Text textAlign="center" fontWeight={"bold"} color="gray.600" fontSize="lg" mb={4}>
-            Online Appointment, Phone-in Appointment, Walk-in Appointment with Token
+            Découvrez nos services et commencez votre voyage vers une vie plus saine dès aujourd'hui.
           </Text>
         </Box>
         <Flex
@@ -431,18 +466,18 @@ const Home = () => {
               mt={4}
             >
               <Heading as="h1" size="2xl" textAlign="center" color="gray.100" mt={4} mb={4}>
-                Checkout our healthy recipes
+                Trouvez des recettes saines et délicieuses
               </Heading>
               <Text textAlign="center" color="gray.200" fontSize="lg" mb={4}>
-                Discover our range of healthy recipes, carefully selected by our experts to support your well-being journey.
+                Découvrez notre collection de recettes saines et délicieuses, conçues pour vous aider à mener une vie plus saine et équilibrée.
               </Text>
 
               <Flex className="slider-wrapper left">
-              {recipes.map((recipe, index) => (
-                <Box key={index} bg="white" className={`item item${index + 1}`} style={{ backgroundImage: `url(${recipe})` }}></Box>
-              ))}
-              
-                
+                {recipes.map((recipe, index) => (
+                  <Box key={index} bg="white" className={`item item${index + 1}`} style={{ backgroundImage: `url(${recipe})` }}></Box>
+                ))}
+
+
               </Flex>
 
             </Box>
@@ -450,6 +485,7 @@ const Home = () => {
 
 
           <Box
+           opacity={0.9}
             display="flex"
             flexDirection="column"
             alignItems="center"
@@ -457,6 +493,7 @@ const Home = () => {
             mt={0}
           >
             <Button
+
               animation="upDown 1s ease-in-out infinite"
               colorScheme="gray"
               fontSize={{ base: 'sm', md: 'md' }}
@@ -467,7 +504,7 @@ const Home = () => {
               w="100%"
               mt={8}
             >
-              Explore Recipes
+              Explorez les recettes
             </Button>
           </Box>
         </Stack>
@@ -519,13 +556,13 @@ const Home = () => {
               mt={4}
             >
               <Heading as="h1" size="2xl" textAlign="center" color="gray.100" mt={4} mb={4}>
-                Checkout Trusty Vitamins and Supplements
+                Trouvez des vitamines et des suppléments de qualité
               </Heading>
               <Text textAlign="center" color="gray.200" fontSize="lg" mb={4}>
-                Discover our range of vitamins and supplements, carefully selected by our experts to support your well-being journey.
+                Découvrez notre gamme de vitamines et de suppléments de qualité, conçue pour vous aider à maintenir un mode de vie sain et équilibré.
               </Text>
 
-              <Flex className="slider-wrapper left">
+              <Flex className="slider-wrapper right">
                 {vitamins.map((vitamin, index) => (
                   <Box key={index} bg="white" className={`item item${index + 1}`}>
                     <Image
@@ -542,6 +579,7 @@ const Home = () => {
 
 
           <Box
+            opacity={0.9}
             display="flex"
             flexDirection="column"
             alignItems="center"
@@ -559,7 +597,7 @@ const Home = () => {
               w="100%"
               mt={8}
             >
-              Explore Products
+              Explorez les vitamines
             </Button>
           </Box>
         </Stack>
@@ -593,17 +631,17 @@ const Home = () => {
             h="600px" // Height of the iPhone
             w="300px" // Width of the iPhone
             border="16px solid black" // Frame thickness
-            boxShadow="0 20px 30px rgba(0, 0, 0, 0.5)" // 3D shadow for depth
+            boxShadow="0 20px 30px rgba(0, 0, 0, 0.5)"
             display="flex"
             justifyContent="center"
             alignItems="center"
-            transform="rotateY(25deg) rotateX(5deg)" // 3D Rotation effect
+            transform="rotateY(25deg) rotateX(5deg)"
             transition="transform 0.3s ease"
             _hover={{
-              transform: "rotateY(0deg) rotateX(0deg)", // Reset on hover
+              transform: "rotateY(0deg) rotateX(0deg)",
             }}
           >
-            {/* iPhone Notch */}
+
             <Box
               position="absolute"
               top="-5px"

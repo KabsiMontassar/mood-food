@@ -52,12 +52,12 @@ const NavSearch = ({ searchName, setSearchName, searchAddress, setSearchAddress,
     >
      
        <FormControl variant="floating" id="Address">
-       <FormLabel>Filtrer par:</FormLabel>
+       <FormLabel>Gouvernorat:</FormLabel>
       <Select
         border={0}
         borderRadius="md"
         bg='white'
-        Placeholder="Governorate"
+        
       
         value={searchAddress}
         onChange={e => {
@@ -65,7 +65,7 @@ const NavSearch = ({ searchName, setSearchName, searchAddress, setSearchAddress,
         }}
         focusBorderColor="green.500"
       >
-        <option value="">All</option>
+        <option value="">Tous</option>
         {TunisGovernorates.map((governorate, index) => (
           <option key={index} value={governorate}>{governorate}</option>
         ))}
@@ -73,7 +73,7 @@ const NavSearch = ({ searchName, setSearchName, searchAddress, setSearchAddress,
       </Select>
       </FormControl>
       <FormControl variant="floating" id="Address">
-      <FormLabel>Filtrer par:</FormLabel>
+      <FormLabel>Type:</FormLabel>
       <Select
         border={0}
         borderRadius="md"
@@ -86,7 +86,7 @@ const NavSearch = ({ searchName, setSearchName, searchAddress, setSearchAddress,
         }}
         focusBorderColor="green.500"
       >
-        <option value="All">All</option>
+        <option value="All">Tous</option>
         <option value="Nutritionist">Nutritionist</option>
         <option value="Psychologist">Psychologist</option>
       </Select>

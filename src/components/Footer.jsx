@@ -9,8 +9,9 @@ const Footer = () => {
       <Flex
         justify="space-between"
         wrap="wrap"
-        maxW="1200px"
+        p={4}
         mx="auto"
+       
         px={6}
         flexDirection={{ base: "column", md: "row" }}
       >
@@ -30,7 +31,7 @@ const Footer = () => {
           </Text>
         </Box>
 
-        {/* Company Links */}
+    
         <Box flex="1" minW="150px" mb={{ base: 8, md: 0 }}>
           <Heading as="h3" fontSize="lg" mb={4}>
             COMPANY
@@ -45,7 +46,7 @@ const Footer = () => {
           </Stack>
         </Box>
 
-        {/* Quick Login */}
+     
         <Box flex="1" minW="150px" mb={{ base: 8, md: 0 }}>
           <Heading as="h3" fontSize="lg" mb={4}>
             QUICK LOGIN
@@ -63,7 +64,7 @@ const Footer = () => {
           </Stack>
         </Box>
 
-        {/* Services */}
+      
         <Box flex="1" minW="200px" mb={{ base: 8, md: 0 }}>
           <Heading as="h3" fontSize="lg" mb={4}>
             SERVICES
