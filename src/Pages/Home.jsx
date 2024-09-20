@@ -474,7 +474,7 @@ const Home = () => {
 
               <Flex className="slider-wrapper left">
                 {recipes.map((recipe, index) => (
-                  <Box key={index} bg="white" className={`item item${index + 1}`} style={{ backgroundImage: `url(${recipe})` }}></Box>
+                  <Box key={index} bg="white" className={`item item${index + 1}`} style={{ backgroundImage: `url(${recipe})` }}/>
                 ))}
 
 
@@ -568,7 +568,7 @@ const Home = () => {
                     <Image
                       src={vitamin}
                       alt="Vitamin"
-                      borderRadius="md"
+                      borderRadius="30px"
                     />
                   </Box>
                 ))}
