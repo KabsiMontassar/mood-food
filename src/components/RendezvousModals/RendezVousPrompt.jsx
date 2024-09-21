@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Box, Button, Flex, Text, Progress, Heading, Container, Spinner, Center } from '@chakra-ui/react';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
-import bg from '../assets/bg.png';
+import bg from '../../assets/bg.png';
 const steps = [
     { title: 'Choose Issue', description: 'Psychology or Nutrition' },
     { title: 'Select Type', description: 'Annual Checkup or Issues' },

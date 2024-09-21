@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Text } from '@chakra-ui/react';
-import Rendezvousprompt from '../components/RendezVousPrompt';
+import Rendezvousprompt from '../components/RendezvousModals/RendezVousPrompt';
 import ExpertsList from '../components/ExpertsList';
 import { Transition } from 'react-transition-group';
 
