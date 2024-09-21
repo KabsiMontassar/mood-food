@@ -14,6 +14,7 @@ import {
   useDisclosure,
   useToast,
   Image,
+  calc,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import logo from "../assets/logo.png";
@@ -92,123 +93,160 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
 
 
   return (
-    <Box  w="100%"   >
+    <Box p={3}   zIndex={3} w="100%">
+  <Flex
+    color="gray.600"
+    minH="60px"
+    py={{ base: 2 }}
+    px={{ base: 4 }}
+    borderStyle={'solid'}
+    borderColor="gray.200"
+    align={'center'}
+    justify="space-between"
+    
+  >
+    <Flex align="center">
+  
+  <Flex
+    flex={{ base: 1, md: 'auto' }}
+    ml={{ base: -2 }}
+    display={{ base: 'flex', md: 'none' }} 
+  >
+    <IconButton
+      onClick={onToggle}
+      icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
+      variant={'ghost'}
+      aria-label={'Toggle Navigation'}
+    />
+  </Flex>
+
+
+  <Flex 
+    pl={{ base: 14, md: 8, lg: 20 }}  
+    alignItems="center"
+  >
+    <Image
+      width="50px"
+      src={logo}
+      alt="logo"
+      onClick={() => navigate('/')}
+      cursor="pointer"
+    />
+    <Text
+      fontSize="md"
+      pl="10px"
+      fontWeight="bold"
+      color="gray.600"
+      cursor="pointer"
+      onClick={() => navigate('/')}
+    >
+      Mood & Food
+    </Text>
+  </Flex>
+</Flex>
+
+
+    {/* Right section: Navigation and actions */}
+    <Flex align="center" gap={4}>
+      {/* Desktop Navigation Links (only visible on larger screens) */}
       <Flex
+        display={{ base: 'none', md: 'flex' }} 
+        borderRight="1px"
+        borderColor="gray.200"
+        pr={4}
+        alignItems="center"
+      >
+        <DesktopNav navigate={navigate} />
+      </Flex>
 
+      {/* Action Buttons (Sign In, Fixer un rendez-vous, Profile) */}
+      <Stack
+        flex={{ base: 1, md: 0 }}
+        justify={'flex-end'}
+        direction={'row'}
+        spacing={6}
+        pl={4} // Space to separate from nav links
+      >
+        <Button
+          as={'a'}
+          display={{ base: 'none', md: 'inline-flex' }}
+          fontSize={'sm'}
+          userSelect="none"
+          fontWeight={800}
+          cursor="pointer"
+          color="white"
+          bg="black"
+          onClick={() => handleFixerRendezVous()}
+          _hover={{
+            opacity: '0.8',
+          }}
+        >
+          Fixer un rendez-vous
+        </Button>
 
-        color='gray.600'
-        minH={{ base: '3.5rem', md: '4rem' }}
-        py={{ base: 2 }}
-        px={{ base: 4 }}
+        {isUserSignedIn ? (
+          <>
+            <Button
+              fontSize={'sm'}
+              color="#64A87A"
+              fontWeight={600}
+              display={{ base: 'none', md: 'inline-flex' }}
+              variant={'link'}
+              onClick={SignOut}
+              _hover={{
+                color: '#96C970',
+              }}
+            >
+              Sign Out
+            </Button>
 
-        borderStyle={'solid'}
-        borderColor='gray.200'
-        align={'center'}>
-        <Flex
-          flex={{ base: 1, md: 'auto' }}
-          ml={{ base: -2 }}
-          display={{ base: 'flex', md: 'none' }}>
-          <IconButton
-            onClick={onToggle}
-            icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
-            variant={'ghost'}
-            aria-label={'Toggle Navigation'}
-          />
-        </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }} alignItems="center">
-
-
-          <Flex >
-
-
-            <Image width="50px" src={logo} alt="logo" />
-
-          </Flex>
-
-          <Flex display={{ base: 'none', md: 'flex' }} ml={10} alignItems="center">
-            <DesktopNav navigate={navigate} />
-          </Flex>
-        </Flex>
-
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={'flex-end'}
-          direction={'row'}
-          spacing={6}>
-          <Button
-            as={'a'}
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize={'sm'}
-            userSelect="none"
-            fontWeight={800}
-            cursor="pointer"
-            color='white'
-            bg='black'
-            onClick={() => handleFixerRendezVous()}
-            _hover={{
-              opacity: '0.8',
-            }} >
-            Fixer un rendez-vous
-          </Button>
-          {isUserSignedIn ?
-            <>
-
-              <Button
-                fontSize={'sm'}
-                color="#64A87A"
-                fontWeight={600}
-             
-                display={{ base: 'none', md: 'inline-flex' }}
-                variant={'link'}
-                onClick={SignOut}
-                _hover={{
-                  color: '#96C970',
-                }} >
-                Sign Out
-              </Button>
-
-              <Button
-                as={'a'}
-                display={{ base: 'none', md: 'inline-flex' }}
-                fontSize={'sm'}
-                fontWeight={600}
-                color={'white'}
-                bg="#64A87A"
-                href={'/profile'}
-                _hover={{
-                  bg: '#96C970',
-                }}>
-                <FaUser />
-              </Button>
-            </>
-            :
-
-            <Button as={'a'}
-              
+            <Button
+              as={'a'}
+              display={{ base: 'none', md: 'inline-flex' }}
               fontSize={'sm'}
               fontWeight={600}
               color={'white'}
               bg="#64A87A"
-              onClick={() => handleSignIn()}
+              href={'/profile'}
               _hover={{
                 bg: '#96C970',
-
               }}
             >
-              Sign In
+              <FaUser />
             </Button>
-          }
+          </>
+        ) : (
+          <Button
+            as={'a'}
+            fontSize={'sm'}
+            fontWeight={600}
+            color={'white'}
+            bg="#64A87A"
+            onClick={() => handleSignIn()}
+            _hover={{
+              bg: '#96C970',
+            }}
+          >
+            Sign In
+          </Button>
+        )}
+      </Stack>
+    </Flex>
+  </Flex>
+
+  {/* Mobile Navigation (Hamburger Menu content) */}
+  <Collapse in={isOpen} animateOpacity>
+    <MobileNav
+      navigate={navigate}
+      handleFixerRendezVous={handleFixerRendezVous}
+      isUserSignedIn={isUserSignedIn}
+      SignOut={SignOut}
+      handleSignIn={handleSignIn}
+    />
+  </Collapse>
+</Box>
 
 
-
-
-        </Stack>
-      </Flex>
-
-      <Collapse in={isOpen} animateOpacity>
-        <MobileNav navigate={navigate} handleFixerRendezVous={handleFixerRendezVous} isUserSignedIn={isUserSignedIn} SignOut={SignOut}   handleSignIn={handleSignIn} />
-      </Collapse>
-    </Box>
   );
 }
 
@@ -226,7 +264,7 @@ const DesktopNav = ({ navigate }) => {
               <Text
                 p={2}
                 cursor="pointer"
-                fontSize={'sm'}
+                fontSize={'md'}
                 fontWeight={500}
                 color={linkColor}
                 _hover={{
@@ -295,7 +333,7 @@ const DesktopSubNav = ({ label, href, subLabel, navigate }) => {
   );
 };
 
-const MobileNav = ({ navigate, handleFixerRendezVous, isUserSignedIn, SignOut  , handleSignIn}) => {
+const MobileNav = ({ navigate, handleFixerRendezVous, isUserSignedIn, SignOut, handleSignIn }) => {
   return (
     <Stack bg='white' p={4} display={{ md: 'none' }}>
       {NAV_ITEMS.map((navItem) => (
@@ -320,7 +358,7 @@ const MobileNav = ({ navigate, handleFixerRendezVous, isUserSignedIn, SignOut  ,
       <br />
       {isUserSignedIn ?
         <>
-         
+
           <Button
             as={'a'}
 
@@ -356,7 +394,7 @@ const MobileNav = ({ navigate, handleFixerRendezVous, isUserSignedIn, SignOut  ,
         </>
         :
 
-        <Button 
+        <Button
 
           as={'a'}
 
@@ -431,58 +469,53 @@ const MobileNavItem = ({ label, children, href, navigate }) => {
 };
 
 const NAV_ITEMS = [
-  {
-    label: 'Accueil',
-    href: '/',
-  },
-  {
-    label: 'Qui sommes-nous',
-    href: '/propos',
 
-  },
+  // {
+  //   label: 'Bien-être',
+  //   href: '/Bien',
+
+  // },
   {
     label: 'Bien-être',
-    href: '/Bien',
-
-  },
-  { label: 'Recipes', href: '/recipes' },
-  {
-    label: 'Cuisine & Bienfaits',
-    href: '/Cuisine',
-
-  },
-
-  {
-    label: 'Contactez-nous',
-    href: '/contact',
-  },
-  {
-    label: 'Produit',
     href: '/Product',
   },
-
-
-
-
+  
   {
-    "label": "backoffice",
-    "children": [
-      {
-        label: 'User',
-        href: '/User',
-      },
-      {
-        label: 'Commande',
-        href: '/Commande',
-      },
-      {
-        label: 'Equipement',
-        href: '/Equipement',
-      },
-      {
-        label: 'Repas',
-        href: '/Repas',
-      }
-    ],
-  }
+    label: 'Cuisine & Bienfaits',
+    href: '/recipes',
+
+  },
+  {
+    label: 'Que sommes-nous?',
+    href: '/Propos',
+
+  },
+
+
+ 
+
+
+
+
+  // {
+  //   "label": "backoffice",
+  //   "children": [
+  //     {
+  //       label: 'User',
+  //       href: '/User',
+  //     },
+  //     {
+  //       label: 'Commande',
+  //       href: '/Commande',
+  //     },
+  //     {
+  //       label: 'Equipement',
+  //       href: '/Equipement',
+  //     },
+  //     {
+  //       label: 'Repas',
+  //       href: '/Repas',
+  //     }
+  //   ],
+  // }
 ];

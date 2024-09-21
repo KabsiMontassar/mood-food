@@ -30,7 +30,7 @@ const ExpertHeader = ({ expert }) => {
         </Box>
       </Flex>
 
-      {/* Rating and Review */}
+   
       <Box mt={5} borderRadius={{ base: 'none', md: 'md' }} bg="gray.100" p={5}>
         <Flex justifyContent="space-between" align="center" flexDirection={{ base: 'column', md: 'row' }}>
           <Box w={{ base: '100%', md: '30%' }} textAlign="center" mb={{ base: 4, md: 0 }}>

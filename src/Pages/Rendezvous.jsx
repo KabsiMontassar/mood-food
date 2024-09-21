@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Text } from '@chakra-ui/react';
-import Rendezvousprompt from '../components/RendezVousPrompt';
+import Rendezvousprompt from '../components/RendezvousModals/RendezVousPrompt';
 import ExpertsList from '../components/ExpertsList';
 import { Transition } from 'react-transition-group';
 
@@ -27,7 +27,7 @@ const Rendezvous = () => {
   const [visible, setVisible] = useState(true);
 
   return (
-    <Box p={4} overflow="hidden" >
+    <Box  overflow="hidden" >
 
       {
         !showlist && (

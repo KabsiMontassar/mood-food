@@ -29,7 +29,7 @@ import SignUpPage from './Pages/auth/SignUpPage';
 
 const routes = [
   { path: "/", element: <Home /> },
-  { path: "/Bien", element: <Bienetre /> },
+  // { path: "/Bien", element: <Bienetre /> },
   { path: "/Cuisine", element: <Cuisine /> },
   { path: "/Propos", element: <Propos /> },
   { path: "/Product", element: <Product /> },
@@ -41,9 +41,9 @@ const routes = [
   { path: "/Equipement", element: <Equipement /> },
   { path: "/Commande", element: <Commande /> },
   { path: "/User", element: <User /> },
-  { path: "/recipes", element: <Recipes /> }, // Added route for Recipes
-  { path: "/recipes/:id", element: <RecipeDetail /> }, // Added route for RecipeDetail
-  { path: "/expert/:id", element: <ExpertDetails /> }, // Added route for RecipeDetail
+  { path: "/recipes", element: <Recipes /> }, 
+  { path: "/recipes/:id", element: <RecipeDetail /> }, 
+  { path: "/expert/:id", element: <ExpertDetails /> },
   { path: "*", element: <h1>error</h1> },
 
 { path: "/signin", element: <SplitLayout /> },

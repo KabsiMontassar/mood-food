@@ -83,7 +83,7 @@ const ExpertDetails = () => {
     const reviews = Array.from({ length: 10 }, (_, i) => ({
         id: i,
         rating: Math.floor(Math.random() * 6),
-        content: 'Ils étaient géniaux ! J\'ai eu une conversation très positive et calme sur mes dents.',
+        content: 'Ils étaient géniaux ! J\'ai eu une conversation très positive et calme.',
        
         date : new Date( new Date().getTime() - Math.random() * 10000000000).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }),
         patient: 'Foulen Fouleni',
