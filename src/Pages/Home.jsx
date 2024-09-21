@@ -830,7 +830,7 @@ const Home = () => {
               borderBottomRadius="10px"
             ></Box>
 
-            {/* iPhone Screen */}
+           
             <Box
               bg="white"
               w="260px"
@@ -839,7 +839,7 @@ const Home = () => {
               overflow="hidden"
               position="relative"
             >
-              {/* Place any content inside the screen */}
+            
               <Image
                 src={mobile2}
                 alt="App Screen"
@@ -909,29 +909,29 @@ const Home = () => {
           alignItems="center"
           variants={revealFromRight}
           viewport={{ once: true, amount: 0.5 }}
-          style={{ perspective: "1000px" }} // Add perspective for 3D effect
+          style={{ perspective: "1000px" }} 
         >
-          {/* iPhone Layout */}
+         
           <Box
             position="relative"
             bg="black"
             borderRadius="40px"
-            h="600px" // Height of the iPhone
-            w="300px" // Width of the iPhone
-            border="16px solid black" // Frame thickness
-            boxShadow="0 20px 30px rgba(0, 0, 0, 0.5)" // 3D shadow for depth
+            h="600px" 
+            w="300px" 
+            border="16px solid black"
+            boxShadow="0 20px 30px rgba(0, 0, 0, 0.5)"
             display="flex"
             justifyContent="center"
             alignItems="center"
-            transform="rotateY(-25deg) rotateX(5deg)" // 3D Rotation effect
+            transform="rotateY(-25deg) rotateX(5deg)"
             transition="transform 0.3s ease"
             _hover={{
-              transform: "rotateY(0deg) rotateX(0deg)", // Reset on hover
+              transform: "rotateY(0deg) rotateX(0deg)", 
 
 
             }}
           >
-            {/* iPhone Notch */}
+       
             <Box
               position="absolute"
               top="-5px"
@@ -943,7 +943,7 @@ const Home = () => {
               borderBottomRadius="10px"
             ></Box>
 
-            {/* iPhone Screen */}
+        
             <Box
               bg="white"
               w="260px"
@@ -952,7 +952,7 @@ const Home = () => {
               overflow="hidden"
               position="relative"
             >
-              {/* Place any content inside the screen */}
+         
               <Image
                 src={mobile4}
                 alt="App Screen"

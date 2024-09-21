@@ -27,7 +27,7 @@ const Rendezvous = () => {
   const [visible, setVisible] = useState(true);
 
   return (
-    <Box p={4} overflow="hidden" >
+    <Box  overflow="hidden" >
 
       {
         !showlist && (

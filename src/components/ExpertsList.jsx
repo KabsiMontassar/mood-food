@@ -48,7 +48,7 @@ const NavSearch = ({ searchName, setSearchName, searchAddress, setSearchAddress,
       top="0"
       zIndex="10"
       bg='gray.50'
-      p={4}
+      
     >
      
        <FormControl variant="floating" id="Address">
