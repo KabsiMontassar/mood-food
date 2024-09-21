@@ -1,15 +1,13 @@
-// src/RoutesWithTransitions.js
 import React from 'react';
-
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import PageTransition from './components/PageTransition';
 
 import Home from './Pages/Home';
+import SplitLayout from './Pages/auth/SplitLayout';
 import Bienetre from './Pages/Bienetre';
 import Cuisine from './Pages/Cuisine';
 import Propos from './Pages/Propos';
-
 import Contact from './Pages/Contact';
 import Product from './Pages/Product';
 import Repas from './Pages/Admin/Repas';
@@ -20,8 +18,14 @@ import Rendezvous from './Pages/Rendezvous';
 import Profile from './Pages/Profile';
 import FAQ from './Pages/FAQ';
 import Recipes from './Pages/Recipes'; 
-import RecipeDetail from './Pages/RecipeDetail'; 
+import RecipeDetail from './Pages/RecipeDetail';
 import ExpertDetails from './Pages/ExpertDetails';
+import SignIn from './Pages/auth/SignInPage';
+import SignUpPage from './Pages/auth/SignUpPage';
+
+
+
+
 
 const routes = [
   { path: "/", element: <Home /> },
@@ -42,7 +46,13 @@ const routes = [
   { path: "/expert/:id", element: <ExpertDetails /> },
   { path: "*", element: <h1>error</h1> },
 
+{ path: "/signin", element: <SplitLayout /> },
+{ path: "/signup", element: <SignUpPage /> },
+
 ];
+
+
+
 
 const RRoutes = () => {
 
