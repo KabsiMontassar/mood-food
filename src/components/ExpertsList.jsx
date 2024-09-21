@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box, Input, Flex, Button, Text, Select, IconButton, VStack
+  Box, Input, Flex, Button, Text, Select, IconButton, VStack,FormLabel,FormControl
 } from '@chakra-ui/react';
 import expertsData from '../Data/expertsData.jsx';
 import SelectedExpertModal from '../components/RendezvousModals/selectedExpertModal.jsx';
@@ -8,6 +8,32 @@ import Expert from './Expert';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 
+const TunisGovernorates = [
+  'Ariana',
+  'Beja',
+  'Ben Arous',
+  'Bizerte',
+  'Gabes',
+  'Gafsa',
+  'Jendouba',
+  'Kairouan',
+  'Kasserine',
+  'Kebili',
+  'Kef',
+  'Mahdia',
+  'Manouba',
+  'Medenine',
+  'Monastir',
+  'Nabeul',
+  'Sfax',
+  'Sidi Bouzid',
+  'Siliana',
+  'Sousse',
+  'Tataouine',
+  'Tozeur',
+  'Tunis',
+  'Zaghouan'
+];
 
 
 const NavSearch = ({ searchName, setSearchName, searchAddress, setSearchAddress, selectedType, setSelectedType, selectedSubType, setSelectedSubType, psychologistTypes }) => {
@@ -22,30 +48,37 @@ const NavSearch = ({ searchName, setSearchName, searchAddress, setSearchAddress,
       top="0"
       zIndex="10"
       bg='gray.50'
-      p={4}
+      
     >
-      <Input
-        border={0}
-        borderRadius="md"
-        bg='white'
-        placeholder="Search by name"
-        value={searchName}
-        onChange={e => setSearchName(e.target.value)}
-        focusBorderColor="green.500"
-      />
-      <Input
-        border={0}
-        borderRadius="md"
-        bg='white'
-        placeholder="Search by address"
-        value={searchAddress}
-        onChange={e => setSearchAddress(e.target.value)}
-        focusBorderColor="green.500"
-      />
+     
+       <FormControl variant="floating" id="Address">
+       <FormLabel>Gouvernorat:</FormLabel>
       <Select
         border={0}
         borderRadius="md"
         bg='white'
+        
+      
+        value={searchAddress}
+        onChange={e => {
+          setSearchAddress(e.target.value);
+        }}
+        focusBorderColor="green.500"
+      >
+        <option value="">Tous</option>
+        {TunisGovernorates.map((governorate, index) => (
+          <option key={index} value={governorate}>{governorate}</option>
+        ))}
+         
+      </Select>
+      </FormControl>
+      <FormControl variant="floating" id="Address">
+      <FormLabel>Type:</FormLabel>
+      <Select
+        border={0}
+        borderRadius="md"
+        bg='white'
+        Placeholder="Type"
         value={selectedType}
         onChange={e => {
           setSelectedType(e.target.value);
@@ -53,12 +86,16 @@ const NavSearch = ({ searchName, setSearchName, searchAddress, setSearchAddress,
         }}
         focusBorderColor="green.500"
       >
-        <option value="All">All</option>
+        <option value="All">Tous</option>
         <option value="Nutritionist">Nutritionist</option>
         <option value="Psychologist">Psychologist</option>
       </Select>
+      </FormControl>
+      
 
       {selectedType === 'Psychologist' && (
+        <FormControl variant="floating" id="Address">
+        <FormLabel>Filtrer par:</FormLabel>
         <Select
           border={0}
           borderRadius="md"
@@ -72,6 +109,7 @@ const NavSearch = ({ searchName, setSearchName, searchAddress, setSearchAddress,
             <option key={index} value={subType}>{subType}</option>
           ))}
         </Select>
+        </FormControl>
       )}
     </Flex>
   );

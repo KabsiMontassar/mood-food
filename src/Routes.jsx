@@ -25,7 +25,7 @@ import ExpertDetails from './Pages/ExpertDetails';
 
 const routes = [
   { path: "/", element: <Home /> },
-  { path: "/Bien", element: <Bienetre /> },
+  // { path: "/Bien", element: <Bienetre /> },
   { path: "/Cuisine", element: <Cuisine /> },
   { path: "/Propos", element: <Propos /> },
   { path: "/Product", element: <Product /> },
