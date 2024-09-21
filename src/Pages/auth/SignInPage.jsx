@@ -66,6 +66,7 @@ const SignInPage = () => {
         <Button
           borderColor="#5EDABC"
           color="#5EDABC"
+          border="1px"
           variant="outline"
           onClick={() => alert('Inscription réussie')}
         >

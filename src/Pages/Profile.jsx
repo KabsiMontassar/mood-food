@@ -12,11 +12,12 @@ import {
   Tab,
   TabPanels,
   TabPanel,
+  TabIndicator,
   TabList
 } from '@chakra-ui/react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { FaMapMarkerAlt } from 'react-icons/fa';
-
+import { ChevronLeftIcon, ChevronRightIcon,LockIcon } from '@chakra-ui/icons';
+import { FaMapMarkerAlt,FaUser,FaShoppingCart  } from 'react-icons/fa';
+import { GoInbox } from "react-icons/go";
 const Profile = () => {
   const [time, setTime] = useState([]);
   const [daysOfWeekWithDates, setDaysOfWeekWithDates] = useState([]);
@@ -102,23 +103,22 @@ const Profile = () => {
           </Flex>
 
           {/* Tabs Section */}
-          <Tabs isFitted colorScheme="teal">
+          <Tabs  variant='unstyled' isFitted  colorScheme="teal">
             <TabList>
               <Tab>Profile</Tab>
               <Tab>Schedule</Tab>
             </TabList>
-
+            <TabIndicator mt='-1.5px' height='2px' bg='teal' borderRadius='1px' />
             <TabPanels>
-              {/* Profile Info */}
-              <TabPanel>
-                <Box mt={5} borderRadius="md" p={5} w="100%">
+              <TabPanel  >
+                <Box p={5}  mt={5} borderRadius="md"  w="100%">
                   <Flex
                     align="center"
                     flexDirection="column"
                     justifyContent="center"
                   >
-                    <Box w="100%" textAlign="center">
-                      <Flex justify="center" gap={1} mb={2}>
+                    <Box w="100%" >
+                      <Flex  gap={1} mb={2}>
                         <Text fontSize={{ base: 'md', md: 'lg' }} color="black">
                           Email:
                         </Text>
@@ -126,7 +126,7 @@ const Profile = () => {
                           Pareek@hotmail.fr
                         </Text>
                       </Flex>
-                      <Flex justify="center" gap={1} mb={2}>
+                      <Flex  gap={1} mb={2}>
                         <Text fontSize={{ base: 'md', md: 'lg' }} color="black">
                           Date of Birth:
                         </Text>
@@ -134,7 +134,7 @@ const Profile = () => {
                           11/11/2003
                         </Text>
                       </Flex>
-                      <Flex justify="center" gap={1} mb={2}>
+                      <Flex  gap={1} mb={2}>
                         <Text fontSize={{ base: 'md', md: 'lg' }} color="black">
                           Gender:
                         </Text>
@@ -142,7 +142,7 @@ const Profile = () => {
                           Male
                         </Text>
                       </Flex>
-                      <Flex justify="center" gap={1} mb={2}>
+                      <Flex  gap={1} mb={2}>
                         <Text fontSize={{ base: 'md', md: 'lg' }} color="black">
                           Phone:
                         </Text>
@@ -150,7 +150,7 @@ const Profile = () => {
                           23242525
                         </Text>
                       </Flex>
-                      <Flex justify="center" gap={1} mb={2}>
+                      <Flex  gap={1} mb={2}>
                         <Text fontSize={{ base: 'md', md: 'lg' }} color="black">
                           Address:
                         </Text>
@@ -204,18 +204,19 @@ const Profile = () => {
                     justifyContent="center"
                     p={3}
                     flexDirection="column"
+                    
                     gap={2}
                   >
-                    <Box w="100%" textAlign="center">
-                      <Flex justify="center" gap={1}>
-                        <Text fontSize={{ base: 'md', md: 'lg' }} color="black">
+                    <Box p={5} w="100%" >
+                      <Flex mb={2}   gap={1}>
+                        <Text  fontSize={{ base: 'md', md: 'lg' }} color="black">
                           Total Weight:
                         </Text>
                         <Text fontSize={{ base: 'md', md: 'lg' }} color="gray.600">
                           75 kg
                         </Text>
                       </Flex>
-                      <Flex justify="center" gap={1}>
+                      <Flex mb={2}  gap={1}>
                         <Text fontSize={{ base: 'md', md: 'lg' }} color="black">
                           Muscle Mass:
                         </Text>
@@ -223,7 +224,7 @@ const Profile = () => {
                           22.5 kg
                         </Text>
                       </Flex>
-                      <Flex justify="center" gap={1}>
+                      <Flex mb={2}  gap={1}>
                         <Text fontSize={{ base: 'md', md: 'lg' }} color="black">
                           Fat Mass:
                         </Text>
@@ -231,7 +232,7 @@ const Profile = () => {
                           7.5 kg
                         </Text>
                       </Flex>
-                      <Flex justify="center" gap={1}>
+                      <Flex mb={2}  gap={1}>
                         <Text fontSize={{ base: 'md', md: 'lg' }} color="black">
                           Water Percentage:
                         </Text>
@@ -249,14 +250,27 @@ const Profile = () => {
       </GridItem>
 
       {/* Main Content */}
-      <GridItem pl="2" bg="green.300" area={'main'}>
+      <GridItem bg="green.300" pl="2" area={'main'}>
         <Box>
           <Tabs align='center' variant='unstyled'>
             <TabList>
-              <Tab _selected={{ color: 'white', bg: 'teal.400' }}>One</Tab>
-              <Tab _selected={{ color: 'white', bg: 'teal.400' }}>Two</Tab>
-              <Tab _selected={{ color: 'white', bg: 'teal.400' }}>Three</Tab>
-              <Tab _selected={{ color: 'white', bg: 'teal.400' }}>Four</Tab>
+              <Tab  border="1px solid #38B2AC" w="xs" _selected={{ color: 'white', bg: 'teal.400' }}>
+             
+              <IconButton fontSize='lg'  color="gray.200"   colorScheme='teal.400'   icon={<FaUser />} />
+              </Tab>
+              <Tab  border="1px solid #38B2AC" w="xs" _selected={{ color: 'white', bg: 'teal.400' }}> 
+              <IconButton fontSize='lg'  color="gray.200"    colorScheme='teal.400'  icon={<LockIcon/>}   />
+              </Tab>
+              <Tab  border="1px solid #38B2AC" w="xs" _selected={{ color: 'white', bg: 'teal.400' }}> 
+              <IconButton fontSize='lg'  color="gray.200"    colorScheme='teal.400'  icon={<FaShoppingCart/>}   />
+
+              </Tab>
+              <Tab
+                border="1px solid #38B2AC" 
+                w="xs"  _selected={{ color: 'white', bg: 'teal.400' }}>
+               <IconButton  fontSize='lg'  color="gray.200"   colorScheme='teal.400'  icon={<GoInbox/>}   />
+
+               </Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
