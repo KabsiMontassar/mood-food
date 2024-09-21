@@ -70,17 +70,7 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
   const handleSignIn = () => {
 
 
-    localStorage.setItem('isUserSignedIn', true);
-
-
-    setIsUserSignedIn(true);
-    toast({
-      title: "Signed In",
-      description: "You have successfully signed in",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    })
+    navigate('/signin');
   }
 
 
