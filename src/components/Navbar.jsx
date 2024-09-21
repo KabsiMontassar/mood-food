@@ -132,7 +132,7 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
 
 
   <Flex 
-    pl={{ base: 14, md: 8, lg: 20 }}  
+    pl={{ base: 14, md: 8, lg: 8 }}  
     alignItems="center"
   >
     <Image
@@ -156,9 +156,9 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
 </Flex>
 
 
-    {/* Right section: Navigation and actions */}
+  
     <Flex align="center" gap={4}>
-      {/* Desktop Navigation Links (only visible on larger screens) */}
+      
       <Flex
         display={{ base: 'none', md: 'flex' }} 
         borderRight="1px"
@@ -169,13 +169,13 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
         <DesktopNav navigate={navigate} />
       </Flex>
 
-      {/* Action Buttons (Sign In, Fixer un rendez-vous, Profile) */}
+      
       <Stack
         flex={{ base: 1, md: 0 }}
         justify={'flex-end'}
         direction={'row'}
         spacing={6}
-        pl={4} // Space to separate from nav links
+        pl={4} 
       >
         <Button
           as={'a'}
