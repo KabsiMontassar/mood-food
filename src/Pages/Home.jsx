@@ -122,46 +122,14 @@ const Home = () => {
       <Box className="section">
         <BienEtreComponent />
       </Box>
-      <Box className="section">
-        <Flex justifyContent="center" mt={6}>
-          <Button colorScheme="green" onClick={() => setIsSignUpOpen(true)}>
-            Sign Up
-          </Button>
-          <Button colorScheme="teal" ml={4} onClick={() => setIsSignInOpen(true)}>
-            Sign In
-          </Button>
-          <Button colorScheme="red" ml={4}>
-            Sign Out
-          </Button>
-        </Flex>
-      </Box>
+    
       <Box>
         <PlanComparison />
       </Box>
 
-      {/* Sign Up Modal */}
-      <Modal isOpen={isSignUpOpen} onClose={() => setIsSignUpOpen(false)}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Sign Up</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <SignUpPage />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+    
 
-      {/* Sign In Modal */}
-      <Modal isOpen={isSignInOpen} onClose={() => setIsSignInOpen(false)}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Sign In</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <SignInPage />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+    
     </Box>
   );
 };

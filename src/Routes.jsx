@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import PageTransition from './components/PageTransition';
 
 import Home from './Pages/Home';
+import SplitLayout from './Pages/auth/SplitLayout';
 import Bienetre from './Pages/Bienetre';
 import Cuisine from './Pages/Cuisine';
 import Propos from './Pages/Propos';
