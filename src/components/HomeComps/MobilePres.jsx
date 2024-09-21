@@ -54,7 +54,7 @@ const PhoneCard = (Reveal, bg) => {
             display="flex"
             justifyContent="center"
             alignItems="center"
-            variants={!Reveal ? revealFromRight : revealFromLeft}
+            variants={!Reveal ? revealFromLeft : revealFromRight}
             viewport={{ once: true, amount: 0.5 }}
             style={{ perspective: "1000px" }}
         >
@@ -70,7 +70,8 @@ const PhoneCard = (Reveal, bg) => {
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                transform="rotateY(25deg) rotateX(5deg)"
+
+                transform={Reveal ? "rotateY(-25deg) rotateX(5deg)" : "rotateY(25deg) rotateX(5deg)"}
                 transition="transform 0.3s ease"
                 _hover={{
                     transform: "rotateY(0deg) rotateX(0deg)",
@@ -122,7 +123,7 @@ const ContentCard = (Reveal, content1, content2) => {
             alignItems={"center"}
             initial="hidden"
             whileInView="visible"
-            variants={!Reveal ? revealFromRight : revealFromLeft}
+            variants={!Reveal ? revealFromLeft : revealFromRight}
             viewport={{ once: true, amount: 0.5 }}
 
         >
@@ -155,9 +156,10 @@ const MobilePres = () => {
             {MobileContent.map((content, index) => (
                 <Box key={index} >
                     {index % 2 === 0 ? PhoneCard(false, content.image) : ContentCard(true, content.title, content.description)}
-                    {index % 2 === 0 ? ContentCard(true, content.title, content.description) : PhoneCard(false, content.image)}
+                    {index % 2 === 0 ? ContentCard(false, content.title, content.description) : PhoneCard(true, content.image)}
                 </Box>
             ))}
+
 
 
         </SimpleGrid>
