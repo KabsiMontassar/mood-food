@@ -37,9 +37,9 @@ const routes = [
   { path: "/Equipement", element: <Equipement /> },
   { path: "/Commande", element: <Commande /> },
   { path: "/User", element: <User /> },
-  { path: "/recipes", element: <Recipes /> }, // Added route for Recipes
-  { path: "/recipes/:id", element: <RecipeDetail /> }, // Added route for RecipeDetail
-  { path: "/expert/:id", element: <ExpertDetails /> }, // Added route for RecipeDetail
+  { path: "/recipes", element: <Recipes /> }, 
+  { path: "/recipes/:id", element: <RecipeDetail /> }, 
+  { path: "/expert/:id", element: <ExpertDetails /> },
   { path: "*", element: <h1>error</h1> },
 
 ];
