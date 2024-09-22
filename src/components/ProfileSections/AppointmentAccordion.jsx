@@ -15,7 +15,7 @@ import { FaUserMd, FaCalendarAlt, FaRegClock } from 'react-icons/fa';
 
 const AppointmentAccordion = ({ appointmentsData }) => {
     return (
-        <Box mt={5} px={{ base: 2, md: 4 }} maxW={{ base: '400px', md: 'full' }} minH={{ base: '400px', md: '470px' }} mx="auto"> {/* Center the content and set max width */}
+        <Box mt={5} px={{ base: 2, md: 4 }} maxW={{ base: '400px', md: 'full' }} minH={{ base: '400px', md: '510px' }} mx="auto"> {/* Center the content and set max width */}
             <Accordion allowMultiple>
                 {appointmentsData.map((appointment, index) => (
                     <AccordionItem mb={5} key={index} border="none">
@@ -40,14 +40,14 @@ const AppointmentAccordion = ({ appointmentsData }) => {
                                     borderRadius="full"
                                     color={appointment.Status === 'Completed' ? 'green' : appointment.Status === 'Pending' ? '#EFB110' : 'red'}
                                     colorScheme={appointment.Status === 'Completed' ? 'green' : appointment.Status === 'Pending' ? 'yellow' : 'red'}
-                                    fontSize={{ base: 'xs', md: 'sm' }} // Responsive badge size
+                                    fontSize="xs" 
                                     px={2} 
                                     py={1} 
                                     textTransform="capitalize"
                                     display="flex"
                                     alignItems="center"
                                 >
-                                    <Icon viewBox='0 0 200 200' boxSize={{ base: 4, md: 5 }}> {/* Responsive icon size */}
+                                    <Icon viewBox='0 0 200 200' > 
                                         <path
                                             fill={{ Completed: 'green', Pending: '#EFB110', Rejected: 'red' }[appointment.Status]}
                                             d='M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0'

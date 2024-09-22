@@ -27,7 +27,7 @@ const EditPasswordForm = () => {
     };
 
     return (
-        <Box maxW={{ base: '400px', md: 'full' }} minH={{ base: '400px', md: '470px' }}
+        <Box maxW={{ base: '400px', md: 'full' }} minH={{ base: '400px', md: '510px' }}
         mx="auto" p={4} mt={5}  borderRadius="md">
             <Text fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold" mb={4} textAlign="center">Change Password</Text>
             <form onSubmit={handleSubmit}>

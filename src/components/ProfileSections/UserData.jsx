@@ -12,8 +12,9 @@ const UserData = () => {
   ];
 
   return (
-    <Box p={5} mx="auto" maxW="800px">
-      <Flex alignItems="center" justifyContent="center" flexDirection="column">
+    <Box mx="auto" align="center" minW={{ base: '100%', md: '400px' }} maxW={{ base: '100%', md: '500px' }}>
+      {/* Centering the avatar and text container */}
+      <Flex  alignItems="center" justifyContent="center" flexDirection="column" mb={4}>
         <Avatar
           name="John Doe"
           size={{ base: 'xl', md: '2xl' }}
@@ -22,7 +23,8 @@ const UserData = () => {
           mb={{ base: 4, md: 0 }}
           mr={{ base: 0, md: 5 }}
         />
-        <Box textAlign={{ base: 'center', md: 'left' }}>
+        {/* Ensure the text is aligned to the left */}
+        <Box textAlign="left">
           <Text fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold">
             Dr. Sara (Shivani) Pareek, DMD
           </Text>
@@ -36,45 +38,44 @@ const UserData = () => {
         </Box>
       </Flex>
 
-      <Tabs variant='unstyled' isFitted colorScheme="teal" mt={5}>
+      <Tabs  variant='unstyled' isFitted colorScheme="teal" mt={5}>
         <TabList>
           <Tab fontWeight={"bold"}>Profile</Tab>
           <Tab fontWeight={"bold"}>Schedule</Tab>
         </TabList>
         <TabIndicator mt='-1.5px' height='2px' bg='teal' borderRadius='1px' />
-        <TabPanels>
-          <TabPanel>
-            <Box p={5} borderRadius="md" w="100%">
-              <Flex
-                align="center"
-                flexDirection="column"
-                justifyContent="center"
-                w="100%"
-              >
-                <Box w="100%">
-                  {[
+        <TabPanels >
+          {/* Profile Info */}
+          <TabPanel  >
+         
+            
+                {/* Box with the user's info */}
+                <Box     p={5}  >
+                <Flex flexDirection="column" alignItems={"center"}  >
+                                  {[
                     { label: 'Email', value: 'Pareek@hotmail.fr' },
                     { label: 'Date of Birth', value: '11/11/2003' },
                     { label: 'Gender', value: 'Male' },
                     { label: 'Phone', value: '23242525' },
                     { label: 'Address', value: 'Hanover Street' }
                   ].map((item, index) => (
-                    <Flex key={index} gap={1} mb={2}>
-                      <Text fontWeight={"bold"} fontSize={{ base: 'md', md: 'lg' }} color="black">
+                    <Flex textAlign={"left"}   key={index} gap={2} mb={2}>
+                      <Text  fontWeight={"bold"} fontSize={{ base: 'md', md: 'lg' }} color="black">
                         {item.label}:
                       </Text>
-                      <Text fontSize={{ base: 'md', md: 'lg' }} color="gray.600">
+                      <Text  fontSize={{ base: 'md', md: 'lg' }} color="gray.600">
                         {item.value}
                       </Text>
                     </Flex>
                   ))}
+                  </Flex>
                 </Box>
-              </Flex>
-            </Box>
+            
+            
           </TabPanel>
 
           {/* Schedule Info */}
-          <TabPanel>
+          <TabPanel w={{ base: '100%', md: '80%' }}>
             <UserTracks providedtime={providedtime} />
           </TabPanel>
         </TabPanels>

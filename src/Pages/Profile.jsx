@@ -6,6 +6,7 @@ import {
   Tabs,
   Tab,
   TabPanels,
+  Button,
   TabPanel,
   TabIndicator,
   TabList
@@ -21,19 +22,39 @@ import UserData from '../components/ProfileSections/UserData';
 import { LockIcon } from '@chakra-ui/icons';
 import { FaUser, FaShoppingCart } from 'react-icons/fa';
 import { GoInbox } from "react-icons/go";
+import { CiCalendar } from "react-icons/ci";
 
 const Profile = () => {
+
+
+  const [UserStatus, setUserStatus] = useState('Expert');
+
+
+
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const handleTabChange = (index) => {
     setSelectedTabIndex(index);
   };
 
-  const tabs = [
-    { icon: FaUser, title: 'Profile' },
-    { icon: LockIcon, title: 'Password' },
-    { icon: FaShoppingCart, title: 'Orders' },
-    { icon: GoInbox, title: 'Appointments' },
+  const clienttabs = [
+    { icon: FaUser, title: 'Profile' , Component : <EditProfileForm  /> },
+    { icon: LockIcon, title: 'Password', Component : <EditPasswordForm/> },
+    { icon: FaShoppingCart, title: 'Orders', Component : <OrdersAccordion OrdersData={OrdersData}/> },
+    { icon: GoInbox, title: 'Appointments', Component : <AppointmentAccordion appointmentsData={appointementsdata}/> },
   ];
+
+  const experttabs = [
+    { icon: FaUser, title: 'ExpertsDetails', Component :<></> },
+    { icon: LockIcon, title: 'Password' ,Component : <EditPasswordForm/>  },
+    { icon: GoInbox, title: 'Consultations', Component : <></> },
+    { icon: CiCalendar, title: 'Calendar' , Component : <></>},
+
+  ];
+
+const tabs= UserStatus === 'Client' ? clienttabs : UserStatus === 'Expert' ? experttabs : "error";
+
+
+
 
   return (
     <>
@@ -43,8 +64,28 @@ const Profile = () => {
         gap={3}
         color="blackAlpha.700"
       >
+    
         <GridItem pl={{ base: 2, md: 4 }} mb={3} boxShadow="md" area={'nav'}>
-          <UserData />
+         <Button  w='100%'
+         onClick={() =>
+          {
+            if(UserStatus === 'Client')
+            {
+              setUserStatus('Expert');
+            }
+            else
+            {
+              setUserStatus('Client');
+          }
+          } 
+          }
+         colorScheme={UserStatus === 'Client' ? 'teal' : 'gray'}>
+          {UserStatus === 'Client' ? 'Expert' : 'Client'}
+         </Button>
+         
+        
+         
+          { UserStatus === 'Client' ?  <UserData /> : <></> }
         </GridItem>
 
         <GridItem pl={{ base: 2, md: 4 }} area={'main'} boxShadow="md">
@@ -73,18 +114,9 @@ const Profile = () => {
             </TabList>
             <TabIndicator mt='-1.5px' height='2px' bg='white' borderRadius='1px' />
             <TabPanels>
-              <TabPanel>
-                <EditProfileForm />
-              </TabPanel>
-              <TabPanel>
-                <EditPasswordForm />
-              </TabPanel>
-              <TabPanel>
-                <OrdersAccordion OrdersData={OrdersData} />
-              </TabPanel>
-              <TabPanel>
-                <AppointmentAccordion appointmentsData={appointementsdata} />
-              </TabPanel>
+              {tabs.map((tab, index) => (
+                <TabPanel key={index}>{tab.Component}</TabPanel>
+              ))}
             </TabPanels>
           </Tabs>
         </GridItem>

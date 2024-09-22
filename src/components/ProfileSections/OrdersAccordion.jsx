@@ -14,7 +14,7 @@ import {
 
 const OrdersAccordion = ({ OrdersData }) => {
   return (
-    <Box maxW={{ base: '400px', md: 'full' }} minH={{ base: '400px', md: '470px' }} mt={5}>
+    <Box maxW={{ base: '400px', md: 'full' }} minH={{ base: '400px', md: '510px' }} mt={5}>
       <Accordion allowMultiple>
         {OrdersData.map((Order, index) => (
           <AccordionItem mb={5} key={index} border="none">
@@ -31,18 +31,18 @@ const OrdersAccordion = ({ OrdersData }) => {
                 p={4}
               >
                 <Box as="span" flex="1" textAlign="left">
-                  <Text fontWeight="bold" fontSize="md">{Order.Date}</Text>
+                  <Text fontWeight="bold" fontSize={{ base: 'md', md: 'lg' }}>{Order.Date}</Text>
                 </Box>
                 <Badge
                   borderRadius="full"
                   color={Order.Status === 'Completed' ? 'green' : Order.Status === 'Pending' ? '#EFB110' : 'red'}
                   colorScheme={Order.Status === 'Completed' ? 'green' : Order.Status === 'Pending' ? 'yellow' : 'red'}
-                  fontSize="sm" px={2} py={1} textTransform="capitalize"
+                  fontSize="xs" px={2} py={1} textTransform="capitalize"
                   justifyContent="center"
                   alignItems="center"
                   display="flex"
                 >
-                  <Icon viewBox='0 0 200 200'>
+                  <Icon viewBox='0 0 200 200' >
                     <path
                       fill={{ Completed: 'green', Pending: '#EFB110', Rejected: 'red' }[Order.Status]}
                       d='M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0'
