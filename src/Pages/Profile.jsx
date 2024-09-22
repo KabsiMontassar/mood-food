@@ -55,7 +55,7 @@ const Profile = () => {
                   key={index}
                   border={selectedTabIndex === index ? '1px solid #38B2AC' : '1px solid #DDDDDD'}
                   borderBottom={0}
-                  w="auto"
+                  w={{ base: '25%', md: '15%' }}
                   _selected={{
                     border: '1px solid #38B2AC',
                     borderBottom: '0px solid #38B2AC',

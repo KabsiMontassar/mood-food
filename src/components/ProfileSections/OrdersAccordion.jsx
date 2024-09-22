@@ -7,14 +7,14 @@ import {
   AccordionIcon,
   Box,
   Badge,
+  Flex,
   Text,
-  SimpleGrid,
   Icon,
 } from '@chakra-ui/react';
 
 const OrdersAccordion = ({ OrdersData }) => {
   return (
-    <Box mt={5}>
+    <Box maxW={{ base: '400px', md: 'full' }} minH={{ base: '400px', md: '470px' }} mt={5}>
       <Accordion allowMultiple>
         {OrdersData.map((Order, index) => (
           <AccordionItem mb={5} key={index} border="none">
@@ -31,7 +31,7 @@ const OrdersAccordion = ({ OrdersData }) => {
                 p={4}
               >
                 <Box as="span" flex="1" textAlign="left">
-                  <Text fontWeight="bold" fontSize="lg">{Order.Date}</Text>
+                  <Text fontWeight="bold" fontSize="md">{Order.Date}</Text>
                 </Box>
                 <Badge
                   borderRadius="full"
@@ -54,30 +54,28 @@ const OrdersAccordion = ({ OrdersData }) => {
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4} borderBottomRadius="md" boxShadow="md">
-              <Box p={4}>
-                <SimpleGrid
-                  columns={{ base: 1, md: 3 }} // Responsive columns
-                  spacing={4}
-                >
-                  <Text fontSize="md" color="black" fontWeight="bold">Product</Text>
-                  <Text fontSize="md" color="black" fontWeight="bold">Quantity</Text>
-                  <Text fontSize="md" color="black" fontWeight="bold">Price</Text>
+  <Box p={4}>
+    <Box display="flex"  mb={4}>
+      <Text fontSize="md" color="black"  flexBasis={{ base: '50%', md: '33%' }} fontWeight="bold">Product</Text>
+      <Text fontSize="md" color="black"  flexBasis={{ base: '50%', md: '33%' }} fontWeight="bold">Quantity</Text>
+      <Text fontSize="md" color="black"  flexBasis={{ base: '50%', md: '33%' }} fontWeight="bold">Price</Text>
+    </Box>
 
-                  {Order.products.map((product, index) => (
-                    <React.Fragment key={index}>
-                      <Text fontSize="md" color="gray.600">{product.name}</Text>
-                      <Text fontSize="md" color="gray.600">{product.Quantity}</Text>
-                      <Text fontSize="md" color="gray.600">{(product.prix * product.Quantity).toFixed(2)}</Text>
-                    </React.Fragment>
-                  ))}
-                  <React.Fragment>
-                    <Text fontSize="md" color="teal" textDecor={"underline"} fontWeight="bold">Total Price</Text>
-                    <Text fontSize="md" color="black" fontWeight="bold"></Text>
-                    <Text fontSize="md" textDecor={"underline"} color="teal" fontWeight="bold">{Order.total.toFixed(2)}</Text>
-                  </React.Fragment>
-                </SimpleGrid>
-              </Box>
-            </AccordionPanel>
+    {Order.products.map((product, index) => (
+      <Flex key={index} justifyContent="space-between" mb={2}>
+        <Text fontSize="md" color="gray.600" flexBasis={{ base: '50%', md: '33%' }}>{product.name}</Text>
+        <Text fontSize="md" color="gray.600" flexBasis={{ base: '25%', md: '33%' }}>{product.Quantity}</Text>
+        <Text fontSize="md" color="gray.600" flexBasis={{ base: '25%', md: '33%' }}>{(product.prix * product.Quantity).toFixed(2)}</Text>
+      </Flex>
+    ))}
+
+    <Flex justifyContent="space-between" fontWeight="bold" color="teal" textDecor="underline" mt={4}>
+      <Text fontSize="md">Total Price</Text>
+      <Text fontSize="md">{Order.total.toFixed(2)}</Text>
+    </Flex>
+  </Box>
+</AccordionPanel>
+
           </AccordionItem>
         ))}
       </Accordion>

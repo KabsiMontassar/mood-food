@@ -15,7 +15,7 @@ import { FaUserMd, FaCalendarAlt, FaRegClock } from 'react-icons/fa';
 
 const AppointmentAccordion = ({ appointmentsData }) => {
     return (
-        <Box mt={5} px={{ base: 2, md: 4 }} maxW="800px" mx="auto"> {/* Center the content and set max width */}
+        <Box mt={5} px={{ base: 2, md: 4 }} maxW={{ base: '400px', md: 'full' }} minH={{ base: '400px', md: '470px' }} mx="auto"> {/* Center the content and set max width */}
             <Accordion allowMultiple>
                 {appointmentsData.map((appointment, index) => (
                     <AccordionItem mb={5} key={index} border="none">
@@ -59,28 +59,47 @@ const AppointmentAccordion = ({ appointmentsData }) => {
                             </AccordionButton>
                         </h2>
                         <AccordionPanel pb={4} borderBottomRadius="md" boxShadow="md">
-                            <Box p={4}>
-                                <Flex mb={2} alignItems="center">
-                                    <Icon as={FaUserMd} color="gray.600" mr={2} />
-                                    <Text fontSize={{ base: 'sm', md: 'md' }} color="black" fontWeight="bold">Specialist:</Text>
-                                    <Text color="gray.400" ml={2}>{appointment.Specialist}</Text>
-                                </Flex>
-                                <Flex mb={2} alignItems="center">
-                                    <Icon as={FaCalendarAlt} color="gray.600" mr={2} />
-                                    <Text fontSize={{ base: 'sm', md: 'md' }} color="black" fontWeight="bold">Date:</Text>
-                                    <Text color="gray.400" ml={2}>{appointment.Date}</Text>
-                                </Flex>
-                                <Flex mb={2} alignItems="center">
-                                    <Icon as={FaRegClock} color="gray.600" mr={2} />
-                                    <Text fontSize={{ base: 'sm', md: 'md' }} color="black" fontWeight="bold">Appointment Type:</Text>
-                                    <Text ml={2} color="gray.400">{appointment.ApointementType}</Text>
-                                </Flex>
-                                <Flex mb={2} alignItems="center">
-                                    <Text fontSize={{ base: 'sm', md: 'md' }} color="black" fontWeight="bold">Reason:</Text>
-                                    <Text ml={2} color="gray.400">{appointment.raison}</Text>
-                                </Flex>
-                            </Box>
-                        </AccordionPanel>
+  <Box p={4}>
+    <Flex
+      mb={2}
+      alignItems="center"
+      flexDirection={{ base: 'column', md: 'row' }} // Stack vertically on mobile
+    >
+      <Icon as={FaUserMd} color="gray.600" mr={{ base: 0, md: 2 }} mb={{ base: 1, md: 0 }} />
+      <Text fontSize={{ base: 'sm', md: 'md' }} color="black" fontWeight="bold">Specialist:</Text>
+      <Text color="gray.400" ml={2}>{appointment.Specialist}</Text>
+    </Flex>
+
+    <Flex
+      mb={2}
+      alignItems="center"
+      flexDirection={{ base: 'column', md: 'row' }} // Stack vertically on mobile
+    >
+      <Icon as={FaCalendarAlt} color="gray.600" mr={{ base: 0, md: 2 }} mb={{ base: 1, md: 0 }} />
+      <Text fontSize={{ base: 'sm', md: 'md' }} color="black" fontWeight="bold">Date:</Text>
+      <Text color="gray.400" ml={2}>{appointment.Date}</Text>
+    </Flex>
+
+    <Flex
+      mb={2}
+      alignItems="center"
+      flexDirection={{ base: 'column', md: 'row' }} // Stack vertically on mobile
+    >
+      <Icon as={FaRegClock} color="gray.600" mr={{ base: 0, md: 2 }} mb={{ base: 1, md: 0 }} />
+      <Text fontSize={{ base: 'sm', md: 'md' }} color="black" fontWeight="bold">Appointment Type:</Text>
+      <Text ml={2} color="gray.400">{appointment.ApointementType}</Text>
+    </Flex>
+
+    <Flex
+      mb={2}
+      alignItems="center"
+      flexDirection={{ base: 'column', md: 'row' }} // Stack vertically on mobile
+    >
+      <Text fontSize={{ base: 'sm', md: 'md' }} color="black" fontWeight="bold">Reason:</Text>
+      <Text ml={2} color="gray.400">{appointment.raison}</Text>
+    </Flex>
+  </Box>
+</AccordionPanel>
                     </AccordionItem>
                 ))}
             </Accordion>
