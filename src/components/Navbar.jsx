@@ -486,7 +486,7 @@ const NAV_ITEMS = [
 
   },
   {
-    label: 'Que sommes-nous?',
+    label: 'Qui sommes-nous?',
     href: '/Propos',
 
   },
