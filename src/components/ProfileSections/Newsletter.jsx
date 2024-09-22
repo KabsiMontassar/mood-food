@@ -9,6 +9,7 @@ const Newsletter = () => {
       align={'center'}
       justify={'center'}
       py={12}
+      bg="#F7FAFC"
       px={{ base: 4, md: 0 }} // Add padding on smaller screens
     >
       <Stack
