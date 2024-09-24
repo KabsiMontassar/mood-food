@@ -1,6 +1,5 @@
 import React from 'react';
-import { Box, Text, Flex, Avatar, Tabs, TabList, Tab, TabPanels, TabPanel, Icon, TabIndicator } from '@chakra-ui/react';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import { Box, Text, Flex } from '@chakra-ui/react';
 import UserTracks from './UserTracks';
 
 const UserData = () => {
@@ -12,75 +11,13 @@ const UserData = () => {
   ];
 
   return (
-    <Box mx="auto" align="center" minW={{ base: '100%', md: '400px' }} maxW={{ base: '100%', md: '500px' }}>
-      {/* Centering the avatar and text container */}
-      <Flex  alignItems="center" justifyContent="center" flexDirection="column" mb={4}>
-        <Avatar
-          name="John Doe"
-          size={{ base: 'xl', md: '2xl' }}
-          border="2px solid #cccfcd"
-          src={`https://i.pravatar.cc/150?img=1`}
-          mb={{ base: 4, md: 0 }}
-          mr={{ base: 0, md: 5 }}
-        />
-        {/* Ensure the text is aligned to the left */}
-        <Box textAlign="left">
-          <Text fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold">
-            Dr. Sara (Shivani) Pareek, DMD
-          </Text>
-          <Text fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold">
-            Software Engineer
-          </Text>
-          <Text fontSize={{ base: 'md', md: 'xl' }} color="gray.700">
-            <Icon mr="5px" color="green" as={FaMapMarkerAlt} />
-            New York, USA
-          </Text>
-        </Box>
+  
+      <Flex flexDirection="column" gap={6}
+       alignItems="center" w="100%" justifyContent="center" p={5}>
+      
+        <UserTracks providedtime={providedtime} />
       </Flex>
-
-      <Tabs  variant='unstyled' isFitted colorScheme="teal" mt={5}>
-        <TabList>
-          <Tab fontWeight={"bold"}>Profile</Tab>
-          <Tab fontWeight={"bold"}>Schedule</Tab>
-        </TabList>
-        <TabIndicator mt='-1.5px' height='2px' bg='teal' borderRadius='1px' />
-        <TabPanels >
-          {/* Profile Info */}
-          <TabPanel  >
-         
-            
-                {/* Box with the user's info */}
-                <Box     p={5}  >
-                <Flex flexDirection="column" alignItems={"center"}  >
-                                  {[
-                    { label: 'Email', value: 'Pareek@hotmail.fr' },
-                    { label: 'Date of Birth', value: '11/11/2003' },
-                    { label: 'Gender', value: 'Male' },
-                    { label: 'Phone', value: '23242525' },
-                    { label: 'Address', value: 'Hanover Street' }
-                  ].map((item, index) => (
-                    <Flex textAlign={"left"}   key={index} gap={2} mb={2}>
-                      <Text  fontWeight={"bold"} fontSize={{ base: 'md', md: 'lg' }} color="black">
-                        {item.label}:
-                      </Text>
-                      <Text  fontSize={{ base: 'md', md: 'lg' }} color="gray.600">
-                        {item.value}
-                      </Text>
-                    </Flex>
-                  ))}
-                  </Flex>
-                </Box>
-            
-            
-          </TabPanel>
-
-          {/* Schedule Info */}
-          <TabPanel w={{ base: '100%', md: '80%' }}>
-            <UserTracks providedtime={providedtime} />
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-    </Box>
+   
   );
 }
 

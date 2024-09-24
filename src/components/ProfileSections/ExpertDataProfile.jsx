@@ -21,7 +21,7 @@ const ExpertDataProfile = () => {
 
   return (
     <div style={{   position: 'sticky', top: '50px',  }}>
-    <Box mx="auto" align="center" minW={{ base: '100%', md: '400px' }} maxW={{ base: '100%', md: '500px' }}>
+    <Box mx="auto" align="center" >
 
       <Flex alignItems="center" justifyContent="center" flexDirection="column" mb={4}>
         <Avatar

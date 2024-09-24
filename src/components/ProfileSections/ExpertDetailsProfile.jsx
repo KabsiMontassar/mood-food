@@ -61,22 +61,20 @@ const ExpertDetailsProfile = () => {
   };
 
   return (
-    <Box mx="auto" mt={10} maxW="1200px" p={6}
-
-    >
-      <Heading textAlign="center" mb={6} fontSize={{ base: '2xl', md: '4xl' }}>
+    <Box mx="auto" mt={10}>
+      <Heading color="#38B2AC" textAlign="center" mb={6} fontSize={{ base: '2xl', md: '4xl' }}>
         Expert Profile Details
       </Heading>
 
       {/* Layout with Side Links and Forms */}
-      <Flex scrollBehavior="smooth" >
+      <Flex position="relative" scrollBehavior="smooth" >
         {/* Left side: Links */}
-        <div style={{ position: 'sticky', top: '10px' }}>
+        <div style={{ position: 'sticky', top: '10px' }} >
           <Box
             as="nav"
-            w="250px"
+            w="200px"
             borderRight="1px solid #E2E8F0"
-           
+            h="calc(100vh - 80px)"
             position="sticky"
             top={10}
             mr={10}
@@ -84,7 +82,7 @@ const ExpertDetailsProfile = () => {
           >
             <VStack
 
-              spacing={4} align="start">
+              spacing={4} align="start" color="#38B2AC">
               <Link href="#edit-info" fontWeight="bold">Edit Information</Link>
               <Link href="#edit-contact" fontWeight="bold">Edit Contact Numbers</Link>
               <Link href="#edit-experience" fontWeight="bold">Edit Experience</Link>
@@ -95,12 +93,14 @@ const ExpertDetailsProfile = () => {
         </div>
         {/* Right side: Forms */}
         <Box
-       
-         flex={1} maxW="900px" >
+
+          flex={1} maxW="900px" >
           {/* Edit Information Section */}
-          <Box id="edit-info" boxShadow="md" p={6} mb={10} borderRadius="lg" bg="white">
-            <Heading fontSize="xl" mb={4}>Edit Information</Heading>
+          <Box id="edit-info" boxShadow={{ base: 'none', md: 'md' }}
+           p={6} mb={10} borderRadius="lg" bg="white">
+            <Heading color="#0A7342" fontSize="xl" mb={4}>Edit Information</Heading>
             <VStack spacing={4}>
+            <Flex flexDirection={{ base: 'column', md: 'row' }} gap={5} w="full" justifyContent="space-between">
               <FormControl>
                 <FormLabel>Username</FormLabel>
                 <Input
@@ -117,14 +117,7 @@ const ExpertDetailsProfile = () => {
                   borderRadius="md"
                 />
               </FormControl>
-              <FormControl>
-                <FormLabel>Address</FormLabel>
-                <Input
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  borderRadius="md"
-                />
-              </FormControl>
+              </Flex>
               <FormControl>
                 <FormLabel>Gender</FormLabel>
                 <Select
@@ -157,8 +150,9 @@ const ExpertDetailsProfile = () => {
           </Box>
 
           {/* Edit Contact Numbers Section */}
-          <Box id="edit-contact" boxShadow="md" p={6} mb={10} borderRadius="lg" bg="white">
-            <Heading fontSize="xl" mb={4}>Edit Contact Numbers</Heading>
+          <Box id="edit-contact" boxShadow={{ base: 'none', md: 'md' }}
+           p={6} mb={10} borderRadius="lg" bg="white">
+            <Heading color="#0A7342" fontSize="xl" mb={4}>Edit Contact Numbers</Heading>
             <VStack spacing={4}>
               {phoneNumbers.map((number, index) => (
                 <FormControl key={index}>
@@ -188,8 +182,8 @@ const ExpertDetailsProfile = () => {
           </Box>
 
           {/* Edit Experience Section */}
-          <Box id="edit-experience" boxShadow="md" p={6} mb={10} borderRadius="lg" bg="white">
-            <Heading fontSize="xl" mb={4}>Edit Experience</Heading>
+          <Box id="edit-experience" boxShadow={{ base: 'none', md: 'md' }} p={6} mb={10} borderRadius="lg" bg="white">
+            <Heading color="#0A7342" fontSize="xl" mb={4}>Edit Experience</Heading>
             <VStack spacing={4}>
               {experience.map((exp, index) => (
                 <HStack key={index} spacing={4} w="full">
@@ -203,7 +197,7 @@ const ExpertDetailsProfile = () => {
                         setExperience(newExperience);
                       }}
                       placeholder="Enter job title"
-                      
+
                       borderRadius="md"
                     />
                   </FormControl>
@@ -217,7 +211,7 @@ const ExpertDetailsProfile = () => {
                         setExperience(newExperience);
                       }}
                       placeholder="Years of experience"
-                     
+
                       borderRadius="md"
                     />
                   </FormControl>
@@ -236,8 +230,8 @@ const ExpertDetailsProfile = () => {
           </Box>
 
           {/* Edit Working Hours Section */}
-          <Box id="edit-hours" boxShadow="md" p={6} mb={10} borderRadius="lg" bg="white">
-            <Heading fontSize="xl" mb={4}>Edit Working Hours</Heading>
+          <Box id="edit-hours" boxShadow={{ base: 'none', md: 'md' }} p={6} mb={10} borderRadius="lg" bg="white">
+            <Heading  color="#0A7342" fontSize="xl" mb={4}>Edit Working Hours</Heading>
             <VStack spacing={6} w="full">
               {scheduleDays.map((schedule, index) => (
                 <HStack key={index} spacing={6} w="full">
@@ -273,8 +267,8 @@ const ExpertDetailsProfile = () => {
           </Box>
 
           {/* Edit Location Section */}
-          <Box id="edit-location" boxShadow="md" p={6} mb={10} borderRadius="lg" bg="white">
-            <Heading fontSize="xl" mb={4}>Edit Location</Heading>
+          <Box id="edit-location" boxShadow={{ base: 'none', md: 'md' }} p={6} mb={10} borderRadius="lg" bg="white">
+            <Heading  color="#0A7342" fontSize="xl" mb={4}>Edit Location</Heading>
             <VStack spacing={4}>
               <FormControl>
                 <FormLabel>Address</FormLabel>

@@ -46,14 +46,14 @@ const UserTracks = ({ providedtime }) => {
         flexDirection="column"
         gap={2}
       >
-        <Box p={5} w="100%">
+        <Box  p={5} w="100%">
           {[
             { label: 'Total Weight:', value: '75 kg' },
             { label: 'Muscle Mass:', value: '22.5 kg' },
             { label: 'Fat Mass:', value: '7.5 kg' },
             { label: 'Water Percentage:', value: '60%' },
           ].map((item, index) => (
-            <Flex key={index} mb={2} gap={1}>
+            <Flex key={index} mb={5} gap={1}>
               <Text fontWeight="bold" fontSize={{ base: 'md', md: 'lg' }} color="black">
                 {item.label}
               </Text>

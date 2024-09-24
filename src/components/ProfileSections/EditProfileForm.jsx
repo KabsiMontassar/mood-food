@@ -30,7 +30,7 @@ const EditProfileForm = () => {
     };
 
     return (
-        <Box maxW={{ base: '400px', md: 'full' }}
+        <Box 
          mx="auto" p={4} mt={5}  borderRadius="md" >
             <Text fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold" mb={4} textAlign="center">Edit Profile</Text>
             <form onSubmit={handleSubmit}>
