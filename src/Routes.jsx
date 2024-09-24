@@ -5,8 +5,6 @@ import PageTransition from './components/PageTransition';
 
 import Home from './Pages/Home';
 import SplitLayout from './Pages/auth/SplitLayout';
-import Bienetre from './Pages/Bienetre';
-import Cuisine from './Pages/Cuisine';
 import Propos from './Pages/Propos';
 import Contact from './Pages/Contact';
 import Product from './Pages/Product';
@@ -17,10 +15,9 @@ import User from './Pages/Admin/User';
 import Rendezvous from './Pages/Rendezvous';
 import Profile from './Pages/Profile';
 import FAQ from './Pages/FAQ';
-import Recipes from './Pages/Recipes'; 
+import Recipes from './Pages/Recipes';
 import RecipeDetail from './Pages/RecipeDetail';
 import ExpertDetails from './Pages/ExpertDetails';
-import SignIn from './Pages/auth/SignInPage';
 import SignUpPage from './Pages/auth/SignUpPage';
 
 
@@ -29,8 +26,6 @@ import SignUpPage from './Pages/auth/SignUpPage';
 
 const routes = [
   { path: "/", element: <Home /> },
-  // { path: "/Bien", element: <Bienetre /> },
-  { path: "/Cuisine", element: <Cuisine /> },
   { path: "/Propos", element: <Propos /> },
   { path: "/Product", element: <Product /> },
   { path: "/Contact", element: <Contact /> },
@@ -41,13 +36,12 @@ const routes = [
   { path: "/Equipement", element: <Equipement /> },
   { path: "/Commande", element: <Commande /> },
   { path: "/User", element: <User /> },
-  { path: "/recipes", element: <Recipes /> }, 
-  { path: "/recipes/:id", element: <RecipeDetail /> }, 
+  { path: "/recipes", element: <Recipes /> },
+  { path: "/recipes/:id", element: <RecipeDetail /> },
   { path: "/expert/:id", element: <ExpertDetails /> },
   { path: "*", element: <h1>error</h1> },
-
-{ path: "/signin", element: <SplitLayout /> },
-{ path: "/signup", element: <SignUpPage /> },
+  { path: "/signin", element: <SplitLayout /> },
+  { path: "/signup", element: <SignUpPage /> },
 
 ];
 
