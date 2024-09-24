@@ -47,7 +47,7 @@ const MobileContent = [
 const PhoneCard = (Reveal, bg) => {
     return (
         <MotionBox
-            h="80vh"
+            h="100vh"
             w="100%"
             initial="hidden"
             whileInView="visible"
@@ -114,7 +114,7 @@ const ContentCard = (Reveal, content1, content2) => {
 
     return (
         <MotionBox
-            h="80vh"
+            h="100vh"
             w="100%"
 
             align="center"

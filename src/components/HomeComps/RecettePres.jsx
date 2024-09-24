@@ -27,7 +27,7 @@ const recipes = [
 const RecettePres = () => {
   return (
     <Box
-      height={{ base: 'auto', md: '100vh' }}
+      height="auto"
       position="relative"
       bgImage={`url(${bg3})`}
       bgSize="cover"
