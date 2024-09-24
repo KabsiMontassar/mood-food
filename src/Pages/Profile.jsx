@@ -197,7 +197,7 @@ import {
 const Profile = () => {
 
 
-  const UserStatus = 'Expert';
+  const UserStatus = 'Client';
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const btnRef = React.useRef();
   const [isOpen, setIsOpen] = React.useState(false);

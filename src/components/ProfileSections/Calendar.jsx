@@ -149,7 +149,8 @@ const Calendar = ({ appointmentsData }) => {
         </Flex>
 
         {/* Days of the Month */}
-        <HStack mt={4}   justify="center" wrap="wrap">
+        <HStack mt={4} 
+         justify="center" wrap="wrap">
           {Array.from({ length: daysInMonth(selectedYear)[selectedMonth] }, (_, i) => i + 1).map((day) => (
             <VStack
               key={day}
