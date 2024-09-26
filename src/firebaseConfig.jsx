@@ -1,21 +1,20 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAz_YilGEqTkF_48nAnuWKxiOrH2Ulndec",
-  authDomain: "mood-and-food-5d978.firebaseapp.com",
-  projectId: "mood-and-food-5d978",
-  storageBucket: "mood-and-food-5d978.appspot.com",
-  messagingSenderId: "817879091325",
-  appId: "1:817879091325:web:4dd96975f92abb90334914",
-  measurementId: "G-KTYRCPSSZN"
+  apiKey: "AIzaSyBuNwqxf2uSNVJaR97fmtg1qhGP4iesMv8",
+  authDomain: "mood-and-food-3yrpfs.firebaseapp.com",
+  projectId: "mood-and-food-3yrpfs",
+  storageBucket: "mood-and-food-3yrpfs.appspot.com",
+  messagingSenderId: "952704320280",
+  appId: "1:952704320280:web:0af58b67eb9cf990cd146d"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+export { app, auth, db ,storage};

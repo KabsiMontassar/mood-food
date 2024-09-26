@@ -35,6 +35,7 @@ const SplitLayout = () => {
             backgroundColor='#FFFFFF'
             justifyContent="center"
             alignItems="center"
+            
         >
 
             {isDesktop ? (
@@ -44,9 +45,12 @@ const SplitLayout = () => {
                     height="100vh"
                     justifyContent="center"
                     alignItems="center"
+                   
                 >
+  
 
                     <MotionBox
+                    
                         bgImage={contentVisible === 'right' ? `url(${signinimage})` : `url(${bg})`}
                         bgSize="cover"
                         bgPosition="center"
@@ -62,11 +66,14 @@ const SplitLayout = () => {
 
                       
 
-                        <Flex height="100%" justifyContent="center" align="center">
+                        <Flex
+                          bg={contentVisible === 'right' ? 'rgba(94, 218, 188, 0.3)' : 'rgba(94, 218, 188, 0)'}
+
+                         height="100%" justifyContent="center" align="center">
                             <Flex direction="column" justifyContent="center" alignItems="center">
                             {contentVisible === 'left' && (
                                     <Flex direction="column" alignItems="center" justifyContent="center">
-                                        <Text fontSize={{ base: 'md', md: '2xl' }} color="teal" mt={4}>
+                                        <Text fontSize={{ base: 'md', md: '2xl' }} color="#5EDABC" mt={4}>
                                             Se Connecter
                                         </Text>
                                         <SignInPage />
@@ -104,6 +111,7 @@ const SplitLayout = () => {
                                 </Button>
                             </Flex>
                         </Flex>
+                        
                     </MotionBox>
 
 
@@ -112,6 +120,7 @@ const SplitLayout = () => {
                         bgSize="cover"
                         bgPosition="center"
                         height="100%"
+                      
                        
                         bgRepeat="no-repeat"
                         flex={activeBox === 'right' ? '2' : '1'}
@@ -120,11 +129,16 @@ const SplitLayout = () => {
                         transition={{ duration: 0.6 }}
                         width={{ base: '100%', md: 'auto' }}
                     >
-                        <Flex height="100%" justifyContent="center" align="center">
+                        <Flex  
+                       
+                        bg={contentVisible === 'left' ? 'rgba(94, 218, 188, 0.3)' : 'rgba(94, 218, 188, 0)'}
+                         height="100%"
+                          justifyContent="center" 
+                          align="center">
                             <Flex direction="column" justifyContent="center" alignItems="center">
                                 {contentVisible === 'right' && (
                                     <Flex direction="column" alignItems="center" justifyContent="center">
-                                        <Text fontSize={{ base: 'md', md: '2xl' }} color="teal" mt={4}>
+                                        <Text fontSize={{ base: 'md', md: '2xl' }} color="#5EDABC" mt={4}>
                                             Créer un compte
                                         </Text>
                                         <SignUpPage />
@@ -216,7 +230,7 @@ const SplitLayout = () => {
                                 fontSize="sm"
                                 variant="outline"
                                 _hover={{ bg: 'transparent', color: 'teal.400' }}
-                                colorScheme="teal"
+                                color="#5EDABC"
                                 borderRadius="2xl"
                                 mt={4}
                                 onClick={() => setActiveBox('left')}

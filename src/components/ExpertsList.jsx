@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box, Input, Flex, Button, Text, Select, IconButton, VStack,FormLabel,FormControl
+  Box, Input, Flex, Button, Text, Select, IconButton, VStack, FormLabel, FormControl
 } from '@chakra-ui/react';
 import expertsData from '../Data/expertsData.jsx';
 import SelectedExpertModal from '../components/RendezvousModals/selectedExpertModal.jsx';
@@ -38,7 +38,7 @@ const TunisGovernorates = [
 
 const NavSearch = ({ searchName, setSearchName, searchAddress, setSearchAddress, selectedType, setSelectedType, selectedSubType, setSelectedSubType, psychologistTypes }) => {
   return (
-   
+
     <Flex
       borderBottomWidth={1}
       flexDirection={{ base: 'column', md: 'row' }}
@@ -48,67 +48,67 @@ const NavSearch = ({ searchName, setSearchName, searchAddress, setSearchAddress,
       top="0"
       zIndex="10"
       bg='gray.50'
-      
-    >
-     
-       <FormControl variant="floating" id="Address">
-       <FormLabel>Gouvernorat:</FormLabel>
-      <Select
-        border={0}
-        borderRadius="md"
-        bg='white'
-        
-      
-        value={searchAddress}
-        onChange={e => {
-          setSearchAddress(e.target.value);
-        }}
-        focusBorderColor="green.500"
-      >
-        <option value="">Tous</option>
-        {TunisGovernorates.map((governorate, index) => (
-          <option key={index} value={governorate}>{governorate}</option>
-        ))}
-         
-      </Select>
-      </FormControl>
-      <FormControl variant="floating" id="Address">
-      <FormLabel>Type:</FormLabel>
-      <Select
-        border={0}
-        borderRadius="md"
-        bg='white'
-        Placeholder="Type"
-        value={selectedType}
-        onChange={e => {
-          setSelectedType(e.target.value);
-          setSelectedSubType('All');
-        }}
-        focusBorderColor="green.500"
-      >
-        <option value="All">Tous</option>
-        <option value="Nutritionist">Nutritionist</option>
-        <option value="Psychologist">Psychologist</option>
-      </Select>
-      </FormControl>
-      
 
-      {selectedType === 'Psychologist' && (
-        <FormControl variant="floating" id="Address">
-        <FormLabel>Filtrer par:</FormLabel>
+    >
+
+      <FormControl variant="floating" id="Address">
+        <FormLabel>Gouvernorat:</FormLabel>
         <Select
           border={0}
           borderRadius="md"
           bg='white'
-          value={selectedSubType}
-          onChange={e => setSelectedSubType(e.target.value)}
+
+
+          value={searchAddress}
+          onChange={e => {
+            setSearchAddress(e.target.value);
+          }}
           focusBorderColor="green.500"
         >
-          <option value="All">All</option>
-          {psychologistTypes.map((subType, index) => (
-            <option key={index} value={subType}>{subType}</option>
+          <option value="">Tous</option>
+          {TunisGovernorates.map((governorate, index) => (
+            <option key={index} value={governorate}>{governorate}</option>
           ))}
+
         </Select>
+      </FormControl>
+      <FormControl variant="floating" id="Address">
+        <FormLabel>Type:</FormLabel>
+        <Select
+          border={0}
+          borderRadius="md"
+          bg='white'
+          placeholder="Type"
+          value={selectedType}
+          onChange={e => {
+            setSelectedType(e.target.value);
+            setSelectedSubType('All');
+          }}
+          focusBorderColor="green.500"
+        >
+          <option value="All">Tous</option>
+          <option value="Nutritionist">Nutritionist</option>
+          <option value="Psychologist">Psychologist</option>
+        </Select>
+      </FormControl>
+
+
+      {selectedType === 'Psychologist' && (
+        <FormControl variant="floating" id="Address">
+          <FormLabel>Filtrer par:</FormLabel>
+          <Select
+            border={0}
+            borderRadius="md"
+            bg='white'
+            value={selectedSubType}
+            onChange={e => setSelectedSubType(e.target.value)}
+            focusBorderColor="green.500"
+          >
+            <option value="All">All</option>
+            {psychologistTypes.map((subType, index) => (
+              <option key={index} value={subType}>{subType}</option>
+            ))}
+          </Select>
         </FormControl>
       )}
     </Flex>
@@ -117,7 +117,7 @@ const NavSearch = ({ searchName, setSearchName, searchAddress, setSearchAddress,
 
 const TimeChanger = ({ time, CountedClick, jumptwoweektocurrenttime, jumpbacktwoweeks }) => {
   return (
-    <Flex borderBottomWidth={1} p={4}  w="full" alignItems="center" justifyContent="space-between" mb={4}>
+    <Flex borderBottomWidth={1} p={4} w="full" alignItems="center" justifyContent="space-between" mb={4}>
       <Flex flexGrow={1} justifyContent="center">
         <Text color="gray.600">
           {time[0]} - {time[13]}
@@ -157,20 +157,16 @@ const Experts = ({ currentExperts, openModal, time, setCurrentPage, totalPages, 
 
   return (
     <Flex
-      direction={{ base: 'column', md: 'row' }} 
-      w="full"
-      h="full"
-      
       p={4}
       gap={4}
     >
       <Box
-      bg="white"
+        bg="white"
         flex="1"
         borderRadius={5}
         p={4}
-        overflowY="auto"
-        
+       
+
       >
         {currentExperts.map((expert, index) => (
           <Expert
@@ -190,7 +186,7 @@ const Experts = ({ currentExperts, openModal, time, setCurrentPage, totalPages, 
           >
             Précédent
           </Button>
-          
+
           <Button
             borderRadius={5}
             _hover={{ bg: '#5EDABC' }}
@@ -203,28 +199,27 @@ const Experts = ({ currentExperts, openModal, time, setCurrentPage, totalPages, 
         </Flex>
       </Box>
 
-    
-      <Box
-        display={{ base: 'none', md: 'block' }} 
-        bg="white"
-        w={{ base: 'full', md: '30%' }} 
-        h="full" 
-        borderRadius={5}
-        p={8}
-        height="100vh"
-        overflow="hidden"
-      >
-        <iframe
-          width="100%"
-          height="100%"
-          src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.952912260219!2d3.375295414770757!3d6.5276316452784755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2ae68280c1%3A0xdc9e87a367c3d9cb!2sLagos!5e0!3m2!1sen!2sng!4v1567723392506!5m2!1sen!2sng'
-          style={{ border: 0 }}
-          allowFullScreen
-          loading="lazy"
-        />
-      </Box>
-    </Flex>
   
+        <Box
+          display={{ base: 'none', md: 'block' }}
+          bg="white"
+          borderRadius={5}
+          w={{ base: '100%', md: '30%' }}
+          p={8}
+        >
+          <iframe
+            width="100%"
+            height="100%"
+            src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.952912260219!2d3.375295414770757!3d6.5276316452784755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2ae68280c1%3A0xdc9e87a367c3d9cb!2sLagos!5e0!3m2!1sen!2sng!4v1567723392506!5m2!1sen!2sng'
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+          />
+
+        </Box>
+     
+    </Flex>
+
   );
 };
 

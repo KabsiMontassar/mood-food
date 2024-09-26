@@ -27,7 +27,7 @@ const recipes = [
 const RecettePres = () => {
   return (
     <Box
-      height={{ base: 'auto', md: '100vh' }}
+      height="auto"
       position="relative"
       bgImage={`url(${bg3})`}
       bgSize="cover"
@@ -81,7 +81,7 @@ const RecettePres = () => {
 
             <Flex className="slider-wrapper left">
               {recipes.map((recipe, index) => (
-                <Box key={index} bg="white" className={`item item${index + 1}`} style={{ backgroundImage: `url(${recipe})` }} />
+                <Box key={index} bg="white" className={`item item${index + 1}`} style={{ backgroundImage: `url(${recipe})` }}  bgSize="cover" bgPosition="center" bgRepeat="no-repeat"  />
               ))}
 
 

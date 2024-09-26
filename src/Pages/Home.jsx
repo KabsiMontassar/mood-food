@@ -8,7 +8,7 @@ import MobilePres from "../components/HomeComps/MobilePres";
 const Home = () => {
   return (
     <>
-       <SearchHeader />
+      <SearchHeader />
       <OurServices />
       <RecettePres />
       <ProductsPres />
