@@ -10,13 +10,13 @@ import {
     Button,
 } from '@chakra-ui/react';
 
-const EditProfileForm = () => {
+const EditProfileForm = ({ data }) => {
     const [formData, setFormData] = useState({
-        username: '',
-        dateOfBirth: '',
-        gender: '',
-        phone: '',
-        address: '',
+        username: data.username,
+        dateOfBirth: data.dob,
+        gender: data.gender,
+        phone: data.phone,
+        address: data.address
     });
 
     const handleChange = (e) => {
@@ -30,8 +30,8 @@ const EditProfileForm = () => {
     };
 
     return (
-        <Box 
-         mx="auto" p={4} mt={5}  borderRadius="md" >
+        <Box
+            mx="auto" p={4} mt={5} borderRadius="md" >
             <Text fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold" mb={4} textAlign="center">Edit Profile</Text>
             <form onSubmit={handleSubmit}>
                 <VStack spacing={4} align="stretch">
@@ -65,7 +65,7 @@ const EditProfileForm = () => {
                             value={formData.gender}
                             onChange={handleChange}
                         >
-                            <option value="">Select your gender</option>
+                            <option value="">{formData.gender || "select your gender"}</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                             <option value="other">Other</option>

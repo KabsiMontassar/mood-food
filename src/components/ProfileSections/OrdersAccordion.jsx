@@ -54,27 +54,27 @@ const OrdersAccordion = ({ OrdersData }) => {
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4} borderBottomRadius="md" boxShadow="md">
-  <Box p={4}>
-    <Box display="flex"  mb={4}>
-      <Text fontSize="md" color="black"  flexBasis={{ base: '50%', md: '33%' }} fontWeight="bold">Product</Text>
-      <Text fontSize="md" color="black"  flexBasis={{ base: '50%', md: '33%' }} fontWeight="bold">Quantity</Text>
-      <Text fontSize="md" color="black"  flexBasis={{ base: '50%', md: '33%' }} fontWeight="bold">Price</Text>
-    </Box>
+              <Box p={4}>
+                <Box display="flex" mb={4}>
+                  <Text fontSize="md" color="black" flexBasis={{ base: '50%', md: '33%' }} fontWeight="bold">Product</Text>
+                  <Text fontSize="md" color="black" flexBasis={{ base: '50%', md: '33%' }} fontWeight="bold">Quantity</Text>
+                  <Text fontSize="md" color="black" flexBasis={{ base: '50%', md: '33%' }} fontWeight="bold">Price</Text>
+                </Box>
 
-    {Order.products.map((product, index) => (
-      <Flex key={index} justifyContent="space-between" mb={2}>
-        <Text fontSize="md" color="gray.600" flexBasis={{ base: '50%', md: '33%' }}>{product.name}</Text>
-        <Text fontSize="md" color="gray.600" flexBasis={{ base: '25%', md: '33%' }}>{product.Quantity}</Text>
-        <Text fontSize="md" color="gray.600" flexBasis={{ base: '25%', md: '33%' }}>{(product.prix * product.Quantity).toFixed(2)}</Text>
-      </Flex>
-    ))}
+                {Order.products.map((product, index) => (
+                  <Flex key={index} justifyContent="space-between" mb={2}>
+                    <Text fontSize="md" color="gray.600" flexBasis={{ base: '50%', md: '33%' }}>{product.name}</Text>
+                    <Text fontSize="md" color="gray.600" flexBasis={{ base: '25%', md: '33%' }}>{product.Quantity}</Text>
+                    <Text fontSize="md" color="gray.600" flexBasis={{ base: '25%', md: '33%' }}>{(product.prix * product.Quantity).toFixed(2)}</Text>
+                  </Flex>
+                ))}
 
-    <Flex justifyContent="space-between" fontWeight="bold" color="teal" textDecor="underline" mt={4}>
-      <Text fontSize="md">Total Price</Text>
-      <Text fontSize="md">{Order.total.toFixed(2)}</Text>
-    </Flex>
-  </Box>
-</AccordionPanel>
+                <Flex justifyContent="space-between" fontWeight="bold" color="teal" textDecor="underline" mt={4}>
+                  <Text fontSize="md">Total Price</Text>
+                  <Text fontSize="md">{Order.total.toFixed(2)}</Text>
+                </Flex>
+              </Box>
+            </AccordionPanel>
 
           </AccordionItem>
         ))}
