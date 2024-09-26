@@ -40,8 +40,7 @@ const routes = [
   { path: "/recipes/:id", element: <RecipeDetail /> },
   { path: "/expert/:id", element: <ExpertDetails /> },
   { path: "*", element: <h1>error</h1> },
-  { path: "/signin", element: <SplitLayout /> },
-  { path: "/signup", element: <SignUpPage /> },
+ 
 
 ];
 

@@ -1,15 +1,18 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAz_YilGEqTkF_48nAnuWKxiOrH2Ulndec",
-  authDomain: "mood-and-food-5d978.firebaseapp.com",
-  projectId: "mood-and-food-5d978",
-  storageBucket: "mood-and-food-5d978.appspot.com",
-  messagingSenderId: "817879091325",
-  appId: "1:817879091325:web:4dd96975f92abb90334914",
-  measurementId: "G-KTYRCPSSZN"
+  apiKey: "AIzaSyBuNwqxf2uSNVJaR97fmtg1qhGP4iesMv8",
+  authDomain: "mood-and-food-3yrpfs.firebaseapp.com",
+  projectId: "mood-and-food-3yrpfs",
+  storageBucket: "mood-and-food-3yrpfs.appspot.com",
+  messagingSenderId: "952704320280",
+  appId: "1:952704320280:web:0af58b67eb9cf990cd146d"
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+export { app, auth, db };

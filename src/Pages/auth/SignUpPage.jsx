@@ -1,3 +1,5 @@
+// src/SignUpPage.js
+
 import React, { useState } from 'react';
 import {
   Flex,
@@ -11,16 +13,36 @@ import {
   FormControl,
   FormLabel,
   Box,
+  Text,
+  useToast,
 } from '@chakra-ui/react';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from '../../firebaseConfig';  // Make sure to import auth and db correctly
+import { useAuth } from './AuthContext';
 
 const SignUpPage = () => {
-  const [step, setStep] = useState(1); 
+  const [step, setStep] = useState(1);
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState(null);
+
+  const [gender, setGender] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [address, setAddress] = useState('');
+
   const [tailleValue, setTailleValue] = useState(170);
   const [poidsValue, setPoidsValue] = useState(70);
   const [musculaireValue, setMusculaireValue] = useState(40);
   const [graisseValue, setGraisseValue] = useState(20);
   const [eauValue, setEauValue] = useState(50);
-  
+
+  const { signIn } = useAuth();
+  const toast = useToast();
+
   const nextStep = () => {
     if (step < 3) {
       setStep(step + 1);
@@ -33,8 +55,61 @@ const SignUpPage = () => {
     }
   };
 
+  const handleSignUp = async () => {
+    setError(null); 
+
+    if (password !== confirmPassword) {
+      setError('Les mots de passe ne correspondent pas.');
+      return;
+    }
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        email,
+        username,
+        phone,
+        gender,
+        birthDate,
+        address,
+        taille: tailleValue,
+        poids: poidsValue,
+        masseMusculaire: musculaireValue,
+        masseGraisse: graisseValue,
+        eau: eauValue,
+      });
+
+      signIn();
+
+      toast({
+        title: "Inscription réussie",
+        description: "Utilisateur enregistré avec succès dans Firestore.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+
+      // Optionally navigate to a different page after successful sign-up
+      // navigate('/some-path'); // Import `useNavigate` from `react-router-dom` if you need navigation
+    } catch (err) {
+      setError(err.message);
+      toast({
+        title: "Erreur d'inscription",
+        description: err.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <Flex direction="column" w={{ base: "100%", sm: "xs", md: "xl" }} p={4} borderRadius={8}>
+      {error && <Text color="red.500" mb={4}>{error}</Text>} {/* Display any errors */}
+
       {step === 1 && (
         <Flex direction="column" gap={4}>
           <FormControl>
@@ -45,21 +120,27 @@ const SignUpPage = () => {
               borderWidth="0"
               borderBottom="1px"
               placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </FormControl>
 
           <Flex direction={{ base: 'column', md: 'row' }} gap={4}>
-            <FormControl borderColor={"black"}>
-              <FormLabel>Username</FormLabel>
+            <FormControl>
+              <FormLabel>Nom d'utilisateur</FormLabel>
               <Input
                 borderColor={"black"}
                 borderRadius={0}
                 borderWidth="0"
                 borderBottom="1px"
                 placeholder="Nom d'utilisateur"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
               />
             </FormControl>
-            <FormControl borderColor={"black"}>
+            <FormControl>
               <FormLabel>Numéro de téléphone</FormLabel>
               <Input
                 borderColor={"black"}
@@ -67,11 +148,13 @@ const SignUpPage = () => {
                 borderWidth="0"
                 borderBottom="1px"
                 placeholder="Numéro de téléphone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
               />
             </FormControl>
           </Flex>
 
-          <FormControl borderColor={"black"}>
+          <FormControl>
             <FormLabel>Mot de passe</FormLabel>
             <Input
               borderColor={"black"}
@@ -80,10 +163,13 @@ const SignUpPage = () => {
               borderBottom="1px"
               type="password"
               placeholder="Mot de passe"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </FormControl>
 
-          <FormControl borderColor={"black"}>
+          <FormControl>
             <FormLabel>Confirmer mot de passe</FormLabel>
             <Input
               borderColor={"black"}
@@ -92,6 +178,9 @@ const SignUpPage = () => {
               borderBottom="1px"
               type="password"
               placeholder="Confirmer mot de passe"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
             />
           </FormControl>
         </Flex>
@@ -107,6 +196,8 @@ const SignUpPage = () => {
               borderWidth="0"
               borderBottom="1px"
               placeholder="Sélectionnez votre genre"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
             >
               <option value="homme">Homme</option>
               <option value="femme">Femme</option>
@@ -122,6 +213,8 @@ const SignUpPage = () => {
               borderWidth="0"
               borderBottom="1px"
               type="date"
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
             />
           </FormControl>
 
@@ -133,6 +226,8 @@ const SignUpPage = () => {
               borderWidth="0"
               borderBottom="1px"
               placeholder="Adresse"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
             />
           </FormControl>
         </Flex>
@@ -143,7 +238,7 @@ const SignUpPage = () => {
           <Box>
             <FormLabel>Taille (cm) {tailleValue}</FormLabel>
             <RangeSlider
-              onChange={(val) => setTailleValue(val)}
+              onChange={(val) => setTailleValue(val[0])}
               colorScheme="teal"
               defaultValue={[170]}
               min={100}
@@ -160,7 +255,7 @@ const SignUpPage = () => {
           <Box>
             <FormLabel>Poids (kg) {poidsValue}</FormLabel>
             <RangeSlider
-              onChange={(val) => setPoidsValue(val)}
+              onChange={(val) => setPoidsValue(val[0])}
               colorScheme="teal"
               defaultValue={[70]}
               min={30}
@@ -177,7 +272,7 @@ const SignUpPage = () => {
           <Box>
             <FormLabel>Masse musculaire (%) {musculaireValue}</FormLabel>
             <RangeSlider
-              onChange={(val) => setMusculaireValue(val)}
+              onChange={(val) => setMusculaireValue(val[0])}
               colorScheme="teal"
               defaultValue={[40]}
               min={0}
@@ -194,7 +289,7 @@ const SignUpPage = () => {
           <Box>
             <FormLabel>Masse de graisse (%) {graisseValue}</FormLabel>
             <RangeSlider
-              onChange={(val) => setGraisseValue(val)}
+              onChange={(val) => setGraisseValue(val[0])}
               colorScheme="teal"
               defaultValue={[20]}
               min={0}
@@ -211,7 +306,7 @@ const SignUpPage = () => {
           <Box>
             <FormLabel>Pourcentage d'eau (%) {eauValue}</FormLabel>
             <RangeSlider
-              onChange={(val) => setEauValue(val)}
+              onChange={(val) => setEauValue(val[0])}
               colorScheme="teal"
               defaultValue={[50]}
               min={0}
@@ -243,7 +338,7 @@ const SignUpPage = () => {
             borderColor={"#5EDABC"}
             color={"#5EDABC"}
             variant={"outline"}
-            onClick={() => alert('Inscription réussie !')}
+            onClick={handleSignUp}
           >
             S'inscrire
           </Button>

@@ -78,7 +78,7 @@ const NavSearch = ({ searchName, setSearchName, searchAddress, setSearchAddress,
           border={0}
           borderRadius="md"
           bg='white'
-          Placeholder="Type"
+          placeholder="Type"
           value={selectedType}
           onChange={e => {
             setSelectedType(e.target.value);
