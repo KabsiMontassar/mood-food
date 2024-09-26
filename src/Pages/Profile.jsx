@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Icon,
   Tabs,
@@ -11,8 +11,16 @@ import {
   Flex,
   Text,
   Avatar,
-  Circle
+  Circle,
+  Button,
+  Input,
+  useToast,
+  Skeleton,
+  SkeletonCircle,
+  SkeletonText,
 } from '@chakra-ui/react';
+import { MdUpload } from 'react-icons/md'; // Import an upload icon
+import { MdDelete } from 'react-icons/md'; // Import a delete icon
 import appointementsdata from '../Data/appointementsdata';
 import OrdersData from '../Data/OrdersData';
 import EditPasswordForm from '../components/ProfileSections/EditPasswordForm';
@@ -27,271 +35,290 @@ import { LockIcon } from '@chakra-ui/icons';
 import { FaUser, FaShoppingCart } from 'react-icons/fa';
 import { GoInbox } from "react-icons/go";
 import { CiCalendar } from "react-icons/ci";
-
-
-
-
-const data1 = {
-  username: 'Dr. Sara (Shivani) Pareek, DMD',
-  email: 'sara@test.com',
-  specialite: 'Nutritionist',
-  role: 'Expert',
-  phone: ['22 222 222', '22 222 222'],
-  gender: 'Female',
-  dob: '2003-11-11',
-  experience: [
-     {
-      title: 'Nutritionist',
-      years: '5',
-     },
-      {
-        title: 'Dietitian',
-        years: '5',
-      },
-  ],
-  description : "I am a nutritionist with 5 years of experience in the field of nutrition. I have a degree in nutrition and dietetics from the University of New York. I have worked with many clients and helped them achieve their health goals. I believe that good nutrition is the key to a healthy life. I am passionate about helping people improve their health through good nutrition. I offer personalized nutrition plans to help my clients achieve their health goals. I am committed to providing the best possible care to my clients and helping them live a healthy life.",
-  rateTotal:  3,
-  reviews:  [{
-    iduser : 1,
-    commentaire : "this is a good expert",
-    rating : 2.5,
-    date : "2021-08-01"
-  },{
-    iduser : 2,
-    commentaire : "this is a good expert",
-    rating : 1.5,
-    date : "2021-08-01"
-  },{
-    iduser : 3,
-    commentaire : "this is a good expert",
-    rating : 5,
-    date : "2021-08-01"
-  }],
-  schedule : [
-    {day : 'Monday', starttime : '08:00', endtime : '12:00', enabled : true},
-    {day : 'Tuesday', starttime : '08:00', endtime : '12:00' , enabled : true},
-    {day : 'Wednesday', starttime : '08:00', endtime : '12:00' , enabled : true},
-    {day : 'Thursday', starttime : '08:00', endtime : '12:00' , enabled : true},
-    {day : 'Friday', starttime : '08:00', endtime : '12:00' , enabled : true},
-    {day : 'Saturday', starttime : '08:00', endtime : '12:00' , enabled : true},
-    {day : 'Sunday', starttime : '08:00', endtime : '12:00' , enabled : true},
-  ],
-  location : {
-    address :  'ariana, tunis',
-    zone : 'Ariana',
-    coordinates : {
-    lat : 36.866346,
-    lng : 10.164650
-    }
-  },
-
-}
-
-
-const clientData1 = {
-  username: 'Montassar',
-  email: 'montassar@test.com',
-  role: 'Client',
-  phone: '22 222 222',
-  dob: '2003-11-11',
-  gender: 'Male',
-  address: 'Ariana, Tunis',
-  Progress : [
-    { 
-      date : '2022 - 01 - 01',
-      poidtotale : 80,
-      massemusculaire : 50,
-      massecalcique : 30,
-      pourcentageeau : 40,
-    },
-    {
-      date : '2022 - 02 - 01',
-      poidtotale : 70,
-      massemusculaire : 40,
-      massecalcique : 20,
-      pourcentageeau : 30,
-
-    },
-    {
-      date : '2022 - 03 - 01',
-      poidtotale : 60,
-      massemusculaire : 30,
-      massecalcique : 10,
-      pourcentageeau : 20,
-    }
-  ]
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
+import { getFirestore, query, where, getDocs, collection, updateDoc } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 
 const Profile = () => {
-  var data ,tabs ; 
-const UserStatus = 'Expert';
-const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [userEmail, setUserEmail] = useState(null);
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const [avatarURL, setAvatarURL] = useState(null); // URL of the uploaded avatar
+  const fileInputRef = useRef(null); // Create a ref for the file input
+  const toast = useToast();
 
-const handleTabChange = (index) => {
-  setSelectedTabIndex(index);
-};
+  const handleTabChange = (index) => {
+    setSelectedTabIndex(index);
+  };
 
+  const db = getFirestore();
+  const storage = getStorage();
 
-if (UserStatus === 'Expert') {
-  data = data1;
-} else {
-  data = clientData1;
-}
+  useEffect(() => {
+    const fetchUserData = async (email) => {
+      setLoading(true);
+      try {
+        const userQuery = query(collection(db, 'users'), where('email', '==', email));
+        const querySnapshot = await getDocs(userQuery);
+  
+        if (!querySnapshot.empty) {
+          querySnapshot.forEach(doc => {
+            setData(doc.data());
+            setAvatarURL(doc.data().ProfilePicture); // Set the initial avatar URL if available
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    const emailFromStorage = localStorage.getItem("userEmail");
+    if (emailFromStorage) {
+      setUserEmail(emailFromStorage);
+      fetchUserData(emailFromStorage);
+    } else {
+      console.log("No email found in local storage.");
+      setLoading(false);
+    }
 
+    return () => {
+      setData(null);
+    };
+  }, [db]);
 
+  const handleAvatarChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Delete the old avatar if it exists
+      if (avatarURL) {
+        const oldAvatarRef = ref(storage, avatarURL); // Create a reference to the old avatar
+        await deleteObject(oldAvatarRef) // Delete the old avatar from storage
+          .then(() => {
+            console.log("Old avatar deleted successfully.");
+          })
+          .catch((error) => {
+            console.error("Error deleting old avatar:", error);
+          });
+      }
 
-const clienttabs = [
+      const storageRef = ref(storage, `profilePictures/${userEmail}_${file.name}`); // Create a reference to the storage location
 
-  { icon: FaUser, title: 'ProfileEdit', Component: <EditProfileForm  data={data}  /> },
-  { icon: LockIcon, title: 'Password', Component: <EditPasswordForm   /> },
-  { icon: FaShoppingCart, title: 'Orders', Component: <OrdersAccordion OrdersData={OrdersData} /> },
-  { icon: GoInbox, title: 'Appointments', Component: <AppointmentAccordion appointmentsData={appointementsdata} /> },
-];
+      try {
+        // Upload file to Firebase Storage
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        setAvatarURL(downloadURL); // Update state with the new avatar URL
+        await updateUserProfilePicture(downloadURL); // Update user document with the new image URL
+        toast({
+          title: "Avatar updated.",
+          description: "Your profile picture has been updated successfully.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+      } catch (error) {
+        console.error("Error uploading avatar:", error);
+        toast({
+          title: "Upload failed.",
+          description: "There was an error uploading your profile picture.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    }
+  };
 
-const experttabs = [
+  // Function to update user document in Firestore with the new avatar URL
+  const updateUserProfilePicture = async (url) => {
+    const userQuery = query(collection(db, 'users'), where('email', '==', userEmail));
+    const querySnapshot = await getDocs(userQuery);
+    if (!querySnapshot.empty) {
+      querySnapshot.forEach(async (doc) => {
+        await updateDoc(doc.ref, { ProfilePicture: url });
+      });
+    }
+  };
 
-  { icon: FaUser, title: 'ProfileEdit', Component: <ExpertDetailsProfile data={data}  /> },
-  { icon: LockIcon, title: 'Password', Component: <EditPasswordForm /> },
-  { icon: GoInbox, title: 'Consultations', Component: <Consultations appointmentsData={appointementsdata} /> },
-  { icon: CiCalendar, title: 'Calendar', Component: <Calendar appointmentsData={appointementsdata} /> },
+  // Function to delete the current avatar
+  const handleDeleteAvatar = async () => {
+    if (avatarURL) {
+      const oldAvatarRef = ref(storage, avatarURL); // Reference to the current avatar
+      await deleteObject(oldAvatarRef) // Delete the current avatar
+        .then(async () => {
+          console.log("Avatar deleted successfully.");
+          setAvatarURL(null); // Clear the avatar URL in state
+          await updateUserProfilePicture(null); // Update user document to remove the avatar URL
+          toast({
+            title: "Avatar deleted.",
+            description: "Your profile picture has been removed.",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+        })
+        .catch((error) => {
+          console.error("Error deleting avatar:", error);
+          toast({
+            title: "Delete failed.",
+            description: "There was an error deleting your profile picture.",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+        });
+    }
+  };
 
-];
+  const clienttabs = [
+    { icon: FaUser, title: 'ProfileEdit', Component: <EditProfileForm data={data} /> },
+    { icon: LockIcon, title: 'Password', Component: <EditPasswordForm /> },
+    { icon: FaShoppingCart, title: 'Orders', Component: <OrdersAccordion OrdersData={OrdersData} /> },
+    { icon: GoInbox, title: 'Appointments', Component: <AppointmentAccordion appointmentsData={appointementsdata} /> },
+  ];
 
-if (UserStatus === 'Expert') {
- tabs = experttabs;
-} else {
-   tabs = clienttabs;
-}
+  const experttabs = [
+    { icon: FaUser, title: 'ProfileEdit', Component: <ExpertDetailsProfile data={data} /> },
+    { icon: LockIcon, title: 'Password', Component: <EditPasswordForm /> },
+    { icon: GoInbox, title: 'Consultations', Component: <Consultations appointmentsData={appointementsdata} /> },
+    { icon: CiCalendar, title: 'Calendar', Component: <Calendar appointmentsData={appointementsdata} /> },
+  ];
 
+  const tabs = data && data.role === 'Expert' ? experttabs : clienttabs;
 
+  const handleUploadClick = () => {
+    fileInputRef.current.click();
+  };
 
   return (
     <>
+      {loading ? (
+        <Box textAlign="center" p={6}>
+          <SkeletonCircle size="100px" mb={4} />
+          <SkeletonText mt="4" noOfLines={2} spacing="4" />
+          <Skeleton height="50px" mb={4} />
+          <Skeleton height="50px" mb={4} />
+          <Skeleton height="50px" mb={4} />
+        </Box>
+      ) : (
+        <Box bg="gray.50" p={3} align="center">
+          <Flex
+            bg="white"
+            p={6}
+            mt={10}
+            boxShadow={{ base: 'none', md: 'xl' }}
+            borderRadius="md"
+            w={{ base: '100%', md: '80%' }}
+            gap={4}
+            alignItems="center"
+            justifyContent="center"
+            flexDirection="column"
+            position="relative"
+            overflow={"hidden"}
+          >
+            <Avatar
+              align="center"
+              name={data ? data.username : 'User'}
+              size={{ base: 'xl', md: '2xl' }}
+              border="2px solid #cccfcd"
+              src={avatarURL}
+              mb={{ base: 4, md: 0 }}
+              w={{ base: '100px', md: '200px' }}
+              h={{ base: '100px', md: '200px' }}
+            />
+            <Input 
+              type="file" 
+              accept="image/*" 
+              onChange={handleAvatarChange} 
+              ref={fileInputRef} // Reference the file input
+              style={{ display: 'none' }} // Hide the file input
+            />
+            <Button
+              onClick={handleUploadClick} // Trigger the file input on click
+              position="absolute"
+              bottom={{ base: '60px', md: '80px' }}
+              right={{ base: '60px', md: '80px' }}
+              bg="teal.400"
+              color="white"
+              borderRadius="full"
+              p={2}
+              boxShadow="md"
+              _hover={{ bg: "teal.500" }}
+              aria-label="Upload Avatar"
+              mr={2}
+              zIndex={1}
+            >
+              <MdUpload size={24} /> {/* Upload icon */}
+            </Button>
+            <Button
+            zIndex={1}
+              onClick={handleDeleteAvatar} // Trigger delete avatar
+              position="absolute"
+              bottom={{ base: '60px', md: '80px' }}
+              right={{ base: '20px', md: '40px' }}
+              bg="red.400"
+              color="white"
+              borderRadius="full"
+              p={2}
+              boxShadow="md"
+              _hover={{ bg: "red.500" }}
+              aria-label="Delete Avatar"
+            >
+              <MdDelete size={24} /> {/* Delete icon */}
+            </Button>
+            <Circle size="300px" bg="#019874" opacity="0.3" position="absolute" right="-10" top="-150" display={{ base: 'none', md: 'block' }} />
+            <Circle size="300px" bg="#019874" position="absolute" right="-90" top="-10" opacity="0.5" display={{ base: 'none', md: 'block' }} />
+            <Circle size="300px" bg="#019874" position="absolute" left="-90" bottom="-10" opacity="0.5" display={{ base: 'none', md: 'block' }} />
+            <Circle size="300px" bg="#019874" opacity="0.3" position="absolute" left="-10" bottom="-150" display={{ base: 'none', md: 'block' }} />
+            <Box>
+              <Text color="teal.400" textAlign="center" fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold">
+                {data ? data.username : 'Loading...'}
+              </Text>
+              {userEmail && (
+                <Text color="gray.600" textAlign="center" fontSize={{ base: 'md', md: 'lg' }} fontWeight="normal">
+                  {userEmail}
+                </Text>
+              )}
+            </Box>
+          </Flex>
 
-      <Box bg="gray.50"
-        p={3}
-        align="center" >
-        <Flex bg="white"
-          p={6}
-          mt={10}
-          boxShadow={{ base: 'none', md: 'xl' }}
-          borderRadius="md"
-          w={{ base: '100%', md: '80%' }}
-          gap={4}
-          alignItems="center"
-          justifyContent="center"
-          flexDirection="column"
-          position="relative"
-          overflow={"hidden"}
-        >
-          <Avatar
-            align="center"
-            name="Montassar"
-            size={{ base: 'xl', md: '2xl' }}
-            border="2px solid #cccfcd"
-            src={`https://i.pravatar.cc/150?img=1`}
-            mb={{ base: 4, md: 0 }}
-            w={{ base: '100px', md: '200px' }}
-            h={{ base: '100px', md: '200px' }}
-          />
-          <Circle
-            size="300px"
-            bg="#019874"
-            opacity="0.3"
-            position="absolute"
-            right="-10"
-            top="-150"
-            display={{ base: 'none', md: 'block' }}
-          />
-          <Circle
-            size="300px"
-            bg="#019874"
-            position="absolute"
-            right="-90"
-            top="-10"
-            opacity="0.5"
-            display={{ base: 'none', md: 'block' }}
-          />
-
-          <Circle
-            size="300px"
-            bg="#019874"
-            position="absolute"
-            left="-90"
-            bottom="-10"
-            opacity="0.5"
-            display={{ base: 'none', md: 'block' }}
-          />
-          <Circle
-            size="300px"
-            bg="#019874"
-            opacity="0.3"
-            position="absolute"
-            left="-10"
-            bottom="-150"
-            display={{ base: 'none', md: 'block' }}
-          />
-          <Box>
-            <Text color="teal.400" textAlign="center" fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold">
-               {data.username}
-            </Text>
-          </Box>
-        </Flex>
-
-
-        <Tabs
-          boxShadow={{ base: 'none', md: 'xl' }}
-          borderRadius="md"
-          bg="white" mt={10} w={{ base: '100%', md: '80%' }}
-          onChange={handleTabChange} align='center'>
-          <TabList pt={5} borderBottom="1px solid #38B2AC" gap={1}>
-            {tabs.map((tab, index) => (
-              <Tab
-                key={index}
-                border={selectedTabIndex === index ? '1px solid #38B2AC' : '1px solid #DDDDDD'}
-                borderBottom={0}
-                w={{ base: '25%', md: '15%' }}
-                _selected={{
-                  border: '1px solid #38B2AC',
-                  borderBottom: '0px solid #38B2AC',
-                  borderTop: '3px solid #38B2AC',
-                }}
-              >
-                <Icon
-                  height={{ base: 6, md: 7 }}
-                  fontSize='lg'
-                  color={selectedTabIndex === index ? '#38B2AC' : 'gray.300'}
-                  as={tab.icon}
-                />
-              </Tab>
-            ))}
-          </TabList>
-          <TabIndicator mt='-1.5px' height='2px' bg='white' borderRadius='1px' />
-          <TabPanels  >
-
-            {tabs.map((tab, index) => (
-              <TabPanel w={{
-                base: '100%', md: '80%'
-              }} key={index}>{tab.Component} </TabPanel>
-            ))}
-          </TabPanels>
-        </Tabs>
-      </Box>
+          <Tabs
+            boxShadow={{ base: 'none', md: 'xl' }}
+            borderRadius="md"
+            bg="white"
+            mt={10}
+            w={{ base: '100%', md: '80%' }}
+            onChange={handleTabChange}
+            align='center'
+          >
+            <TabList pt={5} borderBottom="1px solid #38B2AC" gap={1}>
+              {tabs.map((tab, index) => (
+                <Tab
+                  key={index}
+                  border={selectedTabIndex === index ? '1px solid #38B2AC' : '1px solid #DDDDDD'}
+                  borderBottom={0}
+                  w={{ base: '25%', md: '15%' }}
+                  _selected={{
+                    border: '1px solid #38B2AC',
+                    borderBottom: '0px solid #38B2AC',
+                    borderTop: '3px solid #38B2AC',
+                  }}
+                >
+                  <Icon height={{ base: 6, md: 7 }} fontSize='lg' color={selectedTabIndex === index ? '#38B2AC' : 'gray.300'} as={tab.icon} />
+                </Tab>
+              ))}
+            </TabList>
+            <TabIndicator mt='-1.5px' height='2px' bg='white' borderRadius='1px' />
+            <TabPanels>
+              {tabs.map((tab, index) => (
+                <TabPanel w={{ base: '100%', md: '80%' }} key={index}>{tab.Component}</TabPanel>
+              ))}
+            </TabPanels>
+          </Tabs>
+        </Box>
+      )}
       <Newsletter />
     </>
   );

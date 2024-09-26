@@ -7,7 +7,9 @@ import {
     FormLabel,
     Input,
     Button,
+    useToast,
 } from '@chakra-ui/react';
+import { getAuth, reauthenticateWithCredential, EmailAuthProvider, updatePassword } from "firebase/auth";
 
 const EditPasswordForm = () => {
     const [formData, setFormData] = useState({
@@ -16,20 +18,90 @@ const EditPasswordForm = () => {
         confirmPassword: '',
     });
 
+    const toast = useToast();
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
+        
+        // Validation checks
+        if (formData.newPassword !== formData.confirmPassword) {
+            toast({
+                title: "Error.",
+                description: "New password and confirmation do not match.",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
+            return;
+        }
+
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (user) {
+            // Get credentials for re-authentication
+            const credential = EmailAuthProvider.credential(user.email, formData.currentPassword);
+
+            try {
+                // Reauthenticate user
+                await reauthenticateWithCredential(user, credential);
+                
+                // Update password
+                await updatePassword(user, formData.newPassword);
+                
+                toast({
+                    title: "Success!",
+                    description: "Password updated successfully.",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                });
+
+                // Reset form data
+                setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+
+            } catch (error) {
+                // Handle errors
+                if (error.code === 'auth/wrong-password') {
+                    toast({
+                        title: "Error.",
+                        description: "Current password is incorrect.",
+                        status: "error",
+                        duration: 5000,
+                        isClosable: true,
+                    });
+                } else {
+                    toast({
+                        title: "Error.",
+                        description: "An error occurred while updating the password.",
+                        status: "error",
+                        duration: 5000,
+                        isClosable: true,
+                    });
+                }
+            }
+        } else {
+            toast({
+                title: "Error.",
+                description: "No user is currently signed in.",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
+        }
     };
 
     return (
         <Box 
-        mx="auto" p={4} mt={5}  borderRadius="md">
-            <Text fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold" mb={4} textAlign="center">Change Password</Text>
+            mx="auto" p={4} mt={5} borderRadius="md">
+            <Text fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold" mb={4} textAlign="center">
+                Change Password
+            </Text>
             <form onSubmit={handleSubmit}>
                 <VStack spacing={4} align="stretch">
                     <FormControl isRequired>

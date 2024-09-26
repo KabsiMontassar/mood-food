@@ -1,5 +1,3 @@
-// src/Pages/auth/SignInPage.jsx
-
 import React, { useState } from 'react';
 import {
   FormControl,
@@ -9,30 +7,76 @@ import {
   Button,
   Text,
   useBreakpointValue,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
-import { getAuth, signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';  // Assuming you are using react-router for navigation
+import { getAuth, signInWithEmailAndPassword, setPersistence, browserSessionPersistence, sendPasswordResetEmail } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 
 const SignInPage = () => {
-  const [email, setEmail] = useState('');  // State to hold email input
-  const [password, setPassword] = useState('');  // State to hold password input
-  const [error, setError] = useState(null);  // State to hold error messages
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetSentCount, setResetSentCount] = useState(0); // State to count password reset emails
+  const [isResetting, setIsResetting] = useState(false); // Modal state for password reset
+  const toast = useToast();
 
-  // Responsive design settings
   const containerPadding = useBreakpointValue({ base: 4, sm: 6, md: 8 });
   const containerWidth = useBreakpointValue({ base: "100%", sm: "xs", md: "md", lg: "lg" });
 
-  const auth = getAuth();  // Get Firebase authentication instance
-  const navigate = useNavigate();  // Hook to programmatically navigate after login
+  const auth = getAuth();
+  const navigate = useNavigate();
 
-  // Function to handle sign in
   const handleSignIn = async () => {
     try {
-      await setPersistence(auth, browserSessionPersistence);  // Set session persistence
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);  // Sign in the user
-      navigate('/');  // Navigate to home or another page upon successful login
+      await setPersistence(auth, browserSessionPersistence);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      navigate('/');
     } catch (error) {
-      setError(error.message);  // Set error message on failure
+      setError(error.message);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    if (resetSentCount >= 3) {
+      toast({
+        title: "Limit Reached",
+        description: "You can only send a password reset email three times per day.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, resetEmail);
+      toast({
+        title: "Email Sent",
+        description: "Password reset email sent successfully.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      setResetSentCount((prevCount) => prevCount + 1); // Increment the reset email count
+      setIsResetting(false); // Close the modal
+      setResetEmail(''); // Clear the input
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
@@ -45,7 +89,7 @@ const SignInPage = () => {
       alignItems="center"
       mx="auto"
     >
-      {error && <Text color="red.500" mb={4}>{error}</Text>} {/* Display any sign-in errors */}
+      {error && <Text color="red.500" mb={4}>{error}</Text>}
 
       <Flex direction="column" gap={4} w="100%">
         <FormControl>
@@ -57,7 +101,7 @@ const SignInPage = () => {
             borderBottom="1px"
             placeholder="Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}  // Update email state on change
+            onChange={(e) => setEmail(e.target.value)}
           />
         </FormControl>
 
@@ -71,7 +115,7 @@ const SignInPage = () => {
             type="password"
             placeholder="Mot de passe"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}  // Update password state on change
+            onChange={(e) => setPassword(e.target.value)}
           />
         </FormControl>
       </Flex>
@@ -86,7 +130,7 @@ const SignInPage = () => {
           borderColor="#5EDABC"
           color="gray.400"
           variant="link"
-          onClick={() => alert('Mot de passe oublié')}  // Placeholder for password recovery functionality
+          onClick={() => setIsResetting(true)} // Open modal for password recovery
           mb={{ base: 2, sm: 0 }}
         >
           Mot de passe oublié ?
@@ -97,11 +141,40 @@ const SignInPage = () => {
           color="#5EDABC"
           border="1px"
           variant="outline"
-          onClick={handleSignIn}  // Call handleSignIn on button click
+          onClick={handleSignIn}
         >
           Se connecter
         </Button>
       </Flex>
+
+      {/* Password Reset Modal */}
+      <Modal isOpen={isResetting} onClose={() => setIsResetting(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Réinitialiser le mot de passe</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormControl>
+              <FormLabel>Email</FormLabel>
+              <Input
+                borderColor="black"
+                borderRadius={0}
+                borderWidth="0"
+                borderBottom="1px"
+                placeholder="Entrez votre email"
+                value={resetEmail}
+                onChange={(e) => setResetEmail(e.target.value)}
+              />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button  colorScheme="green" onClick={handleResetPassword}>
+              Envoyer l'email de réinitialisation
+            </Button>
+            <Button variant="ghost" colorScheme='green' onClick={() => setIsResetting(false)}>Annuler</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Flex>
   );
 };

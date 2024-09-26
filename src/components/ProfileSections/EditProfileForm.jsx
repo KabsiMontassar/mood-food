@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Box,
     Text,
@@ -10,14 +10,27 @@ import {
     Button,
 } from '@chakra-ui/react';
 
-const EditProfileForm = ({ data }) => {
+const EditProfileForm = ({ data, onProfileUpdate }) => {
     const [formData, setFormData] = useState({
-        username: data.username,
-        dateOfBirth: data.dob,
-        gender: data.gender,
-        phone: data.phone,
-        address: data.address
+        username: '',
+        dateOfBirth: '',
+        gender: '',
+        phone: '',
+        address: ''
     });
+
+    useEffect(() => {
+        // Populate form data when data prop changes
+        if (data) {
+            setFormData({
+                username: data.username || '',
+                dateOfBirth: data.birthDate || '',
+                gender: data.gender || '',
+                phone: data.phone || '',
+                address: data.address || ''
+            });
+        }
+    }, [data]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -26,12 +39,11 @@ const EditProfileForm = ({ data }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
+        onProfileUpdate(formData); // Pass updated data to parent
     };
 
     return (
-        <Box
-            mx="auto" p={4} mt={5} borderRadius="md" >
+        <Box mx="auto" p={4} mt={5} borderRadius="md">
             <Text fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold" mb={4} textAlign="center">Edit Profile</Text>
             <form onSubmit={handleSubmit}>
                 <VStack spacing={4} align="stretch">
@@ -65,10 +77,10 @@ const EditProfileForm = ({ data }) => {
                             value={formData.gender}
                             onChange={handleChange}
                         >
-                            <option value="">{formData.gender || "select your gender"}</option>
+                            <option value={formData.gender}>{formData.gender || 'Select your gender'}</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
-                            <option value="other">Other</option>
+                           
                         </Select>
                     </FormControl>
 

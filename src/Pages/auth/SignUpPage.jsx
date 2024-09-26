@@ -74,6 +74,7 @@ const SignUpPage = () => {
         phone,
         gender,
         birthDate,
+        role: 'Client',
         address,
         taille: tailleValue,
         poids: poidsValue,

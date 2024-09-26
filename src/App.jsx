@@ -6,7 +6,7 @@ import Navbar from './components/Navbar';
 import RoutesWithTransitions from './Routes';
 import Footer from './components/Footer';
 import SplitLayout from './Pages/auth/SplitLayout';
-import { getAuth, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, browserSessionPersistence, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { AuthProvider } from './Pages/auth/AuthContext';
 
 import {
@@ -19,27 +19,22 @@ import {
 } from '@chakra-ui/react';
 
 function App() {
-
   const auth = getAuth();
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
-
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log("User signed in");
+        localStorage.setItem('userEmail', user.email);
         onClose();
-
       } else {
-        console.log("No user signed in");
-
+        console.log("User signed out");
+        localStorage.removeItem('userEmail');
       }
     });
+
     return () => unsubscribe();
-  }, [auth]);
-
-
+  }, [auth, onClose]);
 
   return (
     <AuthProvider>
