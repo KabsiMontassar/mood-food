@@ -31,7 +31,9 @@ import Consultations from '../components/ProfileSections/Consultations';
 import ExpertDetailsProfile from '../components/ProfileSections/ExpertDetailsProfile';
 import OrdersAccordion from '../components/ProfileSections/OrdersAccordion';
 import Newsletter from '../components/ProfileSections/Newsletter';
-import { LockIcon } from '@chakra-ui/icons';
+import ClientProfile from '../components/ProfileSections/ClientProfile';
+import ExpertProfile from '../components/ProfileSections/ExpertProfile';
+import { LockIcon , EditIcon} from '@chakra-ui/icons';
 import { FaUser, FaShoppingCart } from 'react-icons/fa';
 import { GoInbox } from "react-icons/go";
 import { CiCalendar } from "react-icons/ci";
@@ -43,8 +45,8 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [userEmail, setUserEmail] = useState(null);
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const [avatarURL, setAvatarURL] = useState(null); // URL of the uploaded avatar
-  const fileInputRef = useRef(null); // Create a ref for the file input
+  const [avatarURL, setAvatarURL] = useState(null); 
+  const fileInputRef = useRef(null); 
   const toast = useToast();
 
   const handleTabChange = (index) => {
@@ -64,7 +66,7 @@ const Profile = () => {
         if (!querySnapshot.empty) {
           querySnapshot.forEach(doc => {
             setData(doc.data());
-            setAvatarURL(doc.data().ProfilePicture); // Set the initial avatar URL if available
+            setAvatarURL(doc.data().ProfilePicture); 
           });
         }
       } catch (error) {
@@ -74,7 +76,8 @@ const Profile = () => {
       }
     };
 
-    const emailFromStorage = localStorage.getItem("userEmail");
+    const emailFromStorage =   window.globalUserEmail; // Access global variable from window object
+
     if (emailFromStorage) {
       setUserEmail(emailFromStorage);
       fetchUserData(emailFromStorage);
@@ -173,14 +176,16 @@ const Profile = () => {
   };
 
   const clienttabs = [
-    { icon: FaUser, title: 'ProfileEdit', Component: <EditProfileForm data={data} /> },
+    { icon: FaUser, title: 'Profile', Component: <ClientProfile data={data} /> },
+    { icon: EditIcon, title: 'ProfileEdit', Component: <EditProfileForm data={data} /> },
     { icon: LockIcon, title: 'Password', Component: <EditPasswordForm /> },
     { icon: FaShoppingCart, title: 'Orders', Component: <OrdersAccordion OrdersData={OrdersData} /> },
     { icon: GoInbox, title: 'Appointments', Component: <AppointmentAccordion appointmentsData={appointementsdata} /> },
   ];
 
   const experttabs = [
-    { icon: FaUser, title: 'ProfileEdit', Component: <ExpertDetailsProfile data={data} /> },
+    { icon: FaUser, title: 'Profile', Component: <ExpertProfile data={data} /> },
+    { icon: EditIcon, title: 'ProfileEdit', Component: <ExpertDetailsProfile data={data} /> },
     { icon: LockIcon, title: 'Password', Component: <EditPasswordForm /> },
     { icon: GoInbox, title: 'Consultations', Component: <Consultations appointmentsData={appointementsdata} /> },
     { icon: CiCalendar, title: 'Calendar', Component: <Calendar appointmentsData={appointementsdata} /> },
@@ -195,7 +200,7 @@ const Profile = () => {
   return (
     <>
       {loading ? (
-        <Box textAlign="center" p={6}>
+        <Box align="center" textAlign="center" p={6}>
           <SkeletonCircle size="100px" mb={4} />
           <SkeletonText mt="4" noOfLines={2} spacing="4" />
           <Skeleton height="50px" mb={4} />

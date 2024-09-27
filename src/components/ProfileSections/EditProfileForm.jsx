@@ -20,7 +20,6 @@ const EditProfileForm = ({ data, onProfileUpdate }) => {
     });
 
     useEffect(() => {
-        // Populate form data when data prop changes
         if (data) {
             setFormData({
                 username: data.username || '',
@@ -39,8 +38,30 @@ const EditProfileForm = ({ data, onProfileUpdate }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onProfileUpdate(formData); // Pass updated data to parent
+        onProfileUpdate(formData);
     };
+
+
+
+
+    const URL = "https://docs.google.com/forms/d/e/1FAIpQLSeYxe80iDfQxobvly5fq6tYgosTMhAkJK26WenNSyulNfCSuw/viewform?usp=sf_link";
+
+    const handleFormRedirect = () => {
+        window.open(URL, '_blank');
+        toast({
+            title: "Form Redirected",
+            description: "You have been redirected to the Google Form.",
+            status: "info",
+            duration: 5000,
+            isClosable: true,
+        });
+    };
+
+
+
+
+
+
 
     return (
         <Box mx="auto" p={4} mt={5} borderRadius="md">
@@ -77,10 +98,9 @@ const EditProfileForm = ({ data, onProfileUpdate }) => {
                             value={formData.gender}
                             onChange={handleChange}
                         >
-                            <option value={formData.gender}>{formData.gender || 'Select your gender'}</option>
+                            <option value="">{formData.gender ? formData.gender : 'Select your gender'}</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
-                           
                         </Select>
                     </FormControl>
 
@@ -106,7 +126,14 @@ const EditProfileForm = ({ data, onProfileUpdate }) => {
                             placeholder="Enter your address"
                         />
                     </FormControl>
-
+                    <Button
+                        onClick={handleFormRedirect}
+                        width="full"
+                        colorScheme="teal"
+                        mt={4}
+                    >
+                        Fill Out the Google Form
+                    </Button>
                     <Button
                         type="submit"
                         width={{ base: '100%', md: '50%' }}
