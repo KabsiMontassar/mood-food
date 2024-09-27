@@ -244,76 +244,66 @@ const ExpertEditExperience = ({ userId, experience, setExperience }) => {
   )
 };
 
-const EditWorkingHours = ({ userId, scheduleDays, setScheduleDays }) => {
-  const [originalSchedule, setOriginalSchedule] = useState(scheduleDays);
 
-  // Check if the working hours have changed
-  const hasChanges = JSON.stringify(scheduleDays) !== JSON.stringify(originalSchedule);
+const EditWorkingHours = ({ scheduleDays, setScheduleDays }) => {
 
-  const handleUpdateSchedule = async () => {
-    const userRef = doc(db, 'users', userId);
-    await updateDoc(userRef, { schedule: scheduleDays });
-    setOriginalSchedule(scheduleDays); // Reset original schedule after saving
-  };
 
   const handleDayChange = (index, field, value) => {
-    const updatedSchedule = [...scheduleDays];
-    updatedSchedule[index][field] = value;
-    setScheduleDays(updatedSchedule);
+    const newSchedule = [...scheduleDays];
+    newSchedule[index][field] = value;
+    setScheduleDays(newSchedule);
+  };
+
+
+  const toggleDay = (index) => {
+    const newSchedule = [...scheduleDays];
+    newSchedule[index].enabled = !newSchedule[index].enabled;
+    setScheduleDays(newSchedule);
   };
 
   return (
-    <Box id="edit-schedule" boxShadow={{ base: 'none', md: 'md' }} p={6} mb={10} borderRadius="lg" bg="white">
+    <Box
+      id="edit-hours" boxShadow={{ base: 'none', md: 'md' }} p={6} mb={10} borderRadius="lg" bg="white">
       <Heading color="#0A7342" fontSize="xl" mb={4}>Edit Working Hours</Heading>
-      <VStack spacing={4}>
+      <VStack spacing={6} w="full">
         {scheduleDays.map((schedule, index) => (
-          <HStack key={index} spacing={4} w="full">
-            <Text fontWeight="bold" fontSize="lg">{schedule.day}</Text>
-            <Spacer />
-            <Input
-              value={schedule.startTime}
-              onChange={(e) => handleDayChange(index, 'startTime', e.target.value)}
-              size="sm"
-              width="20%"
+          <HStack flexDirection={{ base: 'column', md: 'row' }} key={index} spacing={6} w="full">
+            <Switch
+              size="lg"
+              colorScheme="green"
+              isChecked={schedule.enabled}
+              onChange={() => toggleDay(index)}
             />
-            <Text fontWeight="semibold">to</Text>
-            <Input
-              value={schedule.endTime}
-              onChange={(e) => handleDayChange(index, 'endTime', e.target.value)}
-              size="sm"
-              width="20%"
-            />
+            <Text w="xs">{schedule.day}</Text>
+            <RangeSlider
+              colorScheme="green"
+              defaultValue={[schedule.starttime, schedule.endtime]}
+              min={0}
+              max={24}
+              step={1}
+              onChangeEnd={(val) => {
+                handleDayChange(index, 'starttime', val[0]);
+                handleDayChange(index, 'endtime', val[1]);
+              }}
+              isDisabled={!schedule.enabled}
+            >
+              <RangeSliderTrack>
+                <RangeSliderFilledTrack />
+              </RangeSliderTrack>
+              <RangeSliderThumb boxSize={6} index={0} />
+              <RangeSliderThumb boxSize={6} index={1} />
+            </RangeSlider>
+            <Text>{schedule.starttime} - {schedule.endtime}</Text>
           </HStack>
         ))}
-        {/* Render Save button if working hours have changed */}
-        {hasChanges && (
-          <Button colorScheme="green" onClick={handleUpdateSchedule}>
-            Save Changes
-          </Button>
-        )}
       </VStack>
     </Box>
-  );
-};
+
+  )
+}
 
 
-const ExpertEditLocation = ({ userId, location, setLocation, zone, setZone }) => {
-  const [originalLocation, setOriginalLocation] = useState(location);
-  const [originalZone, setOriginalZone] = useState(zone);
-
-  // Check if the location or zone has changed
-  const hasChanges = () => (
-    JSON.stringify(location) !== JSON.stringify(originalLocation) || 
-    JSON.stringify(zone) !== JSON.stringify(originalZone)
-  );
-
-  const handleUpdateLocation = async () => {
-    const userRef = doc(db, 'users', userId);
-    await updateDoc(userRef, { location, zone });
-    setOriginalLocation(location); // Reset the original location after saving
-    setOriginalZone(zone);         // Reset the original zone after saving
-  };
-
+const ExpertEditLocation = ({ location, setLocation  , zone, setZone}) => {
   return (
     <Box id="edit-location" boxShadow={{ base: 'none', md: 'md' }} p={6} mb={10} borderRadius="lg" bg="white">
       <Heading color="#0A7342" fontSize="xl" mb={4}>Edit Location</Heading>
@@ -321,7 +311,7 @@ const ExpertEditLocation = ({ userId, location, setLocation, zone, setZone }) =>
         <FormControl>
           <FormLabel>Address</FormLabel>
           <Input
-            value={location.address}
+            value={location}
             onChange={(e) =>
               setLocation({ ...location, address: e.target.value })
             }
@@ -330,9 +320,9 @@ const ExpertEditLocation = ({ userId, location, setLocation, zone, setZone }) =>
           />
         </FormControl>
         <FormControl>
-          <FormLabel>Zone</FormLabel>
+          <FormLabel>zone</FormLabel>
           <Input
-            value={zone.zone}
+            value={zone}
             onChange={(e) =>
               setZone({ ...zone, zone: e.target.value })
             }
@@ -340,7 +330,7 @@ const ExpertEditLocation = ({ userId, location, setLocation, zone, setZone }) =>
             borderRadius="md"
           />
         </FormControl>
-          {/* <FormControl>
+        {/* <FormControl>
           <FormLabel>Map</FormLabel>
           <AspectRatio ratio={16 / 9} w="full">
             <iframe
@@ -350,37 +340,16 @@ const ExpertEditLocation = ({ userId, location, setLocation, zone, setZone }) =>
             />
           </AspectRatio>
         </FormControl> */}
-
-        {/* Conditionally render the Save button */}
-        {hasChanges() && (
-          <Button colorScheme="green" onClick={handleUpdateLocation}>
-            Save Changes
-          </Button>
-        )}
       </VStack>
     </Box>
-  );
-};
+  )
+}
 
 
-
-
-
-const DescriptionEdit = ({ userId, description, setDescription }) => {
-  const [originalDescription, setOriginalDescription] = useState(description);
-
-  // Check if the description has changed
-  const hasChanges = description !== originalDescription;
-
-  const handleUpdateDescription = async () => {
-    const userRef = doc(db, 'users', userId);
-    await updateDoc(userRef, { description });
-    setOriginalDescription(description); // Reset the original description after saving
-  };
-
+const DescriptionEdit = ({ description, setDescription }) => {
   return (
     <Box
-      id="edit-description"
+      id="edit-Description"
       boxShadow={{ base: 'none', md: 'md' }} p={6} mb={10} borderRadius="lg" bg="white">
       <Heading color="#0A7342" fontSize="xl" mb={4}>Edit Description</Heading>
       <VStack spacing={4}>
@@ -393,16 +362,11 @@ const DescriptionEdit = ({ userId, description, setDescription }) => {
             borderRadius="md"
           />
         </FormControl>
-        {/* Conditionally render the Save button */}
-        {hasChanges && (
-          <Button colorScheme="green" onClick={handleUpdateDescription}>
-            Save Changes
-          </Button>
-        )}
       </VStack>
     </Box>
-  );
-};
+  )
+}
+
 
 
 
@@ -421,10 +385,6 @@ const ExpertDetailsProfile = ({ data }) => {
   const [scheduleDays, setScheduleDays] = useState(data.schedule);
   const [location, setLocation] = useState(data.location.address);
   const [zone, setZone] = useState(data.location.zone);
-
-
-
-  
 
 
   return (

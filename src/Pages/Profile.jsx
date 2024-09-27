@@ -66,6 +66,7 @@ const Profile = () => {
         if (!querySnapshot.empty) {
           querySnapshot.forEach(doc => {
             setData(doc.data());
+            console.log(data)
             setAvatarURL(doc.data().ProfilePicture);
           });
         }
@@ -183,7 +184,7 @@ const Profile = () => {
 
   const experttabs = [
     { icon: FaUser, title: 'Profile', Component: <ExpertProfile data={data} /> },
-    { icon: EditIcon, title: 'ProfileEdit', Component: <ExpertDetailsProfile data={data} /> },
+    { icon: EditIcon, title: 'ProfileEdit', Component: <ExpertDetailsProfile data={data} setData={setData} /> },
     { icon: LockIcon, title: 'Password', Component: <EditPasswordForm /> },
     { icon: GoInbox, title: 'Consultations', Component: <Consultations appointmentsData={appointementsdata} /> },
     { icon: CiCalendar, title: 'Calendar', Component: <Calendar appointmentsData={appointementsdata} /> },
