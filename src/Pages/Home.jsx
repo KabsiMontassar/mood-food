@@ -6,7 +6,7 @@ import ProductsPres from "../components/HomeComps/ProductsPres";
 import MobilePres from "../components/HomeComps/MobilePres";
 
 const Home = () => {
-  console.log(window.globalUserEmail); // Access global variable from window object
+  // console.log(window.globalUserEmail); 
 
   return (
     <>

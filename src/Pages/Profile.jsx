@@ -33,7 +33,7 @@ import OrdersAccordion from '../components/ProfileSections/OrdersAccordion';
 import Newsletter from '../components/ProfileSections/Newsletter';
 import ClientProfile from '../components/ProfileSections/ClientProfile';
 import ExpertProfile from '../components/ProfileSections/ExpertProfile';
-import { LockIcon , EditIcon} from '@chakra-ui/icons';
+import { LockIcon, EditIcon } from '@chakra-ui/icons';
 import { FaUser, FaShoppingCart } from 'react-icons/fa';
 import { GoInbox } from "react-icons/go";
 import { CiCalendar } from "react-icons/ci";
@@ -45,8 +45,8 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [userEmail, setUserEmail] = useState(null);
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const [avatarURL, setAvatarURL] = useState(null); 
-  const fileInputRef = useRef(null); 
+  const [avatarURL, setAvatarURL] = useState(null);
+  const fileInputRef = useRef(null);
   const toast = useToast();
 
   const handleTabChange = (index) => {
@@ -62,11 +62,11 @@ const Profile = () => {
       try {
         const userQuery = query(collection(db, 'users'), where('email', '==', email));
         const querySnapshot = await getDocs(userQuery);
-  
+
         if (!querySnapshot.empty) {
           querySnapshot.forEach(doc => {
             setData(doc.data());
-            setAvatarURL(doc.data().ProfilePicture); 
+            setAvatarURL(doc.data().ProfilePicture);
           });
         }
       } catch (error) {
@@ -76,7 +76,7 @@ const Profile = () => {
       }
     };
 
-    const emailFromStorage =   window.globalUserEmail; // Access global variable from window object
+    const emailFromStorage = window.globalUserEmail; // Access global variable from window object
 
     if (emailFromStorage) {
       setUserEmail(emailFromStorage);
@@ -134,7 +134,6 @@ const Profile = () => {
     }
   };
 
-  // Function to update user document in Firestore with the new avatar URL
   const updateUserProfilePicture = async (url) => {
     const userQuery = query(collection(db, 'users'), where('email', '==', userEmail));
     const querySnapshot = await getDocs(userQuery);
@@ -145,15 +144,14 @@ const Profile = () => {
     }
   };
 
-  // Function to delete the current avatar
   const handleDeleteAvatar = async () => {
     if (avatarURL) {
-      const oldAvatarRef = ref(storage, avatarURL); // Reference to the current avatar
-      await deleteObject(oldAvatarRef) // Delete the current avatar
+      const oldAvatarRef = ref(storage, avatarURL); 
+      await deleteObject(oldAvatarRef) 
         .then(async () => {
           console.log("Avatar deleted successfully.");
-          setAvatarURL(null); // Clear the avatar URL in state
-          await updateUserProfilePicture(null); // Update user document to remove the avatar URL
+          setAvatarURL(null); 
+          await updateUserProfilePicture(null); 
           toast({
             title: "Avatar deleted.",
             description: "Your profile picture has been removed.",
@@ -177,7 +175,7 @@ const Profile = () => {
 
   const clienttabs = [
     { icon: FaUser, title: 'Profile', Component: <ClientProfile data={data} /> },
-    { icon: EditIcon, title: 'ProfileEdit', Component: <EditProfileForm data={data} /> },
+    { icon: EditIcon, title: 'ProfileEdit', Component: <EditProfileForm data={data} setData={setData} /> },
     { icon: LockIcon, title: 'Password', Component: <EditPasswordForm /> },
     { icon: FaShoppingCart, title: 'Orders', Component: <OrdersAccordion OrdersData={OrdersData} /> },
     { icon: GoInbox, title: 'Appointments', Component: <AppointmentAccordion appointmentsData={appointementsdata} /> },
@@ -233,10 +231,10 @@ const Profile = () => {
               w={{ base: '100px', md: '200px' }}
               h={{ base: '100px', md: '200px' }}
             />
-            <Input 
-              type="file" 
-              accept="image/*" 
-              onChange={handleAvatarChange} 
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={handleAvatarChange}
               ref={fileInputRef} // Reference the file input
               style={{ display: 'none' }} // Hide the file input
             />
@@ -258,7 +256,7 @@ const Profile = () => {
               <MdUpload size={24} /> {/* Upload icon */}
             </Button>
             <Button
-            zIndex={1}
+              zIndex={1}
               onClick={handleDeleteAvatar} // Trigger delete avatar
               position="absolute"
               bottom={{ base: '60px', md: '80px' }}

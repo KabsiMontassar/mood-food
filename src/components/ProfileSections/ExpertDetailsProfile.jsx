@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import react,{ useState } from 'react';
 import {
   Box,
   Input,
@@ -20,12 +20,34 @@ import {
   Link,
   AspectRatio,
 } from '@chakra-ui/react';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../firebaseConfig';
 
+const Editinformation = ({ userId, username, setUsername, email, setEmail, gender, setGender, dateOfBirth, setDateOfBirth, speciality, setSpeciality }) => {
+  // State to track original values for comparison
+  const [originalData, setOriginalData] = useState({
+    username,
+    email,
+    gender,
+    dateOfBirth,
+    speciality
+  });
 
+  // Check if the data has changed
+  const isChanged = (field, value) => value !== originalData[field];
 
-const Editinformation = ({ username, setUsername, email, setEmail, gender,
-  setGender, dateOfBirth, setDateOfBirth, speciality, setSpeciality }) => {
-   
+  const handleUpdate = async () => {
+    const userRef = doc(db, 'users', userId);
+    const updatedData = {
+      username,
+      email,
+      gender,
+      dateOfBirth,
+      speciality
+    };
+    await updateDoc(userRef, updatedData);
+    setOriginalData(updatedData); // Reset original data after successful update
+  };
 
   return (
     <Box id="edit-info" boxShadow={{ base: 'none', md: 'md' }}
@@ -34,16 +56,18 @@ const Editinformation = ({ username, setUsername, email, setEmail, gender,
       <VStack spacing={4}>
         <Flex flexDirection={{ base: 'column', md: 'row' }} gap={5} w="full" justifyContent="space-between">
           <FormControl>
-            <FormLabel>Username</FormLabel>
+            <FormLabel htmlFor='username'>Username</FormLabel>
             <Input
+              id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               borderRadius="md"
             />
           </FormControl>
           <FormControl>
-            <FormLabel>Email</FormLabel>
+            <FormLabel htmlFor='email'>Email</FormLabel>
             <Input
+              id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               borderRadius="md"
@@ -51,20 +75,21 @@ const Editinformation = ({ username, setUsername, email, setEmail, gender,
           </FormControl>
         </Flex>
         <FormControl>
-          <FormLabel>Gender</FormLabel>
+          <FormLabel htmlFor='gender'>Gender</FormLabel>
           <Select
-          
+            id="gender"
+            value={gender}
             onChange={(e) => setGender(e.target.value)}
             borderRadius="md"
           >
-            <option value={gender}>{gender}</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </Select>
         </FormControl>
         <FormControl>
-          <FormLabel>Date of Birth</FormLabel>
+          <FormLabel htmlFor="dob">Date of Birth</FormLabel>
           <Input
+            id="dob"
             type="date"
             value={dateOfBirth}
             onChange={(e) => setDateOfBirth(e.target.value)}
@@ -72,20 +97,40 @@ const Editinformation = ({ username, setUsername, email, setEmail, gender,
           />
         </FormControl>
         <FormControl>
-          <FormLabel>Speciality</FormLabel>
+          <FormLabel htmlFor="speciality">Speciality</FormLabel>
           <Input
+            id="speciality"
             value={speciality}
             onChange={(e) => setSpeciality(e.target.value)}
             borderRadius="md"
           />
         </FormControl>
+        {/* Render Save button only if any field has changed */}
+        {(isChanged('username', username) || isChanged('email', email) || isChanged('gender', gender) || isChanged('dateOfBirth', dateOfBirth) || isChanged('speciality', speciality)) && (
+          <Button
+            colorScheme="green"
+            onClick={handleUpdate}
+          >
+            Save Changes
+          </Button>
+        )}
       </VStack>
     </Box>
   )
-}
+};
 
+const EditContactNumber = ({ userId, phoneNumbers, setPhoneNumbers }) => {
+  const [originalPhoneNumbers, setOriginalPhoneNumbers] = useState(phoneNumbers);
 
-const EditContactNumber = ({ phoneNumbers, setPhoneNumbers }) => {
+  // Check if the phone numbers have changed
+  const hasChanges = JSON.stringify(phoneNumbers) !== JSON.stringify(originalPhoneNumbers);
+
+  const handleUpdatePhoneNumbers = async () => {
+    const userRef = doc(db, 'users', userId);
+    await updateDoc(userRef, { phoneNumbers });
+    setOriginalPhoneNumbers(phoneNumbers); // Reset the original phone numbers after saving
+  };
+
   return (
     <Box id="edit-contact" boxShadow={{ base: 'none', md: 'md' }}
       p={6} mb={10} borderRadius="lg" bg="white">
@@ -107,7 +152,10 @@ const EditContactNumber = ({ phoneNumbers, setPhoneNumbers }) => {
           </FormControl>
         ))}
         <Button
-          onClick={() => setPhoneNumbers([...phoneNumbers, ''])}
+          onClick={() => {
+            const newPhoneNumbers = [...phoneNumbers, ''];
+            setPhoneNumbers(newPhoneNumbers);
+          }}
           colorScheme="gray"
           w="100%"
           bg="white"
@@ -115,14 +163,30 @@ const EditContactNumber = ({ phoneNumbers, setPhoneNumbers }) => {
         >
           +
         </Button>
+        {/* Render Save button if phone numbers have changed */}
+        {hasChanges && (
+          <Button colorScheme="green" onClick={handleUpdatePhoneNumbers}>
+            Save Changes
+          </Button>
+        )}
       </VStack>
     </Box>
   )
-}
+};
 
 
+const ExpertEditExperience = ({ userId, experience, setExperience }) => {
+  const [originalExperience, setOriginalExperience] = useState(experience);
 
-const ExpertEditExperience = ({ experience, setExperience }) => {
+  // Check if the experience array has changed
+  const hasChanges = JSON.stringify(experience) !== JSON.stringify(originalExperience);
+
+  const handleUpdateExperience = async () => {
+    const userRef = doc(db, 'users', userId);
+    await updateDoc(userRef, { experience });
+    setOriginalExperience(experience); // Reset the original experience after saving
+  };
+
   return (
     <Box id="edit-experience" boxShadow={{ base: 'none', md: 'md' }} p={6} mb={10} borderRadius="lg" bg="white">
       <Heading color="#0A7342" fontSize="xl" mb={4}>Edit Experience</Heading>
@@ -139,7 +203,6 @@ const ExpertEditExperience = ({ experience, setExperience }) => {
                   setExperience(newExperience);
                 }}
                 placeholder="Enter job title"
-
                 borderRadius="md"
               />
             </FormControl>
@@ -153,14 +216,16 @@ const ExpertEditExperience = ({ experience, setExperience }) => {
                   setExperience(newExperience);
                 }}
                 placeholder="Years of experience"
-
                 borderRadius="md"
               />
             </FormControl>
           </HStack>
         ))}
         <Button
-          onClick={() => setExperience([...experience, { title: '', years: '' }])}
+          onClick={() => {
+            const newExperience = [...experience, { title: '', years: '' }];
+            setExperience(newExperience);
+          }}
           colorScheme="gray"
           w="100%"
           border="1px solid #DDDDDD"
@@ -168,72 +233,87 @@ const ExpertEditExperience = ({ experience, setExperience }) => {
         >
           +
         </Button>
+        {/* Render Save button if experience has changed */}
+        {hasChanges && (
+          <Button colorScheme="green" onClick={handleUpdateExperience}>
+            Save Changes
+          </Button>
+        )}
       </VStack>
     </Box>
   )
-}
+};
 
+const EditWorkingHours = ({ userId, scheduleDays, setScheduleDays }) => {
+  const [originalSchedule, setOriginalSchedule] = useState(scheduleDays);
 
+  // Check if the working hours have changed
+  const hasChanges = JSON.stringify(scheduleDays) !== JSON.stringify(originalSchedule);
 
-const EditWorkingHours = ({ scheduleDays, setScheduleDays }) => {
-
-
-  const handleDayChange = (index, field, value) => {
-    const newSchedule = [...scheduleDays];
-    newSchedule[index][field] = value;
-    setScheduleDays(newSchedule);
+  const handleUpdateSchedule = async () => {
+    const userRef = doc(db, 'users', userId);
+    await updateDoc(userRef, { schedule: scheduleDays });
+    setOriginalSchedule(scheduleDays); // Reset original schedule after saving
   };
 
-
-  const toggleDay = (index) => {
-    const newSchedule = [...scheduleDays];
-    newSchedule[index].enabled = !newSchedule[index].enabled;
-    setScheduleDays(newSchedule);
+  const handleDayChange = (index, field, value) => {
+    const updatedSchedule = [...scheduleDays];
+    updatedSchedule[index][field] = value;
+    setScheduleDays(updatedSchedule);
   };
 
   return (
-    <Box
-      id="edit-hours" boxShadow={{ base: 'none', md: 'md' }} p={6} mb={10} borderRadius="lg" bg="white">
+    <Box id="edit-schedule" boxShadow={{ base: 'none', md: 'md' }} p={6} mb={10} borderRadius="lg" bg="white">
       <Heading color="#0A7342" fontSize="xl" mb={4}>Edit Working Hours</Heading>
-      <VStack spacing={6} w="full">
+      <VStack spacing={4}>
         {scheduleDays.map((schedule, index) => (
-          <HStack flexDirection={{ base: 'column', md: 'row' }} key={index} spacing={6} w="full">
-            <Switch
-              size="lg"
-              colorScheme="green"
-              isChecked={schedule.enabled}
-              onChange={() => toggleDay(index)}
+          <HStack key={index} spacing={4} w="full">
+            <Text fontWeight="bold" fontSize="lg">{schedule.day}</Text>
+            <Spacer />
+            <Input
+              value={schedule.startTime}
+              onChange={(e) => handleDayChange(index, 'startTime', e.target.value)}
+              size="sm"
+              width="20%"
             />
-            <Text w="xs">{schedule.day}</Text>
-            <RangeSlider
-              colorScheme="green"
-              defaultValue={[schedule.starttime, schedule.endtime]}
-              min={0}
-              max={24}
-              step={1}
-              onChangeEnd={(val) => {
-                handleDayChange(index, 'starttime', val[0]);
-                handleDayChange(index, 'endtime', val[1]);
-              }}
-              isDisabled={!schedule.enabled}
-            >
-              <RangeSliderTrack>
-                <RangeSliderFilledTrack />
-              </RangeSliderTrack>
-              <RangeSliderThumb boxSize={6} index={0} />
-              <RangeSliderThumb boxSize={6} index={1} />
-            </RangeSlider>
-            <Text>{schedule.starttime} - {schedule.endtime}</Text>
+            <Text fontWeight="semibold">to</Text>
+            <Input
+              value={schedule.endTime}
+              onChange={(e) => handleDayChange(index, 'endTime', e.target.value)}
+              size="sm"
+              width="20%"
+            />
           </HStack>
         ))}
+        {/* Render Save button if working hours have changed */}
+        {hasChanges && (
+          <Button colorScheme="green" onClick={handleUpdateSchedule}>
+            Save Changes
+          </Button>
+        )}
       </VStack>
     </Box>
+  );
+};
 
-  )
-}
 
+const ExpertEditLocation = ({ userId, location, setLocation, zone, setZone }) => {
+  const [originalLocation, setOriginalLocation] = useState(location);
+  const [originalZone, setOriginalZone] = useState(zone);
 
-const ExpertEditLocation = ({ location, setLocation }) => {
+  // Check if the location or zone has changed
+  const hasChanges = () => (
+    JSON.stringify(location) !== JSON.stringify(originalLocation) || 
+    JSON.stringify(zone) !== JSON.stringify(originalZone)
+  );
+
+  const handleUpdateLocation = async () => {
+    const userRef = doc(db, 'users', userId);
+    await updateDoc(userRef, { location, zone });
+    setOriginalLocation(location); // Reset the original location after saving
+    setOriginalZone(zone);         // Reset the original zone after saving
+  };
+
   return (
     <Box id="edit-location" boxShadow={{ base: 'none', md: 'md' }} p={6} mb={10} borderRadius="lg" bg="white">
       <Heading color="#0A7342" fontSize="xl" mb={4}>Edit Location</Heading>
@@ -250,6 +330,17 @@ const ExpertEditLocation = ({ location, setLocation }) => {
           />
         </FormControl>
         <FormControl>
+          <FormLabel>Zone</FormLabel>
+          <Input
+            value={zone.zone}
+            onChange={(e) =>
+              setZone({ ...zone, zone: e.target.value })
+            }
+            placeholder="Enter zone"
+            borderRadius="md"
+          />
+        </FormControl>
+          {/* <FormControl>
           <FormLabel>Map</FormLabel>
           <AspectRatio ratio={16 / 9} w="full">
             <iframe
@@ -258,17 +349,38 @@ const ExpertEditLocation = ({ location, setLocation }) => {
               style={{ borderRadius: '8px' }}
             />
           </AspectRatio>
-        </FormControl>
+        </FormControl> */}
+
+        {/* Conditionally render the Save button */}
+        {hasChanges() && (
+          <Button colorScheme="green" onClick={handleUpdateLocation}>
+            Save Changes
+          </Button>
+        )}
       </VStack>
     </Box>
-  )
-}
+  );
+};
 
 
-const DescriptionEdit = ({ description, setDescription }) => {
+
+
+
+const DescriptionEdit = ({ userId, description, setDescription }) => {
+  const [originalDescription, setOriginalDescription] = useState(description);
+
+  // Check if the description has changed
+  const hasChanges = description !== originalDescription;
+
+  const handleUpdateDescription = async () => {
+    const userRef = doc(db, 'users', userId);
+    await updateDoc(userRef, { description });
+    setOriginalDescription(description); // Reset the original description after saving
+  };
+
   return (
     <Box
-      id="edit-Description"
+      id="edit-description"
       boxShadow={{ base: 'none', md: 'md' }} p={6} mb={10} borderRadius="lg" bg="white">
       <Heading color="#0A7342" fontSize="xl" mb={4}>Edit Description</Heading>
       <VStack spacing={4}>
@@ -281,11 +393,16 @@ const DescriptionEdit = ({ description, setDescription }) => {
             borderRadius="md"
           />
         </FormControl>
+        {/* Conditionally render the Save button */}
+        {hasChanges && (
+          <Button colorScheme="green" onClick={handleUpdateDescription}>
+            Save Changes
+          </Button>
+        )}
       </VStack>
     </Box>
-  )
-}
-
+  );
+};
 
 
 
@@ -295,14 +412,19 @@ const ExpertDetailsProfile = ({ data }) => {
   const [username, setUsername] = useState(data.username);
   const [email, setEmail] = useState(data.email);
   const [gender, setGender] = useState(data.gender);
- 
+
   const [dateOfBirth, setDateOfBirth] = useState(data.dob);
   const [speciality, setSpeciality] = useState(data.specialite);
   const [phoneNumbers, setPhoneNumbers] = useState(data.phone);
   const [experience, setExperience] = useState(data.experience);
   const [description, setDescription] = useState(data.description);
   const [scheduleDays, setScheduleDays] = useState(data.schedule);
-  const [location, setLocation] = useState(data.location);
+  const [location, setLocation] = useState(data.location.address);
+  const [zone, setZone] = useState(data.location.zone);
+
+
+
+  
 
 
   return (
@@ -359,7 +481,7 @@ const ExpertDetailsProfile = ({ data }) => {
 
 
 
-          <ExpertEditLocation location={location} setLocation={setLocation} />
+          <ExpertEditLocation location={location} setLocation={setLocation} zone={zone} setZone={setZone} />
         </Box>
       </Flex>
     </Box>
