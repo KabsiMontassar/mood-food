@@ -314,7 +314,7 @@ const MobileNav = ({ navigate, handleFixerRendezVous, isUserSignedIn, handleSign
             bg="none"
             left={0}
             _hover={{ opacity: '0.8' }}
-            href="/profile"
+             onClick={() => navigate('/profile')}
           >
             Profile
           </Button>

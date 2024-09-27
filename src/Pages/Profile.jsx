@@ -66,7 +66,6 @@ const Profile = () => {
         if (!querySnapshot.empty) {
           querySnapshot.forEach(doc => {
             setData(doc.data());
-            console.log(data)
             setAvatarURL(doc.data().ProfilePicture);
           });
         }
