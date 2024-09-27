@@ -25,8 +25,7 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  Link,
-  AspectRatio
+  Link
 } from '@chakra-ui/react';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
@@ -445,20 +444,10 @@ const ExpertDetailsProfile = ({ data }) => {
   const [dateOfBirth, setDateOfBirth] = useState(data.birthDate);
   const [gender, setGender] = useState(data.gender);
   const [speciality, setSpeciality] = useState(data.specialite);
-
-
   const [description, setDescription] = useState(data.description);
-
-
   const [experience, setExperience] = useState(data.experience);
-
-
   const [location, setLocation] = useState(data.location);
-
-
   const [phoneNumbers, setPhoneNumbers] = useState(data.phone);
-
-
   const [scheduleDays, setScheduleDays] = useState(data.schedule);
 
   return (
