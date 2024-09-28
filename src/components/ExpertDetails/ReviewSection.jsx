@@ -45,7 +45,7 @@ const ReviewSection = ({ expert, reviews }) => {
         alignItems="center"
       >
         <Text fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold" textDecoration="underline">
-          {expert.reviews} Avis
+          {expert.reviews.length} Avis
         </Text>
 
        
@@ -103,10 +103,10 @@ const ReviewSection = ({ expert, reviews }) => {
                 />
               ))}
             <Text fontSize={{ base: 'md', md: 'xl' }} color="gray.600">
-              {review.content}
+              {review.commentaire}
             </Text>
             <Text fontSize={{ base: 'sm', md: 'md' }} pl={5} color="gray.400">
-              {review.date} . {review.patient}
+              {review.date} . {review.iduser}
             </Text>
           </Box>
         ))}
