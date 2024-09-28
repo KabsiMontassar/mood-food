@@ -120,12 +120,12 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
                             <Button
                                 key={index}
                                 onClick={() => openModal(expert)}
-                                bg={availability.count === 0 ? 'gray.100' : '#5EDABC'}
+                                bg={availability.count === 0 || !availability.enabled ? 'gray.100' : '#5EDABC'}
                                 _hover={{
-                                    bg: availability.count === 0 ? 'red.100' : '#5EDABC',
+                                    bg: availability.count === 0 || !availability.enabled ? 'red.100' : '#5EDABC',
                                     opacity: 0.8,
                                 }}
-                                isDisabled={availability.count === 0}
+                                isDisabled={availability.count === 0 || !availability.enabled}
                                 h={{ base: 'auto', lg: '80px' }}
                                 p={3}
                                 w={{ base: 'auto', lg: '100px' }}
@@ -136,7 +136,8 @@ const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
                                 fontSize={{ base: 'xs', lg: 'sm' }}
                             >
                                 {availability.day} <br />
-                                {availability.count} rendez-vous
+                                {(availability.enabled &&   availability.count)} rendez-vous 
+                               
                             </Button>
                         ))}
                     </Grid>

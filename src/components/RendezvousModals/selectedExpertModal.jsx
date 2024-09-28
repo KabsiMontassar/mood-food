@@ -83,8 +83,18 @@ const SelectedExpertModal = ({ isOpen, onClose, selectedExpert, daysOfWeekWithDa
         const newSlotsArray = availabilityArray.map((day, index) => {
           const scheduleIndex = selectedExpert.schedule.findIndex(schedule => schedule.day === getDayOfWeek(new Date(day.day)));
           if (scheduleIndex !== -1) {
+
+            if(!day.enabled) {
+              return generateTimeSlots(day.count, 0, 0);
+            }
+
+
             return generateTimeSlots(day.count, selectedExpert.schedule[scheduleIndex].starttime, selectedExpert.schedule[scheduleIndex].endtime);
           }
+
+          
+
+
           return [];
         });
 
@@ -93,17 +103,19 @@ const SelectedExpertModal = ({ isOpen, onClose, selectedExpert, daysOfWeekWithDa
         rdvDocsData.forEach(appointment => {
           const start = appointment.starttime;
           const end = appointment.endtime;
-          const stringtime = `${start}:00 - ${end}:00`;
+          const stringtime =  start + ' - ' + end;
           const date = appointment.date;
           const dateString = date.toDate().toLocaleDateString();
           const index = daysOfWeekWithDates.findIndex(date => new Date(date).toLocaleDateString() === dateString);
-
           if (index !== -1) {
             const busyIndex = newSlotsArray[index].findIndex(slot => slot === stringtime);
             if (busyIndex !== -1) {
               newSlotsArray[index].splice(busyIndex, 1);
             }
           }
+
+
+
           setSlotsArray(newSlotsArray);
         });
 
@@ -170,7 +182,7 @@ const SelectedExpertModal = ({ isOpen, onClose, selectedExpert, daysOfWeekWithDa
               </Heading>
               <Grid templateColumns="repeat(1, 1fr)" gap={3}>
                 {slotsArray.map((appts, index) =>
-                  appts.length > 0 ? (
+                  appts.length >= 0 ? (
                     <GridItem key={index}>
                       <Box flex="1" textAlign="left">
                         <Text fontSize="xs" fontWeight="bold">{daysOfWeekWithDates[index]}</Text>
@@ -243,7 +255,7 @@ const SelectedExpertModal = ({ isOpen, onClose, selectedExpert, daysOfWeekWithDa
               colorScheme="teal"
               variant="outline"
               onClick={handleConfirm}
-              isDisabled={!soucis.trim() || !selectedSlot} // Disable if no concerns or slot selected
+              isDisabled={!soucis.trim() || !selectedSlot} 
             >
               Réserver
             </Button>

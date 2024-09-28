@@ -229,7 +229,7 @@ const ExpertsList = () => {
   
       const snapshot = await getDocs(rendezvousQuery);
       const numberOfRdv = snapshot.size; // Number of rendezvous (appointments) for this date
-     console.log(numberOfRdv)
+    
       availability.push({
         date: date,
         numberofrdv: numberOfRdv,
@@ -249,12 +249,10 @@ const ExpertsList = () => {
         limit(expertsPerPage)
       );
 
-      // Apply address, type, and subType filters
       if (searchAddress) q = query(q, where('address', '==', searchAddress));
       if (selectedType !== 'All') q = query(q, where('type', '==', selectedType));
       if (selectedSubType !== 'All') q = query(q, where('subType', '==', selectedSubType));
 
-      // Apply pagination
       if (startAfterDoc) q = query(q, startAfter(startAfterDoc));
 
       const snapshot = await getDocs(q);

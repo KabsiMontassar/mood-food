@@ -4,13 +4,15 @@ import { ChevronDownIcon, StarIcon } from '@chakra-ui/icons';
 
 
 const ReviewSection = ({ expert, reviews }) => {
-  const [sortDate, setSortDate] = useState('asc'); 
-  const [sortRating, setSortRating] = useState('asc'); 
+
+
+  const [sortDate, setSortDate] = useState('asc');
+  const [sortRating, setSortRating] = useState('asc');
 
   const getSortedReviews = () => {
     let sortedReviews = [...reviews];
 
-    
+
     sortedReviews.sort((a, b) => {
       if (sortRating === 'asc') {
         return a.rating - b.rating;
@@ -48,7 +50,7 @@ const ReviewSection = ({ expert, reviews }) => {
           {expert.reviews.length} Avis
         </Text>
 
-       
+
         <Menu>
           <MenuButton
             className="menu-button"
@@ -65,23 +67,23 @@ const ReviewSection = ({ expert, reviews }) => {
           <MenuList minWidth="240px">
             <MenuOptionGroup defaultValue="asc" title="Date de publication" type="radio">
               <MenuItemOption value="asc" onClick={() => setSortDate('asc')}>
-            
-              Croissant
+
+                Croissant
               </MenuItemOption>
               <MenuItemOption value="desc" onClick={() => setSortDate('desc')}>
-            
-              Décroissant
+
+                Décroissant
               </MenuItemOption>
             </MenuOptionGroup>
             <MenuDivider />
             <MenuOptionGroup defaultValue="asc" title="Évaluation" type="radio">
-              <MenuItemOption   align="center" value="asc" onClick={() => setSortRating('asc')}>
-             
-              Croissant
+              <MenuItemOption align="center" value="asc" onClick={() => setSortRating('asc')}>
+
+                Croissant
               </MenuItemOption>
-              <MenuItemOption  value="desc" onClick={() => setSortRating('desc')}>
-             
-              Décroissant
+              <MenuItemOption value="desc" onClick={() => setSortRating('desc')}>
+
+                Décroissant
               </MenuItemOption>
             </MenuOptionGroup>
           </MenuList>
@@ -90,9 +92,9 @@ const ReviewSection = ({ expert, reviews }) => {
 
       {/* Review List Section */}
       <Box w={{ base: '90%', md: '70%' }} align="left" mt={5}>
-        {getSortedReviews().map((review) => (
-          <Box key={review.id} p={5} borderBottom="1px solid #cccfcd">
-         
+        {getSortedReviews().map((review, index) => (
+          <Box key={index} p={5} borderBottom="1px solid #cccfcd">
+
             {Array(5)
               .fill('')
               .map((_, i) => (
@@ -106,7 +108,14 @@ const ReviewSection = ({ expert, reviews }) => {
               {review.commentaire}
             </Text>
             <Text fontSize={{ base: 'sm', md: 'md' }} pl={5} color="gray.400">
-              {review.date} . {review.iduser}
+              {new Date(review.date.seconds * 1000).toLocaleString(
+                "en-US",
+                {
+                  month: "short",
+                  day: "2-digit",
+                  year: "numeric",
+                }
+              )}. {review.iduser}
             </Text>
           </Box>
         ))}

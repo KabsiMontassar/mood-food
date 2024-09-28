@@ -127,11 +127,11 @@ const ExpertHeader = ({ expert }) => {
                 </Box>
                 <Box textAlign="center" p={2}>
                   <Badge colorScheme="blue">Numéro de téléphone</Badge>
-                  <Text mt={1}>{expert.phone.map((phone, index) => (
+                  <Box mt={1}>{expert.phone.map((phone, index) => (
                     <React.Fragment key={index}>
                       <Text>{phone}</Text>
                     </React.Fragment>
-                  ))}</Text>
+                  ))}</Box>
                 </Box>
               </SimpleGrid>
             </TabPanel>

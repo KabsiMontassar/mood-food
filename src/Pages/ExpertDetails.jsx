@@ -2,14 +2,15 @@ import { useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import SelectedExpertModal from '../components/RendezvousModals/selectedExpertModal.jsx';
 import ExpertHeader from '../components/ExpertDetails/ExpertHeader.jsx';
-import AvailabilityGrid from '../components/ExpertDetails/AvailabilityGrid.jsx';
 import ReviewSection from '../components/ExpertDetails/ReviewSection.jsx';
+
+import AvailabilityGrid from '../components/ExpertDetails/AvailabilityGrid.jsx';
 import { db } from '../firebaseConfig.jsx';
 import { collection, query, where, getDocs, addDoc, Timestamp } from 'firebase/firestore';
 import { VStack, HStack, useBreakpointValue, Box } from '@chakra-ui/react';
 
 const ExpertDetails = () => {
-    const { id } = useParams();
+    const { id } = useParams(); // Get the expert's ID from the URL params
     const [time, setTime] = useState([]); // Dates for availability
     const [selectedExpert, setSelectedExpert] = useState(null); // The expert details
     const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
@@ -18,7 +19,9 @@ const ExpertDetails = () => {
     const [selectedSlot, setSelectedSlot] = useState(null); // Track selected time slot
     const [soucis, setSoucis] = useState(''); // Track patient concerns
     const [loading, setLoading] = useState(true); // Loading state
+    const [fetchedAvailability, setFetchedAvailability] = useState([]); // Fetched availability
 
+    // Function to calculate future dates for availability
     const calculateDates = (baseDate, offset) => {
         const dates = [];
         const startDate = new Date(baseDate);
@@ -33,6 +36,12 @@ const ExpertDetails = () => {
         return dates;
     };
 
+    // Function to get the day of the week in French
+    const getDayOfWeek = (date) => {
+        const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+        return days[date.getDay()];
+    };
+
     // Function to open modal
     const openModal = (expert) => {
         setSelectedExpert(expert);
@@ -42,12 +51,10 @@ const ExpertDetails = () => {
     // Function to close modal
     const closeModal = () => {
         setIsModalOpen(false);
-        setSelectedExpert(null);
         setSelectedSlot(null); // Reset selected slot when closing
         setSoucis(''); // Reset soucis when closing
     };
 
-    // Function to jump weeks in availability
     const handleJumpWeeks = (weeks) => {
         const offset = 14 * weeks;
         const currentDate = new Date();
@@ -70,7 +77,7 @@ const ExpertDetails = () => {
         setCountedClick(countedClick + weeks);
     };
 
-    // Function to confirm booking
+    // Handle confirm appointment logic
     const handleConfirm = async () => {
         if (selectedExpert && selectedSlot && soucis) {
             try {
@@ -92,20 +99,21 @@ const ExpertDetails = () => {
         }
     };
 
+    // Fetch expert data from Firestore
     useEffect(() => {
         const fetchExpert = async () => {
-            setLoading(true); 
+            setLoading(true); // Set loading to true while fetching data
             try {
-                const q = query(collection(db, 'users'), where('uid', '==', id)); 
+                const q = query(collection(db, 'users'), where('uid', '==', id));
                 const querySnapshot = await getDocs(q);
                 if (querySnapshot.empty) {
                     setSelectedExpert(null);
-                    return; 
+                    return;
                 }
                 querySnapshot.forEach((doc) => {
                     setSelectedExpert(doc.data());
                 });
-                const initialDates = calculateDates(new Date(), 0);
+                const initialDates = calculateDates(new Date(), 0); 
                 setTime(initialDates);
                 setDaysOfWeekWithDates(initialDates);
             } catch (error) {
@@ -116,62 +124,107 @@ const ExpertDetails = () => {
         };
 
         fetchExpert();
-    }, [id]); // Only call fetchExpert when 'id' changes
+    }, [id]);
+
+    useEffect(() => {
+        if (daysOfWeekWithDates.length === 0 || !selectedExpert) return; 
+
+        const fetchAvailability = async () => {
+            try {
+                const startDate = new Date(daysOfWeekWithDates[0]);
+                const endDate = new Date(daysOfWeekWithDates[daysOfWeekWithDates.length - 1]);
+                const firestoreStartDate = Timestamp.fromDate(startDate);
+                const firestoreEndDate = Timestamp.fromDate(endDate);
+
+                const q = query(
+                    collection(db, "rendezvous"),
+                    where("expertid", "==", id),
+                    where("date", ">=", firestoreStartDate),
+                    where("date", "<=", firestoreEndDate)
+                );
+
+                const querySnapshot = await getDocs(q);
+
+                const availabilityArray = daysOfWeekWithDates.map(date => {
+                    const day = getDayOfWeek(new Date(date));
+                    const scheduleIndex = selectedExpert.schedule.findIndex(schedule => schedule.day === day);
+                    const count = (scheduleIndex !== -1) ?
+                        (selectedExpert.schedule[scheduleIndex].endtime - selectedExpert.schedule[scheduleIndex].starttime) : 0;
+
+                    return {
+                        day: date,
+                        count: count,
+                        enabled: (scheduleIndex !== -1) ? selectedExpert.schedule[scheduleIndex].enabled : false,
+                    };
+                });
+
+                // Adjust availability based on existing appointments
+                querySnapshot.docs.forEach(doc => {
+                    const docDate = doc.data().date.toDate();
+                    const dateString = docDate.toLocaleDateString();
+                    const index = daysOfWeekWithDates.findIndex(date => new Date(date).toLocaleDateString() === dateString);
+
+                    if (index !== -1) {
+                        availabilityArray[index].count = Math.max(0, availabilityArray[index].count - 1);
+                    }
+                });
+
+                setFetchedAvailability(availabilityArray);
+            } catch (error) {
+                console.error("Error fetching availability:", error);
+            }
+        };
+
+        fetchAvailability();
+    }, [daysOfWeekWithDates, selectedExpert]);
 
     const layout = useBreakpointValue({ base: 'VStack', md: 'HStack' });
 
     return (
         <Box bg="gray.50">
             {loading ? (
-                <div>Loading...</div> // Show loading state while fetching data
-            ) : selectedExpert ? (
+                <div>Loading...</div> // Show loading while fetching data
+            ) : selectedExpert && daysOfWeekWithDates.length > 0 && fetchedAvailability.length > 0 ? (
                 <>
                     {layout === 'HStack' ? (
                         <HStack justifyContent="center" borderBottom="1px solid #cccfcd" p={5} w="100%">
                             <ExpertHeader expert={selectedExpert} />
-                            {/* <AvailabilityGrid
+                            <AvailabilityGrid
                                 expert={selectedExpert}
-                                time={time}
+                                time={fetchedAvailability}
                                 openModal={openModal}
                                 countedClick={countedClick}
                                 jumpbacktwoweeks={() => handleJumpWeeks(-1)}
                                 jumptwoweektocurrenttime={() => handleJumpWeeks(1)}
                                 daysOfWeekWithDates={daysOfWeekWithDates}
-                            /> */}
+                            />
                         </HStack>
                     ) : (
                         <VStack spacing={5} align="stretch" p={5}>
                             <ExpertHeader expert={selectedExpert} />
-                            {/* <AvailabilityGrid
+                            <AvailabilityGrid
                                 expert={selectedExpert}
-                                time={time}
+                                time={fetchedAvailability}
                                 openModal={openModal}
                                 countedClick={countedClick}
                                 jumpbacktwoweeks={() => handleJumpWeeks(-1)}
                                 jumptwoweektocurrenttime={() => handleJumpWeeks(1)}
                                 daysOfWeekWithDates={daysOfWeekWithDates}
-                            /> */}
+                            />
                         </VStack>
                     )}
-
-                    {/* <ReviewSection expert={selectedExpert} reviews={selectedExpert.reviews} /> */}
-
+                    <ReviewSection expert={selectedExpert} reviews={selectedExpert.reviews} />
                     {isModalOpen && (
                         <SelectedExpertModal
                             isOpen={isModalOpen}
                             onClose={closeModal}
                             selectedExpert={selectedExpert}
                             daysOfWeekWithDates={time}
-                            selectedSlot={selectedSlot}
-                            setSelectedSlot={setSelectedSlot}
-                            soucis={soucis}
-                            setSoucis={setSoucis}
-                            handleConfirm={handleConfirm}
                         />
                     )}
                 </>
             ) : (
-                <div>Expert not found.</div> // Show a message if no expert is found
+                <div>Aucune disponibilité trouvée pour cet expert.</div> // Message when no expert or availability found
             )}
         </Box>
     );
