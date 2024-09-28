@@ -5,7 +5,7 @@ import { StarIcon } from '@chakra-ui/icons';
 
 const ExpertHeader = ({ expert }) => {
   return (
-    <Box w={{ base: '100%', md: '80%', lg: '60%' }} p={5} mx="auto">
+    <Box  w={{ base: '100%', md: '80%', lg: '60%' }} p={5} mx="auto">
       {/* Expert Info */}
       <Flex alignItems="center" justifyContent="center" flexDirection={{ base: 'column', md: 'row' }}>
         <Avatar
@@ -59,7 +59,7 @@ const ExpertHeader = ({ expert }) => {
       </Box>
 
       {/* Tabs Section */}
-      <Box mt={5} borderRadius={{ base: 'none', md: 'md' }} bg="gray.50" p={5}>
+      <Box  mt={5} borderRadius={{ base: 'none', md: 'md' }} bg="white" p={5}>
         <Tabs variant="unstyled">
           <TabList justifyContent={{ base: 'center', md: 'flex-start' }}>
             <Tab

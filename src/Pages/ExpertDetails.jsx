@@ -7,7 +7,7 @@ import ExpertHeader from '../components/ExpertDetails/ExpertHeader.jsx';
 import AvailabilityGrid from '../components/ExpertDetails/AvailabilityGrid.jsx';
 import ReviewSection from '../components/ExpertDetails/ReviewSection.jsx';
 
-import { VStack, HStack, useBreakpointValue } from '@chakra-ui/react';
+import { VStack, HStack, useBreakpointValue ,Box} from '@chakra-ui/react';
 
 const ExpertDetails = () => {
     const { id } = useParams();
@@ -92,9 +92,9 @@ const ExpertDetails = () => {
     const layout = useBreakpointValue({ base: 'VStack', md: 'HStack' });
 
     return (
-        <>
+        <Box bg="gray.50">
             {layout === 'HStack' ? (
-                <HStack justifyContent="center" borderBottom="1px solid #cccfcd" p={5} w="100%">
+                <HStack  justifyContent="center" borderBottom="1px solid #cccfcd" p={5} w="100%">
                     <ExpertHeader expert={expert} />
                     <AvailabilityGrid
                         expert={expert}
@@ -134,7 +134,7 @@ const ExpertDetails = () => {
             )}
 
           
-        </>
+            </Box>
     );
 };
 

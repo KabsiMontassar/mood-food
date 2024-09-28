@@ -146,12 +146,12 @@ const Profile = () => {
 
   const handleDeleteAvatar = async () => {
     if (avatarURL) {
-      const oldAvatarRef = ref(storage, avatarURL); 
-      await deleteObject(oldAvatarRef) 
+      const oldAvatarRef = ref(storage, avatarURL);
+      await deleteObject(oldAvatarRef)
         .then(async () => {
           console.log("Avatar deleted successfully.");
-          setAvatarURL(null); 
-          await updateUserProfilePicture(null); 
+          setAvatarURL(null);
+          await updateUserProfilePicture(null);
           toast({
             title: "Avatar deleted.",
             description: "Your profile picture has been removed.",
@@ -219,62 +219,74 @@ const Profile = () => {
             justifyContent="center"
             flexDirection="column"
             position="relative"
-            overflow={"hidden"}
+            overflow="hidden"
           >
-            <Avatar
-              align="center"
-              name={data ? data.username : 'User'}
-              size={{ base: 'xl', md: '2xl' }}
-              border="2px solid #cccfcd"
-              src={avatarURL}
-              mb={{ base: 4, md: 0 }}
-              w={{ base: '100px', md: '200px' }}
-              h={{ base: '100px', md: '200px' }}
-            />
-            <Input
-              type="file"
-              accept="image/*"
-              onChange={handleAvatarChange}
-              ref={fileInputRef} // Reference the file input
-              style={{ display: 'none' }} // Hide the file input
-            />
-            <Button
-              onClick={handleUploadClick} // Trigger the file input on click
-              position="absolute"
-              bottom={{ base: '60px', md: '80px' }}
-              right={{ base: '60px', md: '80px' }}
-              bg="teal.400"
-              color="white"
-              borderRadius="full"
-              p={2}
-              boxShadow="md"
-              _hover={{ bg: "teal.500" }}
-              aria-label="Upload Avatar"
-              mr={2}
-              zIndex={1}
-            >
-              <MdUpload size={24} /> {/* Upload icon */}
-            </Button>
-            <Button
-              zIndex={1}
-              onClick={handleDeleteAvatar} // Trigger delete avatar
-              position="absolute"
-              bottom={{ base: '60px', md: '80px' }}
-              right={{ base: '20px', md: '40px' }}
-              bg="red.400"
-              color="white"
-              borderRadius="full"
-              p={2}
-              boxShadow="md"
-              _hover={{ bg: "red.500" }}
-              aria-label="Delete Avatar"
-            >
-              <MdDelete size={24} /> {/* Delete icon */}
-            </Button>
+            {/* Avatar container */}
+            <Box position="relative">
+              <Avatar
+                align="center"
+                name={data ? data.username : 'User'}
+                size={{ base: 'xl', md: '2xl' }}
+                border="2px solid #cccfcd"
+                src={avatarURL}
+                mb={{ base: 4, md: 0 }}
+                w={{ base: '150px', md: '200px' }}
+                h={{ base: '150px', md: '200px' }}
+              />
+
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={handleAvatarChange}
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+              />
+
+
+              <Button
+                onClick={handleUploadClick} // Trigger the file input on click
+                position="absolute"
+                bottom="5"
+                right="0"
+                bg="teal.400"
+                color="white"
+                borderRadius="full"
+                p={2}
+                boxShadow="md"
+                _hover={{ bg: "teal.500" }}
+                aria-label="Upload Avatar"
+                zIndex={1}
+              >
+                <MdUpload size={20}
+                /> {/* Smaller Upload icon */}
+              </Button>
+
+              {/* Delete Button */}
+              <Button
+                onClick={handleDeleteAvatar} // Trigger delete avatar
+                position="absolute"
+                bottom="0"
+                right="40px"
+                bg="red.400"
+                color="white"
+                borderRadius="full"
+                p={2}
+                boxShadow="md"
+                _hover={{ bg: "red.500" }}
+                aria-label="Delete Avatar"
+                zIndex={1}
+              >
+                <MdDelete size={20} /> {/* Smaller Delete icon */}
+              </Button>
+            </Box>
+
+            {/* Decorative Circles */}
             <Circle size="300px" bg="#019874" opacity="0.3" position="absolute" right="-10" top="-150" display={{ base: 'none', md: 'block' }} />
             <Circle size="300px" bg="#019874" position="absolute" right="-90" top="-10" opacity="0.5" display={{ base: 'none', md: 'block' }} />
             <Circle size="300px" bg="#019874" position="absolute" left="-90" bottom="-10" opacity="0.5" display={{ base: 'none', md: 'block' }} />
             <Circle size="300px" bg="#019874" opacity="0.3" position="absolute" left="-10" bottom="-150" display={{ base: 'none', md: 'block' }} />
+
+            {/* User Info */}
             <Box>
               <Text color="teal.400" textAlign="center" fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold">
                 {data ? data.username : 'Loading...'}
@@ -286,6 +298,7 @@ const Profile = () => {
               )}
             </Box>
           </Flex>
+
 
           <Tabs
             boxShadow={{ base: 'none', md: 'xl' }}
@@ -316,7 +329,7 @@ const Profile = () => {
             <TabIndicator mt='-1.5px' height='2px' bg='white' borderRadius='1px' />
             <TabPanels>
               {tabs.map((tab, index) => (
-                <TabPanel w={{ base: '100%', md: '80%' }} key={index}>{tab.Component}</TabPanel>
+                <TabPanel w={{ base: '100%', md: '90%' }} key={index}>{tab.Component}</TabPanel>
               ))}
             </TabPanels>
           </Tabs>

@@ -1,165 +1,177 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Flex, Heading, Text, Avatar, Grid, Icon, Button } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-
-
-
-
-
-
-
-
-
-
-
-
-
+import { collection, query, where, getDocs, Timestamp } from 'firebase/firestore';
+import { db } from '../firebaseConfig.jsx';
 
 const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
     const [isAvailabilityVisible, setIsAvailabilityVisible] = useState(false);
     const navigate = useNavigate();
+    const [fetchedAvailability, setFetchedAvailability] = useState([]);
+
+    const getDayOfWeek = (date) => {
+        const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+        return days[date.getDay()];
+    };
+
+    useEffect(() => {
+        const fetchAvailability = async () => {
+            if (!expert?.uid || !daysOfWeekWithDates.length) return;
+
+            try {
+                const startDate = new Date(daysOfWeekWithDates[0]);
+                const endDate = new Date(daysOfWeekWithDates[daysOfWeekWithDates.length - 1]);
+                const firestoreStartDate = Timestamp.fromDate(startDate);
+                const firestoreEndDate = Timestamp.fromDate(endDate);
+
+                const q = query(
+                    collection(db, "rendezvous"),
+                    where("expertid", "==", expert.uid),
+                    where("date", ">=", firestoreStartDate),
+                    where("date", "<=", firestoreEndDate)
+                );
+
+                const querySnapshot = await getDocs(q);
+
+                const availabilityArray = daysOfWeekWithDates.map(date => {
+                    const day = getDayOfWeek(new Date(date));
+                    const scheduleIndex = expert.schedule.findIndex(schedule => schedule.day === day);
+                    const count = (scheduleIndex !== -1) ?
+                        (expert.schedule[scheduleIndex].endtime - expert.schedule[scheduleIndex].starttime) : 0;
+
+                    return {
+                        day: date,
+                        count: count,
+                        enabled: (scheduleIndex !== -1) ? expert.schedule[scheduleIndex].enabled : false,
+                    };
+                });
+
+                querySnapshot.docs.forEach(doc => {
+                    const docDate = doc.data().date.toDate();
+                    const dateString = docDate.toLocaleDateString();
+                    const index = daysOfWeekWithDates.findIndex(date => new Date(date).toLocaleDateString() === dateString);
+
+                    if (index !== -1) {
+                        availabilityArray[index].count = Math.max(0, availabilityArray[index].count - 1);
+                    }
+                });
+
+                setFetchedAvailability(availabilityArray);
+            } catch (error) {
+                console.error("Error fetching availability:", error);
+            }
+        };
+
+        fetchAvailability();
+    }, [expert?.uid, daysOfWeekWithDates]);
 
     return (
         <Box
-            bg='white'
-            key={expert.id}
+            bg="white"
+            key={expert.uid}
             overflow="hidden"
             p={4}
             mb={6}
-            borderBottom='1px solid #e2e8f0'
+            borderBottom="1px solid #e2e8f0"
+            borderRadius="md"
         >
-            <Flex
-                direction={{ base: 'column', md: 'row' }}
-                align={{ base: 'center', md: 'flex-start' }} 
-                justify="space-between"
-                h="auto"
-            >
-               
+            <Flex direction={{ base: 'column', lg: 'row' }} justify="space-between">
                 <Flex
-                    direction="column"
-                    align={{ base: 'center', md: 'flex-start' }}
-                    flex="1"
-                    mb={{ base: 4, md: 0 }}
-                    textAlign={{ base: 'center', md: 'left' }}
+                    w="full"
+                    direction={{ base: 'column', lg: 'row' }}
+                    align="center"
+                    justify="center"
+                    mb={{ base: 4, lg: 0 }}
+                    textAlign={{ base: 'center', lg: 'left' }}
                 >
-                    <Avatar
-                        name={expert.name}
-                        src={`https://i.pravatar.cc/150?img=${expert.id}`}
-                        mb={4}
-                        size={{ base: 'lg', md: 'md' }} // Adjust size for mobile
-                    />
+                    <Avatar name={expert.username} mr={{ base: 0, lg: 4 }} size={"lg"} />
                     <Box>
-                        <Heading size={{ base: 'sm', md: 'md' }}>{expert.name}</Heading>
-                        <Text color='gray.600' fontSize={{ base: 'sm', md: 'md' }}>{expert.expertise}</Text>
-                        <Text color='gray.600' fontSize={{ base: 'sm', md: 'md' }}>
-                            <Icon color="green" as={FaMapMarkerAlt} /> {expert.address}
+                        <Heading size={{ base: 'md', lg: 'lg' }}>{expert.username}</Heading>
+                        <Text color="gray.600" fontSize={{ base: 'sm', lg: 'md' }}>{expert.specialite}</Text>
+                        <Text color="gray.600" fontSize={{ base: 'sm', lg: 'md' }}>
+                            <Icon color="green" as={FaMapMarkerAlt} /> {expert.location.address}
                         </Text>
-                        <Flex align="center" mt={2} justify={{ base: 'center', md: 'flex-start' }}>
-                            {Array(5)
-                                .fill('')
-                                .map((_, i) => (
-                                    <StarIcon
-                                        key={i}
-                                        color={i < expert.rating ? 'yellow.500' : 'gray.300'}
-                                    />
-                                ))}
-                            <Text ml={2} fontSize={{ base: 'xs', md: 'sm' }} color='gray.600'>
-                                ({expert.reviews} reviews)
+                        <Flex align="center" mt={2} justify={{ base: 'center', lg: 'flex-start' }}>
+                            {Array(5).fill('').map((_, i) => (
+                                <StarIcon key={i} color={i < expert.rateTotal ? 'yellow.500' : 'gray.300'} />
+                            ))}
+                            <Text ml={2} fontSize={{ base: 'xs', lg: 'sm' }} color="gray.600">
+                                ({expert.reviews.length} reviews)
                             </Text>
                         </Flex>
                         <Text
                             mt="8px"
                             color="teal.500"
-                            textDecoration='underline'
-                            cursor='pointer'
-                            fontSize={{ base: 'sm', md: 'md' }}
-                            onClick={() => navigate(`/expert/${expert.id}`)}
+                            textDecoration="underline"
+                            cursor="pointer"
+                            fontSize={{ base: 'sm', lg: 'md' }}
+                            onClick={() => navigate(`/expert/${expert.uid}`)}
                         >
                             Visitez le profil
                         </Text>
                     </Box>
                 </Flex>
 
-               
-                <Box
-                    flex="2"
-                    mt={{ base: 4, md: 0 }}
-                    display={{ base: 'none', md: 'block' }} 
-                >
-                    <Grid
-                        templateColumns="repeat( auto-fit, minmax(100px, 1fr) )"
-                        gap={2}
-                        mt={4}
-                    >
-                        {daysOfWeekWithDates.map((date, index) => (
+                <Box align="center" justify="center" display={{ base: 'none', lg: 'block' }}>
+                    <Grid templateColumns="repeat(7, minmax(100px, 1fr))" gap={2} mt={4}>
+                        {fetchedAvailability.map((availability, index) => (
                             <Button
                                 key={index}
                                 onClick={() => openModal(expert)}
-                                bg={expert.availability[index] === 'No appts' ? 'gray.100' : "#5EDABC"}
+                                bg={availability.count === 0 ? 'gray.100' : '#5EDABC'}
                                 _hover={{
-                                    bg: expert.availability[index] === 'No appts' ? 'red.100' : "#5EDABC",
-                                    opacity: 0.8
+                                    bg: availability.count === 0 ? 'red.100' : '#5EDABC',
+                                    opacity: 0.8,
                                 }}
-                                isDisabled={expert.availability[index] === 'No appts'}
-                                h="auto"
+                                isDisabled={availability.count === 0}
+                                h={{ base: 'auto', lg: '80px' }}
                                 p={3}
-                                w="auto"
-                                flexWrap='wrap'
+                                w={{ base: 'auto', lg: '100px' }}
+                                flexWrap="wrap"
                                 whiteSpace="normal"
-                                textAlign="left"
                                 overflow="hidden"
                                 textOverflow="ellipsis"
-                                fontSize={{ base: 'xs', md: 'sm' }}
+                                fontSize={{ base: 'xs', lg: 'sm' }}
                             >
-                                {date} <br />
-                                {expert.availability[index]}
+                                {availability.day} <br />
+                                {availability.count} rendez-vous
                             </Button>
                         ))}
                     </Grid>
                 </Box>
 
-                {/* Availability Grid for Mobile */}
-                <Box
-                    display={{ base: isAvailabilityVisible ? 'block' : 'none', md: 'none' }} // Show based on state
-                    mt={4}
-                >
-                    <Grid
-                        templateColumns="repeat(2, 1fr)"
-                        gap={2}
-                    >
-                        {daysOfWeekWithDates.map((date, index) => (
+
+                <Box display={{ base: isAvailabilityVisible ? 'block' : 'none', lg: 'none' }} mt={4}>
+                    <Grid templateColumns="repeat(2, 1fr)" gap={2}>
+                        {fetchedAvailability.map((availability, index) => (
                             <Button
                                 key={index}
                                 onClick={() => openModal(expert)}
-                                bg={expert.availability[index] === 'No appts' ? 'gray.100' : "#5EDABC"}
+                                bg={availability.count === 0 ? 'gray.100' : '#5EDABC'}
                                 _hover={{
-                                    bg: expert.availability[index] === 'No appts' ? 'red.100' : "#5EDABC",
-                                    opacity: 0.8
+                                    bg: availability.count === 0 ? 'red.100' : '#5EDABC',
+                                    opacity: 0.8,
                                 }}
-                                isDisabled={expert.availability[index] === 'No appts'}
+                                isDisabled={availability.count === 0}
                                 h="auto"
                                 w="full"
                                 p={2}
-                                flexWrap='wrap'
+                                flexWrap="wrap"
                                 whiteSpace="normal"
                                 textAlign="left"
                                 overflow="hidden"
                                 textOverflow="ellipsis"
                                 fontSize={{ base: 'xs', md: 'sm' }}
                             >
-                                {date} 
+                                {availability.day}
                             </Button>
                         ))}
                     </Grid>
                 </Box>
 
-                {/* Button to Toggle Availability on Mobile */}
-                <Box
-                    display={{ base: 'block', md: 'none' }} // Show only on mobile
-                    mt={4}
-                >
+                <Box display={{ base: 'block', lg: 'none' }} mt={4}>
                     <Button
                         onClick={() => setIsAvailabilityVisible(!isAvailabilityVisible)}
                         colorScheme="green"

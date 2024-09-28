@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }) => {
       if (user) {
         setIsUserSignedIn(true);
         window.globalUserEmail = user.email; // Set window variable to user email
+        window.globalUserUid = user.uid; // Set window variable to user uid
       } else {
         setIsUserSignedIn(false);
         window.globalUserEmail = false; // Reset window variable to false when signed out

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -20,36 +20,128 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { FaMapMarkerAlt } from 'react-icons/fa';
+import { collection, query, where, getDocs, Timestamp, addDoc } from 'firebase/firestore';
+import { db } from '../../firebaseConfig.jsx';
 
-const generateTimeSlots = (appts) => {
+const generateTimeSlots = (appts, startHour, endHour) => {
   let slots = [];
-  const startHour = 9;
-  const endHour = 17;
+
   for (let hour = startHour; hour < endHour; hour++) {
-    for (let minute = 0; minute < 60; minute += 60) {
-      if (appts > 0) {
-        const start = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} - ${(hour + 1).toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-        slots.push(start);
-        appts--;
-      }
-    }
+    const start = `${hour.toString().padStart(2, '0')}:00 - ${(hour + 1).toString().padStart(2, '0')}:00`;
+    slots.push(start);
+    appts--;
+    if (appts <= 0) break;
   }
+
   return slots;
 };
 
-const selectedExpertModal = ({ isOpen, onClose, selectedExpert, daysOfWeekWithDates, openConfirmationModal }) => {
-  const [currentStep, setCurrentStep] = useState('availability'); // Tracks current step: 'availability' or 'confirmation'
+const SelectedExpertModal = ({ isOpen, onClose, selectedExpert, daysOfWeekWithDates }) => {
+  const [currentStep, setCurrentStep] = useState('availability');
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [soucis, setSoucis] = useState('');
+  const [slotsArray, setSlotsArray] = useState([]);
+
+  const getDayOfWeek = (date) => {
+    const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    return days[date.getDay()];
+  };
+
+  useEffect(() => {
+    const fetchAvailability = async () => {
+      if (!selectedExpert?.uid || !daysOfWeekWithDates.length) return;
+
+      try {
+        const startDate = new Date(daysOfWeekWithDates[0]);
+        const endDate = new Date(daysOfWeekWithDates[daysOfWeekWithDates.length - 1]);
+        const firestoreStartDate = Timestamp.fromDate(startDate);
+        const firestoreEndDate = Timestamp.fromDate(endDate);
+
+        const q = query(
+          collection(db, "rendezvous"),
+          where("expertid", "==", selectedExpert.uid),
+          where("date", ">=", firestoreStartDate),
+          where("date", "<=", firestoreEndDate)
+        );
+
+        const querySnapshot = await getDocs(q);
+        const rdvDocsData = querySnapshot.docs.map(doc => doc.data());
+
+        const availabilityArray = daysOfWeekWithDates.map(date => {
+          const day = getDayOfWeek(new Date(date));
+          const scheduleIndex = selectedExpert.schedule.findIndex(schedule => schedule.day === day);
+          const count = (scheduleIndex !== -1) ?
+            (selectedExpert.schedule[scheduleIndex].endtime - selectedExpert.schedule[scheduleIndex].starttime) : 0;
+
+          return {
+            day: date,
+            count: count,
+            enabled: (scheduleIndex !== -1) ? selectedExpert.schedule[scheduleIndex].enabled : false,
+          };
+        });
+
+        const newSlotsArray = availabilityArray.map((day, index) => {
+          const scheduleIndex = selectedExpert.schedule.findIndex(schedule => schedule.day === getDayOfWeek(new Date(day.day)));
+          if (scheduleIndex !== -1) {
+            return generateTimeSlots(day.count, selectedExpert.schedule[scheduleIndex].starttime, selectedExpert.schedule[scheduleIndex].endtime);
+          }
+          return [];
+        });
+
+        setSlotsArray(newSlotsArray);
+
+        rdvDocsData.forEach(appointment => {
+          const start = appointment.starttime;
+          const end = appointment.endtime;
+          const stringtime = `${start}:00 - ${end}:00`;
+          const date = appointment.date;
+          const dateString = date.toDate().toLocaleDateString();
+          const index = daysOfWeekWithDates.findIndex(date => new Date(date).toLocaleDateString() === dateString);
+
+          if (index !== -1) {
+            const busyIndex = newSlotsArray[index].findIndex(slot => slot === stringtime);
+            if (busyIndex !== -1) {
+              newSlotsArray[index].splice(busyIndex, 1);
+            }
+          }
+          setSlotsArray(newSlotsArray);
+        });
+
+      } catch (error) {
+        console.error("Error fetching availability:", error);
+      }
+    };
+
+    fetchAvailability();
+  }, [selectedExpert?.uid, daysOfWeekWithDates]);
 
   const handleSlotClick = (slot) => {
     setSelectedSlot(slot);
+
     setCurrentStep('confirmation');
   };
 
-  const handleConfirm = () => {
-    // Implement confirmation logic here
-    onClose();
+  const handleConfirm = async () => {
+
+
+    const appointmentData = {
+      expertid: selectedExpert.uid,
+      date: Timestamp.fromDate(new Date(selectedSlot.split(' ')[0])),
+      starttime: selectedSlot.split(' ')[1],
+      endtime: selectedSlot.split(' ')[3],
+      soucis: soucis,
+      patient: window.globalUserUid,
+    };
+
+    try {
+      // Add the appointment to the 'rendezvous' collection
+      await addDoc(collection(db, "rendezvous"), appointmentData);
+      alert("Appointment successfully booked!");
+      onClose();
+    } catch (error) {
+      console.error("Error adding appointment:", error);
+      alert("Error booking appointment. Please try again.");
+    }
   };
 
   const handleSoucisChange = (e) => {
@@ -57,11 +149,7 @@ const selectedExpertModal = ({ isOpen, onClose, selectedExpert, daysOfWeekWithDa
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="xl"
-      scrollBehavior="inside" 
-      
-      overflowY="auto"
-    >
+    <Modal isOpen={isOpen} onClose={onClose} size="xl" scrollBehavior="inside" overflowY="auto">
       <ModalOverlay />
       <ModalContent pb={5} maxW="50rem">
         <ModalHeader
@@ -71,7 +159,7 @@ const selectedExpertModal = ({ isOpen, onClose, selectedExpert, daysOfWeekWithDa
           fontWeight="bold"
           textShadow="2px 2px 4px #5EDABC"
         >
-          {currentStep === 'availability' ? `${selectedExpert.name}'s Availability` : 'Réviser et réserver'}
+          {currentStep === 'availability' ? `${selectedExpert.username}'s Availability` : 'Réviser et réserver'}
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -81,14 +169,14 @@ const selectedExpertModal = ({ isOpen, onClose, selectedExpert, daysOfWeekWithDa
                 Cliquez sur un horaire pour réserver.
               </Heading>
               <Grid templateColumns="repeat(1, 1fr)" gap={3}>
-                {selectedExpert.availability.map((appts, index) =>
-                  appts !== "No appts" ? (
+                {slotsArray.map((appts, index) =>
+                  appts.length > 0 ? (
                     <GridItem key={index}>
                       <Box flex="1" textAlign="left">
                         <Text fontSize="xs" fontWeight="bold">{daysOfWeekWithDates[index]}</Text>
                       </Box>
                       <Flex wrap="wrap" gap={2} justify="left">
-                        {generateTimeSlots(parseInt(appts)).map((slot, i) => (
+                        {appts.map((slot, i) => (
                           <GridItem
                             key={i}
                             bg="#5EDABC"
@@ -97,10 +185,7 @@ const selectedExpertModal = ({ isOpen, onClose, selectedExpert, daysOfWeekWithDa
                             p={2}
                             m={1}
                             cursor="pointer"
-                            _hover={{
-                              bg: "#5EDABC",
-                              opacity: 0.8,
-                            }}
+                            _hover={{ bg: "#5EDABC", opacity: 0.8 }}
                             onClick={() => handleSlotClick(`${daysOfWeekWithDates[index]} ${slot}`)}
                           >
                             <Text fontSize="sm">{slot}</Text>
@@ -116,13 +201,13 @@ const selectedExpertModal = ({ isOpen, onClose, selectedExpert, daysOfWeekWithDa
             <>
               <Text fontSize="lg" fontWeight="bold" mb={4}>Informations sur le médecin</Text>
               <Flex border="1px solid #cccccc" p={4} mb={4} borderRadius={5} align="center">
-                <Avatar size="xl" name={selectedExpert.name} src={`https://i.pravatar.cc/150?img=${selectedExpert.id}`} mr={4} />
+                <Avatar size="xl" name={selectedExpert.username} src={selectedExpert.ProfilePicture || ''} mr={4} />
                 <Box pl={5}>
-                  <Text fontSize="lg" fontWeight="bold">{selectedExpert.name}</Text>
-                  <Text fontSize="md">{selectedExpert.expertise}</Text>
+                  <Text fontSize="lg" fontWeight="bold">{selectedExpert.username}</Text>
+                  <Text fontSize="md">{selectedExpert.specialite}</Text>
                   <Text fontSize="md">
                     <Icon color="green" mr={2} as={FaMapMarkerAlt} />
-                    {selectedExpert.address}
+                    {selectedExpert.location.address}
                   </Text>
                 </Box>
               </Flex>
@@ -131,12 +216,7 @@ const selectedExpertModal = ({ isOpen, onClose, selectedExpert, daysOfWeekWithDa
               <Text fontSize="lg" fontWeight="bold" mb={4}>Informations sur le patient</Text>
               <Text fontSize="lg" color="#666666" mb={4} ml={4}>Current User name (moi)</Text>
               <Box ml={5} mb={5}>
-                <Select
-                  size="lg"
-                  variant="flushed"
-                  color="teal"
-                  _selected={{ color: 'red' }}
-                >
+                <Select size="lg" variant="flushed" color="teal" _selected={{ color: 'red' }}>
                   <option value='Problème, une condition ou une difficulté.'>Problème, une condition ou une difficulté.</option>
                   <option value='Examen médical annuel.'>Examen médical annuel.</option>
                 </Select>
@@ -155,11 +235,7 @@ const selectedExpertModal = ({ isOpen, onClose, selectedExpert, daysOfWeekWithDa
         </ModalBody>
         <ModalFooter>
           {currentStep === 'availability' ? (
-            <Button
-              colorScheme="teal"
-              variant="outline"
-              onClick={onClose}
-            >
+            <Button colorScheme="teal" variant="outline" onClick={onClose}>
               Fermer
             </Button>
           ) : (
@@ -167,7 +243,7 @@ const selectedExpertModal = ({ isOpen, onClose, selectedExpert, daysOfWeekWithDa
               colorScheme="teal"
               variant="outline"
               onClick={handleConfirm}
-              isDisabled={!soucis.trim()}
+              isDisabled={!soucis.trim() || !selectedSlot} // Disable if no concerns or slot selected
             >
               Réserver
             </Button>
@@ -178,4 +254,4 @@ const selectedExpertModal = ({ isOpen, onClose, selectedExpert, daysOfWeekWithDa
   );
 };
 
-export default selectedExpertModal;
+export default SelectedExpertModal;
