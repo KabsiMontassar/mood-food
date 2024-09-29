@@ -153,159 +153,223 @@
         image: '/src/assets/images/sportif.webp',
       },
         ];
-  
-    const [currentIndex, setCurrentIndex] = useState(0);
-  
-    useEffect(() => {
-      const index = categories.findIndex((cat) => cat.title === selectedCategory);
-      if (index !== -1) {
-        setCurrentIndex(index);
-      } else {
-        setCurrentIndex(0);
-      }
-    }, [selectedCategory]);
-  
-    const handleNext = () => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % categories.length);
-    };
-  
-    const currentCategoryData = categories[currentIndex];
-  
-    useEffect(() => {
-      const interval = setInterval(handleNext, 3000);
-      return () => clearInterval(interval);
-    }, []);
-  
-    return (
-      <Box mb={6} position="relative" width="100%">
-        <Box position="relative" textAlign="center">
-          <Image
-            src={currentCategoryData.image}
-            alt={currentCategoryData.title}
-            width="100%"
-            height="400px"
-            objectFit="cover"
-            borderRadius="md"
-          />
-  
-          <Box
-            position="absolute"
-            top="0"
-            left="0"
-            width="100%"
-            height="100%"
-            bg="rgba(0, 0, 0, 0.5)"
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            borderRadius="md"
-          >
-            <Box textAlign="center" color="white" p={4}>
-              <Heading size="lg" mb={2}>
-                {currentCategoryData.title}
-              </Heading>
-              <Text>{currentCategoryData.description}</Text>
+
+          const [currentIndex, setCurrentIndex] = useState(0);
+        
+          useEffect(() => {
+            const index = categories.findIndex((cat) => cat.title === selectedCategory);
+            if (index !== -1) {
+              setCurrentIndex(index);
+            } else {
+              setCurrentIndex(0);
+            }
+          }, [selectedCategory]);
+        
+          const handleNext = () => {
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % categories.length);
+          };
+        
+          const currentCategoryData = categories[currentIndex];
+        
+          useEffect(() => {
+            const interval = setInterval(handleNext, 3000);
+            return () => clearInterval(interval);
+          }, []);
+        
+          return (
+            <Box mb={6} position="relative" width="100%">
+              <Box position="relative" textAlign="center">
+                <Image
+                  src={currentCategoryData.image}
+                  alt={currentCategoryData.title}
+                  width="100%"
+                  height={{ base: '200px', md: '400px' }} // Responsive height
+                  objectFit="cover"
+                  borderRadius="md"
+                />
+        
+                <Box
+                  position="absolute"
+                  top="0"
+                  left="0"
+                  width="100%"
+                  height="100%"
+                  bg="rgba(0, 0, 0, 0.5)"
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  borderRadius="md"
+                >
+                  <Box textAlign="center" color="white" p={4}>
+                    <Heading size={{ base: 'md', md: 'lg' }} mb={2}>
+                      {currentCategoryData.title}
+                    </Heading>
+                    <Text fontSize={{ base: 'sm', md: 'md' }}>{currentCategoryData.description}</Text>
+                  </Box>
+                </Box>
+        
+                <HStack spacing={4} position="absolute" bottom={4} left="50%" transform="translateX(-50%)">
+                  {categories.map((_, idx) => (
+                    <Box
+                      key={idx}
+                      width={2}
+                      height={2}
+                      bg={idx === currentIndex ? 'orange.500' : 'white'}
+                      borderRadius="50%"
+                    />
+                  ))}
+                </HStack>
+              </Box>
+        
+              <HStack spacing={4} justifyContent="center" mt={4} flexWrap="wrap">
+                {categories.map((cat) => {
+                  const isActive = selectedCategory === cat.title;
+                  return (
+                    <Button
+                      key={cat.title}
+                      onClick={() => onCategorySelect(cat.title)}
+                      variant={isActive ? 'solid' : 'outline'}
+                      bgImage={`url(${cat.image})`}
+                      bgSize="cover"
+                      bgPosition="center"
+                      color={isActive ? 'white' : 'black'}
+                      px={4}
+                      py={2}
+                      width={{ base: '100%', sm: '200px', md: '400px' }} // Responsive width
+                      height="50px"
+                      border="none"
+                      boxShadow={isActive ? 'none' : '0px 4px 6px rgba(0, 0, 0, 0.3)'}
+                      transition="box-shadow 0.3s ease-in-out"
+                    >
+                      {cat.title}
+                    </Button>
+                  );
+                })}
+              </HStack>
             </Box>
+          );
+        };
+  
+        const ProductDetails = ({ product, onBackClick, onAddToCart }) => (
+          <Box p={4}>
+            <Button onClick={onBackClick} colorScheme="orange" mb={4}>
+              Back to Products
+            </Button>
+            <Grid templateColumns={{ base: '1fr', md: '1fr 2fr' }} gap={6}>
+              <Box>
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  boxSize={{ base: '100%', md: '300px' }}
+                  objectFit="cover"
+                  borderRadius="md"
+                />
+              </Box>
+              <Box>
+                <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.500" mb={2}>
+                  {product.category}
+                </Text>
+                <Heading size={{ base: 'md', md: 'lg' }} mb={2}>
+                  {product.name}
+                </Heading>
+                <Box borderBottom="2px" borderColor="black" mb={4} />
+                <Text fontSize={{ base: 'sm', md: 'lg' }} mb={4}>
+                  {product.description}
+                </Text>
+                <Text fontSize={{ base: 'xl', md: '2xl' }} color="orange.500" mb={4}>
+                  {product.price} DT
+                </Text>
+                <Button colorScheme="orange" onClick={() => onAddToCart(product)} width="full">
+                  Add to Cart
+                </Button>
+              </Box>
+            </Grid>
           </Box>
+        );
   
-          <HStack spacing={4} position="absolute" bottom={4} left="50%" transform="translateX(-50%)">
-            {categories.map((_, idx) => (
-              <Box
-                key={idx}
-                width={2}
-                height={2}
-                bg={idx === currentIndex ? 'orange.500' : 'white'}
-                borderRadius="50%"
-              />
-            ))}
-          </HStack>
-        </Box>
+  // Pagination Component
   
-        <HStack spacing={4} justifyContent="center" mt={4}>
-          {categories.map((cat) => {
-            const isActive = selectedCategory === cat.title;
-            return (
-              <Button
-                key={cat.title}
-                onClick={() => onCategorySelect(cat.title)}
-                variant={isActive ? 'solid' : 'outline'}
-                bgImage={`url(${cat.image})`}
-                bgSize="cover"
-                bgPosition="center"
-                color={isActive ? 'white' : 'black'}
-                px={4}
-                py={2}
-                minWidth="400px"
-                height="50px"
-                border="none"
-                boxShadow={isActive ? 'none' : '0px 4px 6px rgba(0, 0, 0, 0.3)'}
-                transition="box-shadow 0.3s ease-in-out"
-              >
-                {cat.title}
-              </Button>
-            );
-          })}
-        </HStack>
-      </Box>
-    );
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
   };
-  
-  // ProductDetails Component (same as before)
-  const ProductDetails = ({ product, onBackClick, onAddToCart }) => (
-    <Box p={6}>
-      <Button onClick={onBackClick} colorScheme="orange" mb={4}>
-        Back to Products
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
+  return (
+    <Flex justifyContent="space-between" alignItems="center" mt={4} flexDirection={{ base: 'column', md: 'row' }}>
+      <Button onClick={handlePrevious} disabled={currentPage === 1} mb={{ base: 2, md: 0 }}>
+        Previous
       </Button>
-      <Grid templateColumns={{ base: '1fr', md: '1fr 2fr' }} gap={6}>
-        <Box>
-          <Image
-            src={product.image}
-            alt={product.name}
-            boxSize={{ base: '100%', md: '300px' }}
-            objectFit="cover"
-            borderRadius="md"
-          />
-        </Box>
-        <Box>
-          <Text fontSize="sm" color="gray.500" mb={2}>{product.category}</Text>
-          <Heading size="lg" mb={2}>{product.name}</Heading>
-          <Box borderBottom="2px" borderColor="black" mb={4} />
-          <Text fontSize="lg" mb={4}>{product.description}</Text>
-          <Text fontSize="2xl" color="orange.500" mb={4}>{product.price} DT</Text>
-          <Button colorScheme="orange" onClick={() => onAddToCart(product)}>Add to Cart</Button>
-        </Box>
-      </Grid>
+      <Text>{`Page ${currentPage} of ${totalPages}`}</Text>
+      <Button onClick={handleNext} disabled={currentPage === totalPages} mb={{ base: 2, md: 0 }}>
+        Next
+      </Button>
+    </Flex>
+  );
+};
+
+  // Panier Component
+
+  const Panier = ({ cartItems, onRemoveFromCart, onProceedToPayment }) => (
+    <Box p={4}>
+      <Heading size={{ base: 'md', md: 'lg' }} mb={4}>
+        Your Panier
+      </Heading>
+      {cartItems.length === 0 ? (
+        <Text>Your cart is empty.</Text>
+      ) : (
+        <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={4}>
+          {cartItems.map((item) => (
+            <Box key={item.productId} borderWidth="1px" borderRadius="md" p={4}>
+              <Image src={item.image} alt={item.name} borderRadius="md" mb={2} />
+              <Text fontSize={{ base: 'md', md: 'lg' }}>{item.name}</Text>
+              <Text color="orange.500" fontSize={{ base: 'md', md: 'lg' }}>{item.price} DT</Text>
+              <Button
+                onClick={() => onRemoveFromCart(item.productId)}
+                colorScheme="red"
+                mt={2}
+                width="full"
+              >
+                Remove
+              </Button>
+            </Box>
+          ))}
+        </Grid>
+      )}
+      <Button colorScheme="orange" mt={4} onClick={onProceedToPayment} width="full">
+        Proceed to Payment
+      </Button>
     </Box>
   );
   
-  // Pagination Component
-  const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-    const handlePrevious = () => {
-      if (currentPage > 1) {
-        onPageChange(currentPage - 1);
-      }
-    };
-  
-    const handleNext = () => {
-      if (currentPage < totalPages) {
-        onPageChange(currentPage + 1);
-      }
-    };
-  
-    return (
-      <Flex justifyContent="space-between" alignItems="center" mt={4}>
-        <Button onClick={handlePrevious} disabled={currentPage === 1}>
-          Previous
-        </Button>
-        <Text>{`Page ${currentPage} of ${totalPages}`}</Text>
-        <Button onClick={handleNext} disabled={currentPage === totalPages}>
-          Next
-        </Button>
-      </Flex>
-    );
-  };
-  
+
+// Payment Component
+const Payment = ({ cartItems, onBackToPanier }) => (
+  <Box p={4}>
+    <Heading size={{ base: 'md', md: 'lg' }} mb={4}>
+      Payment
+    </Heading>
+    <Text>Please complete your payment process here.</Text>
+    <Box mt={4}>
+      {cartItems.map((item) => (
+        <Text key={item.productId} fontSize={{ base: 'md', md: 'lg' }}>
+          {item.name}: {item.price} DT
+        </Text>
+      ))}
+    </Box>
+    <Button mt={4} colorScheme="green" onClick={onBackToPanier} width="full">
+      Confirm Payment
+    </Button>
+  </Box>
+);
   // ProductGrid Component with Pagination
   const ProductGrid = ({ selectedCategory, onCategorySelect }) => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -352,16 +416,16 @@
     };
   
     const filteredProducts = initialProducts
-      .filter((product) =>
-        (!selectedCategory || product.category === selectedCategory) &&
-        (!searchTerm || product.name.toLowerCase().includes(searchTerm.toLowerCase())) &&
-        (selectedKeywords.length === 0 || selectedKeywords.every((keyword) =>
-          product.description.toLowerCase().includes(keyword.toLowerCase())
-        ))
-      )
-      .sort((a, b) =>
-        priceSortOrder === 'ascending' ? a.price - b.price : b.price - a.price
-      );
+       .filter((product) =>
+      (!selectedCategory || product.category === selectedCategory) &&
+      (!searchTerm || product.name.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      (selectedKeywords.length === 0 || selectedKeywords.every((keyword) =>
+        product.description.toLowerCase().includes(keyword.toLowerCase())
+      ))
+    )
+    .sort((a, b) =>
+      priceSortOrder === 'ascending' ? a.price - b.price : b.price - a.price
+    );
   
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
     const currentProducts = filteredProducts.slice(
@@ -380,154 +444,213 @@
     ];
   
     return (
-      <Box p={6}>
-        {showDetails ? (
-          <ProductDetails
-            product={showDetails}
-            onBackClick={handleBackClick}
-            onAddToCart={handleAddToCartClick}
-          />
-        ) : (
-          <Flex direction="row" spacing={6}>
-            <Box flex="1" mr={6} borderWidth="1px" borderRadius="md" borderColor="gray.200" p={4} bg="white">
-              <Heading size="md" mb={4}>Categories</Heading>
-  
-              {categories.map((category) => (
-                <Button
-                  key={category}
-                  variant={selectedCategory === category ? 'solid' : 'outline'}
-                  colorScheme="orange"
-                  onClick={() => handleCategoryClick(category)}
-                  mb={2}
-                >
-                  {category}
-                </Button>
-              ))}
-              <Heading size="md" mt={6} mb={4}>Keywords</Heading>
-              {keywords.map((keyword) => (
-                <Checkbox
-                  key={keyword}
-                  isChecked={selectedKeywords.includes(keyword)}
-                  onChange={() => handleKeywordChange(keyword)}
-                  mb={2}
-                >
-                  {keyword}
-                </Checkbox>
-              ))}
-            </Box>
-  
-            <Box flex="3">
-              <Box display="flex" justifyContent="space-between" mb={4}>
-                <Input
-                  placeholder="Search products"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                  maxWidth="700px"
-                />
-                <Select value={priceSortOrder} onChange={handlePriceSortOrderChange} maxWidth="200px">
-                  <option value="ascending">Price: Low to High</option>
-                  <option value="descending">Price: High to Low</option>
-                </Select>
-              </Box>
-  
-              <Grid 
-  templateColumns={{
-    base: 'repeat(1, 1fr)',
-    sm: 'repeat(2, 1fr)',
-    md: 'repeat(3, 1fr)',
-    lg: 'repeat(4, 1fr)',
-  }}
-  gap={6}
->
-  {currentProducts.map((product) => (
-    <Box
-      key={product.productId}
-      borderWidth="1px"
-      borderRadius="md"
-      borderColor="gray.200"
-      p={4}
-      position="relative"
-      onMouseEnter={() => setHoveredProduct(product)}
-      onMouseLeave={() => setHoveredProduct(null)}
-      sx={{
-        transition: 'border 0.2s',
-        _hover: {
-          borderColor: 'orange.500',
-          boxShadow: '0 0 10px rgba(255, 165, 0, 0.5)',
-        },
-      }}
-    >
-      <Box position="relative">
-        <Image
-          src={product.image}
-          alt={product.name}
-          borderRadius="md"
-          mb={4}
-          height="200px"
-          objectFit="cover"
+    <Box p={4}>
+      {showDetails ? (
+        <ProductDetails
+          product={showDetails}
+          onBackClick={handleBackClick}
+          onAddToCart={handleAddToCartClick}
         />
-        {hoveredProduct === product && (
-          <Button
-          colorScheme="orange"
-          position="absolute"
-          bottom="4"
-          left="50%"
-          transform="translateX(-50%)"
-          zIndex="2"
-          onClick={() => handleInfoClick(product)}
-          padding="px 20px" // Adjust padding for thickness
-          fontSize="lg" // Make the font size larger
-          borderRadius="md" // You can change this to 'lg' for a rounder look
-        >
-          Plus Details
-        </Button>
-        
-        )}
-      </Box>
-      <Text fontSize="sm" color="gray.500" mb={2}>
-        {product.category}
-      </Text>
-      <Heading size="md" mb={2}>
-        {product.name}
-      </Heading>
-      <Text fontSize="lg" color="orange.500">
-        {product.price} DT
-      </Text>
-    </Box>
-  ))}
-</Grid>
+      ) : (
+        <Flex direction={{ base: 'column', md: 'row' }} spacing={6}>
+          <Box
+            flex="1"
+            mr={{ base: 0, md: 6 }}
+            borderWidth="1px"
+            borderRadius="md"
+            borderColor="gray.200"
+            p={4}
+            bg="white"
+          >
+            <Heading size="md" mb={4}>Categories</Heading>
 
+            {categories.map((category) => (
+              <Button
+                key={category}
+                variant={selectedCategory === category ? 'solid' : 'outline'}
+                colorScheme="orange"
+                onClick={() => handleCategoryClick(category)}
+                mb={2}
+                width="full"
+              >
+                {category}
+              </Button>
+            ))}
+            <Heading size="md" mt={6} mb={4}>Keywords</Heading>
+            {keywords.map((keyword) => (
+              <Checkbox
+                key={keyword}
+                isChecked={selectedKeywords.includes(keyword)}
+                onChange={() => handleKeywordChange(keyword)}
+                mb={2}
+              >
+                {keyword}
+              </Checkbox>
+            ))}
+          </Box>
 
-  
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={setCurrentPage}
+          <Box flex="3">
+            <Box display="flex" justifyContent="space-between" mb={4}>
+              <Input
+                placeholder="Search products"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                maxWidth="700px"
+                width="full"
               />
+              <Select
+                value={priceSortOrder}
+                onChange={handlePriceSortOrderChange}
+                maxWidth="200px"
+              >
+                <option value="ascending">Price: Low to High</option>
+                <option value="descending">Price: High to Low</option>
+              </Select>
             </Box>
-          </Flex>
-        )}
-      </Box>
-    );
-  };
-  
+
+            <Grid
+              templateColumns={{
+                base: 'repeat(1, 1fr)',
+                sm: 'repeat(2, 1fr)',
+                md: 'repeat(3, 1fr)',
+                lg: 'repeat(4, 1fr)',
+              }}
+              gap={6}
+            >
+              {currentProducts.map((product) => (
+                <Box
+                  key={product.productId}
+                  borderWidth="1px"
+                  borderRadius="md"
+                  borderColor="gray.200"
+                  p={4}
+                  position="relative"
+                  onMouseEnter={() => setHoveredProduct(product)}
+                  onMouseLeave={() => setHoveredProduct(null)}
+                  sx={{
+                    transition: 'border 0.2s',
+                    _hover: {
+                      borderColor: 'orange.500',
+                      boxShadow: '0 0 10px rgba(255, 165, 0, 0.5)',
+                    },
+                  }}
+                >
+                  <Box position="relative">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      borderRadius="md"
+                      mb={4}
+                      height="200px"
+                      objectFit="cover"
+                    />
+                    {hoveredProduct === product && (
+                      <Button
+                        colorScheme="orange"
+                        position="absolute"
+                        bottom="4"
+                        left="50%"
+                        transform="translateX(-50%)"
+                        zIndex="2"
+                        onClick={() => handleInfoClick(product)}
+                        padding="px 20px"
+                        fontSize="lg"
+                        borderRadius="md"
+                      >
+                        Plus Details
+                      </Button>
+                    )}
+                  </Box>
+                  <Text fontSize="sm" color="gray.500" mb={2}>
+                    {product.category}
+                  </Text>
+                  <Heading size="md" mb={2}>
+                    {product.name}
+                  </Heading>
+                  <Text fontSize="lg" color="orange.500">
+                    {product.price} DT
+                  </Text>
+                </Box>
+              ))}
+            </Grid>
+
+            {/* Pagination can be added here */}
+             <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            /> 
+          </Box>
+        </Flex>
+      )}
+    </Box>
+  );
+};
+
   // Main App
   function App() {
     const [selectedCategory, setSelectedCategory] = useState('');
-    
-    const handleCategorySelect = (category) => {
-      setSelectedCategory(category);
+    const [cartItems, setCartItems] = useState([]);
+    const [currentPage, setCurrentPage] = useState('products'); // to toggle between product and panier pages
+  
+    const handleAddToCart = (product) => {
+      setCartItems((prevItems) => [...prevItems, product]);
+    };
+  
+    const handleRemoveFromCart = (productId) => {
+      setCartItems((prevItems) => prevItems.filter(item => item.productId !== productId));
+    };
+  
+    const handleProceedToPayment = () => {
+      setCurrentPage('payment');
+    };
+  
+    const handleBackToPanier = () => {
+      setCurrentPage('panier');
     };
   
     return (
       <ChakraProvider theme={customTheme}>
-        <Box bg="blackWhite.background" minHeight="100vh" color="blackWhite.text">
-          <HeaderSection onCategorySelect={handleCategorySelect} selectedCategory={selectedCategory} />
-          <ProductGrid selectedCategory={selectedCategory} onCategorySelect={handleCategorySelect} />
+        <Box p={6}>
+         
+          {currentPage === 'products' && (
+            <HeaderSection
+              onCategorySelect={setSelectedCategory}
+              selectedCategory={selectedCategory}
+            />
+          )}
+          {currentPage === 'products' && (
+            <ProductGrid
+              selectedCategory={selectedCategory}
+              onAddToCart={handleAddToCart}
+            />
+          )}
+          {currentPage === 'panier' && (
+            <Panier
+              cartItems={cartItems}
+              onRemoveFromCart={handleRemoveFromCart}
+              onProceedToPayment={handleProceedToPayment}
+            />
+          )}
+          {currentPage === 'payment' && (
+            <Payment
+              cartItems={cartItems}
+              onBackToPanier={handleBackToPanier}
+            />
+          )}
+          <Button
+            onClick={() => setCurrentPage(currentPage === 'panier' ? 'products' : 'panier')}
+            colorScheme="green"
+            position="fixed"
+            bottom={4}
+            right={4}
+          >
+            Panier {cartItems.length > 0 && `(${cartItems.length})`}
+          </Button>
         </Box>
       </ChakraProvider>
     );
-  }
+  };
   
   export default App;
   
