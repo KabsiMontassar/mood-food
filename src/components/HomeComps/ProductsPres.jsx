@@ -26,13 +26,14 @@ const vitamins = [
 const ProductsPres = () => {
   return (
     <Box
-      height={{ base: 'auto', md: '100vh' }}
+      height="auto"
       position="relative"
       bgImage={`url(${bg3})`}
       bgSize="cover"
       bgPosition="center"
       bgRepeat="no-repeat"
       bgAttachment="fixed"
+
     >
 
       <Box
@@ -80,13 +81,7 @@ const ProductsPres = () => {
 
             <Flex className="slider-wrapper right">
               {vitamins.map((vitamin, index) => (
-                <Box key={index} bg="white" className={`item item${index + 1}`}>
-                  <Image
-                    src={vitamin}
-                    alt="Vitamin"
-                    borderRadius="30px"
-                  />
-                </Box>
+                <Box key={index} bg="white" className={`item item${index + 1}`} style={{ backgroundImage: `url(${vitamin})` }}  bgSize="cover" bgPosition="center" bgRepeat="no-repeat" />
               ))}
             </Flex>
 

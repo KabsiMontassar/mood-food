@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+// src/components/NavigationBar.jsx
+
+import React from 'react';
 import {
   Box,
   Flex,
@@ -7,14 +9,12 @@ import {
   Button,
   Stack,
   Collapse,
-  Icon,
   Popover,
   PopoverTrigger,
   PopoverContent,
   useDisclosure,
   useToast,
   Image,
-  calc,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import logo from "../assets/logo.png";
@@ -23,38 +23,19 @@ import {
   HamburgerIcon,
   CloseIcon,
   ChevronDownIcon,
-  ChevronRightIcon, MoonIcon, SunIcon
+  ChevronRightIcon,
 } from '@chakra-ui/icons';
 import { FaUser } from "react-icons/fa";
+import { useAuth } from '../Pages/auth/AuthContext';
 
-
-
-export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn }) {
-
+export default function NavigationBar({OpenAuth}) {
+  const { isUserSignedIn, signOut } = useAuth();
   const { isOpen, onToggle } = useDisclosure();
   const navigate = useNavigate();
   const toast = useToast();
 
-
-
-
-
-  useEffect(() => {
-    const isUserSignedIn = localStorage.getItem('isUserSignedIn');
-    if (isUserSignedIn === 'true') {
-      setIsUserSignedIn(true);
-    } else {
-      setIsUserSignedIn(false);
-    }
-  }, [])
-
-
-
-
-  const SignOut = () => {
-
-    localStorage.setItem('isUserSignedIn', false);
-    setIsUserSignedIn(false);
+  const handleSignOut = () => {
+    signOut();
     navigate('/');
     toast({
       title: "Signed Out",
@@ -62,191 +43,145 @@ export default function WithSubnavigation({ isUserSignedIn, setIsUserSignedIn })
       status: "success",
       duration: 5000,
       isClosable: true,
-    })
-  }
-
-
+    });
+  };
 
   const handleSignIn = () => {
-
-
-    navigate('/signin');
-  }
-
-
+    OpenAuth();
+  };
 
   const handleFixerRendezVous = () => {
     if (isUserSignedIn) {
       navigate('/Rendezvous');
     } else {
       toast({
-        title: "Sign In",
-        description: "You have to sign in first",
+        title: "Sign In Required",
+        description: "You need to sign in first",
         status: "error",
         duration: 5000,
         isClosable: true,
-      })
-
+      });
     }
-  }
-
-
+  };
 
   return (
-    <Box p={3}   zIndex={3} w="100%">
-  <Flex
-    color="gray.600"
-    minH="60px"
-    py={{ base: 2 }}
-    px={{ base: 4 }}
-    borderStyle={'solid'}
-    borderColor="gray.200"
-    align={'center'}
-    justify="space-between"
-    
-  >
-    <Flex align="center">
-  
-  <Flex
-    flex={{ base: 1, md: 'auto' }}
-    ml={{ base: -2 }}
-    display={{ base: 'flex', md: 'none' }} 
-  >
-    <IconButton
-      onClick={onToggle}
-      icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
-      variant={'ghost'}
-      aria-label={'Toggle Navigation'}
-    />
-  </Flex>
-
-
-  <Flex 
-    pl={{ base: 14, md: 8, lg: 20 }}  
-    alignItems="center"
-  >
-    <Image
-      width="50px"
-      src={logo}
-      alt="logo"
-      onClick={() => navigate('/')}
-      cursor="pointer"
-    />
-    <Text
-      fontSize="md"
-      pl="10px"
-      fontWeight="bold"
-      color="gray.600"
-      cursor="pointer"
-      onClick={() => navigate('/')}
-    >
-      Mood & Food
-    </Text>
-  </Flex>
-</Flex>
-
-
-    {/* Right section: Navigation and actions */}
-    <Flex align="center" gap={4}>
-      {/* Desktop Navigation Links (only visible on larger screens) */}
+    <Box p={3} zIndex={3} w="100%">
       <Flex
-        display={{ base: 'none', md: 'flex' }} 
-        borderRight="1px"
-        borderColor="gray.200"
-        pr={4}
-        alignItems="center"
+        color="gray.600"
+        minH="60px"
+        py={{ base: 2 }}
+        px={{ base: 4 }}
+        align="center"
+        justify="space-between"
       >
-        <DesktopNav navigate={navigate} />
+        <Flex align="center">
+          <Flex
+            flex={{ base: 1, md: 'auto' }}
+            display={{ base: 'flex', md: 'none' }}
+          >
+            <IconButton
+              onClick={onToggle}
+              icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
+              variant="ghost"
+              aria-label="Toggle Navigation"
+            />
+          </Flex>
+
+          <Flex
+            pl={{ base: 14, md: 8 }}
+            alignItems="center"
+            cursor="pointer"
+            onClick={() => navigate('/')}
+          >
+            <Image width="50px" src={logo} alt="logo" />
+            <Text fontSize="md" pl="10px" fontWeight="bold" color="gray.600">
+              Mood & Food
+            </Text>
+          </Flex>
+        </Flex>
+
+        <Flex align="center" gap={4}>
+          <Flex display={{ base: 'none', md: 'flex' }} borderRight="1px" borderColor="gray.200" pr={4} alignItems="center">
+            <DesktopNav navigate={navigate} />
+          </Flex>
+
+          <Stack
+            flex={{ base: 1, md: 0 }}
+            justify="flex-end"
+            direction="row"
+            spacing={6}
+            pl={4}
+          >
+            <Button
+              as="a"
+              display={{ base: 'none', md: 'inline-flex' }}
+              fontSize="sm"
+              userSelect="none"
+              fontWeight={800}
+              cursor="pointer"
+              color="white"
+              bg="black"
+              onClick={handleFixerRendezVous}
+              _hover={{ opacity: '0.8' }}
+            >
+              Fixer un rendez-vous
+            </Button>
+
+            {isUserSignedIn ? (
+              <>
+                <Button
+                  fontSize="sm"
+                  color="#64A87A"
+                  fontWeight={600}
+                  display={{ base: 'none', md: 'inline-flex' }}
+                  variant="link"
+                  onClick={handleSignOut}
+                  _hover={{ color: '#96C970' }}
+                >
+                  Sign Out
+                </Button>
+
+                <Button
+                  as="a"
+                  display={{ base: 'none', md: 'inline-flex' }}
+                  fontSize="sm"
+                  fontWeight={600}
+                  color="white"
+                  bg="#64A87A"
+                  href="/profile"
+                  _hover={{ bg: '#96C970' }}
+                >
+                  <FaUser />
+                </Button>
+              </>
+            ) : (
+              <Button
+                as="a"
+                fontSize="sm"
+                fontWeight={600}
+                color="white"
+                bg="#64A87A"
+                onClick={handleSignIn}
+                _hover={{ bg: '#96C970' }}
+              >
+                Sign In
+              </Button>
+            )}
+          </Stack>
+        </Flex>
       </Flex>
 
-      {/* Action Buttons (Sign In, Fixer un rendez-vous, Profile) */}
-      <Stack
-        flex={{ base: 1, md: 0 }}
-        justify={'flex-end'}
-        direction={'row'}
-        spacing={6}
-        pl={4} // Space to separate from nav links
-      >
-        <Button
-          as={'a'}
-          display={{ base: 'none', md: 'inline-flex' }}
-          fontSize={'sm'}
-          userSelect="none"
-          fontWeight={800}
-          cursor="pointer"
-          color="white"
-          bg="black"
-          onClick={() => handleFixerRendezVous()}
-          _hover={{
-            opacity: '0.8',
-          }}
-        >
-          Fixer un rendez-vous
-        </Button>
-
-        {isUserSignedIn ? (
-          <>
-            <Button
-              fontSize={'sm'}
-              color="#64A87A"
-              fontWeight={600}
-              display={{ base: 'none', md: 'inline-flex' }}
-              variant={'link'}
-              onClick={SignOut}
-              _hover={{
-                color: '#96C970',
-              }}
-            >
-              Sign Out
-            </Button>
-
-            <Button
-              as={'a'}
-              display={{ base: 'none', md: 'inline-flex' }}
-              fontSize={'sm'}
-              fontWeight={600}
-              color={'white'}
-              bg="#64A87A"
-              href={'/profile'}
-              _hover={{
-                bg: '#96C970',
-              }}
-            >
-              <FaUser />
-            </Button>
-          </>
-        ) : (
-          <Button
-            as={'a'}
-            fontSize={'sm'}
-            fontWeight={600}
-            color={'white'}
-            bg="#64A87A"
-            onClick={() => handleSignIn()}
-            _hover={{
-              bg: '#96C970',
-            }}
-          >
-            Sign In
-          </Button>
-        )}
-      </Stack>
-    </Flex>
-  </Flex>
-
-  {/* Mobile Navigation (Hamburger Menu content) */}
-  <Collapse in={isOpen} animateOpacity>
-    <MobileNav
-      navigate={navigate}
-      handleFixerRendezVous={handleFixerRendezVous}
-      isUserSignedIn={isUserSignedIn}
-      SignOut={SignOut}
-      handleSignIn={handleSignIn}
-    />
-  </Collapse>
-</Box>
-
-
+      {/* Mobile Navigation (Hamburger Menu content) */}
+      <Collapse in={isOpen} animateOpacity>
+        <MobileNav
+          navigate={navigate}
+          handleFixerRendezVous={handleFixerRendezVous}
+          isUserSignedIn={isUserSignedIn}
+          handleSignOut={handleSignOut}
+          handleSignIn={handleSignIn}
+        />
+      </Collapse>
+    </Box>
   );
 }
 
@@ -256,23 +191,23 @@ const DesktopNav = ({ navigate }) => {
   const popoverContentBgColor = 'white';
 
   return (
-    <Stack direction={'row'} spacing={4}>
+    <Stack direction="row" spacing={4}>
       {NAV_ITEMS.map((navItem) => (
         <Box key={navItem.label}>
-          <Popover trigger={'hover'} placement={'bottom-start'}>
+          <Popover trigger="hover" placement="bottom-start">
             <PopoverTrigger>
               <Text
                 p={2}
                 cursor="pointer"
-                fontSize={'md'}
+                fontSize="md"
                 fontWeight={500}
                 color={linkColor}
                 _hover={{
                   textDecoration: 'none',
                   color: linkHoverColor,
                 }}
-                onClick={() => navigate(navItem.href)}>
-
+                onClick={() => navigate(navItem.href)}
+              >
                 {navItem.label}
               </Text>
             </PopoverTrigger>
@@ -281,10 +216,11 @@ const DesktopNav = ({ navigate }) => {
               <PopoverContent
                 borderRadius={3}
                 border={0}
-                boxShadow={'xl'}
+                boxShadow="xl"
                 bg={popoverContentBgColor}
                 p={4}
-                minW={'sm'}>
+                minW="sm"
+              >
                 <Stack>
                   {navItem.children.map((child) => (
                     <DesktopSubNav key={child.label} {...child} navigate={navigate} />
@@ -302,118 +238,101 @@ const DesktopNav = ({ navigate }) => {
 const DesktopSubNav = ({ label, href, subLabel, navigate }) => {
   return (
     <Box
-      role={'group'}
-      display={'block'}
+      role="group"
+      display="block"
       p={2}
-      rounded={'md'}
+      rounded="md"
       _hover={{ bg: 'green.50' }}
-      onClick={() => navigate(href)}>
-      <Stack direction={'row'} align={'center'}>
+      onClick={() => navigate(href)}
+    >
+      <Stack direction="row" align="center">
         <Box>
           <Text
-            transition={'all .3s ease'}
+            transition="all .3s ease"
             _groupHover={{ color: '#2BFA70' }}
-            fontWeight={500}>
+            fontWeight={500}
+          >
             {label}
           </Text>
-          <Text fontSize={'sm'}>{subLabel}</Text>
+          <Text fontSize="sm">{subLabel}</Text>
         </Box>
         <Flex
-          transition={'all .3s ease'}
-          transform={'translateX(-10px)'}
+          transition="all .3s ease"
+          transform="translateX(-10px)"
           opacity={0}
           _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
-          justify={'flex-end'}
-          align={'center'}
-          flex={1}>
-          <Icon color={'#2BFA70'} w={5} h={5} as={ChevronRightIcon} />
+          justify="flex-end"
+          align="center"
+          flex={1}
+        >
+          <Icon color="#2BFA70" w={5} h={5} as={ChevronRightIcon} />
         </Flex>
       </Stack>
     </Box>
   );
 };
 
-const MobileNav = ({ navigate, handleFixerRendezVous, isUserSignedIn, SignOut, handleSignIn }) => {
+const MobileNav = ({ navigate, handleFixerRendezVous, isUserSignedIn, handleSignOut, handleSignIn }) => {
   return (
-    <Stack bg='white' p={4} display={{ md: 'none' }}>
+    <Stack bg="white" p={4} display={{ md: 'none' }}>
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} navigate={navigate} />
       ))}
       <Button
-        as={'a'}
-
-        fontSize={'sm'}
+        fontSize="sm"
         userSelect="none"
         fontWeight={800}
         cursor="pointer"
         bg="none"
         left={0}
-        _hover={{
-          opacity: '0.8',
-        }}
-        onClick={() => handleFixerRendezVous()}
+        _hover={{ opacity: '0.8' }}
+        onClick={handleFixerRendezVous}
       >
         Fixer un rendez-vous
       </Button>
       <br />
-      {isUserSignedIn ?
+      {isUserSignedIn ? (
         <>
-
           <Button
-            as={'a'}
-
-            fontSize={'sm'}
+            fontSize="sm"
             userSelect="none"
             fontWeight={800}
             cursor="pointer"
             bg="none"
-            onClick={SignOut}
             left={0}
-            _hover={{
-              opacity: '0.8',
-            }} >
+            _hover={{ opacity: '0.8' }}
+            onClick={handleSignOut}
+          >
             Sign Out
           </Button>
           <br />
           <Button
-            as={'a'}
-
-            fontSize={'sm'}
+            fontSize="sm"
             userSelect="none"
             fontWeight={800}
             cursor="pointer"
             bg="none"
             left={0}
-            _hover={{
-              opacity: '0.8',
-            }}
-            href={'/profile'}
+            _hover={{ opacity: '0.8' }}
+            href="/profile"
           >
             Profile
           </Button>
         </>
-        :
-
+      ) : (
         <Button
-
-          as={'a'}
-
-          fontSize={'sm'}
+          fontSize="sm"
           userSelect="none"
           fontWeight={800}
           cursor="pointer"
           bg="none"
           left={0}
-          _hover={{
-            opacity: '0.8',
-          }}
-          onClick={() => handleSignIn()}
-
+          _hover={{ opacity: '0.8' }}
+          onClick={handleSignIn}
         >
           Sign In
         </Button>
-      }
-
+      )}
     </Stack>
   );
 };
@@ -427,19 +346,18 @@ const MobileNavItem = ({ label, children, href, navigate }) => {
         py={2}
         as="a"
         href={href ?? '#'}
-        justify={'space-between'}
-        align={'center'}
-        _hover={{
-          textDecoration: 'none',
-        }}
-        onClick={() => navigate(href)}>
-        <Text fontWeight={600} color='gray.600'>
+        justify="space-between"
+        align="center"
+        _hover={{ textDecoration: 'none' }}
+        onClick={() => navigate(href)}
+      >
+        <Text fontWeight={600} color="gray.600">
           {label}
         </Text>
         {children && (
           <Icon
             as={ChevronDownIcon}
-            transition={'all .25s ease-in-out'}
+            transition="all .25s ease-in-out"
             transform={isOpen ? 'rotate(180deg)' : ''}
             w={6}
             h={6}
@@ -452,9 +370,10 @@ const MobileNavItem = ({ label, children, href, navigate }) => {
           mt={2}
           pl={4}
           borderLeft={1}
-          borderStyle={'solid'}
-          borderColor='gray.200'
-          align={'start'}>
+          borderStyle="solid"
+          borderColor="gray.200"
+          align="start"
+        >
           {children &&
             children.map((child) => (
               <Box key={child.label} py={2} onClick={() => navigate(child.href)}>
@@ -463,59 +382,21 @@ const MobileNavItem = ({ label, children, href, navigate }) => {
             ))}
         </Stack>
       </Collapse>
-
     </Stack>
   );
 };
 
 const NAV_ITEMS = [
-
-  // {
-  //   label: 'Bien-être',
-  //   href: '/Bien',
-
-  // },
   {
     label: 'Bien-être',
     href: '/Product',
   },
-  
   {
     label: 'Cuisine & Bienfaits',
     href: '/recipes',
-
   },
   {
-    label: 'Que sommes-nous?',
+    label: 'Qui sommes-nous?',
     href: '/Propos',
-
   },
-
-
- 
-
-
-
-
-  // {
-  //   "label": "backoffice",
-  //   "children": [
-  //     {
-  //       label: 'User',
-  //       href: '/User',
-  //     },
-  //     {
-  //       label: 'Commande',
-  //       href: '/Commande',
-  //     },
-  //     {
-  //       label: 'Equipement',
-  //       href: '/Equipement',
-  //     },
-  //     {
-  //       label: 'Repas',
-  //       href: '/Repas',
-  //     }
-  //   ],
-  // }
 ];
