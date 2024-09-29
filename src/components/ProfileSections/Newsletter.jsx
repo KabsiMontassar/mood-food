@@ -48,12 +48,12 @@ const Newsletter = () => {
             }}
           />
           <Button
-            bg={'teal.400'}
+            bg={'green.700'}
             rounded={'full'}
             color={'white'}
             flex={'1 0 auto'}
-            _hover={{ bg: 'blue.500' }}
-            _focus={{ bg: 'blue.500' }}
+            _hover={{ bg: 'green.500' }}
+            _focus={{ bg: 'green.500' }}
           >
             Subscribe
           </Button>

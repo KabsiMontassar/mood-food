@@ -23,11 +23,11 @@ function AppContent() {
   return (
     <>
       {/* Show modal if user is not signed in */}
-      <Modal onClose={onClose} size="full" isOpen={!isUserSignedIn && isOpen}>
+      <Modal onClick={onClose} size="full" isOpen={!isUserSignedIn && isOpen}>
         <ModalOverlay />
         <ModalContent>
           <SplitLayout />
-          <ModalFooter>
+          <ModalFooter >
             <Button
               bg="none"
               _hover={{ bg: 'none' }}
