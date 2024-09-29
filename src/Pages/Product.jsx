@@ -132,7 +132,25 @@
       section: '',
       price: 40,
       image: '/src/assets/images/Zink.webp',
-    }, ];
+    }, 
+    {
+      productId: 12,
+      name: 'Gainer',
+      description: 'A high-quality gainer to boost your muscle mass and help you achieve your fitness goals faster.',
+      category: 'Produit Diététique',
+      section: 'Supplements',
+      price: 50,
+      image: '/src/assets/images/gainer.jpeg',
+    },
+    {
+      productId: 13,
+      name: 'Rameur',
+      description: 'A rowing machine for an effective full-body workout, ideal for building strength and endurance.',
+      category: 'Equipement sportif',
+      section: 'Equipment',
+      price: 80,
+      image: '/src/assets/images/remo.jpg',
+    },];
   
   // HeaderSection Component with Carousel Dots (same as before)
   const HeaderSection = ({ onCategorySelect, selectedCategory }) => {
@@ -444,12 +462,100 @@ const Payment = ({ cartItems, onBackToPanier }) => (
     ];
   
     return (
+<<<<<<< Updated upstream
     <Box p={4}>
       {showDetails ? (
         <ProductDetails
           product={showDetails}
           onBackClick={handleBackClick}
           onAddToCart={handleAddToCartClick}
+=======
+      <Box p={6}>
+        {showDetails ? (
+          <ProductDetails
+            product={showDetails}
+            onBackClick={handleBackClick}
+            onAddToCart={handleAddToCartClick}
+          />
+        ) : (
+          <Flex direction="row" spacing={6}>
+            <Box flex="1" mr={6} borderWidth="1px" borderRadius="md" borderColor="gray.200" p={4} bg="white">
+              <Heading size="md" mb={4}>Categories</Heading>
+  
+              {categories.map((category) => (
+                <Button
+                  key={category}
+                  variant={selectedCategory === category ? 'solid' : 'outline'}
+                  colorScheme="orange"
+                  onClick={() => handleCategoryClick(category)}
+                  mb={2}
+                >
+                  {category}
+                </Button>
+              ))}
+              <Heading size="md" mt={6} mb={4}>Mot clé</Heading>
+              {keywords.map((keyword) => (
+                <Checkbox
+                  key={keyword}
+                  isChecked={selectedKeywords.includes(keyword)}
+                  onChange={() => handleKeywordChange(keyword)}
+                  mb={2}
+                >
+                  {keyword}
+                </Checkbox>
+              ))}
+            </Box>
+  
+            <Box flex="3">
+              <Box display="flex" justifyContent="space-between" mb={4}>
+                <Input
+                  placeholder="Search products"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  maxWidth="700px"
+                />
+                <Select value={priceSortOrder} onChange={handlePriceSortOrderChange} maxWidth="200px">
+                  <option value="ascending">Price: Low to High</option>
+                  <option value="descending">Price: High to Low</option>
+                </Select>
+              </Box>
+  
+              <Grid 
+  templateColumns={{
+    base: 'repeat(1, 1fr)',
+    sm: 'repeat(2, 1fr)',
+    md: 'repeat(3, 1fr)',
+    lg: 'repeat(4, 1fr)',
+  }}
+  gap={6}
+>
+  {currentProducts.map((product) => (
+    <Box
+      key={product.productId}
+      borderWidth="1px"
+      borderRadius="md"
+      borderColor="gray.200"
+      p={4}
+      position="relative"
+      onMouseEnter={() => setHoveredProduct(product)}
+      onMouseLeave={() => setHoveredProduct(null)}
+      sx={{
+        transition: 'border 0.2s',
+        _hover: {
+          borderColor: 'orange.500',
+          boxShadow: '0 0 10px rgba(255, 165, 0, 0.5)',
+        },
+      }}
+    >
+      <Box position="relative">
+        <Image
+          src={product.image}
+          alt={product.name}
+          borderRadius="md"
+          mb={4}
+          height="200px"
+          objectFit="cover"
+>>>>>>> Stashed changes
         />
       ) : (
         <Flex direction={{ base: 'column', md: 'row' }} spacing={6}>
