@@ -1,9 +1,7 @@
-import SpaghettiBologneseImage from '../assets/spaghetti-bolognese.jpg';
-import ChickenCurryImage from '../assets/chicken-curry.jpg';
-import VeganSaladImage from '../assets/vegan-salad.jpg';
-import GrilledSalmonImage from '../assets/grilled-salmon.jpg';
-import PancakesImage from '../assets/pancakes.jpg';
-import ChocolateCakeImage from '../assets/chocolate-cake.jpg';
+import SpaghettiBologneseImage from '../assets/spaghetti.jpg';
+import ChickenCurryImage from '../assets/curry.webp';
+import VeganSaladImage from '../assets/vegansalad.jpg';
+import GrilledSalmonImage from '../assets/salmon.jpg';
 
 const recipes = [
   {
@@ -65,37 +63,7 @@ const recipes = [
     cookingInstructions: 'Season salmon with lemon, garlic, salt, and pepper. Grill over medium heat for 5-7 minutes on each side, or until cooked through.',
     cookingTime: 20,
     mealType: 'Dinner',
-  },
-  {
-    id: 5,
-    name: 'Pancakes',
-    image: PancakesImage,
-    description: 'Fluffy pancakes served with maple syrup.',
-    ingredients: ['Flour', 'Eggs', 'Milk', 'Baking Powder', 'Butter', 'Maple Syrup'],
-    calories: 500,
-    protein: '10g',
-    fiber: '2g',
-    carbohydrates: '65g',
-    fats: '20g',
-    cookingInstructions: 'Mix flour, baking powder, milk, eggs, and melted butter. Pour batter onto a hot griddle and cook until bubbles form. Flip and cook until golden brown. Serve with maple syrup.',
-    cookingTime: 25,
-    mealType: 'Breakfast',
-  },
-  {
-    id: 6,
-    name: 'Chocolate Cake',
-    image: ChocolateCakeImage,
-    description: 'Rich and moist chocolate cake with a smooth frosting.',
-    ingredients: ['Flour', 'Cocoa Powder', 'Sugar', 'Eggs', 'Butter', 'Milk', 'Vanilla Extract'],
-    calories: 800,
-    protein: '8g',
-    fiber: '4g',
-    carbohydrates: '90g',
-    fats: '45g',
-    cookingInstructions: 'Mix dry ingredients and wet ingredients separately. Combine and pour into a greased cake pan. Bake at 350°F (175°C) for 30-35 minutes. Cool and frost with chocolate frosting.',
-    cookingTime: 45,
-    mealType: 'Dessert',
-  },
+  }
 ];
 
 export default recipes;
