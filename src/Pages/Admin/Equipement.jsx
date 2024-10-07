@@ -103,24 +103,10 @@ const GestionProduit = () => {
   };
 
   return (
-    <Box p={5} maxW="container.lg" mx="auto">
+    <Box p={5} width="100%" mx="auto">
       {/* Filter and Search in the same row */}
       <HStack spacing={4} mb={4}>
-        <Select
-          placeholder="Filtrer par catégorie"
-          value={categorieFiltre}
-          onChange={(e) => setCategorieFiltre(e.target.value)}
-          variant="filled"
-          borderRadius="lg"
-          shadow="sm"
-        >
-          <option value="Tous">Tous</option>
-          {Object.keys(categories).map((categorie) => (
-            <option key={categorie} value={categorie}>{categorie}</option>
-          ))}
-        </Select>
-
-        <Input
+      <Input
           placeholder="Rechercher un produit"
           value={recherche}
           onChange={(e) => setRecherche(e.target.value)}
@@ -128,6 +114,22 @@ const GestionProduit = () => {
           borderRadius="lg"
           shadow="sm"
         />
+        <Select
+          placeholder="Filtrer par catégorie"
+          value={categorieFiltre}
+          onChange={(e) => setCategorieFiltre(e.target.value)}
+          variant="filled"
+          borderRadius="lg"
+          shadow="sm"
+          width="300px"
+        >
+          <option value="Tous">Tous</option>
+          {Object.keys(categories).map((categorie) => (
+            <option key={categorie} value={categorie}>{categorie}</option>
+          ))}
+        </Select>
+
+       
       </HStack>
 
       {/* Product table */}
