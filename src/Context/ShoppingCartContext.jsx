@@ -19,12 +19,12 @@ export const ShoppingCartProvider = ({ children }) => {
       }
     });
 
-    Toast({
-      title: 'Product added to cart',
-      status: 'info',
-      duration: 5000,
-      isClosable: true,
-    });
+    // Toast({
+    //   title: 'Product added to cart',
+    //   status: 'info',
+    //   duration: 5000,
+    //   isClosable: true,
+    // });
   };
 
   const removeFromCart = (productId) => {
