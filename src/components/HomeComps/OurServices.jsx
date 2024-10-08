@@ -17,7 +17,7 @@ const fadeInUp = {
 const gifcards = [
   {
     title: "Rendez-vous médicaux sécurisés et simples",
-    description: "Réservez des consultations en ligne avec des médecins certifiés sans effort. Notre plateforme garantit la sécurité de vos données et facilite la prise de rendez-vous.",
+    description: "Réservez des consultations en ligne avec des experts certifiés sans effort. Notre plateforme garantit la sécurité de vos données et facilite la prise de rendez-vous.",
     image: gif2
   },
   {
@@ -87,7 +87,7 @@ const OurServices = () => {
     >
       <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" p={4} mt={4}>
         <Heading as="h1" size="2xl" textAlign="center" color="green.400" mt={4} mb={4}>
-          Nous service
+          Nos service
 
         </Heading>
         <Text textAlign="center" fontWeight={"bold"} color="gray.600" fontSize="lg" mb={4}>

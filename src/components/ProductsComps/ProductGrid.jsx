@@ -17,9 +17,22 @@ import {
   AccordionPanel,
   AccordionIcon,
   Stack,
+  useDisclosure,
+  IconButton,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+
 } from '@chakra-ui/react';
 import { useShoppingCart } from '../../Context/ShoppingCartContext'; // Import the context
 import ProductDetails from './ProductDetails';
+import { LuShoppingCart } from "react-icons/lu";
+import { FaRegEye } from "react-icons/fa";
+import { IoDocument } from "react-icons/io5";
 
 const ProductGrid = ({ selectedCategory, onCategorySelect, initialProducts }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -30,7 +43,9 @@ const ProductGrid = ({ selectedCategory, onCategorySelect, initialProducts }) =>
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
   const toast = useToast();
+  const [apercuProduct, setApercuProduct] = useState(null);
   const { addToCart } = useShoppingCart(); // Access the cart context
+  const { isOpen, onOpen, onClose } = useDisclosure(); // Modal controls
 
   useEffect(() => {
     setSelectedKeywords([]);
@@ -63,6 +78,17 @@ const ProductGrid = ({ selectedCategory, onCategorySelect, initialProducts }) =>
       position: 'bottom-left',
     });
   };
+
+
+  const handleApercuClick = (product) => {
+    setApercuProduct(product); // Set the product to display
+    onOpen(); // Open the modal
+  };
+
+
+
+
+
 
   const handleClearFilters = () => {
     setSelectedKeywords([]);
@@ -110,7 +136,7 @@ const ProductGrid = ({ selectedCategory, onCategorySelect, initialProducts }) =>
       {/* Filters Section */}
       <Box mb={6}>
         <Accordion allowMultiple>
-        
+
           <AccordionItem>
             <AccordionButton>
               <Box flex="1" textAlign="left">
@@ -122,6 +148,7 @@ const ProductGrid = ({ selectedCategory, onCategorySelect, initialProducts }) =>
               <Stack spacing={2}>
                 {keywords.map((keyword) => (
                   <Checkbox
+                    colorScheme="green"
                     key={keyword}
                     isChecked={selectedKeywords.includes(keyword)}
                     onChange={() => handleKeywordChange(keyword)}
@@ -137,7 +164,7 @@ const ProductGrid = ({ selectedCategory, onCategorySelect, initialProducts }) =>
         {/* Clear Filters Button */}
         <Button
           mt={4}
-          colorScheme="red"
+          colorScheme="green"
           onClick={handleClearFilters}
           variant="outline"
           size="sm"
@@ -150,71 +177,113 @@ const ProductGrid = ({ selectedCategory, onCategorySelect, initialProducts }) =>
       {showDetails ? (
         <ProductDetails product={showDetails} onBackClick={handleBackClick} onAddToCart={handleAddToCartClick} />
       ) : (
-        <Grid templateColumns={{ base: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(4, 1fr)' }} gap={6}>
+        <Grid templateColumns={{ base: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(3, 1fr)' }} gap={6}>
           {currentProducts.map((product) => (
             <Box
               key={product.productId}
-              borderWidth="1px"
               borderRadius="md"
-              borderColor="gray.200"
+              shadow="md"
               p={4}
+              bg="white"
+              align="center"
               position="relative"
               onMouseEnter={() => setHoveredProduct(product)}
               onMouseLeave={() => setHoveredProduct(null)}
               sx={{
                 transition: 'border 0.2s',
                 _hover: {
-                  borderColor: 'orange.500',
-                  boxShadow: '0 0 10px rgba(255, 165, 0, 0.5)',
+                  borderColor: 'green.500',
+                  boxShadow: '0 0 10px green',
                 },
               }}
             >
               <Box position="relative">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  borderRadius="md"
-                  mb={4}
-                  height="200px"
-                  objectFit="cover"
-                />
-                {hoveredProduct === product && (
-                  <Button
-                    colorScheme="orange"
-                    position="absolute"
-                    bottom="4"
-                    left="50%"
-                    transform="translateX(-50%)"
-                    zIndex="2"
-                    onClick={() => handleInfoClick(product)}
-                    fontSize="lg"
+                <Box
+                  position="relative"
+                  filter={hoveredProduct === product ? "blur(4px)" : "none"}  // Blur effect on hover
+                  transition="filter 0.3s ease"  // Smooth transition
+                >
+                  <Image
+                    src={product.image}
+                    alt={product.name}
                     borderRadius="md"
-                  >
-                    More Details
-                  </Button>
+                    mb={4}
+                    height="200px"
+                    objectFit="cover"
+                  />
+                  <Text fontSize="sm" color="gray.500" mb={2}>
+                    {product.category}
+                  </Text>
+                  <Heading size="md" mb={2}>
+                    {product.name}
+                  </Heading>
+                  <Text fontSize="lg" color="green.500">
+                    {product.price} DT
+                  </Text>
+                </Box>
+
+                {hoveredProduct === product && (
+                  <Box position="absolute" left="50%" top="50%"
+                    transform="translateX(-50%)" zIndex="2" >
+                    <IconButton
+                      mr="5px"
+                      position="relative"
+                      isRound={true}
+                      onClick={() => handleAddToCartClick(product)}
+                      variant='outline'
+                      colorScheme='green'
+                      w='50px'
+                      h='50px'
+                      fontSize='25px'
+                      bg="white"
+                      icon={<LuShoppingCart />}
+                    />
+
+                    <IconButton
+                      position="relative"
+                      isRound={true}
+                      mr="5px"
+                      variant='outline'
+                      colorScheme='green'
+                      w='50px'
+                      h='50px'
+                      fontSize='25px'
+                      bg="white"
+
+
+                      onClick={() => handleApercuClick(product)}
+                      icon={<FaRegEye />}
+                    />
+
+                    <IconButton
+                      position="relative"
+                      isRound={true}
+                      variant='outline'
+                      colorScheme='green'
+                      w='50px'
+                      h='50px'
+                      fontSize='25px'
+                      bg="white"
+                      icon={<IoDocument />}
+                    />
+                  </Box>
                 )}
               </Box>
-              <Text fontSize="sm" color="gray.500" mb={2}>
-                {product.category}
-              </Text>
-              <Heading size="md" mb={2}>
-                {product.name}
-              </Heading>
-              <Text fontSize="lg" color="orange.500">
-                {product.price} DT
-              </Text>
-              <Button
-                colorScheme="orange"
-                onClick={() => handleAddToCartClick(product)}
-                mt={2}
-              >
-                Add to Cart
-              </Button>
             </Box>
           ))}
         </Grid>
       )}
+      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+        <ModalOverlay />
+        <ModalContent   >
+          <ModalHeader align="center">{apercuProduct?.name}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody align="center">
+            <Image src={apercuProduct?.image} alt={apercuProduct?.name} />
+          </ModalBody>
 
+        </ModalContent>
+      </Modal>
       {/* Pagination Section */}
       <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
     </Box>

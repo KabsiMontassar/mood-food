@@ -13,13 +13,14 @@ import {
   Flex,
   IconButton,
   useDisclosure,
-  useToast
+  useToast,
 } from '@chakra-ui/react';
 import { AddIcon, MinusIcon } from '@chakra-ui/icons';
 import { useShoppingCart } from '../Context/ShoppingCartContext';
 import HeaderSection from '../components/ProductsComps/HeaderSection';
 import ProductGrid from '../components/ProductsComps/ProductGrid';
 import initialProducts from '../Data/DataProducts';
+import { LuShoppingCart } from "react-icons/lu";
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -28,7 +29,6 @@ function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const toast = useToast();
 
-  const totalAmount = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
   const handleAddToCart = (product) => {
     addToCart(product);
@@ -52,7 +52,7 @@ function App() {
   };
 
   return (
-    <Box p={6}>
+    <Box  bg="green.50" p={6}>
       {/* Header and Product Grid */}
       {currentPage === 'products' && (
         <>
@@ -68,20 +68,33 @@ function App() {
         </>
       )}
 
-   
 
-      {/* Toggle Button for Cart */}
-      <Button
-        onClick={() => setIsCartOpen(true)}
-        colorScheme="green"
-        position="fixed"
+
+
+      <IconButton
         bottom={4}
         right={4}
-      >
-        Panier {cart.length > 0 && `(${cart.length})`}
-      </Button>
+        position="fixed"
+        onClick={() => setIsCartOpen(true)}
+        isRound={true}
+        variant='solid'
+        colorScheme='green'
+        w='60px'
+        h='60px'
+        fontSize='25px'
+        justify='center'
 
-      {/* Drawer for Cart */}
+        _hover={{
+
+          bg: 'green.400',
+        }}
+        className='cart-icon'
+
+
+        icon={<LuShoppingCart />}
+      />
+
+
       <Drawer isOpen={isCartOpen} placement="right" onClose={() => setIsCartOpen(false)}>
         <DrawerOverlay />
         <DrawerContent>
@@ -94,10 +107,10 @@ function App() {
               cart.map((item, index) => (
                 <Box key={index} mb={4} p={4} borderWidth="1px" borderRadius="lg">
                   <Flex justifyContent="space-between" alignItems="center">
-                    <Text fontWeight="bold">{item.title}</Text>
-                    <Button size="sm" colorScheme="red" onClick={() => handleRemoveFromCart(item.id)}>
-                      Remove
-                    </Button>
+                  
+                    <Text  fontWeight="bold" whiteSpace={"nowrap"}  overflow={"hidden"}  textOverflow={"ellipsis"} >{item.name}</Text>
+                    
+                  
                   </Flex>
                   <Text>${item.price}</Text>
                   <Flex justifyContent="space-between" alignItems="center" mt={2}>
@@ -105,17 +118,21 @@ function App() {
                       <IconButton
                         size="sm"
                         icon={<MinusIcon />}
-                        onClick={() => decreaseQuantity(item.id)}
+                        onClick={() => decreaseQuantity(item.productId)}
                       />
                       <Text mx={2}>{item.quantity}</Text>
                       <IconButton
                         size="sm"
                         icon={<AddIcon />}
-                        onClick={() => increaseQuantity(item.id)}
+                        onClick={() => increaseQuantity(item.productId)}
                       />
                     </Flex>
                     <Text>Total: ${(item.price * item.quantity).toFixed(2)}</Text>
+                    
                   </Flex>
+                  <Button mt={4}  w="100%" size="sm" colorScheme="red" onClick={() => handleRemoveFromCart(item.id)}>
+                      Remove
+                    </Button>
                 </Box>
               ))
             )}

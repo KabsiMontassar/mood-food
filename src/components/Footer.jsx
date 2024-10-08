@@ -6,7 +6,7 @@ import logo from "../assets/logo.png";
 const Footer = () => {
   return (
     <Box 
-      py={10}>
+      pt={10}>
       <Flex
         justify="space-between"
         wrap="wrap"
@@ -18,28 +18,38 @@ const Footer = () => {
       >
        
         <Box
+         p={4}
+        align={"center"}
          flex="1" minW="200px" mb={{ base: 8, md: 0 }}>
           <Heading as="h1" fontSize="xl" color="red.500" mb={2}>
-          <Box align="center"><Image src={logo} alt="Mero Doctor"
+          <Box mb={5}  align="center"><Image src={logo} alt="Mero Doctor"
             boxSize={{ base: "60px", md: "70px" }} 
              
              /></Box>
             
           </Heading>
-          <Text fontSize="sm" color="gray.600">
-            The Mero Doctor app is the quickest and easiest way to book
-            appointments and consult online with top doctors of Nepal.
+          <Text  px={6}  textAlign={"center"} fontSize="sm" color="gray.600">
+Mood & Food est une plateforme qui connecte les patients avec des experts. Nous proposons une consultation instantanée, ainsi qu'une consultation vidéo spécialisée.
           </Text>
         </Box>
 
     
         <Box flex="1" minW="150px" mb={{ base: 8, md: 0 }}>
           <Heading as="h3" fontSize="lg" mb={4}>
-            COMPANY
+          Navigation
           </Heading>
           <Stack>
             <Link href="#" color="gray.600">
-              Home
+              Accueil
+            </Link>
+            <Link href="#" color="gray.600">
+              Qui sommes-nous
+            </Link>
+            <Link href="#" color="gray.600">
+              Contact
+            </Link>
+            <Link href="#" color="gray.600">
+            À propos
             </Link>
             <Link href="#" color="gray.600">
               FAQ's
@@ -48,37 +58,19 @@ const Footer = () => {
         </Box>
 
      
-        <Box flex="1" minW="150px" mb={{ base: 8, md: 0 }}>
-          <Heading as="h3" fontSize="lg" mb={4}>
-            QUICK LOGIN
-          </Heading>
-          <Stack>
-            <Link href="#" color="gray.600">
-              Patient
-            </Link>
-            <Link href="#" color="gray.600">
-              Partners
-            </Link>
-            <Link href="#" color="gray.600">
-              Doctors
-            </Link>
-          </Stack>
-        </Box>
-
-      
         <Box flex="1" minW="200px" mb={{ base: 8, md: 0 }}>
           <Heading as="h3" fontSize="lg" mb={4}>
-            SERVICES
+            Services
           </Heading>
           <Stack>
             <Link href="#" color="gray.600">
-              Free Instant Consultation
+              Réserver une consultation
             </Link>
             <Link href="#" color="gray.600">
-              Specialist Video Consultation
+              Consulter nos Recettes saines
             </Link>
             <Link href="#" color="gray.600">
-              Book Hospital Appointment
+              Consulter nos produits
             </Link>
           </Stack>
         </Box>
@@ -86,7 +78,7 @@ const Footer = () => {
         {/* Get in Touch */}
         <Box flex="1" minW="200px">
           <Heading as="h3" fontSize="lg" mb={4}>
-            GET IN TOUCH
+           Mieux nous connaitre
           </Heading>
           <Stack spacing={2}>
             <Flex align="center" color="gray.600">
@@ -103,10 +95,10 @@ const Footer = () => {
             </Flex>
             <Flex align="center" color="gray.600">
               <Icon as={MdEmail} mr={2} />
-              <Text>foulen.foulen@gmail.com</Text>
+              <Text>MoodandFood@gmail.com </Text>
             </Flex>
           </Stack>
-          <Text mt={4}>Follow Us On:</Text>
+          <Text mt={4}>Suivez-nous sur:</Text>
           <Flex mt={2}>
             <Link href="#" mr={4}>
               <Icon as={FaFacebookF} color="gray.600" boxSize={5} />
@@ -122,10 +114,10 @@ const Footer = () => {
       </Flex>
 
       {/* Footer Bottom */}
-      <Box textAlign="center" pt={8} fontSize="sm" color="gray.600">
+      <Box  bg="#38A169"  textAlign="center" pt={4} pb={3} fontSize="xs" color="white">
      
-      <Text>Terms & conditions | Privacy policy</Text>
-      <Text>©2024 All rights reserved</Text>
+      <Text>Conditions générales | Politique de confidentialité</Text>
+      <Text>©2024 Tous droits réservés</Text>
       
       </Box>
     </Box>
