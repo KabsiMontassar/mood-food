@@ -5,13 +5,14 @@ import logo from "../assets/logo.png";
 
 const Footer = () => {
   return (
-    <Box bg="gray.50" py={10}>
+    <Box 
+      py={10}>
       <Flex
         justify="space-between"
         wrap="wrap"
         p={4}
         mx="auto"
-       
+         
         px={6}
         flexDirection={{ base: "column", md: "row" }}
       >

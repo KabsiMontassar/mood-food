@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  ChakraProvider,
   Box,
   Grid,
   Image,
@@ -15,24 +14,21 @@ import {
   Checkbox,
   extendTheme,
   Flex,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  DrawerBody,
+  DrawerFooter,
+  IconButton,
+  useDisclosure,
+ 
+  
 } from '@chakra-ui/react';
+import { useShoppingCart } from '../Context/ShoppingCartContext';
 
-// Custom Chakra UI theme
-const customTheme = extendTheme({
-  colors: {
-    blackWhite: {
-      background: '#f5f5f5',
-      text: '#333333',
-    },
-    green: {
-      500: '#32a852',
-    },
-    orange: {
-      500: '#f06c00',
-    },
-  },
-});
-// Initial Products
+
 const initialProducts = [
   {
     productId: 1,
@@ -377,7 +373,6 @@ const ProductGrid = ({ selectedCategory, onCategorySelect, initialProducts }) =>
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
   const toast = useToast();
-
   useEffect(() => {
     setSelectedKeywords([]);
     setCurrentPage(1); // Reset page when category changes
@@ -408,6 +403,7 @@ const ProductGrid = ({ selectedCategory, onCategorySelect, initialProducts }) =>
       position: 'bottom-left',
     });
   };
+
 
   // Filter and sort products based on selected filters
   const filteredProducts = initialProducts
@@ -580,13 +576,17 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [cartItems, setCartItems] = useState([]);
   const [currentPage, setCurrentPage] = useState('products'); // to toggle between product and panier pages
+  const { cart, addToCart, removeFromCart, increaseQuantity, decreaseQuantity } = useShoppingCart();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const totalAmount = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
   const handleAddToCart = (product) => {
-    setCartItems((prevItems) => [...prevItems, product]);
+    addToCart(product);
   };
 
   const handleRemoveFromCart = (productId) => {
-    setCartItems((prevItems) => prevItems.filter(item => item.productId !== productId));
+    removeFromCart(productId);
   };
 
   const handleProceedToPayment = () => {
@@ -597,48 +597,106 @@ function App() {
     setCurrentPage('panier');
   };
 
-  return (
-    <ChakraProvider theme={customTheme}>
-      <Box p={6}>
+  const handleCheckoutClick = () => {
+    // Perform checkout actions like clearing the cart, redirecting, etc.
+    alert('Proceeding to checkout...');
+    setCartItems([]); // Clear the cart (or perform your desired checkout logic)
+    setIsCartOpen(false);
+  };
 
-        {currentPage === 'products' && (
+  return (
+    <Box p={6}>
+      {/* Header and Product Grid */}
+      {currentPage === 'products' && (
+        <>
           <HeaderSection
             onCategorySelect={setSelectedCategory}
             selectedCategory={selectedCategory}
           />
-        )}
-        {currentPage === 'products' && (
           <ProductGrid
             selectedCategory={selectedCategory}
             onAddToCart={handleAddToCart}
             initialProducts={initialProducts}
           />
-        )}
-        {currentPage === 'panier' && (
-          <Panier
-            cartItems={cartItems}
-            onRemoveFromCart={handleRemoveFromCart}
-            onProceedToPayment={handleProceedToPayment}
-          />
-        )}
-        {currentPage === 'payment' && (
-          <Payment
-            cartItems={cartItems}
-            onBackToPanier={handleBackToPanier}
-          />
-        )}
-        <Button
-          onClick={() => setCurrentPage(currentPage === 'panier' ? 'products' : 'panier')}
-          colorScheme="green"
-          position="fixed"
-          bottom={4}
-          right={4}
-        >
-          Panier {cartItems.length > 0 && `(${cartItems.length})`}
-        </Button>
-      </Box>
-    </ChakraProvider>
+        </>
+      )}
+
+      {/* Panier (Cart) */}
+      {currentPage === 'panier' && (
+        <Panier
+          cartItems={cartItems}
+          onRemoveFromCart={handleRemoveFromCart}
+          onProceedToPayment={handleProceedToPayment}
+        />
+      )}
+
+      {/* Payment Page */}
+      {currentPage === 'payment' && (
+        <Payment
+          cartItems={cartItems}
+          onBackToPanier={handleBackToPanier}
+        />
+      )}
+
+      {/* Toggle Button for Cart */}
+      <Button
+        onClick={() =>  setIsCartOpen(true)}
+        colorScheme="green"
+        position="fixed"
+        bottom={4}
+        right={4}
+      >
+        Panier {cartItems.length > 0 && `(${cartItems.length})`}
+      </Button>
+
+      {/* Drawer for Cart */}
+      <Drawer isOpen={isCartOpen} placement="right" onClose={() => setIsCartOpen(false)}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Shopping Cart</DrawerHeader>
+          <DrawerBody>
+            {cart.map((item, index) => (
+              <Box key={index} mb={4} p={4} borderWidth="1px" borderRadius="lg">
+                <Flex justifyContent="space-between" alignItems="center">
+                  <Text fontWeight="bold">{item.title}</Text>
+                  <Button size="sm" colorScheme="red" onClick={() => removeFromCart(item.id)}>
+                    Remove
+                  </Button>
+                </Flex>
+                <Text>${item.price}</Text>
+                <Flex justifyContent="space-between" alignItems="center" mt={2}>
+                  <Flex alignItems="center">
+                    <IconButton
+                      size="sm"
+                      icon={<MinusIcon />}
+                      onClick={() => decreaseQuantity(item.id)}
+                    />
+                    <Text mx={2}>{item.quantity}</Text>
+                    <IconButton
+                      size="sm"
+                      icon={<AddIcon />}
+                      onClick={() => increaseQuantity(item.id)}
+                    />
+                  </Flex>
+                  <Text>Total: ${(item.price * item.quantity).toFixed(2)}</Text>
+                </Flex>
+              </Box>
+            ))}
+            {cart.length === 0 && <Text>Your cart is empty.</Text>}
+          </DrawerBody>
+          <DrawerFooter>
+            <Button variant="outline" mr={3} onClick={() => setIsCartOpen(false)}>
+              Close
+            </Button>
+            <Button bg="#64A87A" onClick={handleCheckoutClick} disabled={cart.length === 0}>
+              Checkout
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    </Box>
   );
-};
+}
 
 export default App; 

@@ -17,7 +17,7 @@ const HeaderCarousel = () => {
       h="400px"
       mb={8}
       position="absolute"
-      bg="green.400"
+      bg="green.250"
 
     />
       <Carousel

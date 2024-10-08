@@ -28,11 +28,18 @@ import { FaClock } from 'react-icons/fa';
 import recipes from '../data/recipes';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
+const background= "rgb(1,152,116)";
+const backgroundlinear =" linear-gradient(180deg, #68D391 0%, white   100%)";
+
 const Element = ({ recipe }) => (
   <Box
     p={4}
     pb={8}
-    bg="white"
+    bg="gray.50"
+
+
+
+
     borderRadius="lg"
     boxShadow="lg"
     border="2px solid rgba(1, 152, 116, .3)"
@@ -122,13 +129,11 @@ const Recipes = () => {
   });
 
   return (
-    <Box bg="green.50" >
+    <Box bg={backgroundlinear} >
       <HeaderCarousel />
-      <Heading as="h1" textAlign="center" fontSize="4xl">
-        Recipes
-      </Heading>
-      <Flex direction={{ base: 'column', lg: 'row' }} p={12} gap={6}>
-        <Box w={{ base: '100%', lg: '25%' }} p={6} borderRadius="lg" bg="white" boxShadow="md">
+   
+      <Flex  direction={{ base: 'column', lg: 'row' }} p={12} gap={6}>
+        <Box  w={{ base: '100%', lg: '25%' }} p={6} borderRadius="lg" bg="gray.50" boxShadow="md">
           <Heading size="md" mb={6}>Filter Recipes</Heading>
           <Stack spacing={6}>
             <Box w="100%">
@@ -227,9 +232,9 @@ const Recipes = () => {
         </Box>
 
         <Box w={{ base: '100%', lg: '75%' }}>
-          <Box ml={6} w="100%">
-            <Menu >
-              <MenuButton as={Button} rightIcon={<ChevronDownIcon />} colorScheme="green" variant="outline" size="md" >
+          <Box  align={"right"}  w="100%">
+            <Menu  >
+              <MenuButton  mr={6} as={Button} rightIcon={<ChevronDownIcon />} colorScheme="green" variant="outline" size="md" >
                 Meal Type: {filters.mealType || 'All'}
               </MenuButton>
               <MenuList>
