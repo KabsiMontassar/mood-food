@@ -180,19 +180,6 @@ const SplitLayout = () => {
                 <Flex direction="column" width="100%" height="100vh" mt="4.5rem" justifyContent="center" alignItems="center">
 
 
-                    <Button
-                        colorScheme="gray"
-                        borderRadius={0}
-                        p={2}
-                        alignSelf="flex-end"
-                        bg="transparent"
-                        opacity={0.8}
-                        _hover={{ bg: 'transparent', color: 'gray.600', opacity: '1' }}
-                        display={{ base: 'block', md: 'none' }}
-                        onClick={() => window.location.href = '/'}
-                    >
-                        X
-                    </Button>
                     {activeBox === 'left' ? (
                         <Flex direction="column" alignItems="center">
                         {contentVisible === 'right' && (

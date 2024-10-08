@@ -12,12 +12,21 @@ const HeaderCarousel = () => {
 
   return (
     <Box w="100%" h="400px" mb={8}>
+    <Box
+      w="100%"
+      h="400px"
+      mb={8}
+      position="absolute"
+      bg="green.250"
+
+    />
       <Carousel
         showArrows={true}
         autoPlay={true}
         infiniteLoop={true}
         showThumbs={false}
         interval={5000}
+        showStatus={false}
       >
         {images.map((image, index) => (
           <div key={index} style={{ position: 'relative' }}>

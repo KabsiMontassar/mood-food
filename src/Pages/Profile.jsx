@@ -31,7 +31,9 @@ import Consultations from '../components/ProfileSections/Consultations';
 import ExpertDetailsProfile from '../components/ProfileSections/ExpertDetailsProfile';
 import OrdersAccordion from '../components/ProfileSections/OrdersAccordion';
 import Newsletter from '../components/ProfileSections/Newsletter';
-import { LockIcon } from '@chakra-ui/icons';
+import ClientProfile from '../components/ProfileSections/ClientProfile';
+import ExpertProfile from '../components/ProfileSections/ExpertProfile';
+import { LockIcon, EditIcon } from '@chakra-ui/icons';
 import { FaUser, FaShoppingCart } from 'react-icons/fa';
 import { GoInbox } from "react-icons/go";
 import { CiCalendar } from "react-icons/ci";
@@ -43,8 +45,8 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [userEmail, setUserEmail] = useState(null);
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const [avatarURL, setAvatarURL] = useState(null); // URL of the uploaded avatar
-  const fileInputRef = useRef(null); // Create a ref for the file input
+  const [avatarURL, setAvatarURL] = useState(null);
+  const fileInputRef = useRef(null);
   const toast = useToast();
 
   const handleTabChange = (index) => {
@@ -60,11 +62,11 @@ const Profile = () => {
       try {
         const userQuery = query(collection(db, 'users'), where('email', '==', email));
         const querySnapshot = await getDocs(userQuery);
-  
+
         if (!querySnapshot.empty) {
           querySnapshot.forEach(doc => {
             setData(doc.data());
-            setAvatarURL(doc.data().ProfilePicture); // Set the initial avatar URL if available
+            setAvatarURL(doc.data().ProfilePicture);
           });
         }
       } catch (error) {
@@ -74,7 +76,8 @@ const Profile = () => {
       }
     };
 
-    const emailFromStorage = localStorage.getItem("userEmail");
+    const emailFromStorage = window.globalUserEmail; // Access global variable from window object
+
     if (emailFromStorage) {
       setUserEmail(emailFromStorage);
       fetchUserData(emailFromStorage);
@@ -131,7 +134,6 @@ const Profile = () => {
     }
   };
 
-  // Function to update user document in Firestore with the new avatar URL
   const updateUserProfilePicture = async (url) => {
     const userQuery = query(collection(db, 'users'), where('email', '==', userEmail));
     const querySnapshot = await getDocs(userQuery);
@@ -142,15 +144,14 @@ const Profile = () => {
     }
   };
 
-  // Function to delete the current avatar
   const handleDeleteAvatar = async () => {
     if (avatarURL) {
-      const oldAvatarRef = ref(storage, avatarURL); // Reference to the current avatar
-      await deleteObject(oldAvatarRef) // Delete the current avatar
+      const oldAvatarRef = ref(storage, avatarURL);
+      await deleteObject(oldAvatarRef)
         .then(async () => {
           console.log("Avatar deleted successfully.");
-          setAvatarURL(null); // Clear the avatar URL in state
-          await updateUserProfilePicture(null); // Update user document to remove the avatar URL
+          setAvatarURL(null);
+          await updateUserProfilePicture(null);
           toast({
             title: "Avatar deleted.",
             description: "Your profile picture has been removed.",
@@ -173,14 +174,16 @@ const Profile = () => {
   };
 
   const clienttabs = [
-    { icon: FaUser, title: 'ProfileEdit', Component: <EditProfileForm data={data} /> },
+    { icon: FaUser, title: 'Profile', Component: <ClientProfile data={data} /> },
+    { icon: EditIcon, title: 'ProfileEdit', Component: <EditProfileForm data={data} setData={setData} /> },
     { icon: LockIcon, title: 'Password', Component: <EditPasswordForm /> },
     { icon: FaShoppingCart, title: 'Orders', Component: <OrdersAccordion OrdersData={OrdersData} /> },
     { icon: GoInbox, title: 'Appointments', Component: <AppointmentAccordion appointmentsData={appointementsdata} /> },
   ];
 
   const experttabs = [
-    { icon: FaUser, title: 'ProfileEdit', Component: <ExpertDetailsProfile data={data} /> },
+    { icon: FaUser, title: 'Profile', Component: <ExpertProfile data={data} /> },
+    { icon: EditIcon, title: 'ProfileEdit', Component: <ExpertDetailsProfile data={data} setData={setData} /> },
     { icon: LockIcon, title: 'Password', Component: <EditPasswordForm /> },
     { icon: GoInbox, title: 'Consultations', Component: <Consultations appointmentsData={appointementsdata} /> },
     { icon: CiCalendar, title: 'Calendar', Component: <Calendar appointmentsData={appointementsdata} /> },
@@ -195,7 +198,7 @@ const Profile = () => {
   return (
     <>
       {loading ? (
-        <Box textAlign="center" p={6}>
+        <Box align="center" textAlign="center" p={6}>
           <SkeletonCircle size="100px" mb={4} />
           <SkeletonText mt="4" noOfLines={2} spacing="4" />
           <Skeleton height="50px" mb={4} />
@@ -216,62 +219,74 @@ const Profile = () => {
             justifyContent="center"
             flexDirection="column"
             position="relative"
-            overflow={"hidden"}
+            overflow="hidden"
           >
-            <Avatar
-              align="center"
-              name={data ? data.username : 'User'}
-              size={{ base: 'xl', md: '2xl' }}
-              border="2px solid #cccfcd"
-              src={avatarURL}
-              mb={{ base: 4, md: 0 }}
-              w={{ base: '100px', md: '200px' }}
-              h={{ base: '100px', md: '200px' }}
-            />
-            <Input 
-              type="file" 
-              accept="image/*" 
-              onChange={handleAvatarChange} 
-              ref={fileInputRef} // Reference the file input
-              style={{ display: 'none' }} // Hide the file input
-            />
-            <Button
-              onClick={handleUploadClick} // Trigger the file input on click
-              position="absolute"
-              bottom={{ base: '60px', md: '80px' }}
-              right={{ base: '60px', md: '80px' }}
-              bg="teal.400"
-              color="white"
-              borderRadius="full"
-              p={2}
-              boxShadow="md"
-              _hover={{ bg: "teal.500" }}
-              aria-label="Upload Avatar"
-              mr={2}
-              zIndex={1}
-            >
-              <MdUpload size={24} /> {/* Upload icon */}
-            </Button>
-            <Button
-            zIndex={1}
-              onClick={handleDeleteAvatar} // Trigger delete avatar
-              position="absolute"
-              bottom={{ base: '60px', md: '80px' }}
-              right={{ base: '20px', md: '40px' }}
-              bg="red.400"
-              color="white"
-              borderRadius="full"
-              p={2}
-              boxShadow="md"
-              _hover={{ bg: "red.500" }}
-              aria-label="Delete Avatar"
-            >
-              <MdDelete size={24} /> {/* Delete icon */}
-            </Button>
+            {/* Avatar container */}
+            <Box position="relative">
+              <Avatar
+                align="center"
+                name={data ? data.username : 'User'}
+                size={{ base: 'xl', md: '2xl' }}
+                border="2px solid #cccfcd"
+                src={avatarURL}
+                mb={{ base: 4, md: 0 }}
+                w={{ base: '150px', md: '200px' }}
+                h={{ base: '150px', md: '200px' }}
+              />
+
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={handleAvatarChange}
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+              />
+
+
+              <Button
+                onClick={handleUploadClick} // Trigger the file input on click
+                position="absolute"
+                bottom="5"
+                right="0"
+                bg="teal.400"
+                color="white"
+                borderRadius="full"
+                p={2}
+                boxShadow="md"
+                _hover={{ bg: "teal.500" }}
+                aria-label="Upload Avatar"
+                zIndex={1}
+              >
+                <MdUpload size={20}
+                /> {/* Smaller Upload icon */}
+              </Button>
+
+              {/* Delete Button */}
+              <Button
+                onClick={handleDeleteAvatar} // Trigger delete avatar
+                position="absolute"
+                bottom="0"
+                right="40px"
+                bg="red.400"
+                color="white"
+                borderRadius="full"
+                p={2}
+                boxShadow="md"
+                _hover={{ bg: "red.500" }}
+                aria-label="Delete Avatar"
+                zIndex={1}
+              >
+                <MdDelete size={20} /> {/* Smaller Delete icon */}
+              </Button>
+            </Box>
+
+            {/* Decorative Circles */}
             <Circle size="300px" bg="#019874" opacity="0.3" position="absolute" right="-10" top="-150" display={{ base: 'none', md: 'block' }} />
             <Circle size="300px" bg="#019874" position="absolute" right="-90" top="-10" opacity="0.5" display={{ base: 'none', md: 'block' }} />
             <Circle size="300px" bg="#019874" position="absolute" left="-90" bottom="-10" opacity="0.5" display={{ base: 'none', md: 'block' }} />
             <Circle size="300px" bg="#019874" opacity="0.3" position="absolute" left="-10" bottom="-150" display={{ base: 'none', md: 'block' }} />
+
+            {/* User Info */}
             <Box>
               <Text color="teal.400" textAlign="center" fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold">
                 {data ? data.username : 'Loading...'}
@@ -283,6 +298,7 @@ const Profile = () => {
               )}
             </Box>
           </Flex>
+
 
           <Tabs
             boxShadow={{ base: 'none', md: 'xl' }}
@@ -313,7 +329,7 @@ const Profile = () => {
             <TabIndicator mt='-1.5px' height='2px' bg='white' borderRadius='1px' />
             <TabPanels>
               {tabs.map((tab, index) => (
-                <TabPanel w={{ base: '100%', md: '80%' }} key={index}>{tab.Component}</TabPanel>
+                <TabPanel w={{ base: '100%', md: '90%' }} key={index}>{tab.Component}</TabPanel>
               ))}
             </TabPanels>
           </Tabs>

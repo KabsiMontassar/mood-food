@@ -82,7 +82,8 @@ const Consultations = ({ appointmentsData }) => {
                   <Text fontSize={{ base: 'sm', md: 'md' }} color="black" fontWeight="bold">Reason:</Text>
                   <Text ml={2} color="gray.400">{appointment.raison}</Text>
                 </Flex>
-                <Flex justifyContent={"flex-end"} gap={3} mr={5}>
+                <Flex justifyContent={{ base: 'center', md: 'flex-end' }} 
+                gap={3} mt={5}>
                 <IconButton isRound={true}
                   _hover={{ bg: 'green.100' }}
                   onClick={() => alert('Appointment Accepted!')}

@@ -73,7 +73,7 @@ const ProductsPres = () => {
             mt={4}
           >
             <Heading as="h1" size="2xl" textAlign="center" color="gray.100" mt={4} mb={4}>
-              Trouvez des vitamines et des suppléments de qualité
+              Trouvez des vitamines et des suppléments alimentaires  de qualité
             </Heading>
             <Text textAlign="center" color="gray.200" fontSize="lg" mb={4}>
               Découvrez notre gamme de vitamines et de suppléments de qualité, conçue pour vous aider à maintenir un mode de vie sain et équilibré.

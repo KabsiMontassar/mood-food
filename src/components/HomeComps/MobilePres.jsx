@@ -27,8 +27,8 @@ const MobileContent = [
         image: mobile1
     },
     {
-        title: "Consultez des médecins hautement qualifiés",
-        description: "Notre équipe de médecins expérimentés et qualifiés est à votre disposition pour vous offrir des consultations d'experts. Que ce soit pour des conseils de santé généraux ou des traitements spécialisés, accédez facilement aux meilleurs professionnels de la santé.",
+        title: "Consultez des experts hautement qualifiés",
+        description: "Notre équipe d’experts expérimentés et qualifiés est à votre disposition pour vous offrir des consultations d'experts. Que ce soit pour des conseils de santé généraux ou des traitements spécialisés, accédez facilement aux meilleurs professionnels de la santé.",
         image: mobile3
     },
     {

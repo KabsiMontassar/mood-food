@@ -1,28 +1,90 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import HeaderCarousel from '../components/HeaderCarousel'; // Adjust the path according to your file structure
+import HeaderCarousel from '../components/HeaderCarousel';
 import {
   Box,
   Heading,
   Stack,
   HStack,
   VStack,
+  Grid,
   Image,
   Badge,
   Text,
-  Select,
-  Input,
   Slider,
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
   FormLabel,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button,
+  Flex,
+  Input,
 } from '@chakra-ui/react';
 import { FaClock } from 'react-icons/fa';
-import recipes from '../data/recipes'; // Adjust the path if necessary
+import recipes from '../data/recipes';
+import { ChevronDownIcon } from '@chakra-ui/icons';
+
+const background= "rgb(1,152,116)";
+const backgroundlinear =" linear-gradient(180deg, #68D391 0%, white   100%)";
+
+const Element = ({ recipe }) => (
+  <Box
+    p={4}
+    pb={8}
+    bg="gray.50"
+
+
+
+
+    borderRadius="lg"
+    boxShadow="lg"
+    border="2px solid rgba(1, 152, 116, .3)"
+    _hover={{ backgroundColor: 'rgba(1, 152, 116, .3)' }}
+    transition="0.3s"
+  >
+    <Image
+      src={recipe.image}
+      alt={recipe.name}
+      boxSize="100%"
+      h={{ base: '200px', md: '300px' }}
+      objectFit="cover"
+      borderRadius="lg"
+    />
+    <VStack align="flex-start" spacing={4} mt={4}>
+      <Heading size="lg">{recipe.name}</Heading>
+      <HStack justify="space-between" w="100%">
+        <Badge colorScheme="teal">{recipe.mealType}</Badge>
+        <HStack>
+          <FaClock />
+          <Text>{recipe.cookingTime} mins</Text>
+        </HStack>
+      </HStack>
+      <Text fontSize="md" color="gray.600" noOfLines={3}>
+        {recipe.description}
+      </Text>
+      <HStack spacing={3}>
+        <Badge colorScheme="green" fontSize="md">
+          {recipe.calories} kcal
+        </Badge>
+        <Badge colorScheme="purple" fontSize="md">
+          Protein: {recipe.protein} g
+        </Badge>
+        <Badge colorScheme="orange" fontSize="md">
+          Carbs: {recipe.carbohydrates} g
+        </Badge>
+        <Badge colorScheme="red" fontSize="md">
+          Fats: {recipe.fats} g
+        </Badge>
+      </HStack>
+    </VStack>
+  </Box>
+);
 
 const Recipes = () => {
-  // State for filtering
   const [filters, setFilters] = useState({
     name: '',
     calories: 0,
@@ -33,21 +95,21 @@ const Recipes = () => {
     mealType: '',
   });
 
-  // Handle change in filter inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle Slider change for different nutrients and cooking time
   const handleSliderChange = (name) => (value) => {
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Convert nutrition values to numbers if they are strings
+  const handleMealTypeChange = (mealType) => {
+    setFilters((prev) => ({ ...prev, mealType }));
+  };
+
   const parseValue = (value) => (value === '' || isNaN(value) ? 0 : parseFloat(value));
 
-  // Filtered recipes based on input criteria
   const filteredRecipes = recipes.filter((recipe) => {
     const recipeCalories = parseValue(recipe.calories);
     const recipeProtein = parseValue(recipe.protein);
@@ -67,25 +129,14 @@ const Recipes = () => {
   });
 
   return (
-    <Box p={8} maxW="1600px" mx="auto">
-      {/* Header Carousel */}
+    <Box bg={backgroundlinear} >
       <HeaderCarousel />
-
-      {/* Main Heading */}
-      <Heading as="h1" mb={8} textAlign="center" fontSize="4xl">
-        Recipes
-      </Heading>
-
-      {/* Filters Section */}
-      <Box mb={8} borderWidth="1px" borderRadius="lg" p={6} boxShadow="md">
-        <Heading size="md" mb={6}>Filter Recipes</Heading>
-
-        {/* Filters Container */}
-        <Stack spacing={6}>
-          {/* Name and Meal Type Filters Side by Side */}
-          <HStack spacing={6}>
-            {/* Search by Name */}
-            <Box flex="1">
+   
+      <Flex  direction={{ base: 'column', lg: 'row' }} p={12} gap={6}>
+        <Box  w={{ base: '100%', lg: '25%' }} p={6} borderRadius="lg" bg="gray.50" boxShadow="md">
+          <Heading size="md" mb={6}>Filter Recipes</Heading>
+          <Stack spacing={6}>
+            <Box w="100%">
               <FormLabel htmlFor="name" fontSize="sm">Name</FormLabel>
               <Input
                 id="name"
@@ -96,33 +147,10 @@ const Recipes = () => {
                 size="md"
               />
             </Box>
-
-            {/* Search by Category (Meal Type) */}
-            <Box flex="1">
-              <FormLabel htmlFor="mealType" fontSize="sm">Meal Type</FormLabel>
-              <Select
-                id="mealType"
-                placeholder="Select Meal Type"
-                name="mealType"
-                value={filters.mealType}
-                onChange={handleChange}
-                size="md"
-              >
-                <option value="">All</option>
-                <option value="breakfast">Breakfast</option>
-                <option value="lunch">Lunch</option>
-                <option value="dinner">Dinner</option>
-                <option value="dessert">Dessert</option>
-              </Select>
-            </Box>
-          </HStack>
-
-          {/* Nutritional Filters and Cooking Time Side by Side */}
-          <HStack spacing={6} wrap="wrap">
-            {/* Calories Filter with Slider */}
-            <Box flex="1">
+            <Box w="100%">
               <FormLabel htmlFor="calories" fontSize="sm">Calories: {filters.calories} kcal</FormLabel>
               <Slider
+                colorScheme="green"
                 id="calories"
                 min={0}
                 max={2000}
@@ -131,17 +159,14 @@ const Recipes = () => {
                 onChange={handleSliderChange('calories')}
                 size="md"
               >
-                <SliderTrack>
-                  <SliderFilledTrack />
-                </SliderTrack>
+                <SliderTrack><SliderFilledTrack /></SliderTrack>
                 <SliderThumb />
               </Slider>
             </Box>
-
-            {/* Protein Filter with Slider */}
-            <Box flex="1">
+            <Box w="100%">
               <FormLabel htmlFor="protein" fontSize="sm">Protein: {filters.protein} g</FormLabel>
               <Slider
+                colorScheme="green"
                 id="protein"
                 min={0}
                 max={200}
@@ -150,17 +175,14 @@ const Recipes = () => {
                 onChange={handleSliderChange('protein')}
                 size="md"
               >
-                <SliderTrack>
-                  <SliderFilledTrack />
-                </SliderTrack>
+                <SliderTrack><SliderFilledTrack /></SliderTrack>
                 <SliderThumb />
               </Slider>
             </Box>
-
-            {/* Carbs Filter with Slider */}
-            <Box flex="1">
+            <Box w="100%">
               <FormLabel htmlFor="carbohydrates" fontSize="sm">Carbs: {filters.carbohydrates} g</FormLabel>
               <Slider
+                colorScheme="green"
                 id="carbohydrates"
                 min={0}
                 max={200}
@@ -169,17 +191,14 @@ const Recipes = () => {
                 onChange={handleSliderChange('carbohydrates')}
                 size="md"
               >
-                <SliderTrack>
-                  <SliderFilledTrack />
-                </SliderTrack>
+                <SliderTrack><SliderFilledTrack /></SliderTrack>
                 <SliderThumb />
               </Slider>
             </Box>
-
-            {/* Fats Filter with Slider */}
-            <Box flex="1">
+            <Box w="100%">
               <FormLabel htmlFor="fats" fontSize="sm">Fats: {filters.fats} g</FormLabel>
               <Slider
+                colorScheme="green"
                 id="fats"
                 min={0}
                 max={200}
@@ -188,17 +207,15 @@ const Recipes = () => {
                 onChange={handleSliderChange('fats')}
                 size="md"
               >
-                <SliderTrack>
-                  <SliderFilledTrack />
-                </SliderTrack>
+                <SliderTrack><SliderFilledTrack /></SliderTrack>
                 <SliderThumb />
               </Slider>
             </Box>
 
-            {/* Cooking Time Filter with Slider */}
-            <Box flex="1">
+            <Box w="100%">
               <FormLabel htmlFor="cookingTime" fontSize="sm">Cooking Time: {filters.cookingTime} mins</FormLabel>
               <Slider
+                colorScheme="green"
                 id="cookingTime"
                 min={0}
                 max={180}
@@ -207,87 +224,48 @@ const Recipes = () => {
                 onChange={handleSliderChange('cookingTime')}
                 size="md"
               >
-                <SliderTrack>
-                  <SliderFilledTrack />
-                </SliderTrack>
+                <SliderTrack><SliderFilledTrack /></SliderTrack>
                 <SliderThumb />
               </Slider>
             </Box>
-          </HStack>
-        </Stack>
-      </Box>
+          </Stack>
+        </Box>
 
-      {/* Recipes Section */}
-      <Box>
-        <Stack direction="row" wrap="wrap" spacing={8} justify="center">
-          {filteredRecipes.length > 0 ? (
-            filteredRecipes.map((recipe) => (
-              <Link to={`/recipes/${recipe.id}`} key={recipe.id} style={{ textDecoration: 'none' }}>
-                <Box
-                  p={10}
-                  w="full"
-                  maxW="2xl"
-                  borderWidth="1px"
-                  borderRadius="lg"
-                  overflow="hidden"
-                  boxShadow="lg"
-                  _hover={{ boxShadow: '2xl' }}
-                  transition="0.3s"
-                >
-                  {/* Center and Full Width Image */}
-                  <Image
-                    src={recipe.image}
-                    alt={recipe.name}
-                    boxSize="100%"
-                    h="400px"
-                    objectFit="cover"
-                    borderRadius="lg"
-                  />
-
-                  {/* Recipe Title and Details */}
-                  <VStack align="flex-start" spacing={4} mt={4}>
-                    <Heading size="lg">{recipe.name}</Heading>
-
-                    {/* Meal Type and Cooking Time */}
-                    <HStack justify="space-between" w="100%">
-                      <Badge colorScheme="teal">{recipe.mealType}</Badge>
-                      <HStack>
-                        <FaClock />
-                        <Text>{recipe.cookingTime} mins</Text>
-                      </HStack>
-                    </HStack>
-
-                    {/* Description */}
-                    <Text fontSize="md" color="gray.600" noOfLines={3}>
-                      {recipe.description}
-                    </Text>
-
-                    {/* Calories and Nutrition Badges */}
-                    <HStack spacing={3}>
-                      <Badge colorScheme="green" fontSize="md">
-                        {recipe.calories} kcal
-                      </Badge>
-                      <Badge colorScheme="purple" fontSize="md">
-                        Protein: {recipe.protein} g
-                      </Badge>
-                      <Badge colorScheme="orange" fontSize="md">
-                        Carbs: {recipe.carbohydrates} g
-                      </Badge>
-                      <Badge colorScheme="red" fontSize="md">
-                        Fats: {recipe.fats} g
-                      </Badge>
-                    </HStack>
-                  </VStack>
-                </Box>
-              </Link>
-            ))
-          ) : (
-            <Text textAlign="center" fontSize="lg" color="gray.500">
-              No recipes found based on your filters.
-            </Text>
-          )}
-        </Stack>
-      </Box>
+        <Box w={{ base: '100%', lg: '75%' }}>
+          <Box  align={"right"}  w="100%">
+            <Menu  >
+              <MenuButton  mr={6} as={Button} rightIcon={<ChevronDownIcon />} colorScheme="green" variant="outline" size="md" >
+                Meal Type: {filters.mealType || 'All'}
+              </MenuButton>
+              <MenuList>
+                <MenuItem onClick={() => handleMealTypeChange('')}>All</MenuItem>
+                <MenuItem onClick={() => handleMealTypeChange('breakfast')}>Breakfast</MenuItem>
+                <MenuItem onClick={() => handleMealTypeChange('lunch')}>Lunch</MenuItem>
+                <MenuItem onClick={() => handleMealTypeChange('dinner')}>Dinner</MenuItem>
+                <MenuItem onClick={() => handleMealTypeChange('dessert')}>Dessert</MenuItem>
+              </MenuList>
+            </Menu>
+          </Box>
+          <Grid
+            templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(2, 1fr)' }}
+            gap={6}
+            p={6}
+            h="100%"
+          >
+            {filteredRecipes.length > 0 ? (
+              filteredRecipes.map((recipe) => (
+                <Link to={`/recipes/${recipe.id}`} key={recipe.id} style={{ textDecoration: 'none' }}>
+                  <Element recipe={recipe} />
+                </Link>
+              ))
+            ) : (
+              <Text textAlign="center" fontSize="lg" color="gray.500">
+                No recipes found based on your filters.
+              </Text>
+            )}
+          </Grid>
+        </Box>
+      </Flex>
     </Box>
   );
 };

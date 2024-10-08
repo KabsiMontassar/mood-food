@@ -76,11 +76,15 @@ const SignUpPage = () => {
         birthDate,
         role: 'Client',
         address,
-        taille: tailleValue,
-        poids: poidsValue,
-        masseMusculaire: musculaireValue,
-        masseGraisse: graisseValue,
-        eau: eauValue,
+        progress : [{
+          date: new Date().toISOString(),
+          taille: tailleValue,
+          poids: poidsValue,
+          masseMusculaire: musculaireValue,
+          masseGraisse: graisseValue,
+          eau: eauValue,
+        }]
+       
       });
 
       signIn();
