@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import {
   Box, Flex, Button, Text, Select, IconButton, VStack, FormLabel, FormControl,
 } from '@chakra-ui/react';
-import { db } from '../firebaseConfig.jsx';
+import { db } from '../../firebaseConfig.jsx';
 import { collection, query, where, limit, getDocs, startAfter,Timestamp  } from 'firebase/firestore';
-import SelectedExpertModal from '../components/RendezvousModals/selectedExpertModal.jsx';
+import SelectedExpertModal from '../RendezvousModals/selectedExpertModal.jsx';
 import Expert from './Expert';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 

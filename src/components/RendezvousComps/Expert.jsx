@@ -4,7 +4,7 @@ import { StarIcon } from '@chakra-ui/icons';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { collection, query, where, getDocs, Timestamp } from 'firebase/firestore';
-import { db } from '../firebaseConfig.jsx';
+import { db } from '../../firebaseConfig.jsx';
 
 const Expert = ({ expert, openModal, daysOfWeekWithDates }) => {
     const [isAvailabilityVisible, setIsAvailabilityVisible] = useState(false);
