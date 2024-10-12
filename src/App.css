@@ -15,6 +15,7 @@
 html {
   scroll-behavior: smooth;
 }
+
 .container {
   position: relative;
   width: 100%;
@@ -147,9 +148,6 @@ html {
     left: -400px;
   }
 }
-
-
-
 
 
 
@@ -371,17 +369,17 @@ html {
 
 
 #error {
-  top:0   ;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   display: flex;
-    
+
   justify-content: center;
   align-items: center;
   background-color: #f0f0f0;
   position: absolute;
-  
+
 
 }
 
@@ -392,18 +390,32 @@ html {
 }
 
 @keyframes heart {
-  0% {transform: scale(1);}
-  25% {transform: scale(1.2);}
-  50% {transform: scale(1);}
-  75% {transform: scale(1.2);}
-  100% {transform: scale(1);}
+  0% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.2);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  75% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 
-.carrheader{
-  
+.carrheader {
+
   background-color: teal;
-  
+
 }
 
 
@@ -424,21 +436,19 @@ html {
   height: 100%;
   padding: 50px;
   color: white;
-  background-image: linear-gradient(
-    135deg,
-    rgba(251, 211, 141, 0.74) 10%, 
-    rgba(246, 173, 85, 0.4) 100%
-  );
+  background-image: linear-gradient(135deg,
+      rgba(251, 211, 141, 0.74) 10%,
+      rgba(246, 173, 85, 0.4) 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden;  
+  overflow: hidden;
 }
 
-.overlay > h1 {
+.overlay>h1 {
   font-size: 40px;
-  margin: 0; /* Remove margin to avoid gaps */
+  margin: 0;
   color: #FFFFFF;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   font-weight: 700;
@@ -446,7 +456,7 @@ html {
 }
 
 @media (max-width: 768px) {
-  .overlay > h1 {
+  .overlay>h1 {
     font-size: 30px;
   }
 
@@ -456,7 +466,7 @@ html {
 }
 
 @media (max-width: 480px) {
-  .overlay > h1 {
+  .overlay>h1 {
     font-size: 20px;
   }
 
@@ -464,5 +474,3 @@ html {
     height: 200px;
   }
 }
-
-
