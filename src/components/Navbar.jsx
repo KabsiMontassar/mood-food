@@ -28,7 +28,7 @@ import {
 import { FaUser } from "react-icons/fa";
 import { useAuth } from '../Pages/auth/AuthContext';
 
-export default function NavigationBar({OpenAuth}) {
+export default function NavigationBar({ OpenAuth }) {
   const { isUserSignedIn, signOut } = useAuth();
   const { isOpen, onToggle } = useDisclosure();
   const navigate = useNavigate();
@@ -88,13 +88,20 @@ export default function NavigationBar({OpenAuth}) {
           </Flex>
 
           <Flex
-            pl={{ base: 14, md: 8 }}
+
+            pl={{ base: 12, md: 4 }}
+
+
             alignItems="center"
+            align="center"
+            justify="center"
             cursor="pointer"
             onClick={() => navigate('/')}
           >
             <Image width="50px" src={logo} alt="logo" />
-            <Text fontSize="md" pl="10px" fontWeight="bold" color="gray.600">
+            <Text
+
+              fontSize="md" pl="10px" fontWeight="bold" color="gray.600">
               Mood & Food
             </Text>
           </Flex>
@@ -314,7 +321,7 @@ const MobileNav = ({ navigate, handleFixerRendezVous, isUserSignedIn, handleSign
             bg="none"
             left={0}
             _hover={{ opacity: '0.8' }}
-             onClick={() => navigate('/profile')}
+            onClick={() => navigate('/profile')}
           >
             Profile
           </Button>

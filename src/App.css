@@ -7,11 +7,15 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Roboto Slab', serif;
+  scroll-behavior: smooth;
 }
+
+
 
 html {
   scroll-behavior: smooth;
 }
+
 .container {
   position: relative;
   width: 100%;
@@ -144,9 +148,6 @@ html {
     left: -400px;
   }
 }
-
-
-
 
 
 
@@ -368,17 +369,17 @@ html {
 
 
 #error {
-  top:0   ;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   display: flex;
-    
+
   justify-content: center;
   align-items: center;
   background-color: #f0f0f0;
   position: absolute;
-  
+
 
 }
 
@@ -389,9 +390,87 @@ html {
 }
 
 @keyframes heart {
-  0% {transform: scale(1);}
-  25% {transform: scale(1.2);}
-  50% {transform: scale(1);}
-  75% {transform: scale(1.2);}
-  100% {transform: scale(1);}
+  0% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.2);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  75% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+.carrheader {
+
+  background-color: teal;
+
+}
+
+
+.headeroverlay {
+  background-image: url("/src/assets/alim1.jpg");
+  text-align: center;
+  width: 100%;
+  height: 400px;
+  background-size: cover;
+  background-attachment: fixed;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 85% 85% / 30%;
+}
+
+.headeroverlay .overlay {
+  width: 100%;
+  height: 100%;
+  padding: 50px;
+  color: white;
+  background-image: linear-gradient(135deg,
+      rgba(251, 211, 141, 0.74) 10%,
+      rgba(246, 173, 85, 0.4) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.overlay>h1 {
+  font-size: 40px;
+  margin: 0;
+  color: #FFFFFF;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-weight: 700;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+@media (max-width: 768px) {
+  .overlay>h1 {
+    font-size: 30px;
+  }
+
+  .headeroverlay {
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .overlay>h1 {
+    font-size: 20px;
+  }
+
+  .headeroverlay {
+    height: 200px;
+  }
 }

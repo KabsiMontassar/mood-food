@@ -6,7 +6,7 @@ import {
 } from '@chakra-ui/react';
 
 
-import UserDetailsModal from '../../components/UserDetailsModal';
+import UserDetailsModal from './UserDetailsModal';
 
 
 import { SearchIcon } from '@chakra-ui/icons';
