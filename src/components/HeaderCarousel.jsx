@@ -5,9 +5,12 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Import the st
 
 const HeaderCarousel = () => {
   const images = [
-    { src: 'src/assets/alimentation-sante.jpg', alt: 'Image 1', text: 'Nourrissez votre corps avec des repas équilibrés' },
-    { src: 'src/assets/alimentation-sante1.jpg', alt: 'Image 2', text: 'Mangez sain pour vivre mieux chaque jour' },
-    { src: 'src/assets/alimentation-sante2.jpg', alt: 'Image 3', text: 'Mangez sainement, vivez pleinement' },
+    { src: 'src/assets/alim1.jpg',
+       alt: 'Image 1', text: 'Nourrissez votre corps avec des repas équilibrés' },
+    { src: 'src/assets/alim2.jpg',
+       alt: 'Image 2', text: 'Mangez sain pour vivre mieux chaque jour' },
+    { src: 'src/assets/alim3.jpg',
+       alt: 'Image 3', text: 'Mangez sainement, vivez pleinement' },
   ];
 
   return (
@@ -17,8 +20,7 @@ const HeaderCarousel = () => {
       h="400px"
       mb={8}
       position="absolute"
-      bg="green.250"
-
+      bg="orange.100"
     />
       <Carousel
         showArrows={true}
@@ -27,9 +29,17 @@ const HeaderCarousel = () => {
         showThumbs={false}
         interval={5000}
         showStatus={false}
+        
       >
         {images.map((image, index) => (
-          <div key={index} style={{ position: 'relative' }}>
+          <div  key={index} style={{ position: 'relative' }}>
+          <Box
+            w="100%"
+            h="400px"
+            position="absolute"
+            bg="orange.100"
+            opacity={0.2}
+          />
             <Image 
               src={image.src} 
               alt={image.alt} 
@@ -49,7 +59,9 @@ const HeaderCarousel = () => {
               bg="rgba(0, 0, 0, 0.4)" // Semi-transparent background for text visibility
               borderRadius="md" // Optional: add border-radius for a rounded effect
             >
-              <Text color="white" fontSize="2xl" fontWeight="bold" textAlign="center">
+              <Text color="white" 
+               textShadow={ "2px 2px 4px orange" }
+               fontSize="2xl" fontWeight="bold" textAlign="center">
                 {image.text}
               </Text>
             </Flex>
