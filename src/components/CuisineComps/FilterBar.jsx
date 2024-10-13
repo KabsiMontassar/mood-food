@@ -16,7 +16,7 @@ const FilterBar = ({ activeFilterType, setActiveFilterType, selectedMealType, ha
             left={0}
             right={0}
             bg="white"
-            height={{ base: 'auto', md: '80px' }}
+
             borderTop="2px solid rgba(10, 115, 66, 0.7)"
             zIndex={999}
             justify="space-between"
