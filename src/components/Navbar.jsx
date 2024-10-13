@@ -1,5 +1,3 @@
-// src/components/NavigationBar.jsx
-
 import React from 'react';
 import {
   Box,
@@ -9,24 +7,20 @@ import {
   Button,
   Stack,
   Collapse,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
   useDisclosure,
   useToast,
   Image,
+  HStack,
+  VStack,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import logo from "../assets/logo.png";
-
 import {
   HamburgerIcon,
   CloseIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
 } from '@chakra-ui/icons';
-import { FaUser } from "react-icons/fa";
+import { FaUser } from 'react-icons/fa';
 import { useAuth } from '../Pages/auth/AuthContext';
+import logo from '../assets/logo.png';
 
 export default function NavigationBar({ OpenAuth }) {
   const { isUserSignedIn, signOut } = useAuth();
@@ -38,9 +32,9 @@ export default function NavigationBar({ OpenAuth }) {
     signOut();
     navigate('/');
     toast({
-      title: "Signed Out",
-      description: "You have successfully signed out",
-      status: "success",
+      title: 'Signed Out',
+      description: 'You have successfully signed out',
+      status: 'success',
       duration: 5000,
       isClosable: true,
     });
@@ -55,9 +49,9 @@ export default function NavigationBar({ OpenAuth }) {
       navigate('/Rendezvous');
     } else {
       toast({
-        title: "Sign In Required",
-        description: "You need to sign in first",
-        status: "error",
+        title: 'Sign In Required',
+        description: 'You need to sign in first',
+        status: 'error',
         duration: 5000,
         isClosable: true,
       });
@@ -65,333 +59,168 @@ export default function NavigationBar({ OpenAuth }) {
   };
 
   return (
-    <Box p={3} zIndex={3} w="100%">
-      <Flex
-        color="gray.600"
-        minH="60px"
-        py={{ base: 2 }}
-        px={{ base: 4 }}
-        align="center"
-        justify="space-between"
-      >
-        <Flex align="center">
-          <Flex
-            flex={{ base: 1, md: 'auto' }}
-            display={{ base: 'flex', md: 'none' }}
-          >
-            <IconButton
-              onClick={onToggle}
-              icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
-              variant="ghost"
-              aria-label="Toggle Navigation"
-            />
-          </Flex>
+    <Box w="100%" p={4} bg="white" boxShadow="md">
+      <Flex justify="space-between" align="center" wrap="wrap">
+  
+        <Flex align="center" cursor="pointer" onClick={() => navigate('/')}>
+          <Image src={logo} alt="logo" boxSize="50px" />
+          <Text ml={3} fontSize="lg" fontWeight="bold" color="gray.600">
+            Mood & Food
+          </Text>
+        </Flex>
 
-          <Flex
+        
+        <IconButton
+          icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+          variant="ghost"
+          onClick={onToggle}
+          display={{ base: 'block', md: 'none' }}
+          aria-label="Toggle Navigation"
+        />
 
-            pl={{ base: 12, md: 4 }}
-
-
-            alignItems="center"
-            align="center"
-            justify="center"
-            cursor="pointer"
-            onClick={() => navigate('/')}
-          >
-            <Image width="50px" src={logo} alt="logo" />
+     
+        <HStack
+          as="nav"
+          spacing={8}
+          display={{ base: 'none', md: 'flex' }}
+          fontWeight="bold"
+          fontSize="md"
+          color="gray.600"
+        >
+          {NAV_ITEMS.map((item) => (
             <Text
-
-              fontSize="md" pl="10px" fontWeight="bold" color="gray.600">
-              Mood & Food
-            </Text>
-          </Flex>
-        </Flex>
-
-        <Flex align="center" gap={4}>
-          <Flex display={{ base: 'none', md: 'flex' }} borderRight="1px" borderColor="gray.200" pr={4} alignItems="center">
-            <DesktopNav navigate={navigate} />
-          </Flex>
-
-          <Stack
-            flex={{ base: 1, md: 0 }}
-            justify="flex-end"
-            direction="row"
-            spacing={6}
-            pl={4}
-          >
-            <Button
-              as="a"
-              display={{ base: 'none', md: 'inline-flex' }}
-              fontSize="sm"
-              userSelect="none"
-              fontWeight={800}
+              key={item.label}
               cursor="pointer"
-              color="white"
-              bg="black"
-              onClick={handleFixerRendezVous}
-              _hover={{ opacity: '0.8' }}
+              as='ins'
+              _hover={{ color: 'gray.800' }}
+              onClick={() => navigate(item.href)}
             >
-              Fixer un rendez-vous
-            </Button>
+              {item.label}
+            </Text>
+          ))}
+        </HStack>
 
-            {isUserSignedIn ? (
-              <>
-                <Button
-                  fontSize="sm"
-                  color="#64A87A"
-                  fontWeight={600}
-                  display={{ base: 'none', md: 'inline-flex' }}
-                  variant="link"
-                  onClick={handleSignOut}
-                  _hover={{ color: '#96C970' }}
-                >
-                  Sign Out
-                </Button>
-
-                <Button
-                  as="a"
-                  display={{ base: 'none', md: 'inline-flex' }}
-                  fontSize="sm"
-                  fontWeight={600}
-                  color="white"
-                  bg="#64A87A"
-                  href="/profile"
-                  _hover={{ bg: '#96C970' }}
-                >
-                  <FaUser />
-                </Button>
-              </>
-            ) : (
+      
+        <HStack spacing={6} display={{ base: 'none', md: 'flex' }}>
+          <Button
+            color="white"
+            bg="black"
+            _hover={{ opacity: 0.8 }}
+            onClick={handleFixerRendezVous}
+          >
+            Fixer un rendez-vous
+          </Button>
+          {isUserSignedIn ? (
+            <>
               <Button
-                as="a"
-                fontSize="sm"
                 fontWeight={600}
-                color="white"
-                bg="#64A87A"
-                onClick={handleSignIn}
-                _hover={{ bg: '#96C970' }}
+                variant="link"
+                color="green.500"
+                _hover={{ color: 'green.600' }}
+                onClick={handleSignOut}
               >
-                Sign In
+                Sign Out
               </Button>
-            )}
-          </Stack>
-        </Flex>
+              <IconButton
+                variant="solid"
+                colorScheme="green"
+                icon={<FaUser />}
+                onClick={() => navigate('/profile')}
+              />
+            </>
+          ) : (
+            <Button colorScheme="green" onClick={handleSignIn}>
+              Sign In
+            </Button>
+          )}
+        </HStack>
       </Flex>
 
-      {/* Mobile Navigation (Hamburger Menu content) */}
+     
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav
-          navigate={navigate}
-          handleFixerRendezVous={handleFixerRendezVous}
-          isUserSignedIn={isUserSignedIn}
-          handleSignOut={handleSignOut}
-          handleSignIn={handleSignIn}
-        />
+        <VStack
+          bg="white"
+          p={3}
+          display={{ base: 'flex', md: 'none' }}
+          flexDirection="column"
+          fontWeight="bold"
+          fontSize="md"
+          color="gray.600"
+          spacing={4}
+          align={'start'}
+
+        >
+          {NAV_ITEMS.map((item) => (
+            <Text
+              key={item.label}
+              cursor="pointer"
+              _hover={{ color: 'gray.800' }}
+              as='ins'
+
+              onClick={() => {
+                navigate(item.href);
+                onToggle(); 
+              }}
+            >
+              {item.label}
+            </Text>
+
+          ))}
+
+          <Button
+            alignSelf="center"
+            colorScheme="black"
+            variant="solid"
+            bg="black"
+            mt={2}
+            color={'white'}
+            fontSize={'md'}
+            onClick={() => {
+              handleFixerRendezVous();
+              onToggle();
+            }}
+          >
+            Fixer un rendez-vous
+          </Button>
+
+
+          {isUserSignedIn ? (
+            <>
+              <Button
+                alignSelf="center"
+                variant="solid"
+                bg="rgba(10, 115, 66, 0.7)"
+                color={'white'}
+                _hover={{
+                  bg: 'rgba(10, 115, 66, 0.9)',
+                }}
+                onClick={() => {
+                  navigate('/profile');
+                  onToggle();
+                }}
+              >
+                Profile
+              </Button>
+              <Button
+                alignSelf="center"
+                _hover={{
+                  bg: 'transparent',
+                }}
+                p="0" variant="ghost" onClick={handleSignOut}>
+                Sign Out
+              </Button>
+
+            </>
+          ) : (
+            <Button colorScheme="green" onClick={handleSignIn}>
+              Sign In
+            </Button>
+          )}
+        </VStack>
       </Collapse>
     </Box>
   );
 }
-
-const DesktopNav = ({ navigate }) => {
-  const linkColor = 'gray.600';
-  const linkHoverColor = 'gray.800';
-  const popoverContentBgColor = 'white';
-
-  return (
-    <Stack direction="row" spacing={4}>
-      {NAV_ITEMS.map((navItem) => (
-        <Box key={navItem.label}>
-          <Popover trigger="hover" placement="bottom-start">
-            <PopoverTrigger>
-              <Text
-                p={2}
-                cursor="pointer"
-                fontSize="md"
-                fontWeight={500}
-                color={linkColor}
-                _hover={{
-                  textDecoration: 'none',
-                  color: linkHoverColor,
-                }}
-                onClick={() => navigate(navItem.href)}
-              >
-                {navItem.label}
-              </Text>
-            </PopoverTrigger>
-
-            {navItem.children && (
-              <PopoverContent
-                borderRadius={3}
-                border={0}
-                boxShadow="xl"
-                bg={popoverContentBgColor}
-                p={4}
-                minW="sm"
-              >
-                <Stack>
-                  {navItem.children.map((child) => (
-                    <DesktopSubNav key={child.label} {...child} navigate={navigate} />
-                  ))}
-                </Stack>
-              </PopoverContent>
-            )}
-          </Popover>
-        </Box>
-      ))}
-    </Stack>
-  );
-};
-
-const DesktopSubNav = ({ label, href, subLabel, navigate }) => {
-  return (
-    <Box
-      role="group"
-      display="block"
-      p={2}
-      rounded="md"
-      _hover={{ bg: 'green.50' }}
-      onClick={() => navigate(href)}
-    >
-      <Stack direction="row" align="center">
-        <Box>
-          <Text
-            transition="all .3s ease"
-            _groupHover={{ color: '#2BFA70' }}
-            fontWeight={500}
-          >
-            {label}
-          </Text>
-          <Text fontSize="sm">{subLabel}</Text>
-        </Box>
-        <Flex
-          transition="all .3s ease"
-          transform="translateX(-10px)"
-          opacity={0}
-          _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
-          justify="flex-end"
-          align="center"
-          flex={1}
-        >
-          <Icon color="#2BFA70" w={5} h={5} as={ChevronRightIcon} />
-        </Flex>
-      </Stack>
-    </Box>
-  );
-};
-
-const MobileNav = ({ navigate, handleFixerRendezVous, isUserSignedIn, handleSignOut, handleSignIn }) => {
-  return (
-    <Stack bg="white" p={4} display={{ md: 'none' }}>
-      {NAV_ITEMS.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} navigate={navigate} />
-      ))}
-      <Button
-        fontSize="sm"
-        userSelect="none"
-        fontWeight={800}
-        cursor="pointer"
-        bg="none"
-        left={0}
-        _hover={{ opacity: '0.8' }}
-        onClick={handleFixerRendezVous}
-      >
-        Fixer un rendez-vous
-      </Button>
-      <br />
-      {isUserSignedIn ? (
-        <>
-          <Button
-            fontSize="sm"
-            userSelect="none"
-            fontWeight={800}
-            cursor="pointer"
-            bg="none"
-            left={0}
-            _hover={{ opacity: '0.8' }}
-            onClick={handleSignOut}
-          >
-            Sign Out
-          </Button>
-          <br />
-          <Button
-            fontSize="sm"
-            userSelect="none"
-            fontWeight={800}
-            cursor="pointer"
-            bg="none"
-            left={0}
-            _hover={{ opacity: '0.8' }}
-            onClick={() => navigate('/profile')}
-          >
-            Profile
-          </Button>
-        </>
-      ) : (
-        <Button
-          fontSize="sm"
-          userSelect="none"
-          fontWeight={800}
-          cursor="pointer"
-          bg="none"
-          left={0}
-          _hover={{ opacity: '0.8' }}
-          onClick={handleSignIn}
-        >
-          Sign In
-        </Button>
-      )}
-    </Stack>
-  );
-};
-
-const MobileNavItem = ({ label, children, href, navigate }) => {
-  const { isOpen, onToggle } = useDisclosure();
-
-  return (
-    <Stack spacing={4} onClick={children && onToggle}>
-      <Flex
-        py={2}
-        as="a"
-        href={href ?? '#'}
-        justify="space-between"
-        align="center"
-        _hover={{ textDecoration: 'none' }}
-        onClick={() => navigate(href)}
-      >
-        <Text fontWeight={600} color="gray.600">
-          {label}
-        </Text>
-        {children && (
-          <Icon
-            as={ChevronDownIcon}
-            transition="all .25s ease-in-out"
-            transform={isOpen ? 'rotate(180deg)' : ''}
-            w={6}
-            h={6}
-          />
-        )}
-      </Flex>
-
-      <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
-        <Stack
-          mt={2}
-          pl={4}
-          borderLeft={1}
-          borderStyle="solid"
-          borderColor="gray.200"
-          align="start"
-        >
-          {children &&
-            children.map((child) => (
-              <Box key={child.label} py={2} onClick={() => navigate(child.href)}>
-                {child.label}
-              </Box>
-            ))}
-        </Stack>
-      </Collapse>
-    </Stack>
-  );
-};
 
 const NAV_ITEMS = [
   {
