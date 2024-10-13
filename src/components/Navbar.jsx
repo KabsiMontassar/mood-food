@@ -14,10 +14,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import {
-  HamburgerIcon,
-  CloseIcon,
-} from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { FaUser } from 'react-icons/fa';
 import { useAuth } from '../Pages/auth/AuthContext';
 import logo from '../assets/logo.png';
@@ -60,8 +57,11 @@ export default function NavigationBar({ OpenAuth }) {
 
   return (
     <Box w="100%" p={4} bg="white" boxShadow="md">
-      <Flex justify="space-between" align="center" wrap="wrap">
-  
+      <Flex w="100%" // Make sure this container takes the full width of the viewport
+        justify="space-between"
+        align="center"
+        wrap="wrap">
+        {/* Logo and Brand */}
         <Flex align="center" cursor="pointer" onClick={() => navigate('/')}>
           <Image src={logo} alt="logo" boxSize="50px" />
           <Text ml={3} fontSize="lg" fontWeight="bold" color="gray.600">
@@ -69,20 +69,19 @@ export default function NavigationBar({ OpenAuth }) {
           </Text>
         </Flex>
 
-        
+        {/* Hamburger Icon for Mobile */}
         <IconButton
           icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
           variant="ghost"
           onClick={onToggle}
-          display={{ base: 'block', md: 'none' }}
+          display={{ base: 'block', lg: 'none' }}
           aria-label="Toggle Navigation"
         />
 
-     
         <HStack
           as="nav"
           spacing={8}
-          display={{ base: 'none', md: 'flex' }}
+          display={{ base: 'none', md: 'none', lg: 'flex' }}
           fontWeight="bold"
           fontSize="md"
           color="gray.600"
@@ -91,7 +90,7 @@ export default function NavigationBar({ OpenAuth }) {
             <Text
               key={item.label}
               cursor="pointer"
-              as='ins'
+              as="ins"
               _hover={{ color: 'gray.800' }}
               onClick={() => navigate(item.href)}
             >
@@ -100,14 +99,10 @@ export default function NavigationBar({ OpenAuth }) {
           ))}
         </HStack>
 
-      
-        <HStack spacing={6} display={{ base: 'none', md: 'flex' }}>
-          <Button
-            color="white"
-            bg="black"
-            _hover={{ opacity: 0.8 }}
-            onClick={handleFixerRendezVous}
-          >
+
+        {/* User Actions */}
+        <HStack spacing={6} display={{ base: 'none', lg: 'flex' }}>
+          <Button color="white" bg="black" _hover={{ opacity: 0.8 }} onClick={handleFixerRendezVous}>
             Fixer un rendez-vous
           </Button>
           {isUserSignedIn ? (
@@ -136,45 +131,42 @@ export default function NavigationBar({ OpenAuth }) {
         </HStack>
       </Flex>
 
-     
+      {/* Mobile Navigation */}
       <Collapse in={isOpen} animateOpacity>
         <VStack
           bg="white"
           p={3}
-          display={{ base: 'flex', md: 'none' }}
+          display={{ base: 'flex', lg: 'none' }}
           flexDirection="column"
           fontWeight="bold"
           fontSize="md"
           color="gray.600"
           spacing={4}
-          align={'start'}
-
+          align="start"
         >
           {NAV_ITEMS.map((item) => (
             <Text
               key={item.label}
               cursor="pointer"
               _hover={{ color: 'gray.800' }}
-              as='ins'
-
+              as="ins"
               onClick={() => {
                 navigate(item.href);
-                onToggle(); 
+                onToggle();
               }}
             >
               {item.label}
             </Text>
-
           ))}
 
           <Button
-            alignSelf="center"
+
             colorScheme="black"
             variant="solid"
             bg="black"
             mt={2}
-            color={'white'}
-            fontSize={'md'}
+            color="white"
+            fontSize="md"
             onClick={() => {
               handleFixerRendezVous();
               onToggle();
@@ -183,17 +175,12 @@ export default function NavigationBar({ OpenAuth }) {
             Fixer un rendez-vous
           </Button>
 
-
           {isUserSignedIn ? (
             <>
               <Button
-                alignSelf="center"
-                variant="solid"
-                bg="rgba(10, 115, 66, 0.7)"
-                color={'white'}
-                _hover={{
-                  bg: 'rgba(10, 115, 66, 0.9)',
-                }}
+                variant="outline"
+                colorScheme='green'
+                 
                 onClick={() => {
                   navigate('/profile');
                   onToggle();
@@ -202,14 +189,14 @@ export default function NavigationBar({ OpenAuth }) {
                 Profile
               </Button>
               <Button
-                alignSelf="center"
-                _hover={{
-                  bg: 'transparent',
-                }}
-                p="0" variant="ghost" onClick={handleSignOut}>
+
+                _hover={{ bg: 'transparent' }}
+               
+                variant="ghost"
+                onClick={handleSignOut}
+              >
                 Sign Out
               </Button>
-
             </>
           ) : (
             <Button colorScheme="green" onClick={handleSignIn}>

@@ -13,7 +13,7 @@ import { Search2Icon } from '@chakra-ui/icons';
 const SearchBar = ({ searchTerm, handleSearchChange }) => {
     return (
         <Box pt={3} px={{ base: 3, md: 6 }}>
-            <Box p={{ base: 3, md: 6 }} border="2px solid rgba(10, 115, 66, 0.7)" bg="white" borderRadius="lg" >
+            <Box p={{ base: 3, md: 6 }} className='recipe-element' bg="white">
                 <HStack spacing={4}>
                     <Image src={chefshat}  filter="hue-rotate(90deg)" alt="chef's hat" boxSize={{ base: '40px', md: '50px' }}
 

@@ -18,8 +18,8 @@ const RecipeElement = ({ recipe, onClick }) => {
             p={4}
             pb={8}
             bg="gray.50"
-            borderRadius="lg"
-            border="2px solid rgba(10, 115, 66, 0.7)"
+           
+            className="recipe-element"
             _hover={{
                  backgroundColor: 'rgba(10, 115, 66, 0.7)',
                   cursor: 'pointer' ,

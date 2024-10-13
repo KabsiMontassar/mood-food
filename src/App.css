@@ -395,7 +395,7 @@ html {
   }
 
   25% {
-    transform: scale(1.2);
+    transform: scale(1.1);
   }
 
   50% {
@@ -403,7 +403,7 @@ html {
   }
 
   75% {
-    transform: scale(1.2);
+    transform: scale(1.1);
   }
 
   100% {
@@ -473,4 +473,9 @@ html {
   .headeroverlay {
     height: 200px;
   }
+}
+
+
+.recipe-element{
+  box-shadow: 0 0 10px rgba(10, 115, 66, 0.3);
 }
