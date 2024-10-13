@@ -17,7 +17,7 @@ const FilterBar = ({ activeFilterType, setActiveFilterType, selectedMealType, ha
             right={0}
             bg="white"
             height={{ base: 'auto', md: '80px' }}
-            borderTop="2px solid rgba(228, 116, 102, .3)"
+            borderTop="2px solid rgba(10, 115, 66, 0.7)"
             zIndex={999}
             justify="space-between"
             flexWrap="wrap"
@@ -33,14 +33,14 @@ const FilterBar = ({ activeFilterType, setActiveFilterType, selectedMealType, ha
                         borderRadius="0"
                         border="0"
                         onClick={() => setActiveFilterType('nutrition')}
-                        colorScheme="orange"
+                        colorScheme="green"
                         icon={<FaBowlFood />}
                         _hover={{ bg: 'transparent' }}
                     />
                 ) : (
                     <IconButton
                         size="lg"
-                        colorScheme="orange"
+                        colorScheme="green"
                         variant="outline"
                         onClick={() => setActiveFilterType('mealType')}
                         border="0"
@@ -64,7 +64,7 @@ const FilterBar = ({ activeFilterType, setActiveFilterType, selectedMealType, ha
                     {['', 'breakfast', 'lunch', 'dinner', 'dessert'].map((type) => (
                         <Button
                             key={type}
-                            colorScheme={selectedMealType === type ? 'orange' : 'gray'}
+                            colorScheme={selectedMealType === type ? 'green' : 'gray'}
                             variant="link"
                             onClick={() => handleMealTypeChange(type)}
                         >
@@ -83,7 +83,7 @@ const FilterBar = ({ activeFilterType, setActiveFilterType, selectedMealType, ha
                     {['protein', 'calories', 'carbohydrates', 'fats', 'fiber'].map((nutrient) => (
                         <Button
                             key={nutrient}
-                            colorScheme={selectedSortBy === nutrient ? 'orange' : 'gray'}
+                            colorScheme={selectedSortBy === nutrient ? 'green' : 'gray'}
                             variant="link"
                             onClick={() => handleNutritionSortChange(nutrient)}
                         >

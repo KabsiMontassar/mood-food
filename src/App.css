@@ -437,8 +437,8 @@ html {
   padding: 50px;
   color: white;
   background-image: linear-gradient(135deg,
-      rgba(251, 211, 141, 0.74) 10%,
-      rgba(246, 173, 85, 0.4) 100%);
+  rgba(10, 115, 66, 0.7) 10%,
+      rgba(159, 255, 202, 0.4) 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
