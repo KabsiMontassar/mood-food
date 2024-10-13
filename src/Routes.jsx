@@ -16,7 +16,6 @@ import Rendezvous from './Pages/Rendezvous';
 import Profile from './Pages/Profile';
 import FAQ from './Pages/FAQ';
 import Recipes from './Pages/Recipes';
-import RecipeDetail from './Pages/RecipeDetail';
 import ExpertDetails from './Pages/ExpertDetails';
 import SignUpPage from './Pages/auth/SignUpPage';
 
@@ -37,7 +36,6 @@ const routes = [
   { path: "/Commande", element: <Commande /> },
   { path: "/User", element: <User /> },
   { path: "/recipes", element: <Recipes /> },
-  { path: "/recipes/:id", element: <RecipeDetail /> },
   { path: "/expert/:id", element: <ExpertDetails /> },
   { path: "*", element: <h1>error</h1> },
  

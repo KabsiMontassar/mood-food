@@ -196,7 +196,7 @@ const SearchHeader = () => {
                     Trouvez les meilleurs experts en Tunisie
                 </Heading>
                 <Text color="gray.200" fontSize="lg" mb={4}>
-                    Trouvez les meilleurs experts en Tunisie, des nutritionnistes aux psychologues, et prenez rendez-vous avec eux.
+                    Trouvez les meilleurs experts en Tunisie, des nutritionnistes et psychologues, et prenez rendez-vous avec eux.
                 </Text>
 
                 <NavSearch

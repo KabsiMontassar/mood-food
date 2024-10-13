@@ -26,10 +26,10 @@ const RecipeDetails = ({ expandedRecipe, isDrawerOpen, closeDrawer }) => {
             <DrawerOverlay />
             <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader bg="orange.200">
+                <DrawerHeader bg="#549D7B">
                     <Heading size="lg">{expandedRecipe?.name}</Heading>
                 </DrawerHeader>
-                <DrawerBody bg="linear-gradient(180deg, #FBD38D 0%, white 100%)" >
+                <DrawerBody bg="linear-gradient(180deg, rgba(10, 115, 66, 0.7) 0%, white 100%)" >
                     <Image
                         src={expandedRecipe?.image}
                         alt={expandedRecipe?.name}
@@ -41,7 +41,7 @@ const RecipeDetails = ({ expandedRecipe, isDrawerOpen, closeDrawer }) => {
                         objectPosition={{ base: 'top', md: 'center' }}
                     />
                     <HStack justifyContent={"space-between"}>
-                        <Badge colorScheme="orange">{expandedRecipe?.mealType}</Badge>
+                        <Badge fontSize="md" colorScheme="teal">{expandedRecipe?.mealType}</Badge>
                         <HStack>
                             <FaClock />
                             <Text>{expandedRecipe?.cookingTime} mins</Text>
@@ -66,7 +66,7 @@ const RecipeDetails = ({ expandedRecipe, isDrawerOpen, closeDrawer }) => {
                     <VStack align="flex-start" spacing={1} >
 
                         <React.Fragment >
-                            <Heading pl={10} size="md" color="orange" fontWeight={"500"} mb={2}>
+                            <Heading pl={10} size="md" color="green" fontWeight={"500"} mb={2}>
                                 Etape 1
                             </Heading>
                             <Text pl={20} fontSize="md" color="gray.700">
@@ -74,7 +74,7 @@ const RecipeDetails = ({ expandedRecipe, isDrawerOpen, closeDrawer }) => {
                             </Text>
                         </React.Fragment>
                         <React.Fragment >
-                            <Heading pl={10} size="md" color="orange" fontWeight={"500"} mb={2}>
+                            <Heading pl={10} size="md" color="green" fontWeight={"500"} mb={2}>
                                 Etape 2
                             </Heading>
                             <Text pl={20} fontSize="md" color="gray.700">
@@ -82,7 +82,7 @@ const RecipeDetails = ({ expandedRecipe, isDrawerOpen, closeDrawer }) => {
                             </Text>
                         </React.Fragment>
                         <React.Fragment >
-                            <Heading pl={10} size="md" color="orange" fontWeight={"500"} mb={2}>
+                            <Heading pl={10} size="md" color="green" fontWeight={"500"} mb={2}>
                                 Etape 3
                             </Heading>
                             <Text pl={20} fontSize="md" color="gray.700">
@@ -90,7 +90,7 @@ const RecipeDetails = ({ expandedRecipe, isDrawerOpen, closeDrawer }) => {
                             </Text>
                         </React.Fragment>
                         <React.Fragment >
-                            <Heading pl={10} size="md" color="orange" fontWeight={"bold"} mb={2}>
+                            <Heading pl={10} size="md" color="green" fontWeight={"bold"} mb={2}>
                                 Etape 4
                             </Heading>
                             <Text pl={20} fontSize="md" color="gray.700">

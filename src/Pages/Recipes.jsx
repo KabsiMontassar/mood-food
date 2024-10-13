@@ -8,7 +8,7 @@ import GridElement from '../components/CuisineComps/GridElement';
 import RecipeDetails from '../components/CuisineComps/RecipeDetails';
 import SearchBar from '../components/CuisineComps/SearchBar';
 
-const backgroundlinear = "linear-gradient(180deg, #FEEBC8 0%, white 100%)";
+const backgroundlinear = "linear-gradient(180deg, rgba(10, 115, 66, 0.7) 0%, white 100%)";
 const Recipes = () => {
   const [selectedMealType, setSelectedMealType] = useState('');
   const [selectedSortBy, setSelectedSortBy] = useState('protein');
