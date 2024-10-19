@@ -21,10 +21,10 @@ import { FaClock } from 'react-icons/fa';
 
 const RecipeDetails = ({ expandedRecipe, isDrawerOpen, closeDrawer }) => {
     return (
-        <Drawer isOpen={isDrawerOpen} size="xl" placement={'right'}
+        <Drawer isOpen={isDrawerOpen} placement={'right'}
             onClose={closeDrawer}>
             <DrawerOverlay />
-            <DrawerContent>
+            <DrawerContent  maxW={{ base: '100%', md: '80%' }} >
                 <DrawerCloseButton />
                 <DrawerHeader bg="#549D7B">
                     <Heading size="lg">{expandedRecipe?.name}</Heading>
