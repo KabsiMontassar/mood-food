@@ -23,8 +23,6 @@ import initialProducts from '../Data/DataProducts';
 import { LuShoppingCart } from "react-icons/lu";
 
 function App() {
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [currentPage, setCurrentPage] = useState('products'); // Toggle between product and panier pages
   const { cart, addToCart, removeFromCart, increaseQuantity, decreaseQuantity } = useShoppingCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const toast = useToast();
@@ -39,7 +37,6 @@ function App() {
   };
 
   const handleCheckoutClick = () => {
-    // Handle checkout logic here, like redirecting to a payment page
     toast({
       title: 'Proceeding to checkout',
       description: 'You are now checking out!',
@@ -52,25 +49,20 @@ function App() {
   };
 
   return (
-    <Box  bg="green.50" p={6}>
-      {/* Header and Product Grid */}
-      {currentPage === 'products' && (
-        <>
-          <HeaderSection
-            onCategorySelect={setSelectedCategory}
-            selectedCategory={selectedCategory}
-          />
-          <ProductGrid
-            selectedCategory={selectedCategory}
+    <Box bg="linear-gradient(180deg, rgba(10, 115, 66, 0.7) 0%, white 100%)">
+    
+   
+          <HeaderSection/>
+       
+     
+    
+
+
+
+      {/* <ProductGrid
             onAddToCart={handleAddToCart}
             initialProducts={initialProducts}
-          />
-        </>
-      )}
-
-
-
-
+          /> */}
       <IconButton
         bottom={4}
         right={4}
@@ -107,10 +99,10 @@ function App() {
               cart.map((item, index) => (
                 <Box key={index} mb={4} p={4} borderWidth="1px" borderRadius="lg">
                   <Flex justifyContent="space-between" alignItems="center">
-                  
-                    <Text  fontWeight="bold" whiteSpace={"nowrap"}  overflow={"hidden"}  textOverflow={"ellipsis"} >{item.name}</Text>
-                    
-                  
+
+                    <Text fontWeight="bold" whiteSpace={"nowrap"} overflow={"hidden"} textOverflow={"ellipsis"} >{item.name}</Text>
+
+
                   </Flex>
                   <Text>${item.price}</Text>
                   <Flex justifyContent="space-between" alignItems="center" mt={2}>
@@ -128,11 +120,11 @@ function App() {
                       />
                     </Flex>
                     <Text>Total: ${(item.price * item.quantity).toFixed(2)}</Text>
-                    
+
                   </Flex>
-                  <Button mt={4}  w="100%" size="sm" colorScheme="red" onClick={() => handleRemoveFromCart(item.id)}>
-                      Remove
-                    </Button>
+                  <Button mt={4} w="100%" size="sm" colorScheme="red" onClick={() => handleRemoveFromCart(item.id)}>
+                    Remove
+                  </Button>
                 </Box>
               ))
             )}

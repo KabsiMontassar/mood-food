@@ -1,125 +1,122 @@
-
+import React, { useState, useEffect, useRef } from 'react';
 import { Box, Button, Heading, HStack, Image, Text } from '@chakra-ui/react';
-import  { useEffect, useState } from 'react';
+import { CSSTransition } from 'react-transition-group';
+import img1 from '../../assets/images/diététiques.jpeg';
 
+import prod from '../../assets/images/header/prod.png';
+import gym from '../../assets/images/header/gym.png';
+import spp from '../../assets/images/header/spp.png';
 
-
+// Categories array with images and titles
 const categories = [
-    {
-      title: 'Produit Diététique',
-      description: 'Découvrez nos produits diététiques pour une alimentation équilibrée, savoureuse et adaptée à vos objectifs de santé.',
-      image: '/src/assets/images/diététiques.jpeg',
-    },
-    {
-      title: 'Complement alimentaire',
-      description: 'Boostez votre santé avec nos compléments alimentaires de qualité, conçus pour répondre à vos besoins spécifiques.',
-      image: '/src/assets/images/complement.jpg',
-    },
-    {
-      title: 'Equipement sportif',
-      description: 'Équipez-vous avec notre sélection d’équipements et accessoires sportifs, parfaits pour atteindre vos performances optimales.',
-      image: '/src/assets/images/sportif.webp',
-    },
-  ];
+  {
+    id: 1,
+    title: 'Compléments Alimentaires',
+    image: spp,
+  },
+  {
+    id: 2,
+    title: 'Produits Diététiques',
+    image: prod,
+  },
+  {
+    id: 3,
+    title: 'Equipements de Gym',
+    image: gym,
+  },
+];
 
-const HeaderSection = ({ onCategorySelect, selectedCategory }) => {
-    
-  
-    const [currentIndex, setCurrentIndex] = useState(0);
-  
-    useEffect(() => {
-      const index = categories.findIndex((cat) => cat.title === selectedCategory);
-      if (index !== -1) {
-        setCurrentIndex(index);
-      } else {
-        setCurrentIndex(0);
-      }
-    }, [selectedCategory]);
-  
-    const handleNext = () => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % categories.length);
-    };
-  
-    const currentCategoryData = categories[currentIndex];
-  
-    useEffect(() => {
-      const interval = setInterval(handleNext, 3000);
-      return () => clearInterval(interval);
-    }, []);
-  
-    return (
-      <Box mb={6} position="relative" width="100%">
-        <Box position="relative" textAlign="center">
-          <Image
-            src={currentCategoryData.image}
-            alt={currentCategoryData.title}
-            width="100%"
-            height={{ base: '200px', md: '400px' }} // Responsive height
-            objectFit="cover"
-            borderRadius="md"
-          />
-  
+const HeaderSection = () => {
+  const [show, setShow] = useState(false);
+
+  // Create refs for CSSTransition
+  const leftNodeRef = useRef(null);
+  const rightNodeRef = useRef(null);
+
+  // Animation effect trigger when the component mounts
+  useEffect(() => {
+    setShow(true);
+  }, []);
+
+  return (
+    <Box mb={6} position="relative" width="100%" overflow="hidden">
+      <HStack spacing={0} justify="center" align="center" height="100vh">
+        {/* Left Side - Text Section */}
+        <CSSTransition
+          in={show}
+          timeout={1000}
+          classNames="slide-left"
+          nodeRef={leftNodeRef}
+        >
           <Box
-            position="absolute"
-            top="0"
-            left="0"
-            width="100%"
-            height="100%"
-            bg="rgba(0, 0, 0, 0.5)"
+            ref={leftNodeRef}
+            flex="1"
             display="flex"
-            flexDirection="column"
             justifyContent="center"
             alignItems="center"
-            borderRadius="md"
+            textAlign="center"
+            p={10}
+            height="100%"
           >
-            <Box textAlign="center" color="white" p={4}>
+            <Box>
               <Heading size={{ base: 'md', md: 'lg' }} mb={2}>
-                {currentCategoryData.title}
+                Your Guide to  Wellness
               </Heading>
-              <Text fontSize={{ base: 'sm', md: 'md' }}>{currentCategoryData.description}</Text>
+              <Text fontSize={{ base: 'sm', md: 'md' }}>
+                Browse  our curated selection of products to enhance your health
+              </Text>
+              <Button mt={4}  
+              variant={'outline'} 
+              fontSize={'md'}
+              colorScheme='green' >
+            
+                SHOP THE GIFT GUIDE
+              </Button>
             </Box>
           </Box>
-  
-          <HStack spacing={4} position="absolute" bottom={4} left="50%" transform="translateX(-50%)">
-            {categories.map((_, idx) => (
-              <Box
-                key={idx}
-                width={2}
-                height={2}
-                bg={idx === currentIndex ? 'orange.500' : 'white'}
-                borderRadius="50%"
-              />
-            ))}
-          </HStack>
-        </Box>
-  
-        <HStack spacing={4} justifyContent="center" mt={4} flexWrap="wrap">
-          {categories.map((cat) => {
-            const isActive = selectedCategory === cat.title;
-            return (
-              <Button
-                key={cat.title}
-                onClick={() => onCategorySelect(cat.title)}
-                variant={isActive ? 'solid' : 'outline'}
-                bgImage={`url(${cat.image})`}
-                bgSize="cover"
-                bgPosition="center"
-                color={isActive ? 'white' : 'black'}
-                px={4}
-                py={2}
-                width={{ base: '100%', sm: '200px', md: '400px' }} // Responsive width
-                height="50px"
-                border="none"
-                boxShadow={isActive ? 'none' : '0px 4px 6px rgba(0, 0, 0, 0.3)'}
-                transition="box-shadow 0.3s ease-in-out"
-              >
-                {cat.title}
-              </Button>
-            );
-          })}
+        </CSSTransition>
+
+        {/* Right Side - Image Section */}
+        <CSSTransition
+          in={show}
+          timeout={1000}
+          classNames="slide-right"
+          nodeRef={rightNodeRef}
+        >
+          <Box
+            ref={rightNodeRef}
+            p={10}
+            flex="1"
+            overflow="hidden"
+            height="100%"
+          >
+            <Image
+              src={img1} // Image for the right section
+              width="100%"
+              height="100%"
+              objectFit="cover"
+            />
+          </Box>
+        </CSSTransition>
+      </HStack>
+
+      {/* Categories Section */}
+      <Box>
+        <HStack spacing={4} justify="center" align="center" py={4}>
+          {categories.map((category) => (
+            <Box key={category.id} textAlign="center" p={4}>
+              <Image src={category.image} width="300px" 
+               
+               height="auto" />
+              <Text fontSize="lg" fontWeight="bold" mt={2}>
+                {category.title}
+              </Text>
+            </Box>
+          ))}
         </HStack>
       </Box>
-    );
-  };
+    </Box>
+  );
+};
 
 export default HeaderSection;
