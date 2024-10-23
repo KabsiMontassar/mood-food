@@ -74,7 +74,7 @@ const Recipes = () => {
 
   return (
     <Box bg={backgroundlinear}>
-      <header className='headeroverlay'>
+      <header className='headeroverlay recipes'>
         <div className="overlay">
           <h1>Nourrissez votre corps avec des repas équilibrés</h1>
         </div>

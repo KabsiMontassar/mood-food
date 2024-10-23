@@ -416,11 +416,13 @@ html {
 
   background-color: teal;
 
+} 
+
+.recipes {
+  background-image: url("/src/assets/alim1.jpg");
 }
 
-
 .headeroverlay {
-  background-image: url("/src/assets/alim1.jpg");
   text-align: center;
   width: 100%;
   height: 400px;
@@ -431,13 +433,18 @@ html {
   border-radius: 0 0 85% 85% / 30%;
 }
 
+.products {
+  background-image: url("/src/assets/healthy.jpg");
+
+}
+
 .headeroverlay .overlay {
   width: 100%;
   height: 100%;
   padding: 50px;
   color: white;
   background-image: linear-gradient(135deg,
-  rgba(10, 115, 66, 0.7) 10%,
+      rgba(10, 115, 66, 0.7) 10%,
       rgba(159, 255, 202, 0.4) 100%);
   display: flex;
   flex-direction: column;
@@ -476,6 +483,42 @@ html {
 }
 
 
-.recipe-element{
+.recipe-element {
   box-shadow: 0 0 10px rgba(10, 115, 66, 0.3);
 }
+
+
+
+.slide-left-enter {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.slide-left-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 1000ms, transform 1000ms;
+}
+
+.slide-right-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.slide-right-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 1000ms, transform 1000ms;
+}
+
+
+
+
+
+
+
+
+
+
+
+
