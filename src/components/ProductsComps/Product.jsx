@@ -1,40 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
   Image,
   Text,
   Heading,
   useToast,
-  Button,
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
   useDisclosure,
   Flex,
   Stack
 } from '@chakra-ui/react';
-import { useShoppingCart } from '../../Context/ShoppingCartContext';
+import ProductDetaills from './ProductDetaills';
 
 const Product = ({ product }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
-  const { addToCart } = useShoppingCart();
 
-  const handleAddToCartClick = (product) => {
-    addToCart(product);
-    toast({
-      title: `${product.name} added to cart`,
-      description: `You have added ${product.name} to your cart.`,
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-      position: 'bottom-left',
-    });
-  };
+
+
 
   return (
     <Flex
@@ -90,7 +71,7 @@ const Product = ({ product }) => {
           fontSize="lg"
           overflow="hidden"
           whiteSpace="normal"
-          lineClamp="2"
+          lineclamp="2"
           maxHeight="4.5em"
         >
           {product.description}
@@ -101,37 +82,7 @@ const Product = ({ product }) => {
         </Text>
       </Stack>
 
-      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
-        <DrawerOverlay />
-        <DrawerContent maxW={{ base: '100%', md: '90%' }}>
-          <DrawerCloseButton />
-          <DrawerHeader>{product.name} Details</DrawerHeader>
-
-          <DrawerBody>
-            <Image src={product.image} alt={product.name} borderRadius="md" mb={4} height="200px" objectFit="cover" />
-
-            <Text fontSize="sm" color="gray.500" mb={2}>
-              Category: {product.category}
-            </Text>
-            <Text fontSize="lg" color="green.500" mb={4}>
-              Price: {product.price} DT
-            </Text>
-
-            <Text mb={4}>
-              {product.description}
-            </Text>
-          </DrawerBody>
-
-          <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button colorScheme="green" onClick={() => handleAddToCartClick(product)}>
-              Add to Cart
-            </Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+      <ProductDetaills product={product} isOpen={isOpen} onClose={onClose} />
     </Flex>
   );
 };

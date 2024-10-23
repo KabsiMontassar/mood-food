@@ -51,9 +51,10 @@ function App() {
     <Box bg="linear-gradient(180deg, rgba(10, 115, 66, 0.7) 0%, white 100%)">
 
 
-      <header className='headeroverlay'>
+      <header className='headeroverlay products'>
         <div className="overlay">
-          <h1>Nourrissez votre corps avec des repas équilibrés</h1>
+          <h1>
+          Boostez votre forme avec des suppléments et du matériel de sport adaptés.          </h1>
         </div>
       </header>
 
@@ -62,9 +63,8 @@ function App() {
 
 
       <ProductGrid
-            onAddToCart={handleAddToCart}
-            initialProducts={initialProducts}
-          />
+        initialProducts={initialProducts}
+      />
       <IconButton
         bottom={4}
         right={4}

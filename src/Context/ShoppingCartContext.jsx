@@ -7,30 +7,25 @@ export const ShoppingCartProvider = ({ children }) => {
   const Toast = useToast();
   const [cart, setCart] = useState([]);
 
-  const addToCart = (product) => {
-    console.log(product.productId);
+  const addToCart = (product, quantity) => {
     setCart((prevCart) => {
       const existingProduct = prevCart.find((item) => item.productId === product.productId);
       if (existingProduct) {
         return prevCart.map((item) =>
-          item.productId === product.productId ? { ...item, quantity: item.quantity + 1 } : item
+          item.productId === product.productId
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
         );
       } else {
-        return [...prevCart, { ...product, quantity: 1 }];
+        return [...prevCart, { ...product, quantity }];
       }
     });
 
-    // Toast({
-    //   title: 'Product added to cart',
-    //   status: 'info',
-    //   duration: 5000,
-    //   isClosable: true,
-    // });
+  
   };
 
   const removeFromCart = (productId) => {
     setCart((prevCart) => prevCart.filter((item) => item.productId !== productId));
-    console.log(productId);
     Toast({
       title: 'Product removed from cart',
       status: 'warning',

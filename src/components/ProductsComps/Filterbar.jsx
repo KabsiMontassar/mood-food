@@ -2,11 +2,12 @@ import React from 'react';
 import {
   Box,
   Button,
-  Checkbox,
   Flex,
   Input,
   Select,
-  Stack,
+  HStack,
+  Heading,
+  Image,
   Drawer,
   DrawerBody,
   DrawerFooter,
@@ -17,10 +18,9 @@ import {
   useDisclosure,
   FormControl,
   Icon,
-  HStack,
-  Heading,
-  Image,
-
+  Radio,
+  RadioGroup,
+  Stack,
 } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
 
@@ -28,41 +28,41 @@ import herbal from '../../assets/herbal.png';
 
 const Filterbar = ({
   keywords,
-  selectedKeywords,
-  handleKeywordChange,
+  selectedKeyword, 
+  setSelectedKeywords,
   handleClearFilters,
   searchTerm,
   handleSearchChange,
   priceSortOrder,
   handlePriceSortOrderChange,
 }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure(); // Drawer controls
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleKeywordChange = (value) => {
+    setSelectedKeywords(value);
+  }
 
   return (
     <>
-
       <Box mb={7} p={{ base: 3, md: 6 }} className='recipe-element' bg="white">
-        <Flex justifyContent={"space-between"}
+        <Flex
+          justifyContent={'space-between'}
           direction={{ base: 'column', md: 'row' }}
           alignItems="center"
           textAlign={{ base: 'center', md: 'left' }}
           gap={4}
-        
-         >
+        >
           <HStack spacing={4}>
-
-            <Image src={herbal} alt="chef's hat" boxSize={{ base: '40px', md: '50px' }}
-
+            <Image
+              src={herbal}
+              alt="chef's hat"
+              boxSize={{ base: '40px', md: '50px' }}
             />
-            <Heading size={{ base: 'md', md: 'lg' }}
-              color="green.500" fontWeight="500">
+            <Heading size={{ base: 'md', md: 'lg' }} color="green.500" fontWeight="500">
               Quel produit cherchez-vous?
             </Heading>
-
-
           </HStack>
           <HStack spacing={4}>
-
             <Flex>
               <Select
                 focusBorderColor="green.600"
@@ -75,12 +75,10 @@ const Filterbar = ({
                 <option value="descending">Price: High to Low</option>
               </Select>
 
-              <Button  colorScheme="green" onClick={onOpen} variant={'outline'} >
+              <Button colorScheme="green" onClick={onOpen} variant={'outline'}>
                 Filtrer
               </Button>
             </Flex>
-
-
           </HStack>
         </Flex>
         <FormControl mt={4} display="flex" alignItems="center">
@@ -88,9 +86,7 @@ const Filterbar = ({
             placeholder="Search products"
             value={searchTerm}
             onChange={handleSearchChange}
-
             focusBorderColor="green.600"
-
             mb={{ base: 4, md: 0 }}
           />
           <Icon
@@ -101,11 +97,7 @@ const Filterbar = ({
             cursor="pointer"
           />
         </FormControl>
-
       </Box>
-
-
-
 
       <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerOverlay />
@@ -114,27 +106,22 @@ const Filterbar = ({
           <DrawerHeader>Filter by Keywords</DrawerHeader>
 
           <DrawerBody>
-            <Stack spacing={2}>
-              {keywords.map((keyword) => (
-                <Checkbox
-                  colorScheme="green"
-                  key={keyword}
-                  isChecked={selectedKeywords.includes(keyword)}
-                  onChange={() => handleKeywordChange(keyword)}
-                >
-                  {keyword}
-                </Checkbox>
-              ))}
-            </Stack>
+            <RadioGroup value={selectedKeyword} onChange={handleKeywordChange}>
+              <Stack spacing={2}>
+                {keywords.map((keyword) => (
+                  <Radio key={keyword} value={keyword} colorScheme="green">
+                    {keyword}
+                  </Radio>
+                ))}
+              </Stack>
+            </RadioGroup>
           </DrawerBody>
 
           <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={handleClearFilters}>
+            <Button variant="outline" w="100%" mr={3} onClick={handleClearFilters}>
               Clear Filters
             </Button>
-            <Button colorScheme="green" onClick={onClose}>
-              Apply Filters
-            </Button>
+           
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
