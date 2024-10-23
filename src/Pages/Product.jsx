@@ -17,7 +17,6 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon, MinusIcon } from '@chakra-ui/icons';
 import { useShoppingCart } from '../Context/ShoppingCartContext';
-import HeaderSection from '../components/ProductsComps/HeaderSection';
 import ProductGrid from '../components/ProductsComps/ProductGrid';
 import initialProducts from '../Data/DataProducts';
 import { LuShoppingCart } from "react-icons/lu";
@@ -50,19 +49,22 @@ function App() {
 
   return (
     <Box bg="linear-gradient(180deg, rgba(10, 115, 66, 0.7) 0%, white 100%)">
-    
-   
-          <HeaderSection/>
-       
-     
-    
+
+
+      <header className='headeroverlay'>
+        <div className="overlay">
+          <h1>Nourrissez votre corps avec des repas équilibrés</h1>
+        </div>
+      </header>
 
 
 
-      {/* <ProductGrid
+
+
+      <ProductGrid
             onAddToCart={handleAddToCart}
             initialProducts={initialProducts}
-          /> */}
+          />
       <IconButton
         bottom={4}
         right={4}
@@ -122,7 +124,7 @@ function App() {
                     <Text>Total: ${(item.price * item.quantity).toFixed(2)}</Text>
 
                   </Flex>
-                  <Button mt={4} w="100%" size="sm" colorScheme="red" onClick={() => handleRemoveFromCart(item.id)}>
+                  <Button mt={4} w="100%" size="sm" colorScheme="red" onClick={() => handleRemoveFromCart(item.productId)}>
                     Remove
                   </Button>
                 </Box>

@@ -8,6 +8,7 @@ export const ShoppingCartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
   const addToCart = (product) => {
+    console.log(product.productId);
     setCart((prevCart) => {
       const existingProduct = prevCart.find((item) => item.productId === product.productId);
       if (existingProduct) {
@@ -29,7 +30,7 @@ export const ShoppingCartProvider = ({ children }) => {
 
   const removeFromCart = (productId) => {
     setCart((prevCart) => prevCart.filter((item) => item.productId !== productId));
-
+    console.log(productId);
     Toast({
       title: 'Product removed from cart',
       status: 'warning',

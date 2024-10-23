@@ -437,7 +437,7 @@ html {
   padding: 50px;
   color: white;
   background-image: linear-gradient(135deg,
-  rgba(10, 115, 66, 0.7) 10%,
+      rgba(10, 115, 66, 0.7) 10%,
       rgba(159, 255, 202, 0.4) 100%);
   display: flex;
   flex-direction: column;
@@ -476,32 +476,42 @@ html {
 }
 
 
-.recipe-element{
+.recipe-element {
   box-shadow: 0 0 10px rgba(10, 115, 66, 0.3);
 }
 
 
 
-/* HeaderSection.css */
-
-/* Left Side Slide Animation */
 .slide-left-enter {
   opacity: 0;
   transform: translateX(-100%);
 }
+
 .slide-left-enter-active {
   opacity: 1;
   transform: translateX(0);
   transition: opacity 1000ms, transform 1000ms;
 }
 
-/* Right Side Slide Animation */
 .slide-right-enter {
   opacity: 0;
   transform: translateX(100%);
 }
+
 .slide-right-enter-active {
   opacity: 1;
   transform: translateX(0);
   transition: opacity 1000ms, transform 1000ms;
 }
+
+
+
+
+
+
+
+
+
+
+
+
