@@ -4,7 +4,6 @@ import {
   Image,
   Text,
   Heading,
-  IconButton,
   useToast,
   Button,
   Drawer,
@@ -15,14 +14,13 @@ import {
   DrawerContent,
   DrawerCloseButton,
   useDisclosure,
+  Flex,
+  Stack
 } from '@chakra-ui/react';
-import { LuShoppingCart } from "react-icons/lu";
-import { IoDocument } from "react-icons/io5";
 import { useShoppingCart } from '../../Context/ShoppingCartContext';
 
 const Product = ({ product }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure(); // Control for drawer
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false); // For product details drawer
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const { addToCart } = useShoppingCart();
 
@@ -38,85 +36,70 @@ const Product = ({ product }) => {
     });
   };
 
-  const handleViewDetails = () => {
-    setIsDrawerOpen(true);
-    onOpen();
-  };
-
   return (
-    <Box
+    <Flex
       key={product.productId}
-      borderRadius="md"
+      direction={{ base: 'column', md: 'row' }}
+    
       shadow="md"
       p={4}
       bg="white"
       align="center"
       position="relative"
-     
-      sx={{
-        transition: 'border 0.2s',
-        _hover: {
-          borderColor: 'green.500',
-          boxShadow: '0 0 10px green',
-        },
+      transition="0.3s"
+      className="recipe-element"
+      _hover={{
+        backgroundColor: 'rgba(10, 115, 66, 0.7)',
+        cursor: 'pointer',
+        color: 'white'
       }}
+      onClick={onOpen}
     >
-      <Box position="relative">
-        <Box
-          position="relative"
-          transition="filter 0.3s ease"  
-        >
-          <Image
-            src={product.image}
-            alt={product.name}
-            borderRadius="md"
-            mb={4}
-            height="200px"
-            objectFit="cover"
-          />
-          <Text fontSize="sm" color="gray.500" mb={2}>
-            {product.category}
-          </Text>
-          <Heading size="md" mb={2}>
-            {product.name}
-          </Heading>
-          <Text fontSize="lg" color="green.500">
-            {product.price} DT
-          </Text>
-        </Box>
-
-        {product && (
-          <Box position="absolute" left="50%" top="50%"
-            transform="translateX(-50%)" zIndex="2" >
-            <IconButton
-              mr="5px"
-              position="relative"
-              isRound={true}
-              onClick={() => handleAddToCartClick(product)}
-              variant='outline'
-              colorScheme='green'
-              w='50px'
-              h='50px'
-              fontSize='25px'
-              bg="white"
-              icon={<LuShoppingCart />}
-            />
-
-            <IconButton
-              position="relative"
-              isRound={true}
-              variant='outline'
-              colorScheme='green'
-              w='50px'
-              h='50px'
-              fontSize='25px'
-              bg="white"
-              icon={<IoDocument />}
-              onClick={handleViewDetails}
-            />
-          </Box>
-        )}
+      <Box
+        flexShrink={0}
+        w={{ base: '100%', md: '40%' }}
+        h={{ base: '200px', md: 'auto' }}
+      >
+        <Image
+          src={product.image}
+          alt={product.name}
+          objectFit="cover"
+          w="100%"
+          h="100%"
+          borderRadius="lg"
+        />
       </Box>
+
+      <Stack
+        spacing={3}
+        pl={{ base: 0, md: 4 }}
+        pt={{ base: 4, md: 0 }}
+        textAlign={{ base: 'center', md: 'left' }}
+        flex="1"
+      >
+        <Text fontSize="sm"
+          color="gray.900"
+          fontWeight="bold"
+        >
+          {product.category}
+        </Text>
+        <Heading size="md">
+          {product.name}
+        </Heading>
+        <Text
+          fontSize="lg"
+          overflow="hidden"
+          whiteSpace="normal"
+          lineClamp="2"
+          maxHeight="4.5em"
+        >
+          {product.description}
+        </Text>
+
+        <Text fontSize="lg"  >
+          {product.price} DT
+        </Text>
+      </Stack>
 
       <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerOverlay />
@@ -149,11 +132,8 @@ const Product = ({ product }) => {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-    </Box>
+    </Flex>
   );
 };
 
 export default Product;
-
-
-

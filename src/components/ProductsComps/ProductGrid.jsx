@@ -16,7 +16,7 @@ const ProductGrid = ({ selectedCategory, onCategorySelect, initialProducts }) =>
   const [priceSortOrder, setPriceSortOrder] = useState('ascending');
   const [selectedKeywords, setSelectedKeywords] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 12;
+  const productsPerPage = 10;
 
   useEffect(() => {
     setSelectedKeywords([]);
@@ -59,7 +59,10 @@ const ProductGrid = ({ selectedCategory, onCategorySelect, initialProducts }) =>
     <Box p={6}>
       <Filterbar keywords={keywords} selectedKeywords={selectedKeywords} handleKeywordChange={handleKeywordChange} handleClearFilters={handleClearFilters} searchTerm={searchTerm} handleSearchChange={handleSearchChange} priceSortOrder={priceSortOrder} handlePriceSortOrderChange={handlePriceSortOrderChange} />
 
-      <Grid templateColumns={{ base: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={6}>
+      <Grid
+        templateColumns={{ base: 'repeat(auto-fit, minmax(200px, 1fr))', md: 'repeat(auto-fit, minmax(200px, 1fr))', lg: 'repeat(2, 1fr)' }}
+        gap={6}
+       >
         {currentProducts.map((product) => (
           <React.Fragment key={product.productId}>
             <Product key={product.productId} product={product} />

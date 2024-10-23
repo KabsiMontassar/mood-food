@@ -42,7 +42,13 @@ const Filterbar = ({
     <>
 
       <Box mb={7} p={{ base: 3, md: 6 }} className='recipe-element' bg="white">
-        <Flex justifyContent={"space-between"} >
+        <Flex justifyContent={"space-between"}
+          direction={{ base: 'column', md: 'row' }}
+          alignItems="center"
+          textAlign={{ base: 'center', md: 'left' }}
+          gap={4}
+        
+         >
           <HStack spacing={4}>
 
             <Image src={herbal} alt="chef's hat" boxSize={{ base: '40px', md: '50px' }}
