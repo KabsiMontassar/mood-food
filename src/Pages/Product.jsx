@@ -54,14 +54,9 @@ function App() {
       <header className='headeroverlay products'>
         <div className="overlay">
           <h1>
-          Boostez votre forme avec des suppléments et du matériel de sport adaptés.          </h1>
+            Boostez votre forme avec des suppléments et du matériel de sport adaptés.          </h1>
         </div>
       </header>
-
-
-
-
-
       <ProductGrid
         initialProducts={initialProducts}
       />
@@ -77,18 +72,12 @@ function App() {
         h='60px'
         fontSize='25px'
         justify='center'
-
         _hover={{
-
           bg: 'green.400',
         }}
         className='cart-icon'
-
-
         icon={<LuShoppingCart />}
       />
-
-
       <Drawer isOpen={isCartOpen} placement="right" onClose={() => setIsCartOpen(false)}>
         <DrawerOverlay />
         <DrawerContent>
@@ -101,10 +90,7 @@ function App() {
               cart.map((item, index) => (
                 <Box key={index} mb={4} p={4} borderWidth="1px" borderRadius="lg">
                   <Flex justifyContent="space-between" alignItems="center">
-
                     <Text fontWeight="bold" whiteSpace={"nowrap"} overflow={"hidden"} textOverflow={"ellipsis"} >{item.name}</Text>
-
-
                   </Flex>
                   <Text>${item.price}</Text>
                   <Flex justifyContent="space-between" alignItems="center" mt={2}>

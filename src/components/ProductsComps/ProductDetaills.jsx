@@ -66,7 +66,7 @@ const ProductDetaills = ({ product, isOpen, onClose }) => {
                 <DrawerCloseButton />
                 <DrawerHeader bg="#549D7B">
                     <Heading size="lg">{product.name} Details</Heading>
-                    <Badge mb={4} fontSize="md" colorScheme="teal">
+                    <Badge mt={2} fontSize="md" colorScheme="teal">
                         {product.category}
                     </Badge>
                 </DrawerHeader>

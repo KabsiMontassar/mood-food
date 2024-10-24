@@ -13,7 +13,7 @@ import Filterbar from './Filterbar';
 const ProductGrid = ({  initialProducts }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [priceSortOrder, setPriceSortOrder] = useState('ascending');
-  const [selectedKeywords, setSelectedKeywords] = useState(''); // Changed to a string for single selection
+  const [selectedKeywords, setSelectedKeywords] = useState(''); 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 10;
 
@@ -81,18 +81,25 @@ const ProductGrid = ({  initialProducts }) => {
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const handlePrevious = () => {
     if (currentPage > 1) {
+
       onPageChange(currentPage - 1);
+     
+      window.scrollTo(0, 0);
     }
   };
 
   const handleNext = () => {
     if (currentPage < totalPages) {
       onPageChange(currentPage + 1);
+      window.scrollTo(0, 0);
     }
   };
 
   return (
-    <Flex justifyContent="space-between" alignItems="center" mt={4} flexDirection={{ base: 'column', md: 'row' }}>
+    <Flex 
+    justifyContent="space-between" 
+    alignItems="center" mt={4} 
+    flexDirection="row">
       <Button onClick={handlePrevious} disabled={currentPage === 1} mb={{ base: 2, md: 0 }}>
         Previous
       </Button>
