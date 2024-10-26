@@ -30,7 +30,7 @@ const RecipeDetails = ({ expandedRecipe, isDrawerOpen, closeDrawer }) => {
                 </DrawerHeader>
                 <DrawerBody p={5} bg="linear-gradient(180deg, rgba(10, 115, 66, 0.7) 0%, white 100%)">
                     <Grid
-                        templateColumns={{ base: '1fr', md: '1fr 2fr' }}
+
                         templateRows={{ base: 'auto auto', md: '1fr' }}
                         gap={4}
                     >
@@ -40,15 +40,21 @@ const RecipeDetails = ({ expandedRecipe, isDrawerOpen, closeDrawer }) => {
 
                             overflow="hidden"
                             maxH={{ base: 'auto', md: '100%' }}
-
+                            bg="white"
+                            display={"flex"}
+                            justifyContent={"center"}
                         >
                             <Image
+                                borderRadius="lg"
                                 src={expandedRecipe?.image}
                                 alt={expandedRecipe?.name}
                                 objectFit="cover"
+                                fit="contain"
                                 w="100%"
-                                h={{ base: '250px', md: '100%' }}
+                                h={{ base: '250px', md: '300px', lg: '400px' }}
+
                                 objectPosition="center"
+
                             />
                         </GridItem>
 
