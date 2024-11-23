@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useState}from 'react';
 import {
     Box,
     Heading,
@@ -7,13 +7,28 @@ import {
     Badge,
     Text,
     Flex,
+    
 } from '@chakra-ui/react';
+import RecipeDetails from './RecipeDetails';
+
 import { FaClock } from 'react-icons/fa';
 
-const RecipeElement = ({ recipe, onClick }) => {
-    const { image, name, mealType, cookingTime, description, calories, protein, carbohydrates, fats, fiber } = recipe;
+const RecipeElement = ({ recipe }) => {
+    const { image, name, mealType, time, guideDescritpion, calories, protein, carbohydrate, lipide, fiber } = recipe;
+    const [isDrawerOpen, setDrawerOpen] = useState(false);
+    
+
+    
+  const closeDrawer = () => {
+    setDrawerOpen(false);
+  };
+
+  const handleRecipeClick = () => {
+    setDrawerOpen(true);
+  };
 
     return (
+        <>
         <Box
             p={4}
             pb={8}
@@ -26,7 +41,7 @@ const RecipeElement = ({ recipe, onClick }) => {
                     color: 'white'
                   }}
             transition="0.3s"
-            onClick={onClick}
+            onClick={handleRecipeClick}
         >
             <Image
                 src={image}
@@ -43,12 +58,12 @@ const RecipeElement = ({ recipe, onClick }) => {
                     <Badge fontSize={"md"} colorScheme="teal">{mealType}</Badge>
                     <HStack>
                         <FaClock />
-                        <Text>{cookingTime} mins</Text>
+                        <Text>{time} mins</Text>
                     </HStack>
                 </HStack>
-                {/* <Text fontSize={{ base: 'sm', md: 'md' }} color="gray.600" noOfLines={3}>
-                    {description}
-                </Text> */}
+                <Text fontSize={{ base: 'sm', md: 'md' }} color="gray.600" noOfLines={3}>
+                    {guideDescritpion}
+                </Text>
                 <Flex
                     gap={2}
                     w="100%"
@@ -62,10 +77,10 @@ const RecipeElement = ({ recipe, onClick }) => {
                         Protein: {protein} g
                     </Badge>
                     <Badge colorScheme="green" fontSize="md">
-                        Carbs: {carbohydrates} g
+                        Carbs: {carbohydrate} g
                     </Badge>
                     <Badge colorScheme="green" fontSize="md">
-                        Fats: {fats} g
+                    lipide: {lipide} g
                     </Badge>
                     <Badge colorScheme="green" fontSize="md">
                         Fibers: {fiber}
@@ -73,6 +88,12 @@ const RecipeElement = ({ recipe, onClick }) => {
                 </Flex>
             </HStack>
         </Box>
+        <RecipeDetails 
+        expandedRecipe={recipe} 
+        isDrawerOpen={isDrawerOpen} 
+        closeDrawer={closeDrawer} 
+      />
+      </>
     );
 };
 

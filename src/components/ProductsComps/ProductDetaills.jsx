@@ -73,7 +73,7 @@ const ProductDetaills = ({ product, isOpen, onClose }) => {
 
                 <DrawerBody p={5} bg="linear-gradient(180deg, rgba(10, 115, 66, 0.7) 0%, white 100%)">
 
-                    <Box borderRadius="md" bg="white" mb={4}>
+                    <Box borderRadius="md" bg="transparent" mb={4}>
                         <Image
                             borderRadius="md"
                             src={selectedImage}
