@@ -9,10 +9,10 @@ export const ShoppingCartProvider = ({ children }) => {
 
   const addToCart = (product, quantity) => {
     setCart((prevCart) => {
-      const existingProduct = prevCart.find((item) => item.productId === product.productId);
+      const existingProduct = prevCart.find((item) => item.id === product.id);
       if (existingProduct) {
         return prevCart.map((item) =>
-          item.productId === product.productId
+          item.id === product.id
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
@@ -24,8 +24,8 @@ export const ShoppingCartProvider = ({ children }) => {
   
   };
 
-  const removeFromCart = (productId) => {
-    setCart((prevCart) => prevCart.filter((item) => item.productId !== productId));
+  const removeFromCart = (id) => {
+    setCart((id) => prevCart.filter((item) => item.id !== id));
     Toast({
       title: 'Product removed from cart',
       status: 'warning',
@@ -35,18 +35,18 @@ export const ShoppingCartProvider = ({ children }) => {
 
   };
 
-  const increaseQuantity = (productId) => {
+  const increaseQuantity = (id) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.productId === productId ? { ...item, quantity: item.quantity + 1 } : item
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
       )
     );
   };
 
-  const decreaseQuantity = (productId) => {
+  const decreaseQuantity = (id) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.productId === productId
+        item.id === id
           ? { ...item, quantity: item.quantity > 1 ? item.quantity - 1 : 1 }
           : item
       )

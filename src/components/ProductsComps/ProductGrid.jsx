@@ -67,7 +67,7 @@ const ProductGrid = ({  initialProducts }) => {
         gap={6}
       >
         {currentProducts.map((product) => (
-          <React.Fragment key={product.productId}>
+          <React.Fragment key={product.id}>
             <Product product={product} />
           </React.Fragment>
         ))}

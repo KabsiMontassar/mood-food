@@ -68,7 +68,7 @@ const Product = ({ product }) => {
           
           w="fit-content"
         >
-          {product.category}
+          {product.typeItem}
         </Badge>
         <Text
           fontSize="md"
@@ -77,7 +77,7 @@ const Product = ({ product }) => {
           lineclamp="2"
           maxHeight="4.5em"
         >
-          {product.description}
+          {product.decription}
         </Text>
 
         <Text fontSize="lg"    fontWeight="bold"  >

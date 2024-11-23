@@ -23,7 +23,7 @@ import { AddIcon, MinusIcon } from '@chakra-ui/icons';
 import { useShoppingCart } from '../../Context/ShoppingCartContext';
 
 const ProductDetaills = ({ product, isOpen, onClose }) => {
-    const images = [product.image, product.image, product.image, product.image, product.image];
+    const images = product.image;
     const [selectedImage, setSelectedImage] = useState(images[0]);
     const [quantity, setQuantity] = useState(1);
     const toast = useToast();
@@ -67,7 +67,7 @@ const ProductDetaills = ({ product, isOpen, onClose }) => {
                 <DrawerHeader bg="#549D7B">
                     <Heading size="lg">{product.name} Details</Heading>
                     <Badge mt={2} fontSize="md" colorScheme="teal">
-                        {product.category}
+                        {product.typeItem}
                     </Badge>
                 </DrawerHeader>
 
@@ -112,7 +112,7 @@ const ProductDetaills = ({ product, isOpen, onClose }) => {
                         Description
                     </Heading>
                     <Text fontSize="md" color="gray.700" mb={4}>
-                        {product.description}
+                        {product.decription}
                     </Text>
 
                     <Flex justifyContent={"flex-end"} >
