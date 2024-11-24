@@ -13,6 +13,10 @@ import {
 } from '@chakra-ui/react';
 
 const OrdersAccordion = ({ OrdersData }) => {
+  if (!OrdersData || OrdersData.length === 0) {
+    return null; 
+  }
+
   return (
     <Box maxW={{ base: '400px', md: 'full' }} minH={{ base: '400px', md: '510px' }} mt={5}>
       <Accordion allowMultiple>
@@ -42,10 +46,10 @@ const OrdersAccordion = ({ OrdersData }) => {
                   alignItems="center"
                   display="flex"
                 >
-                  <Icon viewBox='0 0 200 200' >
+                  <Icon viewBox="0 0 200 200">
                     <path
                       fill={{ Completed: 'green', Pending: '#EFB110', Rejected: 'red' }[Order.Status]}
-                      d='M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0'
+                      d="M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0"
                     />
                   </Icon>
                   <Text ml={2} as="span">{Order.Status}</Text>
@@ -61,21 +65,20 @@ const OrdersAccordion = ({ OrdersData }) => {
                   <Text fontSize="md" color="black" flexBasis={{ base: '50%', md: '33%' }} fontWeight="bold">Price</Text>
                 </Box>
 
-                {Order.products.map((product, index) => (
+                {Order.orders.map((product, index) => (
                   <Flex key={index} justifyContent="space-between" mb={2}>
                     <Text fontSize="md" color="gray.600" flexBasis={{ base: '50%', md: '33%' }}>{product.name}</Text>
-                    <Text fontSize="md" color="gray.600" flexBasis={{ base: '25%', md: '33%' }}>{product.Quantity}</Text>
-                    <Text fontSize="md" color="gray.600" flexBasis={{ base: '25%', md: '33%' }}>{(product.prix * product.Quantity).toFixed(2)}</Text>
+                    <Text fontSize="md" color="gray.600" flexBasis={{ base: '25%', md: '33%' }}>{product.quantity}</Text>
+                    {/* <Text fontSize="md" color="gray.600" flexBasis={{ base: '25%', md: '33%' }}>{(product.prix * product.quantity).toFixed(2)}</Text> */}
                   </Flex>
                 ))}
 
                 <Flex justifyContent="space-between" fontWeight="bold" color="teal" textDecor="underline" mt={4}>
                   <Text fontSize="md">Total Price</Text>
-                  <Text fontSize="md">{Order.total.toFixed(2)}</Text>
+                  {/* <Text fontSize="md">{Order.total.toFixed(2)}</Text> */}
                 </Flex>
               </Box>
             </AccordionPanel>
-
           </AccordionItem>
         ))}
       </Accordion>

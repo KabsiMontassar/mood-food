@@ -22,9 +22,9 @@ import {
 import { MdUpload } from 'react-icons/md'; // Import an upload icon
 import { MdDelete } from 'react-icons/md'; // Import a delete icon
 import appointementsdata from '../Data/appointementsdata';
-import OrdersData from '../Data/OrdersData';
 import EditPasswordForm from '../components/ProfileSections/EditPasswordForm';
 import EditProfileForm from '../components/ProfileSections/EditProfileForm';
+import ordersdata from '../Data/OrdersData';
 import AppointmentAccordion from '../components/ProfileSections/AppointmentAccordion';
 import Calendar from '../components/ProfileSections/Calendar';
 import Consultations from '../components/ProfileSections/Consultations';
@@ -46,6 +46,7 @@ const Profile = () => {
   const [userEmail, setUserEmail] = useState(null);
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [avatarURL, setAvatarURL] = useState(null);
+  const [OrdersData, setOrdersData] = useState([]);
   const fileInputRef = useRef(null);
   const toast = useToast();
 
@@ -66,7 +67,7 @@ const Profile = () => {
         if (!querySnapshot.empty) {
           querySnapshot.forEach(doc => {
             setData(doc.data());
-            setAvatarURL(doc.data().ProfilePicture);
+            setAvatarURL(doc.data().photo_url);
           });
         }
       } catch (error) {
@@ -75,12 +76,48 @@ const Profile = () => {
         setLoading(false);
       }
     };
+    const fetchordersdata = async (email) => {
+      try {
+        const ordersquary = query(collection(db, 'commande'));
+        const ordersSnapshot = await getDocs(ordersquary);
+        if (!ordersSnapshot.empty) {
+          let orders = [];
+          ordersSnapshot.forEach(doc => {
+            orders.push({ ...doc.data(), id: doc.id  });
+            console.log(doc.data());
+          });
+          setOrdersData(orders);
+        } else {
+          console.log("No orders found in database.");
+        }
+      } catch (error) {
+        console.error("Error fetching orders data:", error);
+      }
 
-    const emailFromStorage = window.globalUserEmail; // Access global variable from window object
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const emailFromStorage = window.globalUserEmail; 
 
     if (emailFromStorage) {
       setUserEmail(emailFromStorage);
       fetchUserData(emailFromStorage);
+
+      fetchordersdata(emailFromStorage);
+      console.log(OrdersData);
+
     } else {
       console.log("No email found in local storage.");
       setLoading(false);
@@ -94,10 +131,9 @@ const Profile = () => {
   const handleAvatarChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Delete the old avatar if it exists
       if (avatarURL) {
-        const oldAvatarRef = ref(storage, avatarURL); // Create a reference to the old avatar
-        await deleteObject(oldAvatarRef) // Delete the old avatar from storage
+        const oldAvatarRef = ref(storage, avatarURL);
+        await deleteObject(oldAvatarRef)
           .then(() => {
             console.log("Old avatar deleted successfully.");
           })
@@ -106,14 +142,13 @@ const Profile = () => {
           });
       }
 
-      const storageRef = ref(storage, `profilePictures/${userEmail}_${file.name}`); // Create a reference to the storage location
+      const storageRef = ref(storage, `profilePictures/${userEmail}_${file.name}`);
 
       try {
-        // Upload file to Firebase Storage
         await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(storageRef);
-        setAvatarURL(downloadURL); // Update state with the new avatar URL
-        await updateUserProfilePicture(downloadURL); // Update user document with the new image URL
+        setAvatarURL(downloadURL);
+        await updateUserProfilePicture(downloadURL);
         toast({
           title: "Avatar updated.",
           description: "Your profile picture has been updated successfully.",
@@ -225,7 +260,7 @@ const Profile = () => {
             <Box position="relative">
               <Avatar
                 align="center"
-                name={data ? data.username : 'User'}
+                name={data ? data.display_name : 'User'}
                 size={{ base: 'xl', md: '2xl' }}
                 border="2px solid #cccfcd"
                 src={avatarURL}
@@ -289,7 +324,7 @@ const Profile = () => {
             {/* User Info */}
             <Box>
               <Text color="teal.400" textAlign="center" fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold">
-                {data ? data.username : 'Loading...'}
+                {data ? data.display_name : 'Loading...'}
               </Text>
               {userEmail && (
                 <Text color="gray.600" textAlign="center" fontSize={{ base: 'md', md: 'lg' }} fontWeight="normal">

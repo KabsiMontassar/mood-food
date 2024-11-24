@@ -4,10 +4,10 @@ import {
   Image,
   Text,
   Heading,
-  useToast,
   useDisclosure,
   Flex,
-  Stack
+  Stack,
+  Badge,
 } from '@chakra-ui/react';
 import ProductDetaills from './ProductDetaills';
 
@@ -58,26 +58,29 @@ const Product = ({ product }) => {
         textAlign={{ base: 'center', md: 'left' }}
         flex="1"
       >
-        <Text fontSize="sm"
-          color="gray.900"
-          fontWeight="bold"
-        >
-          {product.category}
-        </Text>
-        <Heading size="md">
+      
+        <Heading size="lg">
           {product.name}
         </Heading>
+        <Badge fontSize="md"
+          colorScheme='green'
+          fontWeight="bold"
+          
+          w="fit-content"
+        >
+          {product.typeItem}
+        </Badge>
         <Text
-          fontSize="lg"
+          fontSize="md"
           overflow="hidden"
           whiteSpace="normal"
           lineclamp="2"
           maxHeight="4.5em"
         >
-          {product.description}
+          {product.decription}
         </Text>
 
-        <Text fontSize="lg"  >
+        <Text fontSize="lg"    fontWeight="bold"  >
           {product.price} DT
         </Text>
       </Stack>

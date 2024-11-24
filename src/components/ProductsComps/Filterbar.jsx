@@ -28,7 +28,7 @@ import herbal from '../../assets/herbal.png';
 
 const Filterbar = ({
   keywords,
-  selectedKeyword, 
+  selectedKeyword,
   setSelectedKeywords,
   handleClearFilters,
   searchTerm,
@@ -69,6 +69,7 @@ const Filterbar = ({
                 value={priceSortOrder}
                 onChange={handlePriceSortOrderChange}
                 maxWidth="200px"
+                borderColor="green.400"
                 mr={2}
               >
                 <option value="ascending">Price: Low to High</option>
@@ -83,17 +84,25 @@ const Filterbar = ({
         </Flex>
         <FormControl mt={4} display="flex" alignItems="center">
           <Input
-            placeholder="Search products"
+            type="text"
+            placeholder="Rechercher une recette"
+            borderColor="rgba(10, 115, 66, 0.3)"
+            focusBorderColor="green.600"
+            bg="white"
+            _placeholder={{ color: "gray.400" }}
+            size={{ base: 'md', md: 'lg' }}
+            borderRadius="md"
+            pr={10}
             value={searchTerm}
             onChange={handleSearchChange}
-            focusBorderColor="green.600"
-            mb={{ base: 4, md: 0 }}
+
           />
           <Icon
             as={Search2Icon}
             color="green.400"
-            position="absolute"
+
             right="10px"
+            position="absolute"
             cursor="pointer"
           />
         </FormControl>
@@ -121,7 +130,7 @@ const Filterbar = ({
             <Button variant="outline" w="100%" mr={3} onClick={handleClearFilters}>
               Clear Filters
             </Button>
-           
+
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
