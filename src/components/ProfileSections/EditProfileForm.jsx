@@ -10,7 +10,7 @@ import {
     Button,
     useToast    
 } from '@chakra-ui/react';
-import { collection, getDocs, query, updateDoc, where } from 'firebase/firestore';
+import { collection, getDocs, query, updateDoc, where ,Timestamp } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
 
 const EditProfileForm = ({ data, setData }) => {
@@ -26,50 +26,70 @@ const EditProfileForm = ({ data, setData }) => {
     useEffect(() => {
         if (data) {
             setFormData({
-                username: data.username || '',
-                dateOfBirth: data.birthDate || '',
+                username: data.display_name || '',
+                dateOfBirth: data.birthdate 
+                ? new Date(data.birthdate.seconds * 1000).toISOString().split('T')[0] 
+                : '',
                 gender: data.gender || '',
-                phone: data.phone || '',
-                address: data.address || ''
+                phone: data.phone_number || '',
+                address: data.adresse || ''
             });
         }
     }, [data]);
 
+
     const onProfileUpdate = async (updatedData) => {
         try {
+            // Convert dateOfBirth to a Date object
+            const birthdate = new Date(updatedData.dateOfBirth);
+    
+            if (isNaN(birthdate.getTime())) {
+                toast({
+                    title: "Invalid Date",
+                    description: "Please provide a valid date.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+                return;
+            }
+    
             const userQuery = query(collection(db, 'users'), where('email', '==', window.globalUserEmail));
             const querySnapshot = await getDocs(userQuery);
     
             if (!querySnapshot.empty) {
-                await Promise.all(querySnapshot.docs.map(async (doc) => {
-                    await updateDoc(doc.ref, {
-                        username: updatedData.username,
-                        birthDate: updatedData.dateOfBirth,
-                        gender: updatedData.gender,
-                        phone: updatedData.phone,
-                        address: updatedData.address,
-                    });
-                }));
-
+                await Promise.all(
+                    querySnapshot.docs.map(async (doc) => {
+                        await updateDoc(doc.ref, {
+                            display_name: updatedData.username,
+                            birthdate: Timestamp.fromDate(birthdate), // Use the Date object here
+                            gender: updatedData.gender,
+                            phone_number: updatedData.phone,
+                            adresse: updatedData.address,
+                        });
+                    })
+                );
+    
                 toast({
-                    title: 'Profile updated',
-                    description: 'Your profile has been updated successfully.',
-                    status: 'success',
+                    title: "Profile updated",
+                    description: "Your profile has been updated successfully.",
+                    status: "success",
                     duration: 3000,
                     isClosable: true,
                 });
-
+    
                 setData((prevData) => ({
                     ...prevData,
                     ...updatedData,
+                    birthdate: { seconds: birthdate.getTime() / 1000 }, // Update local state as well
                 }));
             }
         } catch (error) {
-            console.error('Error updating profile:', error);
+            console.error("Error updating profile:", error);
             toast({
-                title: 'Error',
-                description: 'There was an error updating your profile.',
-                status: 'error',
+                title: "Error",
+                description: "There was an error updating your profile.",
+                status: "error",
                 duration: 3000,
                 isClosable: true,
             });
@@ -86,18 +106,18 @@ const EditProfileForm = ({ data, setData }) => {
         onProfileUpdate(formData);
     };
 
-    const URL = "https://docs.google.com/forms/d/e/1FAIpQLSeYxe80iDfQxobvly5fq6tYgosTMhAkJK26WenNSyulNfCSuw/viewform?usp=sf_link";
+    // const URL = "https://docs.google.com/forms/d/e/1FAIpQLSeYxe80iDfQxobvly5fq6tYgosTMhAkJK26WenNSyulNfCSuw/viewform?usp=sf_link";
 
-    const handleFormRedirect = () => {
-        window.open(URL, '_blank');
-        toast({
-            title: "Form Redirected",
-            description: "You have been redirected to the Google Form.",
-            status: "info",
-            duration: 5000,
-            isClosable: true,
-        });
-    };
+    // const handleFormRedirect = () => {
+    //     window.open(URL, '_blank');
+    //     toast({
+    //         title: "Form Redirected",
+    //         description: "You have been redirected to the Google Form.",
+    //         status: "info",
+    //         duration: 5000,
+    //         isClosable: true,
+    //     });
+    // };
 
     return (
         <Box mx="auto" p={4} mt={5} borderRadius="md" boxShadow="md" bg="white">
@@ -122,6 +142,7 @@ const EditProfileForm = ({ data, setData }) => {
                             name="dateOfBirth"
                             type="date"
                             value={formData.dateOfBirth}
+                          
                             onChange={handleChange}
                         />
                     </FormControl>
@@ -164,7 +185,7 @@ const EditProfileForm = ({ data, setData }) => {
                     </FormControl>
 
                     <Button
-                        onClick={handleFormRedirect}
+                        // onClick={handleFormRedirect}
                         width="full"
                         colorScheme="teal"
                         mt={4}

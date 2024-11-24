@@ -47,8 +47,7 @@ const RecipeDetails = ({ expandedRecipe, isDrawerOpen, closeDrawer }) => {
             };
 
             fetchIngredients();
-            console.log("fetching ingredients");
-            console.log(ingredients);
+          
         }
     }, [isDrawerOpen]);
 
@@ -128,6 +127,7 @@ const RecipeDetails = ({ expandedRecipe, isDrawerOpen, closeDrawer }) => {
                             <HStack my={5} pl={4} align="flex-start" spacing={2}>
                                 {ingredients.map((ingredient, index) => (
                                     <Box
+                                        key={index}
                                         align="center"
                                         p={4}
                                         borderWidth={1}

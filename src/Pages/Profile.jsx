@@ -66,7 +66,7 @@ const Profile = () => {
         if (!querySnapshot.empty) {
           querySnapshot.forEach(doc => {
             setData(doc.data());
-            setAvatarURL(doc.data().ProfilePicture);
+            setAvatarURL(doc.data().photo_url);
           });
         }
       } catch (error) {
@@ -94,10 +94,9 @@ const Profile = () => {
   const handleAvatarChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Delete the old avatar if it exists
       if (avatarURL) {
-        const oldAvatarRef = ref(storage, avatarURL); // Create a reference to the old avatar
-        await deleteObject(oldAvatarRef) // Delete the old avatar from storage
+        const oldAvatarRef = ref(storage, avatarURL); 
+        await deleteObject(oldAvatarRef) 
           .then(() => {
             console.log("Old avatar deleted successfully.");
           })
@@ -109,7 +108,6 @@ const Profile = () => {
       const storageRef = ref(storage, `profilePictures/${userEmail}_${file.name}`); // Create a reference to the storage location
 
       try {
-        // Upload file to Firebase Storage
         await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(storageRef);
         setAvatarURL(downloadURL); // Update state with the new avatar URL
@@ -225,7 +223,7 @@ const Profile = () => {
             <Box position="relative">
               <Avatar
                 align="center"
-                name={data ? data.username : 'User'}
+                name={data ? data.display_name  : 'User'}
                 size={{ base: 'xl', md: '2xl' }}
                 border="2px solid #cccfcd"
                 src={avatarURL}
@@ -289,7 +287,7 @@ const Profile = () => {
             {/* User Info */}
             <Box>
               <Text color="teal.400" textAlign="center" fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold">
-                {data ? data.username : 'Loading...'}
+                {data ? data.display_name : 'Loading...'}
               </Text>
               {userEmail && (
                 <Text color="gray.600" textAlign="center" fontSize={{ base: 'md', md: 'lg' }} fontWeight="normal">
