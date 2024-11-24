@@ -14,7 +14,7 @@ import {
 
 const OrdersAccordion = ({ OrdersData }) => {
   if (!OrdersData || OrdersData.length === 0) {
-    return null; // Return nothing if OrdersData is empty or undefined
+    return null; 
   }
 
   return (
