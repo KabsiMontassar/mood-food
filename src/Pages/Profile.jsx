@@ -99,8 +99,7 @@ const Profile = () => {
 
     const fetchAppointementsData = async (uid) => {
       try {
-        const user = doc(db, 'users', "aDj5067xNKdxCEK6flXSPLS3l0X2");
-        const appointementsquary = query(collection(db, 'appointments') , where('patientRef', '==', user));
+        const appointementsquary = query(collection(db, 'appointments') , where('patientRef', '==', uid));
         const appointementsSnapshot = await getDocs(appointementsquary);
         if (!appointementsSnapshot.empty) {
           let appointements = [];
