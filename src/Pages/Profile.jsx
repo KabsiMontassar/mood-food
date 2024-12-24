@@ -21,10 +21,8 @@ import {
 } from '@chakra-ui/react';
 import { MdUpload } from 'react-icons/md'; // Import an upload icon
 import { MdDelete } from 'react-icons/md'; // Import a delete icon
-import appointementsdata from '../Data/appointementsdata';
 import EditPasswordForm from '../components/ProfileSections/EditPasswordForm';
 import EditProfileForm from '../components/ProfileSections/EditProfileForm';
-import ordersdata from '../Data/OrdersData';
 import AppointmentAccordion from '../components/ProfileSections/AppointmentAccordion';
 import Calendar from '../components/ProfileSections/Calendar';
 import Consultations from '../components/ProfileSections/Consultations';
@@ -37,7 +35,7 @@ import { LockIcon, EditIcon } from '@chakra-ui/icons';
 import { FaUser, FaShoppingCart } from 'react-icons/fa';
 import { GoInbox } from "react-icons/go";
 import { CiCalendar } from "react-icons/ci";
-import { getFirestore, query, where, getDocs, collection, updateDoc } from 'firebase/firestore';
+import { getFirestore, query, where, getDocs, collection,doc, updateDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 
 const Profile = () => {
@@ -47,6 +45,7 @@ const Profile = () => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [avatarURL, setAvatarURL] = useState(null);
   const [OrdersData, setOrdersData] = useState([]);
+  const [appointementsdata, setAppointementsData] = useState([]);
   const fileInputRef = useRef(null);
   const toast = useToast();
 
@@ -76,15 +75,17 @@ const Profile = () => {
         setLoading(false);
       }
     };
-    const fetchordersdata = async (email) => {
+    const fetchordersdata = async (uid) => {
       try {
-        const ordersquary = query(collection(db, 'commande'));
+   
+        const user = doc(db, 'users', uid);
+        const ordersquary = query(collection(db, 'commande') , where('user', '==', user));
         const ordersSnapshot = await getDocs(ordersquary);
         if (!ordersSnapshot.empty) {
           let orders = [];
           ordersSnapshot.forEach(doc => {
             orders.push({ ...doc.data(), id: doc.id  });
-            console.log(doc.data());
+       
           });
           setOrdersData(orders);
         } else {
@@ -95,6 +96,25 @@ const Profile = () => {
       }
 
     };
+
+    const fetchAppointementsData = async (uid) => {
+      try {
+        const user = doc(db, 'users', "aDj5067xNKdxCEK6flXSPLS3l0X2");
+        const appointementsquary = query(collection(db, 'appointments') , where('patientRef', '==', user));
+        const appointementsSnapshot = await getDocs(appointementsquary);
+        if (!appointementsSnapshot.empty) {
+          let appointements = [];
+          appointementsSnapshot.forEach(doc => {
+            appointements.push({ ...doc.data(), id: doc.id });
+          });
+          setAppointementsData(appointements);
+        } else {
+          console.log("No appointements found in database.");
+        }
+      } catch (error) {
+        console.error("Error fetching appointements data:", error);
+      }
+    }
 
 
 
@@ -110,14 +130,14 @@ const Profile = () => {
 
 
     const emailFromStorage = window.globalUserEmail; 
+    const uidFromStorage = window.globalUserUid;
 
     if (emailFromStorage) {
       setUserEmail(emailFromStorage);
       fetchUserData(emailFromStorage);
 
-      fetchordersdata(emailFromStorage);
-      console.log(OrdersData);
-
+      fetchordersdata(uidFromStorage);
+      fetchAppointementsData(uidFromStorage);
     } else {
       console.log("No email found in local storage.");
       setLoading(false);

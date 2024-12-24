@@ -14,8 +14,9 @@ import RecipeDetails from './RecipeDetails';
 import { FaClock } from 'react-icons/fa';
 
 const RecipeElement = ({ recipe }) => {
-    const { image, name, mealType, time, guideDescritpion, calories, protein, carbohydrate, lipide, fiber } = recipe;
+    const { image, name, mealType, time, guideDescritpion, calories, protein, carbohydrate, lipide, fibre } = recipe;
     const [isDrawerOpen, setDrawerOpen] = useState(false);
+    console.log(recipe);
     
 
     
@@ -83,7 +84,7 @@ const RecipeElement = ({ recipe }) => {
                     lipide: {lipide} g
                     </Badge>
                     <Badge colorScheme="green" fontSize="md">
-                        Fibers: {fiber}
+                        Fibers: {fibre}
                     </Badge>
                 </Flex>
             </HStack>

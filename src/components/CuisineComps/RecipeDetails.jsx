@@ -220,7 +220,7 @@ const RecipeDetails = ({ expandedRecipe, isDrawerOpen, closeDrawer }) => {
                                 <Text fontWeight="bold" color="blue.600">
                                     Fibers
                                 </Text>
-                                <Text fontSize="lg">{expandedRecipe?.fiber} g</Text>
+                                <Text fontSize="lg">{expandedRecipe?.fibre} g</Text>
                             </Box>
                         </HStack>
                         <Divider my={4} />

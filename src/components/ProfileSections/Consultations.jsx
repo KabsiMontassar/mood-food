@@ -18,7 +18,6 @@ import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 const Consultations = ({ appointmentsData }) => {
   const appointementPendingOnly = appointmentsData.filter(appointment => appointment.Status === 'Pending');
   
-  // Update the Specialist field for the filtered appointments
   appointementPendingOnly.forEach(appointment => {
     appointment.Specialist = "Hamza ben hamed";
   });
